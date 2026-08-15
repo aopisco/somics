@@ -117,9 +117,11 @@ class Preservation(StrEnum):
 
 class SegmentationMethod(StrEnum):
     """
-    How the boundary of an obs row was defined. Null for assays whose units
+    How the boundary of an obs row was defined. GRID for assays whose units
     are defined by the capture grid (Visium spots, Visium HD bins, Slide-seq
-    beads) rather than by segmentation.
+    beads) rather than by segmentation; null only when the method is
+    unreported, so "laid out by the grid" stays distinguishable from
+    "not annotated".
     """
 
     NUCLEUS_EXPANSION = 'nucleus_expansion'
@@ -261,6 +263,8 @@ class GenomicFeatureSchema(FeatureBaseSchema):
     registry must hold both Ensembl-identified genes and panel probes and
     control codewords that map to no gene at all.
     """
+    # The identity a feature dedupes on corpus-wide, composed as organism:feature_id — for example Homo sapiens:ENSG00000243485. The organism half is the NCBITaxon label the `organism` column holds, not its CURIE, so the two columns stay consistent. It is a separate column because the uid must be stable across datasets while feature_id alone is not unique: Ensembl IDs are species-specific, but the probe and blank-codeword names that stand in for them on targeted panels are not, so a codeword like BLANK_0001 would otherwise merge a human and a mouse panel into one feature. Composing the organism in keeps the two apart, and one column is what compute_stable_uids can key on.
+    feature_key: str = StableUIDField.declare(default=...)
     # The feature identity as measured. The Ensembl gene ID where one exists; otherwise the panel's own probe or codeword name.
     feature_id: str
     # What this feature is — a gene, a probe, or a control codeword.
@@ -428,7 +432,7 @@ class SpatialObs(HoxBaseSchema):
     cell_area_um2: float | None = None
     # Area of the segmented nucleus in square microns.
     nucleus_area_um2: float | None = None
-    # How this row's boundary was defined; null for grid-based assays.
+    # How this row's boundary was defined. Capture-grid assays record `grid` rather than null, so an unsegmented unit is distinguishable from one whose method was never reported.
     segmentation_method: SegmentationMethod | None = None
     # Whether the unit overlaps tissue rather than empty slide — Visium's in_tissue flag and its equivalents.
     in_tissue: bool | None = None
