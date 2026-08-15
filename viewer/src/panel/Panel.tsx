@@ -1,4 +1,11 @@
-/** The fixed right-hand column: the calm, dense, scannable science half of the viewer. */
+/**
+ * The spatial information for whatever is selected: the calm, dense, scannable science half of
+ * the viewer.
+ *
+ * It used to be a fixed right-hand column. The user asked for it as a floating window locked to
+ * the frame instead, so this file is now only the contents; `FloatingPanel` is the window, and the
+ * heading each section used to carry is the window's title bar.
+ */
 
 import type { JSX, ReactNode } from "react";
 
@@ -10,9 +17,12 @@ import {
   selectSamplesByNode,
   useStore,
 } from "../state";
+import { SPECIES_CRUMB } from "../types";
 import type { OrganNode, Sample, Species } from "../types";
+import { FloatingPanel } from "./FloatingPanel";
 import "./Panel.css";
 import { backLabel, formatCount, formatExtent, humanizeKey } from "./format";
+import { Morphology } from "./Morphology";
 
 const SPECIES_LABEL: Record<Species, string> = {
   human: "human",
@@ -20,25 +30,22 @@ const SPECIES_LABEL: Record<Species, string> = {
   zebrafish: "zebrafish",
 };
 
-/** Same species crumb text as the breadcrumb in `App.tsx`'s `Hud` — kept in sync by eye, since
- * the two live in different components but must read as one vocabulary (see `backLabel`). */
-function speciesCrumbLabel(species: Species): string {
-  return species === "rat" ? "🐀 Rat" : "🧍 Human";
-}
-
 export function Panel(): JSX.Element {
   const store = useStore();
   const organ = selectOrgan(store, store.node);
   const sample = selectCurrentSample(store);
 
+  let title: string;
   let body: JSX.Element;
   if (store.sample) {
+    title = sample?.sample_name ?? sample?.section_id ?? "Unknown sample";
     body = sample ? (
-      <SampleSection sample={sample} bodySpecies={store.species} />
+      <SampleSection sample={sample} bodySpecies={store.species} focusUm={store.focusUm} />
     ) : (
       <p className="panel-empty">This sample is not in the catalog.</p>
     );
   } else if (store.node) {
+    title = organ?.label ?? store.node;
     body = organ ? (
       <OrganSection
         organ={organ}
@@ -49,6 +56,7 @@ export function Panel(): JSX.Element {
       <p className="panel-empty">This organ has no anatomy on the current body.</p>
     );
   } else {
+    title = "Somics spatial atlas";
     body = (
       <IntroSection
         phase={store.catalogPhase}
@@ -62,19 +70,21 @@ export function Panel(): JSX.Element {
   const back = backLabel(store.lod, {
     organ: organ?.label ?? null,
     section: sample?.section_id ?? null,
-    species: speciesCrumbLabel(store.species),
+    species: SPECIES_CRUMB[store.species],
   });
 
   return (
-    <aside className="panel">
-      {back && (
-        <button className="panel-button panel-back" onClick={() => store.zoomOut()}>
-          <span aria-hidden="true">←</span> {back}
-        </button>
-      )}
-      {body}
-      <p className="panel-footer">This atlas snapshot is read-only and public.</p>
-    </aside>
+    <FloatingPanel title={title}>
+      <div className="panel">
+        {back && (
+          <button className="panel-button panel-back" onClick={() => store.zoomOut()}>
+            <span aria-hidden="true">←</span> {back}
+          </button>
+        )}
+        {body}
+        <p className="panel-footer">This atlas snapshot is read-only and public.</p>
+      </div>
+    </FloatingPanel>
   );
 }
 
@@ -102,23 +112,19 @@ function IntroSection({
     (sum, organ) => sum + (samplesByNode[organ.node_id]?.length ?? 0),
     0,
   );
-  const totalCells = withSamples.reduce(
-    (sum, organ) =>
-      sum + (samplesByNode[organ.node_id] ?? []).reduce((s, sample) => s + sample.n_cells, 0),
-    0,
-  );
+  const allSamples = withSamples.flatMap((organ) => samplesByNode[organ.node_id] ?? []);
+  const totalCells = allSamples.reduce((sum, sample) => sum + sample.n_cells, 0);
   const emptyCount = organs.length - withSamples.length;
 
   return (
     <section className="panel-section">
-      <h1 className="panel-title">Somics spatial atlas</h1>
       <p>
         A browsable view of the somics spatial transcriptomics atlas: real tissue sections mapped
         onto a schematic body. Click a glowing organ to see what the atlas holds there.
       </p>
       <p className="panel-stat">
         {formatCount(totalSamples)} sample{totalSamples === 1 ? "" : "s"},{" "}
-        {formatCount(totalCells)} cells total
+        {formatCount(totalCells)} {unitNoun(allSamples)} total
       </p>
 
       {withSamples.length > 0 ? (
@@ -132,7 +138,7 @@ function IntroSection({
                   <span className="panel-row-label">{organ.label}</span>
                   <span className="panel-row-value">
                     {samples.length} sample{samples.length === 1 ? "" : "s"} ·{" "}
-                    {formatCount(cells)} cells
+                    {formatCount(cells)} {unitNoun(samples)}
                   </span>
                 </button>
               </li>
@@ -161,7 +167,6 @@ function OrganSection({
 }): JSX.Element {
   return (
     <section className="panel-section">
-      <h1 className="panel-title">{organ.label}</h1>
       <p className="panel-muted">{organ.system}</p>
 
       {samples.length === 0 ? (
@@ -180,7 +185,7 @@ function OrganSection({
                 <span className="panel-card-title">{sample.section_id}</span>
                 <span className="panel-card-meta">
                   {sample.technology ?? "unknown technology"} · {formatCount(sample.n_cells)}{" "}
-                  cells
+                  {unitNoun([sample])}
                 </span>
                 {sample.disease && <span className="panel-card-meta">{sample.disease}</span>}
               </button>
@@ -195,16 +200,16 @@ function OrganSection({
 function SampleSection({
   sample,
   bodySpecies,
+  focusUm,
 }: {
   sample: Sample;
   bodySpecies: Species;
+  focusUm: [number, number] | null;
 }): JSX.Element {
   const mismatch = sample.species !== bodySpecies;
 
   return (
     <section className="panel-section">
-      <h1 className="panel-title">{sample.sample_name ?? sample.section_id}</h1>
-
       {mismatch && (
         <p className="panel-callout">
           Species mismatch: this sample&apos;s donor is {SPECIES_LABEL[sample.species]}
@@ -214,13 +219,16 @@ function SampleSection({
         </p>
       )}
 
+      <Morphology sample={sample} focusUm={focusUm} />
+
       <dl className="panel-fields">
+        <Field label="Section" value={sample.section_id} />
         <Field label="Organism" value={sample.organism ?? SPECIES_LABEL[sample.species]} />
         <Field label="Tissue" value={sample.tissue} />
         <Field label="Disease" value={joinFields(sample.disease, sample.disease_state)} />
         <Field label="Technology" value={joinFields(sample.technology, sample.assay)} />
         <Field label="Spatial unit" value={sample.spatial_unit} />
-        <Field label="Cells" value={formatCount(sample.n_cells)} />
+        <Field label={humanizeKey(unitNoun([sample]))} value={formatCount(sample.n_cells)} />
         <Field label="Section extent" value={formatExtent(sample.extent_um)} />
         <Field label="Preservation" value={sample.preservation} />
         <Field
@@ -265,6 +273,15 @@ function Field({ label, value }: { label: string; value: ReactNode | null }): JS
       <dd>{value}</dd>
     </div>
   );
+}
+
+/**
+ * What `n_cells` actually counts. Visium resolves ~55 µm spots and Xenium resolves cells, so the
+ * same field means different things three orders of magnitude apart; calling a spot a cell reads
+ * as a hundredfold error. Across a mixed set the generic "cells" is the honest fallback.
+ */
+function unitNoun(samples: Sample[]): string {
+  return samples.length > 0 && samples.every((s) => s.spatial_unit === "spot") ? "spots" : "cells";
 }
 
 function joinFields(a: string | null, b: string | null): string | null {

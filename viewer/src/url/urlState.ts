@@ -6,9 +6,28 @@
 
 import { useEffect, useRef } from "react";
 
+import { sameGeometry } from "../panel/geometry";
 import { useStore, viewerState } from "../state";
-import { BUDGET_RANGE, DEFAULT_STATE, LODS, PIXEL_RANGE, SPECIES } from "../types";
-import type { CameraState, Lod, Paint, Species, Vec3, ViewerState } from "../types";
+import {
+  BUDGET_RANGE,
+  DEFAULT_STATE,
+  LODS,
+  PANEL_ANCHORS,
+  PANEL_HEIGHT_RANGE,
+  PANEL_WIDTH_RANGE,
+  PIXEL_RANGE,
+  SPECIES,
+} from "../types";
+import type {
+  CameraState,
+  Lod,
+  Paint,
+  PanelAnchor,
+  PanelGeometry,
+  Species,
+  Vec3,
+  ViewerState,
+} from "../types";
 
 // Kept in sync with the `Paint` union in types.ts by hand — it has no exported value
 // array (unlike `LODS` and `SPECIES`) to validate against.
@@ -41,6 +60,35 @@ function parseVec2(raw: string | undefined): [number, number] | null {
   const nums = parts.map(Number);
   if (nums.some((n) => !Number.isFinite(n))) return null;
   return [nums[0], nums[1]];
+}
+
+/**
+ * `anchor,dx,dy,width,height` -> the floating panel's place on the frame.
+ *
+ * Anything structurally wrong — wrong arity, unknown anchor, a non-number — falls back to the
+ * default position wholesale rather than to a half-parsed box. Out-of-range sizes are clamped
+ * instead, matching how `b` and `px` treat a number that is merely too big.
+ */
+function parsePanelGeometry(raw: string | undefined): PanelGeometry {
+  if (raw === undefined) return DEFAULT_STATE.panelGeom;
+  const parts = raw.split(",");
+  if (parts.length !== 5) return DEFAULT_STATE.panelGeom;
+
+  const [anchor, ...rest] = parts;
+  if (!(PANEL_ANCHORS as readonly string[]).includes(anchor)) return DEFAULT_STATE.panelGeom;
+
+  const nums = rest.map(Number);
+  if (nums.some((n) => !Number.isFinite(n))) return DEFAULT_STATE.panelGeom;
+  const [dx, dy, width, height] = nums;
+
+  return {
+    anchor: anchor as PanelAnchor,
+    // A negative offset would park the panel off the frame edge it is anchored to.
+    dx: Math.max(0, dx),
+    dy: Math.max(0, dy),
+    width: clamp(width, PANEL_WIDTH_RANGE),
+    height: clamp(height, PANEL_HEIGHT_RANGE),
+  };
 }
 
 /** Strips a leading URL/query down to its fragment; tolerates missing "#". */
@@ -82,6 +130,12 @@ export function encodeState(state: ViewerState): string {
   }
   if (state.focusUm !== null) parts.push(`f=${state.focusUm.map((v) => round(v, 1)).join(",")}`);
   if (state.sound !== DEFAULT_STATE.sound) parts.push(`snd=${state.sound ? "1" : "0"}`);
+  if (state.panelOpen !== DEFAULT_STATE.panelOpen) parts.push(`wo=${state.panelOpen ? "1" : "0"}`);
+  if (!sameGeometry(state.panelGeom, DEFAULT_STATE.panelGeom)) {
+    const g = state.panelGeom;
+    const box = [g.dx, g.dy, g.width, g.height].map((v) => Math.round(v)).join(",");
+    parts.push(`w=${g.anchor},${box}`);
+  }
 
   return `#${parts.join("&")}`;
 }
@@ -122,6 +176,9 @@ export function decodeState(hash: string): ViewerState {
     budget,
     pixel,
     sound: params.get("snd") === "1",
+    // Open unless the hash says otherwise, so a bare link still shows the atlas.
+    panelOpen: params.get("wo") !== "0",
+    panelGeom: parsePanelGeometry(params.get("w")),
   };
 }
 

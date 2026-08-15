@@ -1,16 +1,104 @@
-/* Scoped entirely under .panel so nothing leaks into the scene or the HUD. */
+/* Scoped entirely under .panel* so nothing leaks into the scene or the HUD. */
 
-.panel {
+/* The frame the floating panel's offsets are measured from: the stage, edge to edge. Click-through
+   except for the window itself, so orbiting still works everywhere the window is not. */
+.panel-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Above the HUD: a window the user dragged somewhere must stay clickable there, and parking it
+     under the breadcrumbs otherwise makes its own close button unreachable. The HUD stays
+     click-through except for its chips, and the chip that reopens the panel only matters while the
+     window is gone, so nothing covers it when it is needed. */
+  z-index: 2;
+}
+
+.panel-window {
   background: var(--panel);
-  border-left: 1px solid var(--panel-edge);
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.6rem;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.45);
   color: var(--text);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto;
+  position: absolute;
+  /* Blurring what shows through keeps the metadata readable over a bright alpine sky. */
+  backdrop-filter: blur(8px);
+}
+
+.panel-window-bar {
+  align-items: center;
+  border-bottom: 1px solid var(--panel-edge);
+  cursor: grab;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+  touch-action: none;
+  user-select: none;
+}
+
+.panel-window-bar:active {
+  cursor: grabbing;
+}
+
+.panel-window-title {
+  flex: 1 1 auto;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-window-close {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0.15rem 0.45rem;
+}
+
+.panel-window-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* A corner big enough to grab without a pointer-precision test; the diagonal reads as a grip. */
+.panel-window-grip {
+  background: linear-gradient(
+    -45deg,
+    transparent 40%,
+    var(--panel-edge) 40%,
+    var(--panel-edge) 55%,
+    transparent 55%,
+    transparent 70%,
+    var(--panel-edge) 70%,
+    var(--panel-edge) 85%,
+    transparent 85%
+  );
+  bottom: 0;
+  cursor: nwse-resize;
+  height: 1.1rem;
+  position: absolute;
+  right: 0;
+  touch-action: none;
+  width: 1.1rem;
+}
+
+.panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   gap: 1.25rem;
-  height: 100%;
   line-height: 1.6;
+  min-height: 0;
   overflow-y: auto;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem 1.5rem;
 }
 
 .panel * {
@@ -21,12 +109,6 @@
   border-top: 1px solid var(--panel-edge);
   margin-top: 1rem;
   padding-top: 1rem;
-}
-
-.panel-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
 }
 
 .panel-subtitle {
@@ -195,4 +277,21 @@
   color: var(--text-dim);
   font-size: 0.75rem;
   margin-top: auto;
+}
+
+/* Measured data, undecorated: the crops are shown as the atlas returns them — greyscale PNGs at
+   their measured positions, no tint, no filter, no scene palette (global constraint 2). */
+.panel-mosaic {
+  background: #000;
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.3rem;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.panel-mosaic img {
+  image-rendering: pixelated;
+  position: absolute;
 }
