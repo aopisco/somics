@@ -74,6 +74,24 @@ back as `float32`. Use `he_crop` in place of `morphology_crop` for H&E, and chec
 the `has_he_crop` / `has_morphology_crop` flags before requesting either — not
 every section carries both.
 
+## Corpus builder
+
+`web/` is the UI for assembling training corpora from the atlas: a chat bar that turns fuzzy intent
+("subcellular colon cancer, transcripts/cell > 90") into a visible filter statement, a faceted
+sidebar, and a card grid with QC surfaced on every dataset. It renders a precomputed index rather
+than querying the atlas live.
+
+```bash
+uv run python scripts/build_corpus_index.py   # atlas on R2 -> data/corpus_index.json
+uv run python -m somics.viewer                # API on http://127.0.0.1:8787
+cd web && npm install && npm run dev          # UI on http://127.0.0.1:5274
+```
+
+Rerun the index script after every ingest — it is a snapshot, and nothing warns you when it goes
+stale. See [web/README.md](web/README.md) and
+[docs/2026-08-15_corpus_builder_ui_mapping.md](docs/2026-08-15_corpus_builder_ui_mapping.md) for
+what the atlas can and cannot tell the UI, particularly on QC.
+
 ## Viewer
 
 `viewer/` is a 3D browser view of the atlas: a low-resolution voxel rat or human standing in a grass
