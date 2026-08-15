@@ -79,9 +79,9 @@ def client(fake):
     return TestClient(app)
 
 
-def test_anatomy_serves_both_bodies(client):
+def test_anatomy_serves_every_body(client):
     body = client.get("/api/anatomy").json()
-    assert body["species"] == ["human", "rat"]
+    assert body["species"] == ["human", "rat", "zebrafish"]
     for species in body["species"]:
         organs = body["bodies"][species]["organs"]
         assert any(organ["node_id"] == "colon" for organ in organs)

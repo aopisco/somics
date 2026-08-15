@@ -48,7 +48,7 @@ def _buffer(payload: bytes, meta: dict) -> Response:
 
 @app.get("/api/anatomy")
 def anatomy() -> dict:
-    """Organ geometry for both bodies. Static — the frontend fetches it once."""
+    """Organ geometry for every body. Static — the frontend fetches it once."""
     return {
         "species": list(SPECIES),
         "bodies": {

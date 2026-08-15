@@ -14,7 +14,11 @@ import type { OrganNode, Sample, Species } from "../types";
 import "./Panel.css";
 import { backLabel, formatCount, formatExtent, humanizeKey } from "./format";
 
-const SPECIES_LABEL: Record<Species, string> = { human: "human", rat: "rat" };
+const SPECIES_LABEL: Record<Species, string> = {
+  human: "human",
+  rat: "rat",
+  zebrafish: "zebrafish",
+};
 
 /** Same species crumb text as the breadcrumb in `App.tsx`'s `Hud` — kept in sync by eye, since
  * the two live in different components but must read as one vocabulary (see `backLabel`). */

@@ -3,8 +3,9 @@ import { describe, expect, it } from "vitest";
 import { buildBodyVoxels } from "./voxelize";
 import type { BodyDef, Species, Vec3 } from "../types";
 
-// Bounds sit inside both the human legs and the rat trunk (see silhouette.ts), so the
-// real per-species silhouette produces a non-empty shell without needing a fake sdf.
+// Bounds sit inside the human legs, the rat trunk and the zebrafish flank (see
+// silhouette.ts), so the real per-species silhouette produces a non-empty shell
+// without needing a fake sdf.
 const BOUNDS: [Vec3, Vec3] = [
   [-2, 0, -2],
   [2, 4, 2],
@@ -61,7 +62,7 @@ function positionSet(positions: Float32Array): Set<string> {
 }
 
 describe("buildBodyVoxels", () => {
-  const species: Species[] = ["human", "rat"];
+  const species: Species[] = ["human", "rat", "zebrafish"];
 
   for (const s of species) {
     it(`produces a non-empty shell for ${s}`, () => {

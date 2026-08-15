@@ -20,7 +20,8 @@ import {
   viewerState,
 } from "./state";
 import { SKY } from "./theme";
-import { BUDGET_RANGE, PIXEL_RANGE } from "./types";
+import { BUDGET_RANGE, PIXEL_RANGE, SPECIES } from "./types";
+import type { Species } from "./types";
 import { encodeState, useUrlSync } from "./url/urlState";
 import { loadingLine } from "./whimsy/loadingLines";
 import { useSound } from "./whimsy/useSound";
@@ -94,6 +95,12 @@ export function App() {
   );
 }
 
+const SPECIES_CRUMB: Record<Species, string> = {
+  rat: "🐀 Rat",
+  human: "🧍 Human",
+  zebrafish: "🐟 Zebrafish",
+};
+
 function Hud() {
   const store = useStore();
   const organ = selectOrgan(store, store.node);
@@ -102,9 +109,7 @@ function Hud() {
   return (
     <div className="hud">
       <div className="crumbs">
-        <button onClick={() => store.selectNode(null)}>
-          {store.species === "rat" ? "🐀 Rat" : "🧍 Human"}
-        </button>
+        <button onClick={() => store.selectNode(null)}>{SPECIES_CRUMB[store.species]}</button>
         {organ && (
           <>
             <span className="sep">›</span>
@@ -129,14 +134,17 @@ function Hud() {
       <Toast />
 
       <div className="controls">
-        <button
-          className="chip"
-          data-active={store.species === "rat"}
-          onClick={() => store.setSpecies(store.species === "rat" ? "human" : "rat")}
-          title="Swap the body. Samples pin to the matching organ either way."
-        >
-          {store.species === "rat" ? "rat" : "human"}
-        </button>
+        {SPECIES.map((species) => (
+          <button
+            key={species}
+            className="chip"
+            data-active={store.species === species}
+            onClick={() => store.setSpecies(species)}
+            title="Swap the body. Samples pin to the matching organ whichever one is showing."
+          >
+            {species}
+          </button>
+        ))}
 
         <label className="chip" title="Render scale — lower is chunkier pixels">
           pixels

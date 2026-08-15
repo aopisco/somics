@@ -75,6 +75,10 @@ _DECIMATION_SEED = 20260815
 # Intensity percentiles for stretching a raw uint16 crop into a viewable 8-bit tile.
 _CROP_PERCENTILES = (1.0, 99.5)
 
+# Which body a sample's donor organism pins onto. Everything the viewer has no body for
+# falls back to the rat; the panel's species-mismatch note is what explains that.
+_BODY_SPECIES = {"Homo sapiens": "human", "Danio rerio": "zebrafish"}
+
 
 class SampleNotFound(KeyError):
     """Raised when a section_uid is not in the atlas."""
@@ -214,7 +218,7 @@ class AtlasSource:
                     "node_id": resolve_tissue(tissue),
                     "tissue": tissue,
                     "organism": row["organism"],
-                    "species": "human" if row["organism"] == "Homo sapiens" else "rat",
+                    "species": _BODY_SPECIES.get(row["organism"], "rat"),
                     "disease": row["disease"] or section.get("disease"),
                     "disease_state": section.get("disease_state"),
                     "preservation": section.get("preservation"),

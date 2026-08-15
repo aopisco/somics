@@ -58,7 +58,7 @@ describe("sanitizePatch", () => {
     expect(sanitizePatch({ species: 42, node: "colon" })).toEqual({ node: "colon" });
   });
 
-  it.each(["human", "rat"] as const)("accepts species %s", (value) => {
+  it.each(["human", "rat", "zebrafish"] as const)("accepts species %s", (value) => {
     expect(sanitizePatch({ species: value })).toEqual({ species: value });
   });
   it("rejects a bad species value", () => {

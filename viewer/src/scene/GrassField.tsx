@@ -19,10 +19,13 @@ const RADIAL_BIAS = 2.2;
 const MAX_LEAN = 0.5;
 const TAU = Math.PI * 2;
 
-/** Grass reads as belly-high on the rat and knee-high on the much taller human. */
+/** Grass reads as belly-high on the rat and knee-high on the much taller human. The
+ *  fish hovers above the field with its lowest fin at y=0.4, so the blades stay under
+ *  it rather than swallowing it. */
 const HEIGHT_RANGE: Record<Species, [number, number]> = {
   rat: [1.1, 2.2],
   human: [0.6, 1.3],
+  zebrafish: [0.25, 0.55],
 };
 
 // Box centred on its base (local y in [0, 1]) so scaling and rotation both pivot at the ground.

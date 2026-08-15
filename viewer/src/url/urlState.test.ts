@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_STATE } from "../types";
+import { DEFAULT_STATE, SPECIES } from "../types";
 import type { ViewerState } from "../types";
 import { decodeState, encodeState } from "./urlState";
 
@@ -21,6 +21,15 @@ const FULL_STATE: ViewerState = {
 describe("encodeState / decodeState round trip", () => {
   it("round-trips a state with every field set to a non-default value", () => {
     expect(decodeState(encodeState(FULL_STATE))).toEqual(FULL_STATE);
+  });
+
+  it.each(SPECIES)("round-trips species %s", (species) => {
+    const encoded = encodeState({ ...DEFAULT_STATE, species });
+    expect(decodeState(encoded).species).toBe(species);
+  });
+
+  it("puts a non-default species in the hash under sp", () => {
+    expect(encodeState({ ...DEFAULT_STATE, species: "zebrafish" })).toBe("#sp=zebrafish");
   });
 
   it("omits every key for DEFAULT_STATE", () => {
@@ -79,6 +88,12 @@ describe("decodeState tolerance", () => {
     const decoded = decodeState("sp=axolotl&n=colon");
     expect(decoded.species).toBe(DEFAULT_STATE.species);
     expect(decoded.node).toBe("colon");
+  });
+
+  it("decodes the zebrafish body from a hash", () => {
+    const decoded = decodeState("#sp=zebrafish&lod=orbit");
+    expect(decoded.species).toBe("zebrafish");
+    expect(decoded.lod).toBe("orbit");
   });
 
   it("falls back to the default lod while decoding other fields", () => {
