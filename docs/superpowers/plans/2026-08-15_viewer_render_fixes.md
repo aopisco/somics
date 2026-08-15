@@ -236,8 +236,16 @@ angles in your report, plus the licence line from CREDITS.md.
 The morphology crops currently render as tiles in the 3D scene at cell level. The user wants the
 image surfaced in a panel the user can control.
 
-**Scope, from the user (2026-08-15):** "the data should be in it's own window whose position should be
-locked to the frame, not the 3d viewer."
+**Scope, from the user (2026-08-15), stated three times and consistently:**
+- "the data should be in it's own window whose position should be locked to the frame, not the 3d viewer"
+- "i want a floating panel for the spatial information"
+- "floating panel should be 2D locked to the frame, not in the 3d viewer"
+
+So this is not only the morphology imagery — it is **the spatial information** for the selected
+sample: the metadata the right-hand column shows today (organism, tissue, disease, technology,
+spatial unit, cell/spot count, section extent, donor, panel) together with the morphology imagery
+when there is any. It lives in a floating 2D panel, not the fixed right-hand column and not the 3D
+scene.
 
 That settles the one real design question here. The window is a **DOM overlay in screen space**,
 positioned relative to the viewport frame — *not* an object in the three.js scene, and not a thing
@@ -249,9 +257,17 @@ it survives window resizes, drag and resize in CSS pixels. Do not use drei's `<H
 scene-graph attachment — that is exactly the "locked to the 3d viewer" behaviour being ruled out.
 
 **Requirements.**
-- Shows the selected sample's morphology imagery.
+- Shows the selected sample's **spatial information** — the metadata fields the panel renders today —
+  plus its morphology imagery where the sample has any.
 - Position is locked to the frame: unaffected by camera movement, orbit, or zoom level changes.
 - Draggable, resizable, closable, and re-openable from a control.
+- **Also fix, since you own `panel/` for this task:** `speciesCrumbLabel` in
+  `viewer/src/panel/Panel.tsx:25-26` is `species === "rat" ? "🐀 Rat" : "🧍 Human"`, so with the
+  zebrafish selected the back control reads "Back to 🧍 Human". Export `SPECIES_CRUMB` from
+  `App.tsx` and use it, collapsing the two-sources-of-truth for that emoji+name string. This defect
+  was created by a merge, not by the panel's author.
+- The atlas now has a twelve-section organ (brain) and two spatial units (Xenium cells, Visium
+  spots), so check the panel against both a 587k-cell Xenium sample and a ~4k-spot Visium one.
 - Its geometry (position, size, open/closed) is part of the URL state, like everything else in this
   viewer — see `viewer/src/url/` and the `ViewerState` contract in `viewer/src/types.ts`. Follow the
   existing codec conventions: defaults omitted from the hash, malformed values fall back to the
