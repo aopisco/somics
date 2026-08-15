@@ -102,9 +102,11 @@ enums:
 
   SegmentationMethod:
     doc: |
-      How the boundary of an obs row was defined. Null for assays whose units
+      How the boundary of an obs row was defined. GRID for assays whose units
       are defined by the capture grid (Visium spots, Visium HD bins, Slide-seq
-      beads) rather than by segmentation.
+      beads) rather than by segmentation; null only when the method is
+      unreported, so "laid out by the grid" stays distinguishable from
+      "not annotated".
     values:
       NUCLEUS_EXPANSION: nucleus_expansion
       CELL_BOUNDARY_STAIN: cell_boundary_stain
@@ -312,7 +314,10 @@ obs_tables:
       - name: segmentation_method
         type: SegmentationMethod | None
         default: null
-        doc: "How this row's boundary was defined; null for grid-based assays."
+        doc: >-
+          How this row's boundary was defined. Capture-grid assays record
+          `grid` rather than null, so an unsegmented unit is distinguishable
+          from one whose method was never reported.
       - name: in_tissue
         type: bool | None
         default: null
@@ -468,6 +473,21 @@ feature_registry_tables:
       registry must hold both Ensembl-identified genes and panel probes and
       control codewords that map to no gene at all.
     fields:
+      - name: feature_key
+        type: str
+        stable_uid: true
+        doc: >-
+          The identity a feature dedupes on corpus-wide, composed as
+          organism:feature_id — for example Homo sapiens:ENSG00000243485.
+          The organism half is the NCBITaxon label the `organism` column holds,
+          not its CURIE, so the two columns stay consistent.
+          It is a separate column because the uid must be stable across
+          datasets while feature_id alone is not unique: Ensembl IDs are
+          species-specific, but the probe and blank-codeword names that stand
+          in for them on targeted panels are not, so a codeword like
+          BLANK_0001 would otherwise merge a human and a mouse panel into one
+          feature. Composing the organism in keeps the two apart, and one
+          column is what compute_stable_uids can key on.
       - name: feature_id
         type: str
         doc: >-

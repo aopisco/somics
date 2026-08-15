@@ -13,11 +13,17 @@ Two feature spaces, and they are written in fundamentally different ways:
   CSR over (cells × features) — the same three arrays, read as the transpose —
   so it drops straight into homeobox's `AnnDataReader` with no transpose and no
   copy. Emitted row *i* is pointer row *i*.
-- **`discrete_image`** is not a row stream at all. The morphology image is
-  written once, at full resolution, and every cell addresses a crop box into it.
+- **`discrete_image`** is not a row stream at all. The section image is written
+  once, at full resolution, and every obs row addresses a crop box into it.
   That is the whole reason the atlas schema stores imagery this way rather than
   as `image_tiles`: 587k overlapping 128² crops would be ~19 GB of duplicated
   pixels, against 2.9 GB for the image itself.
+
+  Which pointer an image fills — `he_crop` or `morphology_crop`, the schema's
+  two `discrete_image` pointers — is read from the collection's
+  `SectionImageSchema` table, whose `image_modality` column is the atlas's own
+  record of what the pixels depict. Guessing from the array shape would be
+  wrong the first time a multichannel morphology stack appears.
 
 Run:
     python -m somics.ingest <collection_root> [--atlas PATH] [--schema PATH]
@@ -26,6 +32,7 @@ Run:
 from __future__ import annotations
 
 import argparse
+import json
 import os
 from collections.abc import Generator
 
@@ -49,9 +56,11 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 DEFAULT_SCHEMA = os.path.join(REPO_ROOT, "schema", "spatial_transcriptomics_atlas_schema.yaml")
 DEFAULT_ATLAS = "/home/ubuntu/polycomb_atlases/somics_spatial_atlas"
 
-# Crop side, in full-resolution pixels. At Xenium's 0.2125 µm/px this is 27.2 µm,
-# which contains a cell of the 99.9th-percentile size (139 px equivalent
-# diameter) with context to spare, while staying a power of two for batching.
+# Crop side, in full-resolution pixels — one constant for the whole atlas, so
+# crops from any platform stack into a batch without resizing. At Xenium's
+# 0.2125 µm/px it is 27.2 µm, containing a cell of the 99.9th-percentile size
+# (139 px equivalent diameter) with context to spare; at Visium's ~0.571 µm/px
+# it is 73 µm, containing the 55 µm capture spot (96 px) with a margin.
 CROP_PX = 128
 
 # One slab of tile rows. The Xenium morphology TIFF is tiled 1024², so a slab of
@@ -59,23 +68,43 @@ CROP_PX = 128
 # is resident at a time regardless of how large the image is.
 SLAB_ROWS = 1024
 
-# Obs pointer field the morphology image fills. `discrete_image` backs both
-# `he_crop` and `morphology_crop`, so the write has to name one.
-MORPHOLOGY_FIELD = "morphology_crop"
+# `discrete_image` backs both `he_crop` and `morphology_crop`, so the write has
+# to name one. SectionImageSchema.image_modality says which.
+FIELD_BY_IMAGE_MODALITY = {
+    "he": "he_crop",
+    "morphology": "morphology_crop",
+    "immunofluorescence": "morphology_crop",
+    "dapi": "morphology_crop",
+}
+# Used when the collection ships no SectionImageSchema table (the Xenium package
+# predates it) — that collection's only imagery is a morphology stack.
+DEFAULT_IMAGE_FIELD = "morphology_crop"
+
+# Zarr chunk/shard edge over the spatial axes. Trailing channel axes are taken
+# in full so a crop read fetches whole pixels, never a partial channel set.
+CHUNK_EDGE = 512
+SHARD_EDGE = 2048
 
 
 # ===========================================================================
-# discrete_image: the morphology OME-TIFF
+# discrete_image: the section TIFF
 # ===========================================================================
 
 
-class OmeTiffImageSource:
-    """Streams the full-resolution level of an OME-TIFF as horizontal slabs.
+class TiffImageSource:
+    """Streams the full-resolution level of a TIFF as horizontal slabs.
 
-    OME-TIFF is not one of homeobox's built-in source formats, and a pyramidal
-    one cannot simply be read whole — only the base level belongs in the atlas,
-    and even that is multiple gigabytes. ``tifffile`` decodes an arbitrary
-    region, so each slab is read on demand and released once written.
+    TIFF is not one of homeobox's built-in source formats, and a pyramidal one
+    cannot simply be read whole — only the base level belongs in the atlas, and
+    even that is multiple gigabytes. ``tifffile`` decodes an arbitrary region,
+    so each slab is read on demand and released once written.
+
+    The image must be ``(Y, X)`` or ``(Y, X, C)``: a `DiscreteSpatialPointer`
+    boxes the *leading* axes and reads trailing ones in full, which is exactly
+    how the schema stores channels — named on the section image row, not
+    addressed by the crop. A channels-first ``(C, Y, X)`` image would instead
+    need rank-3 boxes whose first entry is a channel, so it is rejected rather
+    than silently transposed.
     """
 
     def __init__(self, path: str, *, level: int = 0, slab_rows: int = SLAB_ROWS) -> None:
@@ -89,15 +118,25 @@ class OmeTiffImageSource:
             self.shape: tuple[int, ...] = tuple(int(d) for d in base.shape)
             self.dtype = np.dtype(base.dtype)
             self.axes = base.axes
-        if len(self.shape) != 2:
-            # A DiscreteSpatialPointer's corners address the *leading* axes, so
-            # a (C, Y, X) image would need rank-3 boxes whose first entry is a
-            # channel — a decision about how this atlas addresses multi-channel
-            # morphology, not something to guess per dataset.
+        # tifffile names the axes: Y/X are spatial, S is an RGB sample axis and
+        # C a channel axis, both of which TIFF stores after the spatial ones.
+        if self.axes not in ("YX", "YXS", "YXC"):
             raise NotImplementedError(
-                f"{path}: expected a 2-D (Y, X) image, got shape {self.shape} with axes "
-                f"{self.axes!r}. Multi-channel imagery needs a box-rank convention first."
+                f"{path}: expected (Y, X) or (Y, X, channel) axes, got shape {self.shape} "
+                f"with axes {self.axes!r}. Crop boxes address the leading axes, so a "
+                f"channels-first image needs a box-rank convention first."
             )
+        self.n_spatial_axes = 2
+
+    @property
+    def spatial_shape(self) -> tuple[int, int]:
+        """The ``(height, width)`` the crop boxes address."""
+        return (self.shape[0], self.shape[1])
+
+    def grid(self, edge: int) -> tuple[int, ...]:
+        """A square-ish chunk/shard grid over the spatial axes, channels in full."""
+        spatial = tuple(min(edge, d) for d in self.shape[: self.n_spatial_axes])
+        return spatial + tuple(self.shape[self.n_spatial_axes :])
 
     def layer_specs(self, layer_mapping: dict[str, str]) -> dict[str, tuple[tuple[int, ...], type]]:
         return {dest: (self.shape, self.dtype) for dest in layer_mapping.values()}
@@ -136,15 +175,14 @@ def centered_boxes(
     return corners, corners + size
 
 
-def load_morphology(ctx: LoaderContext) -> SpatialLoaderResult:
-    """One image per section, plus one crop box per cell."""
-    tif_paths = [p for p in ctx.data_files if p.endswith((".ome.tif", ".ome.tiff"))]
+def load_section_image(ctx: LoaderContext, *, field_name: str) -> SpatialLoaderResult:
+    """One image per section, plus one crop box per obs row."""
+    tif_paths = [p for p in ctx.data_files if p.endswith((".tif", ".tiff"))]
     if len(tif_paths) != 1:
         raise ValueError(
-            f"{ctx.dataset_name}/{ctx.feature_space}: expected exactly one OME-TIFF, "
-            f"got {tif_paths}"
+            f"{ctx.dataset_name}/{ctx.feature_space}: expected exactly one TIFF, got {tif_paths}"
         )
-    source = OmeTiffImageSource(tif_paths[0])
+    source = TiffImageSource(tif_paths[0])
 
     if ctx.obs_table is None:
         raise ValueError(f"{ctx.dataset_name}: obs table is required to place crop boxes")
@@ -169,10 +207,10 @@ def load_morphology(ctx: LoaderContext) -> SpatialLoaderResult:
         )
 
     min_corners, max_corners = centered_boxes(
-        centers, size=CROP_PX, image_shape=(source.shape[0], source.shape[1])
+        centers, size=CROP_PX, image_shape=source.spatial_shape
     )
     print(
-        f"  {ctx.feature_space}: image {source.shape} {source.dtype}, "
+        f"  {ctx.feature_space}: image {source.shape} {source.dtype} -> {field_name}, "
         f"{len(min_corners)} crop(s) of {CROP_PX}x{CROP_PX} px"
     )
     return SpatialLoaderResult(
@@ -180,11 +218,62 @@ def load_morphology(ctx: LoaderContext) -> SpatialLoaderResult:
         layer_mapping={"image": "raw"},
         min_corners=min_corners,
         max_corners=max_corners,
-        # The schema declares two discrete_image pointers, he_crop and
-        # morphology_crop, and the manifest's feature space cannot tell them
-        # apart. This dataset ships no H&E, so he_crop stays null.
-        field_name=MORPHOLOGY_FIELD,
+        chunk_shape=source.grid(CHUNK_EDGE),
+        shard_shape=source.grid(SHARD_EDGE),
+        field_name=field_name,
     )
+
+
+def image_fields_by_dataset(collection_root: str) -> dict[str, str]:
+    """Map each dataset name to the obs pointer field its image fills.
+
+    Read from the collection's ``SectionImageSchema`` rows, which carry the
+    ``dataset_uid`` whose zarr group holds the pixels and the ``image_modality``
+    they depict. Collections without that table fall back to the default.
+    """
+    manifest_path = os.path.join(collection_root, "collection.json")
+    with open(manifest_path) as handle:
+        manifest = json.load(handle)
+    name_by_uid = {
+        entry["dataset_uid"]: name for name, entry in manifest.get("datasets", {}).items()
+    }
+
+    db_path = os.path.join(collection_root, "lance_db")
+    if not os.path.isdir(db_path):
+        return {}
+    db = lancedb.connect(db_path)
+    if "SectionImageSchema" not in db.list_tables().tables:
+        return {}
+
+    fields: dict[str, str] = {}
+    for row in db.open_table("SectionImageSchema").to_arrow().to_pylist():
+        dataset_name = name_by_uid.get(row.get("dataset_uid"))
+        if dataset_name is None:
+            continue
+        modality = row.get("image_modality")
+        field = FIELD_BY_IMAGE_MODALITY.get(modality)
+        if field is None:
+            raise ValueError(
+                f"{dataset_name}: SectionImageSchema.image_modality {modality!r} maps to no "
+                f"obs pointer; known modalities are {sorted(FIELD_BY_IMAGE_MODALITY)}"
+            )
+        previous = fields.setdefault(dataset_name, field)
+        if previous != field:
+            raise ValueError(
+                f"{dataset_name}: two section images want different pointers "
+                f"({previous}, {field}); one zarr group holds one image"
+            )
+    return fields
+
+
+def make_image_loader(fields_by_dataset: dict[str, str]):
+    """Bind the per-dataset pointer choice into a discrete_image loader."""
+
+    def load(ctx: LoaderContext) -> SpatialLoaderResult:
+        field_name = fields_by_dataset.get(ctx.dataset_name, DEFAULT_IMAGE_FIELD)
+        return load_section_image(ctx, field_name=field_name)
+
+    return load
 
 
 # ===========================================================================
@@ -235,10 +324,12 @@ def load_gene_expression(ctx: LoaderContext) -> LoaderResult:
     )
 
 
-LOADERS = {
-    "gene_expression": load_gene_expression,
-    "discrete_image": load_morphology,
-}
+def build_loaders(collection_root: str) -> dict:
+    """Per-feature-space loaders for one collection."""
+    return {
+        "gene_expression": load_gene_expression,
+        "discrete_image": make_image_loader(image_fields_by_dataset(collection_root)),
+    }
 
 
 # ===========================================================================
@@ -282,7 +373,7 @@ def main(argv: list[str] | None = None) -> None:
         collection_root=collection_root,
         schema_path=schema_path,
         atlas_path=atlas_path,
-        loaders=LOADERS,
+        loaders=build_loaders(collection_root),
     )
 
     # ingest_collection deliberately stops at the write. Reopening the atlas
