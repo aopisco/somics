@@ -15,6 +15,9 @@ const MAX_HEIGHT = 14;
 const RISE_SPEED: [number, number] = [0.35, 1.1];
 const DRIFT_AMPLITUDE = 0.6;
 const DRIFT_RATE = 0.4;
+/** Held down since the sky became a photograph: additive white specks read as sunlit
+ *  pollen over a flat colour field, and as dust on the lens over a photographed forest. */
+const MOTE_OPACITY = 0.35;
 
 interface MoteField {
   baseX: Float32Array;
@@ -72,7 +75,7 @@ export function Motes(props: { fade: number }): JSX.Element {
       positions[i * 3 + 2] = field.baseZ[i] + Math.cos(t * DRIFT_RATE + field.phase[i]) * DRIFT_AMPLITUDE;
     }
     geometry.attributes.position.needsUpdate = true;
-    if (materialRef.current) materialRef.current.opacity = fade;
+    if (materialRef.current) materialRef.current.opacity = fade * MOTE_OPACITY;
     if (pointsRef.current) pointsRef.current.visible = fade > 0.01;
   });
 
@@ -84,7 +87,7 @@ export function Motes(props: { fade: number }): JSX.Element {
         size={0.22}
         sizeAttenuation
         transparent
-        opacity={fade}
+        opacity={fade * MOTE_OPACITY}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
       />

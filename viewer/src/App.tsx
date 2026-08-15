@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 import { useAgentChannel } from "./agent/useAgentChannel";
 import { AgentBanner } from "./agent/AgentBanner";
@@ -78,7 +78,11 @@ export function App() {
           camera={{ fov: 42, position: [0, 8, 34], near: 0.05, far: 4000 }}
         >
           <color attach="background" args={[SKY.horizon]} />
-          <SkyDome fade={opacity.world} />
+          {/* Scoped so only the sky waits on the panorama: Canvas's own boundary would
+              block the whole scene, and the clear colour stands in meanwhile. */}
+          <Suspense fallback={null}>
+            <SkyDome fade={opacity.world} />
+          </Suspense>
           <GrassField fade={opacity.world} species={species} />
           <Motes fade={opacity.world} />
           <Body fade={opacity.body} />
