@@ -60,6 +60,22 @@ back as `float32`. Use `he_crop` in place of `morphology_crop` for H&E, and chec
 the `has_he_crop` / `has_morphology_crop` flags before requesting either — not
 every section carries both.
 
+## Viewer
+
+`viewer/` is a 3D browser view of the atlas: a low-resolution voxel rat or human standing in a grass
+field, with a pin on every organ the atlas holds data for. Clicking a pin flies the camera inward
+through four zoom levels, ending on the section's individual cells and its morphology imagery. Every
+view is a URL, so a copied link reopens exactly what you were looking at, and an agent can drive the
+UI over HTTP while you watch.
+
+```bash
+uv run python -m somics.viewer            # API on http://127.0.0.1:8787
+cd viewer && npm install && npm run dev   # UI on http://127.0.0.1:5273
+```
+
+See [viewer/README.md](viewer/README.md) for the URL format, the agent control surface, and the
+performance notes.
+
 ## Install
 
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
