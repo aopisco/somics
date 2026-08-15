@@ -10,8 +10,9 @@ for the human the long axis is +y (feet at y=0) and left/right is x; for the rat
 the zebrafish the long axis is +x (nose at +x) and left/right is z. Coordinates are in
 body units — each body is authored to roughly fill its own box, ~18 tall for the human
 and ~19 long for the rat and the fish, so the three are *not* to a shared scale. The
-frontend voxelizes each at 0.26 units per cube, so authoring the fish at its true size
-relative to a rat would leave it a handful of voxels across.
+frontend voxelizes each at `VOXEL` units per cube (0.12 in viewer/src/theme.ts), so
+authoring the fish at its true size relative to a rat would leave it a handful of voxels
+across.
 
 Every organ is authored for every species, even where the species has no such structure
 (a fish has no prostate). Each body carries all 30 sockets so a sample can pin onto any

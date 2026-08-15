@@ -48,12 +48,23 @@ export const MARKER = {
   empty: "#5d6b78",
 } as const;
 
-/** World size of one body voxel, in body units. Shared by the voxelizer and the grass.
+/** World size of one body voxel, in body units.
  *
- * Measured against the real anatomy payload: at 0.42 the smaller organs (eye, adrenal,
- * tonsil) round away to zero voxels and vanish; 0.26 gives every organ at least two and
- * the heart ~44, for ~3.7k cubes on the rat, ~5.2k on the human and ~2.3k on the
- * zebrafish. Going finer reads as smooth rather than pixelated and costs cubes for
- * nothing.
+ * Chosen by looking, then costed. Measured against the real anatomy payload in Chrome:
+ *
+ *   0.26  human 2.5k shell + 2.7k organ cubes,  12 ms build   (chunky; silhouette lost)
+ *   0.12  human 15k shell + 27k organ cubes,   113 ms build   (this)
+ *   0.10  human 21k shell + 47k organ cubes,   189 ms build   (cubes stop reading)
+ *
+ * All three sizes hold 60 fps at orbit on an M4, so frame rate is not what picks this
+ * number. The floor is legibility: the canvas renders at `pixel` scale (0.4 by default,
+ * see `PIXEL_RANGE`) and is upscaled with `image-rendering: pixelated`, so a voxel is
+ * worth roughly two render-buffer pixels at 0.12 and fewer than two below it. At 0.10 the
+ * organs go smooth and the bodies read as airbrushed lumps rather than voxel art — more
+ * cubes, less voxel. 0.12 is the finest size where an individual cube face is still
+ * visible at the default render scale.
+ *
+ * Smallest organ claim also improves with the finer grid: 1-4 voxels at 0.26, 18-44 at
+ * 0.12, so nothing is one cube away from vanishing (see `test_every_organ_claims_voxels`).
  */
-export const VOXEL = 0.26;
+export const VOXEL = 0.12;

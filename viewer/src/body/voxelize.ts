@@ -25,7 +25,14 @@ export interface BodyVoxels {
   voxel: number;
 }
 
-const MAX_GRID_SAMPLES = 400_000;
+/** Guard against a runaway grid, expressed as a build-time budget rather than a
+ *  round number. The build runs once per (anatomy, species) in a `useMemo` and blocks
+ *  the body appearing, so a few hundred milliseconds is the ceiling. Measured in Chrome
+ *  on an M4: 472,500 samples (the human at `VOXEL` = 0.12) take ~113 ms, i.e. ~4.2M
+ *  samples/s, so 1.2M samples is ~290 ms — the top of that budget. The previous 400,000
+ *  was sized for a 0.26 voxel and the human grid now sits at 472,500.
+ */
+export const MAX_GRID_SAMPLES = 1_200_000;
 /** Shell keeps only voxels within this many voxel-widths of the sdf boundary,
  *  so the body reads as a hollow husk with organs visible inside.
  */
