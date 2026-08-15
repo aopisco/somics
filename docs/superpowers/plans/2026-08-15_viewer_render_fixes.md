@@ -119,7 +119,40 @@ Every frame, `useFrame` derives a level from the live camera-to-target distance
 - Add unit tests to `viewer/src/camera/lod.test.ts` for whatever pure logic you extract. The
   feedback loop itself needs the browser; state that you checked it there.
 
-## Task 2: Make section and cell render their data
+## Task 2 (REDIRECTED 2026-08-15): the spots and cells belong in the floating panel
+
+**Superseding direction from the user**, given after Task 6's floating panel landed:
+
+> "the floating panel is great but the spots/cells should appear in the floating panel, not rendered
+> in 3d in the 3d viewer"
+
+The point cloud stops being a 3D layer. Cells and spots are drawn as a **2D view inside the floating
+panel**; morphology imagery is already there via `panel/Morphology.tsx`. The 3D scene keeps the body,
+organs and pins.
+
+**Ruling (controller):** the 3D view must not go blank at section and cell level — a blank 3D stage is
+what made the app feel broken in the first place. Body and organs stay visible while the data lives in
+the panel.
+
+This is arguably the better architecture anyway: a tissue section *is* 2D, so drawing it in a 2D panel
+removes an entire class of 3D placement, scaling and frustum bugs — which is precisely what this task
+had been stuck on.
+
+What survives the redirect, unchanged:
+- The data was never the problem: `/api/samples/.../points` returns 200 every time.
+- **Two spatial units, three orders of magnitude apart** — Xenium 587k cells, Visium ~4k spots. Both
+  must look right.
+- **viridis by transcript count, magma by gene.** Measured data is never decorated (Constraint 2).
+- Twelve brain sections; switching must load and draw the newly selected one.
+- **The micron round trip** — clicking a cell drives the morphology view to that location. It becomes a
+  simple pixel↔micron mapping in 2D. Pin it with tests.
+
+What changes:
+- A 2D canvas is almost certainly right; 587k points is not a DOM or SVG workload. The colour-mapping
+  in `PointCloud.tsx` is reusable, the placement maths is not.
+- `viewer/src/layers/PointCloud.tsx` and `CropTiles.tsx` are likely dead. Removing them is in scope.
+
+### Original text, kept for the diagnosis it records
 
 **The bug.** Both data levels are a flat empty peach field. Nothing is drawn. This is the whole point
 of the application, so treat it as the most important task here.
