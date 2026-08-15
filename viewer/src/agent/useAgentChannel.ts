@@ -94,7 +94,13 @@ export function useAgentChannel(): void {
       }
       lastReported = body;
       lastReportedAt = Date.now();
-      fetch("/api/control/state", { method: "PUT", body }).catch(() => {});
+      // Without an explicit JSON content type fetch sends text/plain and the
+      // endpoint's Body(dict) rejects the report with a 422.
+      fetch("/api/control/state", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body,
+      }).catch(() => {});
     };
 
     const unsubscribe = useStore.subscribe(report);

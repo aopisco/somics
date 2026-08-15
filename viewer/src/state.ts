@@ -230,8 +230,11 @@ export function viewerState(store: Store | ViewerState): ViewerState {
   };
 }
 
+/** Shared so the "no anatomy yet" branch keeps a stable identity across calls. */
+const NO_ORGANS: OrganNode[] = [];
+
 export const selectOrgans = (store: Store): OrganNode[] =>
-  store.anatomy?.bodies[store.species]?.organs ?? [];
+  store.anatomy?.bodies[store.species]?.organs ?? NO_ORGANS;
 
 export const selectOrgan = (store: Store, nodeId: string | null): OrganNode | null =>
   nodeId ? (selectOrgans(store).find((organ) => organ.node_id === nodeId) ?? null) : null;
@@ -239,12 +242,26 @@ export const selectOrgan = (store: Store, nodeId: string | null): OrganNode | nu
 export const selectCurrentSample = (store: Store): Sample | null =>
   store.sample ? (store.samples.find((row) => row.section_uid === store.sample) ?? null) : null;
 
+/**
+ * Grouping is keyed on the `samples` array identity rather than recomputed per
+ * call. zustand v5 reads a selector through `useSyncExternalStore`, which treats
+ * a fresh object as a changed snapshot: rebuilding this record on every call made
+ * every read report a change, which re-rendered, which read again — an infinite
+ * loop that unmounted the whole tree ("Maximum update depth exceeded"). The store
+ * replaces `samples` wholesale, so its identity is a sound cache key.
+ */
+const samplesByNodeCache = new WeakMap<Sample[], Record<string, Sample[]>>();
+
 /** section_uids grouped by the organ they pin to, for badge counts on the body. */
 export function selectSamplesByNode(store: Store): Record<string, Sample[]> {
+  const cached = samplesByNodeCache.get(store.samples);
+  if (cached) return cached;
+
   const grouped: Record<string, Sample[]> = {};
   for (const sample of store.samples) {
     if (!sample.node_id) continue;
     (grouped[sample.node_id] ??= []).push(sample);
   }
+  samplesByNodeCache.set(store.samples, grouped);
   return grouped;
 }
