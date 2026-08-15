@@ -90,14 +90,15 @@ module docstring; do not "optimise" it back into a SQL predicate.
 
 ## NOT verified — start here
 
-1. **No pixels have ever been rendered.** I could not get a headless browser up: Playwright's Chromium
-   fails with `libgbm.so.1: cannot open shared object file`, and installing system libraries needs
-   root. Everything visual — whether the rat looks like a rat, whether the grass reads as a field,
-   whether the camera flight feels like Google Earth, whether the pixelation looks good, whether the
-   point cloud reads as tissue — is **unconfirmed**. Either run it in a real browser, or get
-   `libgbm` (plus likely `libxkbcommon`, `libnss3`, `libasound2`) available and re-run a Playwright
-   screenshot pass. A script that captures orbit/organ/section/cell states by URL hash is easy to
-   rebuild; the URL codec makes each state directly addressable.
+1. **No pixels have ever been rendered.** The machine this was built on is a headless SLURM login node
+   with no browser and no root, so no frame was ever displayed: Playwright's Chromium would not launch
+   (`libgbm.so.1: cannot open shared object file`, which needs a system package). Everything visual —
+   whether the rat looks like a rat, whether the grass reads as a field, whether the camera flight
+   feels like Google Earth, whether the pixelation looks good, whether the point cloud reads as tissue
+   — is **unconfirmed**. On a machine with a display this is simply a matter of opening it. Headless
+   alternative: install `libgbm1`, `libxkbcommon0`, `libnss3`, `libasound2` (Playwright's
+   `install-deps` covers them) and screenshot each zoom level by URL hash — the URL codec makes every
+   state directly addressable, so a capture script is a dozen lines.
 2. **The camera rig has never run.** `CameraRig.tsx` tweens the camera while OrbitControls stays
    enabled, and writes `setCamera`/`setLod` back into the store that drives it. The author closed the
    feedback loop by reading most state through `useStore.getState()` instead of subscribing, but that
@@ -128,20 +129,20 @@ module docstring; do not "optimise" it back into a SQL predicate.
 - **The atlas has one sample**, so the multi-sample paths in the panel and markers (an organ with
   several sections) have never been exercised with real data.
 
-## Branch and PR situation — read this
+## Branch and PR situation
 
-The work was committed on branch `viewer` (base `origin/hox-schema`) as `762d581`, then merged into
-local `main` as `a0c88b0`. **`main` has not been pushed.**
+**Everything is on `main` and pushed.** No PR — it went to main by request. The viewer itself is
+`762d581`; `ebb8ae0` is the merge that carries it plus a merge of concurrent work from others.
 
-The merge also brings in five commits from **open PR [#5](https://github.com/aopisco/somics/pull/5)**
-(`hox-schema`, conradry's atlas schema, ingest script, query skill, and the `homeobox` dependency).
-That is not incidental — the viewer needs `homeobox` to read the atlas at all, so it cannot land on
-main without at least that part of #5. Pushing `main` as it stands would effectively merge someone
-else's open PR. Decide deliberately:
+Merging it also carried in the commits from PR
+[#5](https://github.com/aopisco/somics/pull/5) (`hox-schema`: the atlas schema, the ingest script, the
+query skill, and the `homeobox` dependency the viewer needs to read the atlas at all). As of this
+writing every one of those commits is on `main` and the only thing left on the `hox-schema` branch is a
+merge commit, so **#5 is content-complete on main and can be closed as merged** — someone with
+ownership of that PR should do it rather than an agent.
 
-- push `main` and close #5 as merged, or
-- push `viewer` and open a PR against `hox-schema` so it stacks behind #5, or
-- rebase just `762d581` plus the `homeobox` dependency onto `main`.
+The `viewer` branch still exists locally on the machine this was built on; it holds nothing that main
+does not.
 
 ## Design decisions you might want to revisit
 
