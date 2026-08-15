@@ -10,6 +10,11 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.3
     hooks:
+      # schema/schema.py is generated from the schema YAML IR by the
+      # atlas-designer validator; it is committed as the emitter writes it so
+      # regenerating never produces a formatting-only diff.
       - id: ruff-check
         args: [--fix]
+        exclude: ^schema/schema\.py$
       - id: ruff-format
+        exclude: ^schema/schema\.py$

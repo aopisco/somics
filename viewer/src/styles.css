@@ -1,0 +1,130 @@
+:root {
+  --panel: rgba(18, 22, 28, 0.82);
+  --panel-edge: rgba(255, 255, 255, 0.12);
+  --text: #eef2f6;
+  --text-dim: #9fb0c0;
+  --accent: #ffd479;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: #0b0f14;
+  color: var(--text);
+  font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr min(30rem, 34vw);
+  height: 100%;
+}
+
+.stage {
+  position: relative;
+  min-width: 0;
+}
+
+/* The low-resolution canvas is upscaled by the browser; nearest-neighbour is what
+   turns that into the pixel look rather than a blur. */
+.stage canvas {
+  image-rendering: pixelated;
+}
+
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+
+.hud > * {
+  pointer-events: auto;
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.crumbs button {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.2rem 0.7rem;
+}
+
+.crumbs button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.crumbs .sep {
+  color: var(--text-dim);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+}
+
+.chip[data-active="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip input[type="range"] {
+  width: 6rem;
+}
+
+.toast {
+  align-self: center;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.9rem;
+}
+
+.fatal {
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+}
+
+.fatal code {
+  color: var(--text-dim);
+  font-size: 0.85em;
+}

@@ -11,6 +11,55 @@ dataset inventories of the TERRA, VirTues (spora corpus), and KRONOS foundation-
 one dataset as reported by one source paper: platform, modality, species, tissue, disease, sample count,
 data access link, whether the paper generated or reused it, and the source paper's title/DOI/year.
 
+## Data access
+
+The atlas is hosted publicly on Cloudflare R2. The credentials below are
+read-only and intentionally published — no setup or account is needed.
+
+```python
+from homeobox import RaggedAtlas
+
+ATLAS_DIR = "s3://epiblast-public/somics_spatial_atlas"
+
+STORE_KWARGS = {
+    "config": {
+        "endpoint": "https://61be05560bebc4714cdd9913fb075bc9.r2.cloudflarestorage.com",
+        # Read only public credentials for R2
+        "aws_access_key_id": "087ee61ad71e3fc431f7c8031545c4e4",
+        "aws_secret_access_key": "3c94e43945c4e49a466930527f368756810315f68ad26a2c10c8adac2ed08b8d",
+        "aws_region": "auto",
+    }
+}
+
+atlas = RaggedAtlas.checkout_latest(ATLAS_DIR, store_kwargs=STORE_KWARGS)
+```
+
+Rows live in the `SpatialObs` table, one per spatial unit (a cell, nucleus, or
+spot depending on the platform), with physical coordinates in `x_um`/`y_um` and
+pixel coordinates in `x_px`/`y_px`. Filter with `where()`, then materialize the
+modality you want:
+
+```python
+query = atlas.query().where("tissue == 'colon'").limit(8)
+
+# Obs metadata as a polars DataFrame.
+obs = query.to_polars()
+
+# Counts as AnnData. select_fields is required whenever the atlas carries more
+# than one AnnData-capable feature space.
+adata = query.select_fields("gene_expression").to_anndata()
+
+# Image crops centred on each unit, one ndarray per row under the "raw" layer.
+crops = query.to_spatial_batch("morphology_crop").layers["raw"]
+```
+
+Imagery is stored once per section at full resolution; each obs row addresses a
+128x128 px box into it, slid inward at section edges so every crop is the same
+shape and `np.stack(crops)` works directly. Crops are stored as `uint16` but read
+back as `float32`. Use `he_crop` in place of `morphology_crop` for H&E, and check
+the `has_he_crop` / `has_morphology_crop` flags before requesting either — not
+every section carries both.
+
 ## Install
 
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).

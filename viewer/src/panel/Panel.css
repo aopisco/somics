@@ -1,0 +1,191 @@
+/* Scoped entirely under .panel so nothing leaks into the scene or the HUD. */
+
+.panel {
+  background: var(--panel);
+  border-left: 1px solid var(--panel-edge);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+  line-height: 1.6;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.panel * {
+  overflow-wrap: anywhere;
+}
+
+.panel-section > * + * {
+  border-top: 1px solid var(--panel-edge);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.panel-subtitle {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.4rem;
+}
+
+.panel-stat,
+.panel-loading {
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-muted,
+.panel-empty,
+.panel-loading {
+  color: var(--text-dim);
+}
+
+.panel-callout {
+  background: rgba(255, 212, 121, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 0.4rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.panel-fields {
+  margin: 0;
+}
+
+.panel-field {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+}
+
+.panel-field + .panel-field {
+  border-top: 1px solid var(--panel-edge);
+}
+
+.panel-field dt {
+  color: var(--text-dim);
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+}
+
+.panel-field dd {
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+  text-align: right;
+}
+
+.panel-kv table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.panel-kv th {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  font-variant: small-caps;
+  font-weight: 400;
+  padding: 0.3rem 0.75rem 0.3rem 0;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.panel-kv td {
+  font-variant-numeric: tabular-nums;
+  padding: 0.3rem 0;
+  text-align: right;
+  width: 100%;
+}
+
+.panel-list,
+.panel-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.panel-row,
+.panel-card,
+.panel-button {
+  background: transparent;
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.4rem;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  width: 100%;
+}
+
+.panel-row {
+  align-items: baseline;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+}
+
+.panel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.panel-button {
+  padding: 0.5rem 0.75rem;
+}
+
+.panel-row:hover,
+.panel-card:hover,
+.panel-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.panel-row-value,
+.panel-card-meta {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-row:hover .panel-row-value {
+  color: inherit;
+}
+
+.panel-card-title {
+  font-weight: 600;
+}
+
+.panel-details summary {
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.panel-details p {
+  margin: 0.5rem 0 0;
+}
+
+.panel-link {
+  color: var(--accent);
+}
+
+.panel-footer {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin-top: auto;
+}
