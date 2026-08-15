@@ -6,6 +6,15 @@ export type Species = "human" | "rat" | "zebrafish";
  *  Order is the order the body chips appear in. */
 export const SPECIES: Species[] = ["rat", "human", "zebrafish"];
 
+/** The emoji+name a body is called by, wherever the UI names one. Lives here rather than in
+ *  either component that shows it: the HUD breadcrumb and the panel's back control must read as
+ *  one vocabulary, and keeping two copies is what let the zebrafish crumb read "🧍 Human". */
+export const SPECIES_CRUMB: Record<Species, string> = {
+  rat: "🐀 Rat",
+  human: "🧍 Human",
+  zebrafish: "🐟 Zebrafish",
+};
+
 /** Zoom levels, outermost first. The camera crossfades between them by distance. */
 export type Lod = "orbit" | "organ" | "section" | "cell";
 
@@ -120,6 +129,29 @@ export interface CameraState {
   target: Vec3;
 }
 
+/**
+ * Which frame corner the floating panel measures its offsets from: vertical edge first
+ * (`t`op / `b`ottom), then horizontal (`l`eft / `r`ight).
+ */
+export type PanelAnchor = "tl" | "tr" | "bl" | "br";
+
+export const PANEL_ANCHORS: PanelAnchor[] = ["tl", "tr", "bl", "br"];
+
+/**
+ * The floating panel's place on the frame, in CSS pixels. Offsets are measured from `anchor`
+ * rather than always from the top-left so a panel parked against the right or bottom edge stays
+ * against it when the window is resized.
+ */
+export interface PanelGeometry {
+  anchor: PanelAnchor;
+  /** Distance from the anchor's horizontal frame edge to the panel's near vertical side. */
+  dx: number;
+  /** Distance from the anchor's vertical frame edge to the panel's near horizontal side. */
+  dy: number;
+  width: number;
+  height: number;
+}
+
 /** Everything the URL round-trips. Any change here needs a matching codec change. */
 export interface ViewerState {
   species: Species;
@@ -138,6 +170,10 @@ export interface ViewerState {
   /** Render scale for the pixelated look; 1 is full resolution. */
   pixel: number;
   sound: boolean;
+  /** Whether the floating spatial-information panel is showing. */
+  panelOpen: boolean;
+  /** Where that panel sits on the frame. Screen space only — the camera never moves it. */
+  panelGeom: PanelGeometry;
 }
 
 export const DEFAULT_STATE: ViewerState = {
@@ -152,7 +188,13 @@ export const DEFAULT_STATE: ViewerState = {
   budget: 80_000,
   pixel: 0.4,
   sound: false,
+  panelOpen: true,
+  panelGeom: { anchor: "tr", dx: 24, dy: 24, width: 380, height: 560 },
 };
 
 export const BUDGET_RANGE: [number, number] = [1_000, 400_000];
 export const PIXEL_RANGE: [number, number] = [0.15, 1];
+/** Narrower than this and the metadata rows wrap into unreadable slivers. */
+export const PANEL_WIDTH_RANGE: [number, number] = [260, 1600];
+/** Shorter than this and the title bar plus one row is all that fits. */
+export const PANEL_HEIGHT_RANGE: [number, number] = [160, 1600];

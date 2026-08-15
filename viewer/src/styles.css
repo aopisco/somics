@@ -22,15 +22,15 @@ body,
   overflow: hidden;
 }
 
+/* Full-bleed: the science half is a floating window over the canvas now, not a fixed column. */
 .app {
-  display: grid;
-  grid-template-columns: 1fr min(30rem, 34vw);
   height: 100%;
 }
 
+/* Positioned: the canvas, the HUD and the floating panel all lay out against this box. */
 .stage {
   position: relative;
-  min-width: 0;
+  height: 100%;
 }
 
 /* The low-resolution canvas is upscaled by the browser; nearest-neighbour is what
@@ -43,6 +43,7 @@ body,
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

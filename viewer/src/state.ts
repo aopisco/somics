@@ -11,6 +11,7 @@ import {
   type Lod,
   type OrganNode,
   type Paint,
+  type PanelGeometry,
   type PointCloud,
   type Sample,
   type Species,
@@ -50,6 +51,8 @@ interface Store extends ViewerState {
   setBudget: (budget: number) => void;
   setPixel: (pixel: number) => void;
   setSound: (sound: boolean) => void;
+  setPanelOpen: (panelOpen: boolean) => void;
+  setPanelGeom: (panelGeom: PanelGeometry) => void;
   zoomOut: () => void;
 }
 
@@ -66,6 +69,8 @@ const VIEWER_KEYS = [
   "budget",
   "pixel",
   "sound",
+  "panelOpen",
+  "panelGeom",
 ] as const satisfies readonly (keyof ViewerState)[];
 
 export const useStore = create<Store>((set, get) => ({
@@ -170,6 +175,8 @@ export const useStore = create<Store>((set, get) => ({
 
   setPixel: (pixel) => set({ pixel }),
   setSound: (sound) => set({ sound }),
+  setPanelOpen: (panelOpen) => set({ panelOpen }),
+  setPanelGeom: (panelGeom) => set({ panelGeom }),
 
   zoomOut: () =>
     set((s) => {
@@ -227,6 +234,8 @@ export function viewerState(store: Store | ViewerState): ViewerState {
     budget: source.budget,
     pixel: source.pixel,
     sound: source.sound,
+    panelOpen: source.panelOpen,
+    panelGeom: source.panelGeom,
   };
 }
 

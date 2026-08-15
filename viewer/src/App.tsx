@@ -20,8 +20,7 @@ import {
   viewerState,
 } from "./state";
 import { SKY } from "./theme";
-import { BUDGET_RANGE, PIXEL_RANGE, SPECIES } from "./types";
-import type { Species } from "./types";
+import { BUDGET_RANGE, PIXEL_RANGE, SPECIES, SPECIES_CRUMB } from "./types";
 import { encodeState, useUrlSync } from "./url/urlState";
 import { loadingLine } from "./whimsy/loadingLines";
 import { useSound } from "./whimsy/useSound";
@@ -92,18 +91,16 @@ export function App() {
           <CropTilesLayer opacity={opacity.crops} />
           <CameraRig />
         </Canvas>
+        {/* Two DOM overlays over the canvas, both in screen space. The panel stacks above the HUD
+            (see `.panel-frame`) so a window dragged over the breadcrumbs is still usable; the HUD
+            is click-through except for its chips, so the one that reopens the panel is only ever
+            covered while the panel is already open. */}
+        <Panel />
         <Hud />
       </div>
-      <Panel />
     </div>
   );
 }
-
-const SPECIES_CRUMB: Record<Species, string> = {
-  rat: "🐀 Rat",
-  human: "🧍 Human",
-  zebrafish: "🐟 Zebrafish",
-};
 
 function Hud() {
   const store = useStore();
@@ -193,6 +190,15 @@ function Hud() {
             </select>
           </label>
         )}
+
+        <button
+          className="chip"
+          data-active={store.panelOpen}
+          onClick={() => store.setPanelOpen(!store.panelOpen)}
+          title="Show or hide the floating spatial-information panel"
+        >
+          panel
+        </button>
 
         <button
           className="chip"
