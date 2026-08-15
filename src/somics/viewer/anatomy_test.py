@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from somics.viewer.anatomy import (
@@ -79,22 +81,27 @@ def test_mirrored_organs_come_in_pairs(species):
 def test_every_organ_claims_voxels(species):
     """No organ may be wholly swallowed by an earlier one.
 
-    Mirrors the frontend voxelizer: sample the body on the same 0.26-unit grid and assign
-    each cell to the first organ whose ellipsoids contain it. An organ that claims nothing
-    renders as nothing, which is how the human eye vanished inside the brain blob.
+    Follows the frontend voxelizer's rule — sample cell centres, assign each to the first
+    organ whose ellipsoids contain it — but on a deliberately coarser grid than the one
+    that ships. The frontend runs at `VOXEL` = 0.12 (viewer/src/theme.ts); 0.26 here is
+    both a safety margin (an organ that survives the coarse grid survives the fine one)
+    and a concession to pure-Python speed, since the cost is cubic in 1 / voxel.
+
+    An organ that claims nothing renders as nothing, which is how the human eye vanished
+    inside the brain blob.
     """
     voxel = 0.26
     low, high = BODY_BOUNDS[species]
     blobs_by_organ = [(organ.node_id, organ.blobs(species)) for organ in ORGANS]
     claimed = dict.fromkeys((organ.node_id for organ in ORGANS), 0)
 
-    steps = [int((high[axis] - low[axis]) / voxel) + 1 for axis in range(3)]
+    steps = [math.ceil((high[axis] - low[axis]) / voxel) for axis in range(3)]
     for i in range(steps[0]):
-        x = low[0] + i * voxel
+        x = low[0] + (i + 0.5) * voxel
         for j in range(steps[1]):
-            y = low[1] + j * voxel
+            y = low[1] + (j + 0.5) * voxel
             for k in range(steps[2]):
-                point = (x, y, low[2] + k * voxel)
+                point = (x, y, low[2] + (k + 0.5) * voxel)
                 for node_id, blobs in blobs_by_organ:
                     if any(_inside(point, blob) for blob in blobs):
                         claimed[node_id] += 1

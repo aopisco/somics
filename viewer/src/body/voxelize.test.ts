@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { buildBodyVoxels } from "./voxelize";
+import { MAX_GRID_SAMPLES, buildBodyVoxels } from "./voxelize";
+import { VOXEL as SHIPPED_VOXEL } from "../theme";
 import type { BodyDef, Species, Vec3 } from "../types";
 
 // Bounds sit inside the human legs, the rat trunk and the zebrafish flank (see
@@ -40,7 +41,15 @@ function fixtureBody(): BodyDef {
   };
 }
 
-const VOXEL = 0.4; // divides the 4-unit bounds evenly so cell centres never spill outside
+// Widest of the three authored bodies, so it is the one the grid cap has to hold.
+const HUMAN_BOUNDS: [Vec3, Vec3] = [
+  [-4.5, 0, -2.5],
+  [4.5, 18, 2.5],
+];
+
+// Grid size for the fixture only, not the shipped one (that is SHIPPED_VOXEL): 0.4
+// divides the 4-unit bounds evenly so cell centres never spill outside.
+const VOXEL = 0.4;
 
 function inBounds(positions: Float32Array, bounds: [Vec3, Vec3]): boolean {
   const [min, max] = bounds;
@@ -123,5 +132,30 @@ describe("buildBodyVoxels", () => {
 
   it("throws when the voxel grid would exceed the sample cap", () => {
     expect(() => buildBodyVoxels(fixtureBody(), "human", 0.001)).toThrow();
+  });
+
+  it("reports the grid it refused, rounding each axis up", () => {
+    // 4-unit bounds at 0.03 is ceil(4 / 0.03) = 134 cells per axis. The refusal message
+    // is the only place that arithmetic is visible from outside.
+    expect(() => buildBodyVoxels(fixtureBody(), "human", 0.03)).toThrow(
+      `grid of 134x134x134 = ${134 ** 3} samples`,
+    );
+  });
+
+  it("admits a grid that fits under the cap", () => {
+    // 80^3 = 512,000: over the pre-Task-9 cap of 400,000, inside the current one.
+    expect(() => buildBodyVoxels(fixtureBody(), "human", 0.05)).not.toThrow();
+  });
+
+  it("keeps the largest authored body inside the cap at the shipped voxel size", () => {
+    // The human is the biggest grid of the three; bounds mirror BODY_BOUNDS["human"] in
+    // src/somics/viewer/anatomy.py, which the API serves. Lower theme.ts's VOXEL and this
+    // is the test that tells you the body will fail to build instead of just being slow.
+    const [min, max] = HUMAN_BOUNDS;
+    const grid =
+      Math.ceil((max[0] - min[0]) / SHIPPED_VOXEL) *
+      Math.ceil((max[1] - min[1]) / SHIPPED_VOXEL) *
+      Math.ceil((max[2] - min[2]) / SHIPPED_VOXEL);
+    expect(grid).toBeLessThanOrEqual(MAX_GRID_SAMPLES);
   });
 });
