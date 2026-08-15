@@ -91,6 +91,8 @@ Three consequences every task should know:
 
 Do not treat the one-sample statements elsewhere in this document as current. Query the API.
 
+## Task 1: Stop the LOD/camera feedback loop
+
 **The bug.** The model flickers in and out, and the zoom level drifts on its own. Loading
 `#sp=rat&n=colon&s=183c734af72b51e0&lod=section` and waiting 45s ends with the hash at
 `#n=colon&s=183c734af72b51e0&cam=13.011,12.49,19.398&tgt=0,3.5,0` — `lod=section` silently gone and
