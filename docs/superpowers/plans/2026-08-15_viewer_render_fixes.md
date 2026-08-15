@@ -51,9 +51,13 @@ Violating one fails review regardless of anything else.
    golden-hour palette is scene-only. Do not colour data with the scene palette or vice versa.
 3. **The species-mismatch note stays visible.** The atlas's one sample is human; the default body is a
    rat. The panel says so explicitly. Do not hide it, and do not silently force the body to match.
-4. **No binary asset files.** Bodies and scenery are procedural (signed-distance functions, voxel
-   fields). This is a deliberate licensing decision. No downloaded HDRIs, panoramas, textures, or
-   model files enter the repo.
+4. **Bodies stay procedural — no body/organ asset files.** Silhouettes are signed-distance functions
+   voxelized at runtime; this is a deliberate licensing decision from the previous author. No model
+   files for bodies or organs.
+   **Amended 2026-08-15 by the user:** the sky backdrop is exempt. Task 5 uses a real 360
+   equirectangular photograph. It must be **CC0 or public domain** (Poly Haven is CC0 and is the
+   expected source) — check the licence before committing, and record it in the repo. Nothing else in
+   this constraint changes.
 5. **Verify visually, and say what you saw.** Every task here changes what is on screen. "137 tests
    pass" is not evidence that a visual bug is fixed.
 6. **Green gates:** `npx tsc --noEmit` clean, `npm run test` passing, and for Python changes
@@ -165,18 +169,38 @@ and say so.
 valley" — a surrounding panoramic alpine scene rather than the current flat orange sky band with a
 few dark cubes on the horizon.
 
-**Ruling (controller):** this must be **procedural** — a generated gradient sky plus a voxel/SDF
-mountain ring and haze, in the existing low-pixel idiom. Constraint 4 forbids committing a downloaded
-panorama or HDRI, and the whole scene is procedural by design. Cost if this ruling is wrong: the
-backdrop looks less photographic than the user pictured, and we swap in an image later — cheap to
-reverse, and it keeps the repo asset-free.
+**Direction (user, overriding an earlier controller ruling): "for the valley just find a 360 image."**
+Use a real 360 equirectangular photograph of an alpine/Swiss valley as an environment map, not a
+procedural mountain ring. The earlier procedural ruling is withdrawn.
 
-**Where.** `viewer/src/scene/` (sky and lighting), `viewer/src/theme.ts` for palette.
+**Licensing — this is the one hard requirement.** The image must be **CC0 or public domain**.
+[Poly Haven](https://polyhaven.com/hdris/nature) publishes CC0 HDRIs and equirectangular photos and
+is the expected source; `kloofendal_43d_clear`, `alps_field`, `mountain_*` and similar are the right
+kind of thing. Verify the licence on the asset page before committing. Add a short
+`viewer/public/env/CREDITS.md` recording the asset name, author, source URL, and licence, even for
+CC0 where attribution is not legally required.
 
-**What "done" means.** Looking around at orbit level in any direction shows a coherent alpine valley:
-layered mountain silhouettes receding into haze, sky gradient, snow line. It must read as one place,
-not a backdrop card that only works from the default angle — check at least three camera azimuths.
-Keep the low-pixel aesthetic. Screenshots from three angles in your report.
+**Where.** `viewer/src/scene/Sky.tsx`, `viewer/src/theme.ts` for palette, and the image under
+`viewer/public/`.
+
+**Implementation notes.**
+- drei's `<Environment />` with `background` is the straightforward route and drei is already a
+  dependency; `useTexture` + a large inverted sphere with `THREE.EquirectangularReflectionMapping`
+  also works. Either is fine.
+- **Watch the file size.** The bundle is already 1.14 MB. A 4K HDR `.hdr` can be 10-40 MB; do not
+  commit one. Prefer a 2K JPEG (`.jpg`) equirectangular, ideally under ~2 MB. If you can only find
+  the right image as an HDR, downsample and convert it, and say so in your report.
+- The scene palette is a warm golden hour. Pick an image whose light direction and warmth are
+  consistent with the existing lighting, or retune the lights to match the plate — a body lit from
+  the opposite side to the sky is the main way this goes wrong.
+- Keep the low-pixel aesthetic of the bodies and grass intact; the photographic backdrop sitting
+  behind voxel geometry is the intended contrast, but make sure the body still reads clearly against
+  it rather than getting lost in a busy plate.
+
+**What "done" means.** Looking around at orbit level in any direction shows a coherent alpine valley
+with a real horizon — it must work at every azimuth, which is the point of using a 360 image. Check
+at least three camera azimuths. The body remains clearly readable against it. Screenshots from three
+angles in your report, plus the licence line from CREDITS.md.
 
 ## Task 6: Morphology imagery in its own configurable window
 
