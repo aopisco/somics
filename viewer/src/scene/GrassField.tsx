@@ -97,13 +97,6 @@ export function GrassField(props: { fade: number; species: Species }): JSX.Eleme
   const hillColor = useMemo(() => new THREE.Color(GROUND.grassLow).multiplyScalar(0.45), []);
 
   useEffect(() => {
-    const mesh = bladesRef.current;
-    if (!mesh) return;
-    mesh.instanceColor = new THREE.InstancedBufferAttribute(field.colors, 3);
-    mesh.instanceColor.needsUpdate = true;
-  }, [field]);
-
-  useEffect(() => {
     const mesh = hillsRef.current;
     if (!mesh) return;
     const [minR, maxR] = HILL_RADIUS;
@@ -159,8 +152,21 @@ export function GrassField(props: { fade: number; species: Species }): JSX.Eleme
         <meshStandardMaterial ref={groundRef} color={GROUND.grassLow} transparent roughness={1} />
       </mesh>
 
+      {/* instanceColor is attached declaratively, not assigned in an effect, for two
+          reasons. three decides USE_INSTANCING_COLOR when it compiles the program, so
+          the attribute has to exist before the first render or the blades draw in the
+          material's plain white. And this subtree unmounts whenever the field fades
+          out at section level, so a fresh InstancedMesh is built on the way back —
+          an effect keyed on the (memoised, never-changing) scatter would not re-run
+          for it, which is why the grass came back white after a zoom.
+
+          The material deliberately does not set `vertexColors`: that define expects a
+          per-vertex `color` attribute, the shared BoxGeometry has none, and the shader
+          then multiplies by an unbound attribute — which is what rendered every blade
+          black regardless of the palette. */}
       <instancedMesh ref={bladesRef} args={[BOX_GEOMETRY, undefined, BLADE_COUNT]}>
-        <meshStandardMaterial ref={bladeMaterialRef} vertexColors transparent roughness={0.85} />
+        <instancedBufferAttribute attach="instanceColor" args={[field.colors, 3]} />
+        <meshStandardMaterial ref={bladeMaterialRef} transparent roughness={0.85} />
       </instancedMesh>
 
       <instancedMesh ref={hillsRef} args={[BOX_GEOMETRY, undefined, HILL_COUNT]}>
