@@ -1,8 +1,13 @@
-/** The wild-grass field the body stands in: soil, blades and a horizon silhouette. */
+/** The wild-grass field the body stands in: a ground disc and swaying blades.
+ *
+ * There used to be a ring of dark boxes out at radius ~100 standing in for hills. The
+ * sky is a photographed alpine valley now and has its own ridgeline, so the boxes were
+ * cubes floating in front of real mountains. They are gone; the horizon is the plate's.
+ */
 
 import { useFrame } from "@react-three/fiber";
 import type { JSX } from "react";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
 import type { Species } from "../types";
@@ -10,9 +15,10 @@ import { GROUND } from "../theme";
 import { hashNoise, sway } from "../whimsy/motion";
 
 const BLADE_COUNT = 6000;
-const HILL_COUNT = 32;
+/** Where blades are scattered. */
 const FIELD_RADIUS = 90;
-const HILL_RADIUS: [number, number] = [95, 108];
+/** Where the flat ground stops and the panorama's own field takes over. */
+const GROUND_RADIUS = 140;
 const BLADE_WIDTH = 0.18;
 const BLADE_DEPTH = 0.18;
 const RADIAL_BIAS = 2.2;
@@ -45,7 +51,7 @@ interface Scatter {
   colors: Float32Array;
 }
 
-function scatterField(count: number, seedOffset: number): Scatter {
+function scatterField(count: number): Scatter {
   const x = new Float32Array(count);
   const z = new Float32Array(count);
   const heightSeed = new Float32Array(count);
@@ -58,7 +64,7 @@ function scatterField(count: number, seedOffset: number): Scatter {
   const color = new THREE.Color();
 
   for (let i = 0; i < count; i++) {
-    const base = (seedOffset + i) * 5;
+    const base = i * 5;
     const angle = hashNoise(base) * TAU;
     const radiusSeed = hashNoise(base + 1);
     const radius = FIELD_RADIUS * radiusSeed ** RADIAL_BIAS;
@@ -81,14 +87,10 @@ function scatterField(count: number, seedOffset: number): Scatter {
 export function GrassField(props: { fade: number; species: Species }): JSX.Element {
   const { fade, species } = props;
   const bladesRef = useRef<THREE.InstancedMesh>(null);
-  const hillsRef = useRef<THREE.InstancedMesh>(null);
-  const soilRef = useRef<THREE.MeshStandardMaterial>(null);
   const groundRef = useRef<THREE.MeshStandardMaterial>(null);
   const bladeMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
-  const hillMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
 
-  const field = useMemo(() => scatterField(BLADE_COUNT, 0), []);
-  const hills = useMemo(() => scatterField(HILL_COUNT, 90_000), []);
+  const field = useMemo(() => scatterField(BLADE_COUNT), []);
 
   const heights = useMemo(() => {
     const [min, max] = HEIGHT_RANGE[species];
@@ -96,25 +98,6 @@ export function GrassField(props: { fade: number; species: Species }): JSX.Eleme
     for (let i = 0; i < BLADE_COUNT; i++) out[i] = min + (max - min) * field.heightSeed[i] ** 0.7;
     return out;
   }, [field, species]);
-
-  const hillColor = useMemo(() => new THREE.Color(GROUND.grassLow).multiplyScalar(0.45), []);
-
-  useEffect(() => {
-    const mesh = hillsRef.current;
-    if (!mesh) return;
-    const [minR, maxR] = HILL_RADIUS;
-    for (let i = 0; i < HILL_COUNT; i++) {
-      const angle = hills.phase[i];
-      const radius = minR + (maxR - minR) * hills.heightSeed[i];
-      tempPosition.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
-      tempQuaternion.identity();
-      const height = 3 + hills.heightSeed[i] * 9;
-      tempScale.set(5 + hashNoise(i * 7) * 8, height, 5 + hashNoise(i * 7 + 1) * 8);
-      tempMatrix.compose(tempPosition, tempQuaternion, tempScale);
-      mesh.setMatrixAt(i, tempMatrix);
-    }
-    mesh.instanceMatrix.needsUpdate = true;
-  }, [hills]);
 
   useFrame((state) => {
     if (fade <= 0.01) return;
@@ -135,23 +118,21 @@ export function GrassField(props: { fade: number; species: Species }): JSX.Eleme
       mesh.instanceMatrix.needsUpdate = true;
     }
 
-    if (soilRef.current) soilRef.current.opacity = fade;
     if (groundRef.current) groundRef.current.opacity = fade;
     if (bladeMaterialRef.current) bladeMaterialRef.current.opacity = fade;
-    if (hillMaterialRef.current) hillMaterialRef.current.opacity = fade;
   });
 
   if (fade <= 0.01) return <></>;
 
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-        <circleGeometry args={[140, 48]} />
-        <meshStandardMaterial ref={soilRef} color={GROUND.soil} transparent roughness={1} />
-      </mesh>
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[FIELD_RADIUS + 5, 48]} />
+      {/* One disc, out to where the plate's own field takes over. It used to be a green
+          disc at FIELD_RADIUS + 5 over a wider soil disc, which put a brown ring between
+          the blades and the horizon — invisible while dark boxes stood on it, a mud strip
+          across the skyline once the boxes went and a photographed green valley showed
+          through. Nothing is drawn under it now, so the soil layer went with them. */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+        <circleGeometry args={[GROUND_RADIUS, 64]} />
         <meshStandardMaterial ref={groundRef} color={GROUND.grassLow} transparent roughness={1} />
       </mesh>
 
@@ -170,10 +151,6 @@ export function GrassField(props: { fade: number; species: Species }): JSX.Eleme
       <instancedMesh ref={bladesRef} args={[BOX_GEOMETRY, undefined, BLADE_COUNT]}>
         <instancedBufferAttribute attach="instanceColor" args={[field.colors, 3]} />
         <meshStandardMaterial ref={bladeMaterialRef} transparent roughness={0.85} />
-      </instancedMesh>
-
-      <instancedMesh ref={hillsRef} args={[BOX_GEOMETRY, undefined, HILL_COUNT]}>
-        <meshStandardMaterial ref={hillMaterialRef} color={hillColor} transparent roughness={1} />
       </instancedMesh>
     </group>
   );

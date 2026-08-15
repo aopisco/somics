@@ -1,15 +1,21 @@
 /** One palette for the whole viewer, so scene and UI agree without coordination.
  *
- * Golden-hour field: warm low sun, sage grass, pale glass body, organs glowing from
- * inside. Data layers deliberately sit outside this range (viridis) so measured values
- * never read as decoration.
+ * Alpine spring morning: high clear sun, sage grass, pale glass body, organs glowing
+ * from inside. Data layers deliberately sit outside this range (viridis) so measured
+ * values never read as decoration.
+ *
+ * The sky entries are read off the panorama in `public/env/` rather than chosen: the
+ * photograph is the sky now, so a palette that disagreed with it would show up as a body
+ * lit for a different day. `zenith` is the mean of the plate's top twelfth and drives the
+ * hemisphere light. `horizon` is a pale alpine haze between the plate's near-horizon sky
+ * and its mist; nothing in the scene is tinted with it — it is the canvas clear colour,
+ * seen while the panorama loads and at the data levels, where no plate is drawn.
  */
 
 export const SKY = {
-  zenith: "#7fb2d9",
-  horizon: "#f6d7a8",
-  haze: "#e9c79b",
-  sun: "#fff0cf",
+  zenith: "#7896c0",
+  horizon: "#9fb6c8",
+  sun: "#fff3dd",
 } as const;
 
 export const GROUND = {

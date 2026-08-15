@@ -60,7 +60,14 @@ function normalize(a: Vec3): Vec3 {
 }
 
 // Low three-quarter angle: off to one side, in front, above mid-height.
-const ORBIT_DIR = normalize([0.55, 0.38, 0.82]);
+//
+// The Y was 0.38, which is 21 degrees of elevation against a 21-degree half-FOV: the
+// camera pitched down far enough to put the horizon exactly on the top edge of the
+// frame. That was fine over a two-tone gradient dome and is not fine now the sky is a
+// photographed valley — it left a sliver of plate above a frame of grass. At 0.20 the
+// horizon sits about a quarter of the way down and the valley is what you open onto.
+// Only the direction changed; orbitDistance and so lodForDistance's thresholds did not.
+const ORBIT_DIR = normalize([0.55, 0.2, 0.82]);
 const ORGAN_DIR = normalize([0.4, 0.22, 0.9]);
 // Section/cell look straight down the section plane's normal.
 const PLANE_DIR: Vec3 = [0, 0, 1];
