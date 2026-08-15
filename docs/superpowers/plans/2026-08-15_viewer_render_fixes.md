@@ -284,6 +284,34 @@ and the species toggle in the UI.
 - Python tests for the new anatomy; TS tests for the union and codec.
 - Screenshot of `#sp=zebrafish&lod=orbit` in your report.
 
+## Task 8: A back button in the right-hand panel
+
+**What the user asked for (2026-08-15):** "right hand panel should have a back button to go up a
+level."
+
+**The gap.** Going *up* a level is already implemented and already correct — `zoomOut()` in
+`viewer/src/state.ts:174` steps cell -> section -> organ -> orbit and clears the right state at each
+step (dropping `sample`, `points`, `geneValues` when leaving section). But its only binding is the
+Escape key, in `viewer/src/App.tsx:54`. There is no visible control, so nobody discovers it.
+
+**Requirements.**
+- A back control in the right-hand panel (`viewer/src/panel/Panel.tsx`, `Panel.css`) that goes up one
+  zoom level.
+- **Call the existing `zoomOut()`.** Do not reimplement the level-stepping or the state cleanup, and
+  do not change `zoomOut`'s behaviour — the Escape key and the button must do the same thing.
+- It should say where it goes, not just "back" — at section level it is going up to the organ, at
+  cell level up to the section. The breadcrumb at the top of the screen already names these levels;
+  be consistent with the words it uses.
+- At `orbit` there is nowhere to go up to. Hide it or disable it — your call, but it must not be a
+  dead control that looks live.
+- Match the existing panel styling. The panel is a dark column with small-caps labels; the existing
+  controls (`copy link`, the pixel and cell sliders) set the idiom.
+- The atlas now has an organ with twelve sections (brain), so check the button at every level with
+  both a single-sample organ (colon) and a multi-sample one (brain).
+
+**What "done" means.** From cell level, four clicks walks you back out to orbit, with the panel
+content correct at each step. Screenshot of the button at section level in your report.
+
 ## Suggested order
 
 1, 2, 3 are entangled (camera, placement, scale) and are the difference between a working app and a
