@@ -1,0 +1,1327 @@
+{
+  "generatedAt": "2026-08-15T23:16:26+00:00",
+  "atlasDir": "s3://epiblast-public/somics_spatial_atlas",
+  "stats": {
+    "datasets": 13,
+    "ingestedDatasets": 13,
+    "units": 634796,
+    "sections": 13,
+    "platforms": 2,
+    "passAllQc": 12
+  },
+  "facets": {
+    "modality": [
+      {
+        "value": "Transcriptomics",
+        "count": 13
+      }
+    ],
+    "platform": [
+      {
+        "value": "Visium",
+        "count": 12
+      },
+      {
+        "value": "Xenium",
+        "count": 1
+      }
+    ],
+    "tissue": [
+      {
+        "value": "colon",
+        "count": 1
+      },
+      {
+        "value": "dorsolateral prefrontal cortex",
+        "count": 12
+      }
+    ],
+    "disease": [
+      {
+        "value": "Healthy",
+        "count": 12
+      },
+      {
+        "value": "colon adenocarcinoma",
+        "count": 1
+      }
+    ],
+    "resolution": [
+      {
+        "value": "Spot",
+        "count": 12
+      },
+      {
+        "value": "Subcellular",
+        "count": 1
+      }
+    ]
+  },
+  "starterPrompts": [
+    "colon, transcriptomics with images",
+    "dorsolateral prefrontal cortex, transcriptomics with images"
+  ],
+  "datasets": [
+    {
+      "id": "b28d6c6098ae42c4",
+      "title": "Xenium Human Colon 1 - Cancer, pre-designed + add-on panel",
+      "study": "Human Colon Preview Data (Xenium Human Colon Gene Expression Panel)",
+      "platform": "Xenium",
+      "modality": "Transcriptomics",
+      "tissue": "colon",
+      "disease": "colon adenocarcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 587115,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "95",
+          "numeric": 95.0,
+          "threshold": "target \u2265 200",
+          "level": "fail"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.010%",
+          "numeric": 0.009986465291749342,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "Xenium_V1_hColon_Cancer_Add_on_FFPE_donor"
+        ],
+        "panelName": "Human Colon Add-On",
+        "panelSize": 425,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": null,
+        "publicationTitle": null,
+        "publicationDoi": null,
+        "accession": null,
+        "accessionDatabase": "10x Genomics Datasets",
+        "assays": [
+          "10x Xenium"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "Adult human colon sections, FFPE. The collection spans healthy colon (Avaden Biosciences) and stage 2A adenocarcinoma (Discovery Life Sciences) across 2 donors; this dataset is the cancer section profiled with the pre-designed panel plus the 100-gene add-on. Xenium FFPE tissue preparation protocol; post-Xenium H&E staining per 10x Demonstrated Protocol CG000613 (the H&E image is not part of this outs bundle). Profiled on Xenium Analyzer, Xenium Onboard Analysis v1.6.0; run hColon_Cancer_Add_on_FFPE started 2023-06-12T19:12:20Z. 587115 cells, 95 transcripts per cell."
+      },
+      "location": "https://www.10xgenomics.com/datasets/human-colon-preview-data-xenium-human-colon-gene-expression-panel-1-standard",
+      "downloadUrl": "https://s3-us-west-2.amazonaws.com/10x.files/samples/xenium/1.6.0/Xenium_V1_hColon_Cancer_Add_on_FFPE/Xenium_V1_hColon_Cancer_Add_on_FFPE_outs.zip",
+      "sections": [
+        {
+          "datasetUid": "b28d6c6098ae42c4",
+          "sampleName": "Xenium Human Colon 1 - Cancer, pre-designed + add-on panel",
+          "unitCount": 587115,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "183c734af72b51e0"
+          ],
+          "medianCounts": 95.0,
+          "downloadUrl": "https://s3-us-west-2.amazonaws.com/10x.files/samples/xenium/1.6.0/Xenium_V1_hColon_Cancer_Add_on_FFPE/Xenium_V1_hColon_Cancer_Add_on_FFPE_outs.zip"
+        }
+      ]
+    },
+    {
+      "id": "b434ef511d0a40ef",
+      "title": "LIBD Human DLPFC Visium pilot 151509",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4789,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "2,416 / spot",
+          "numeric": 2416.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5292"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151509",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151509 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151509_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "b434ef511d0a40ef",
+          "sampleName": "151509",
+          "unitCount": 4789,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "913c5314643b5570"
+          ],
+          "medianCounts": 2416.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151509_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "6e437be494854871",
+      "title": "LIBD Human DLPFC Visium pilot 151510",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4634,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "2,319 / spot",
+          "numeric": 2319.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5292"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151510",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151510 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151510_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "6e437be494854871",
+          "sampleName": "151510",
+          "unitCount": 4634,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "ab2757acc9b55c78"
+          ],
+          "medianCounts": 2319.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151510_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "cb378298fa034a99",
+      "title": "LIBD Human DLPFC Visium pilot 151508",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4384,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "2,019 / spot",
+          "numeric": 2019.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5292"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151508",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151508 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151508_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "cb378298fa034a99",
+          "sampleName": "151508",
+          "unitCount": 4384,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "c1cf4a9a065b5bd9"
+          ],
+          "medianCounts": 2019.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151508_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "6448592f50154a6c",
+      "title": "LIBD Human DLPFC Visium pilot 151507",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4226,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "2,464 / spot",
+          "numeric": 2463.5,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5292"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151507",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151507 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151507_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "6448592f50154a6c",
+          "sampleName": "151507",
+          "unitCount": 4226,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "b3d2c53b4cbc5804"
+          ],
+          "medianCounts": 2463.5,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151507_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "9c90c06d75f946d3",
+      "title": "LIBD Human DLPFC Visium pilot 151671",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4110,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,743 / spot",
+          "numeric": 3743.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5595"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151671",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151671 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151671_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "9c90c06d75f946d3",
+          "sampleName": "151671",
+          "unitCount": 4110,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "6ffa3c824e0956ef"
+          ],
+          "medianCounts": 3743.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151671_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "ebffdb09892141b5",
+      "title": "LIBD Human DLPFC Visium pilot 151672",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 4015,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,482 / spot",
+          "numeric": 3482.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5595"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151672",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151672 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151672_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "ebffdb09892141b5",
+          "sampleName": "151672",
+          "unitCount": 4015,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "697787472ff25508"
+          ],
+          "medianCounts": 3482.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151672_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "31096065e1e44134",
+      "title": "LIBD Human DLPFC Visium pilot 151674",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3673,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "5,334 / spot",
+          "numeric": 5334.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br8100"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151674",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151674 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151674_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "31096065e1e44134",
+          "sampleName": "151674",
+          "unitCount": 3673,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "796efe9e64a3572d"
+          ],
+          "medianCounts": 5334.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151674_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "4d8f21703e414126",
+      "title": "LIBD Human DLPFC Visium pilot 151669",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3661,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,470 / spot",
+          "numeric": 3470.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5595"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151669",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151669 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151669_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "4d8f21703e414126",
+          "sampleName": "151669",
+          "unitCount": 3661,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "8a506d44bcfe5e2d"
+          ],
+          "medianCounts": 3470.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151669_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "7f67796d89264cfa",
+      "title": "LIBD Human DLPFC Visium pilot 151673",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3639,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "4,120 / spot",
+          "numeric": 4120.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br8100"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151673",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151673 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151673_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "7f67796d89264cfa",
+          "sampleName": "151673",
+          "unitCount": 3639,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "1b727fc704e95952"
+          ],
+          "medianCounts": 4120.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151673_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "35b0fa6b358c409b",
+      "title": "LIBD Human DLPFC Visium pilot 151675",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3592,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,140 / spot",
+          "numeric": 3139.5,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br8100"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151675",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151675 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151675_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "35b0fa6b358c409b",
+          "sampleName": "151675",
+          "unitCount": 3592,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "2d3d914ccccd5839"
+          ],
+          "medianCounts": 3139.5,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151675_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "9469c9e74c7c48e9",
+      "title": "LIBD Human DLPFC Visium pilot 151670",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3498,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,113 / spot",
+          "numeric": 3113.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br5595"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151670",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151670 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151670_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "9469c9e74c7c48e9",
+          "sampleName": "151670",
+          "unitCount": 3498,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "d03e753a35625885"
+          ],
+          "medianCounts": 3113.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151670_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "98430dc7e78b4c5a",
+      "title": "LIBD Human DLPFC Visium pilot 151676",
+      "study": "LIBD Human DLPFC Visium pilot",
+      "platform": "Visium",
+      "modality": "Transcriptomics",
+      "tissue": "dorsolateral prefrontal cortex",
+      "disease": "Healthy",
+      "resolution": "Spot",
+      "unitCount": 3460,
+      "unitNoun": "spots",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "H&E"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "3,419 / spot",
+          "numeric": 3419.0,
+          "threshold": "not applicable to capture assays",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "no negative probes on this assay",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "grid",
+          "numeric": null,
+          "threshold": "no segmentation on this assay",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "LIBD_Br8100"
+        ],
+        "panelName": null,
+        "panelSize": null,
+        "panelVersion": null,
+        "referenceGenome": null,
+        "license": null,
+        "released": "2021-02-08",
+        "publicationTitle": "Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex.",
+        "publicationDoi": "10.1038/s41593-020-00787-0",
+        "accession": "jhpce_HumanPilot10x/151676",
+        "accessionDatabase": "Globus",
+        "assays": [
+          "Visium Spatial Gene Expression"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "10x Visium capture area 151676 from the LIBD human DLPFC pilot: one 10 um fresh-frozen section of dorsolateral prefrontal cortex from a neurotypical adult donor, profiled with Visium Spatial Gene Expression against GRCh38, with a full-resolution H&E scan of the same section and manual cortical-layer annotations per spot."
+      },
+      "location": "http://research.libd.org/spatialLIBD/",
+      "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151676_full_image.tif",
+      "sections": [
+        {
+          "datasetUid": "98430dc7e78b4c5a",
+          "sampleName": "151676",
+          "unitCount": 3460,
+          "unitNoun": "spots",
+          "sectionUids": [
+            "92a78ad48507586a"
+          ],
+          "medianCounts": 3419.0,
+          "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151676_full_image.tif"
+        }
+      ]
+    }
+  ]
+}

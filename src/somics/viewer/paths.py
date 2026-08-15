@@ -10,3 +10,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = PACKAGE_ROOT.parents[2]
 
 WEB_DIST = REPO_ROOT / "viewer" / "dist"
+
+# The corpus builder: a precomputed index of the atlas, and the app that browses it.
+CORPUS_INDEX = REPO_ROOT / "data" / "corpus_index.json"
+CORPUS_DIST = REPO_ROOT / "web" / "dist"
