@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { focusFor, layerOpacity, lodForDistance, sectionTransform, SECTION_SIZE } from "./lod";
+import {
+  cameraStep,
+  focusFor,
+  layerOpacity,
+  lodForDistance,
+  manualLod,
+  sectionTransform,
+  SECTION_SIZE,
+} from "./lod";
 import { LODS } from "../types";
-import type { Lod, Vec3 } from "../types";
+import type { CameraState, Lod, Vec3 } from "../types";
 
 const RAT_BOUNDS: [Vec3, Vec3] = [
   [-9.5, 0, -9.5],
@@ -92,5 +100,83 @@ describe("lodForDistance", () => {
       const d = focusDistance(lod, bounds, ANCHOR);
       expect(lodForDistance(d, bounds)).toBe(lod);
     }
+  });
+});
+
+describe("manualLod", () => {
+  it("is lodForDistance when a sample is loaded", () => {
+    for (const lod of LODS) {
+      const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
+      expect(manualLod(d, RAT_BOUNDS, true)).toBe(lod);
+    }
+  });
+
+  it("collapses section and cell to organ with no sample to show there", () => {
+    for (const lod of ["section", "cell"] as const) {
+      const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
+      expect(manualLod(d, RAT_BOUNDS, false)).toBe("organ");
+    }
+  });
+
+  it("leaves the levels that need no sample alone", () => {
+    for (const lod of ["orbit", "organ"] as const) {
+      const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
+      expect(manualLod(d, RAT_BOUNDS, false)).toBe(lod);
+    }
+  });
+});
+
+describe("cameraStep", () => {
+  const PINNED: CameraState = { position: [1, 2, 3], target: [0, 0, 0] };
+
+  const step = (patch: Partial<Parameters<typeof cameraStep>[0]> = {}) =>
+    cameraStep({
+      flyRequest: 1,
+      placedFor: null,
+      bounds: RAT_BOUNDS,
+      lod: "section",
+      anchor: ANCHOR,
+      storedCamera: null,
+      ...patch,
+    });
+
+  it("is settled only once the camera has been placed for this navigation", () => {
+    expect(step({ flyRequest: 4, placedFor: 4 })).toEqual({ kind: "settled" });
+    expect(step({ flyRequest: 4, placedFor: 3 }).kind).toBe("fly");
+  });
+
+  // The regression: with anatomy still in flight there is nowhere to fly, and the
+  // camera is still at the R3F default. Reporting "settled" here is what let the
+  // rig read "orbit" off that default and throw away the URL's level.
+  it("waits — never settles — while anatomy has not landed", () => {
+    expect(step({ bounds: null })).toEqual({ kind: "wait" });
+    expect(step({ bounds: null, flyRequest: 9, placedFor: 2 })).toEqual({ kind: "wait" });
+  });
+
+  it("stays settled after the anatomy-less wait once the fly has happened", () => {
+    // Cold load asking for section: wait, wait, fly, then settled forever.
+    expect(step({ bounds: null, placedFor: null }).kind).toBe("wait");
+    const flight = step({ bounds: RAT_BOUNDS, placedFor: null });
+    expect(flight).toEqual({ kind: "fly", focus: focusFor({ lod: "section", bounds: RAT_BOUNDS, anchor: ANCHOR }) });
+    expect(step({ placedFor: 1 })).toEqual({ kind: "settled" });
+  });
+
+  it("flies to the framing the store's level and anchor ask for", () => {
+    const flight = step({ lod: "organ", placedFor: 0 });
+    expect(flight).toEqual({
+      kind: "fly",
+      focus: focusFor({ lod: "organ", bounds: RAT_BOUNDS, anchor: ANCHOR }),
+    });
+  });
+
+  it("snaps to a shared link's pinned camera on the page's first navigation", () => {
+    expect(step({ storedCamera: PINNED })).toEqual({ kind: "snap", camera: PINNED });
+    // Even before anatomy: the link already says exactly where to be.
+    expect(step({ storedCamera: PINNED, bounds: null })).toEqual({ kind: "snap", camera: PINNED });
+  });
+
+  it("flies rather than snapping once a navigation has already been served", () => {
+    // `camera` in the store is now our own settled report, not the link's request.
+    expect(step({ storedCamera: PINNED, placedFor: 0 }).kind).toBe("fly");
   });
 });

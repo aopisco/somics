@@ -6,7 +6,7 @@
  * definition of "where things are" without importing three.js here.
  */
 
-import type { Lod, Vec3 } from "../types";
+import type { CameraState, Lod, Vec3 } from "../types";
 
 export interface LayerOpacity {
   world: number;
@@ -116,4 +116,64 @@ export function lodForDistance(distance: number, bounds: [Vec3, Vec3]): Lod {
   if (distance <= sectionOrgan) return "section";
   if (distance <= organOrbit) return "organ";
   return "orbit";
+}
+
+/**
+ * The level a manual orbit/wheel zoom lands on. Section and cell have nothing to
+ * draw without a loaded sample, so with none they collapse to organ rather than
+ * emptying the screen.
+ */
+export function manualLod(distance: number, bounds: [Vec3, Vec3], hasSample: boolean): Lod {
+  const lod = lodForDistance(distance, bounds);
+  if (!hasSample && (lod === "section" || lod === "cell")) return "organ";
+  return lod;
+}
+
+/**
+ * What the rig owes the camera this frame.
+ *
+ * - `settled` — the camera has already been placed for the navigation in hand, so
+ *   deriving a level from its distance is safe.
+ * - `wait` — a move is owed but there is nowhere to move to yet. The camera is
+ *   stale; nothing may read a level off it.
+ * - `snap` — put the camera exactly here, no tween.
+ * - `fly` — tween the camera to this framing.
+ */
+export type CameraStep =
+  | { kind: "settled" }
+  | { kind: "wait" }
+  | { kind: "snap"; camera: CameraState }
+  | { kind: "fly"; focus: Focus };
+
+export interface NavigationInput {
+  /** The current navigation, counted up by the store on every explicit move. */
+  flyRequest: number;
+  /** The `flyRequest` the camera has already been placed for; null before any. */
+  placedFor: number | null;
+  /** null until `/api/anatomy` lands. */
+  bounds: [Vec3, Vec3] | null;
+  lod: Lod;
+  anchor: Vec3 | null;
+  /** The camera a shared link pinned. Honoured only for the page's first navigation. */
+  storedCamera: CameraState | null;
+}
+
+/**
+ * Decides, without touching three.js, whether the camera still owes the current
+ * navigation a move.
+ *
+ * This is the rule the rig got wrong: a level may only be derived from the camera's
+ * distance once the camera has been placed for the navigation in hand. Until then —
+ * including while the move is blocked on anatomy that has not arrived — the camera
+ * is still sitting wherever the previous navigation or the R3F default left it, and
+ * reading a level off it overwrites the level that asked for the move.
+ */
+export function cameraStep(input: NavigationInput): CameraStep {
+  const { flyRequest, placedFor, bounds, lod, anchor, storedCamera } = input;
+  if (placedFor === flyRequest) return { kind: "settled" };
+  // A shared link's exact camera outranks the level's default framing, but only for
+  // the state the page opened on; every later navigation flies.
+  if (placedFor === null && storedCamera) return { kind: "snap", camera: storedCamera };
+  if (!bounds) return { kind: "wait" };
+  return { kind: "fly", focus: focusFor({ lod, bounds, anchor }) };
 }

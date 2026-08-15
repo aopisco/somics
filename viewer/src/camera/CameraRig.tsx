@@ -3,21 +3,30 @@
  * navigation, lets the user always orbit/wheel-zoom, and reports both the
  * settled camera and manual-zoom level changes back to the store.
  *
- * `flyRequest` is the only store field this component subscribes to
- * reactively. setCamera/setLod (below) never touch flyRequest, so writing
- * them back into the store can't loop into another tween — everything else
- * (lod, node, sample, species, anatomy, camera) is read imperatively via
- * `useStore.getState()` at the moment it's needed.
+ * Every one of those jobs runs in the frame loop, deliberately. The rig both moves
+ * the camera and reads a level back off where the camera is, and the two only agree
+ * if the read never happens before the move. Starting the move from a `useEffect`
+ * did not give that: `useFrame` subscribes in a layout effect, so a rAF can land
+ * between the commit and React flushing passive effects. The level-from-distance
+ * read then fired against the un-flown default camera (35 units out, i.e. "orbit")
+ * and overwrote the level in the URL that had asked for the fly — after which the
+ * fly, running a frame later, flew to that overwritten level. Sequencing the whole
+ * thing inside one `useFrame` is what stops it; `cameraStep` holds the rule.
+ *
+ * No store write here can loop back into another move: setCamera/setLod never touch
+ * `flyRequest`. It is read imperatively per frame rather than subscribed to, as is
+ * everything else (lod, node, sample, species, anatomy, camera) — this component
+ * has no reason to re-render.
  */
 
 import { OrbitControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { JSX } from "react";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
-import { focusFor, lodForDistance, TWEEN_SECONDS } from "./lod";
+import { cameraStep, manualLod, TWEEN_SECONDS } from "./lod";
 import { selectOrgan, useStore } from "../state";
 import type { CameraState, Vec3 } from "../types";
 import { easeInOutCubic } from "../whimsy/motion";
@@ -54,45 +63,50 @@ export function CameraRig(): JSX.Element {
   const { camera } = useThree();
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const tweenRef = useRef<Tween | null>(null);
-  const skipNextTweenRef = useRef(false);
-  const flyRequest = useStore((s) => s.flyRequest);
-
-  // A shared link's exact camera wins over a tween on load; consumed so the
-  // paired effect below doesn't also fly for that same initial flyRequest.
-  useEffect(() => {
-    const stored = useStore.getState().camera;
-    const controls = controlsRef.current;
-    if (stored && controls) {
-      camera.position.set(...stored.position);
-      controls.target.set(...stored.target);
-      controls.update();
-      skipNextTweenRef.current = true;
-    }
-  }, [camera]);
-
-  useEffect(() => {
-    if (skipNextTweenRef.current) {
-      skipNextTweenRef.current = false;
-      return;
-    }
-    const controls = controlsRef.current;
-    const bounds = currentBounds();
-    if (!controls || !bounds) return;
-
-    const focus = focusFor({ lod: useStore.getState().lod, bounds, anchor: currentAnchor() });
-    tweenRef.current = {
-      fromPosition: camera.position.clone(),
-      fromTarget: controls.target.clone(),
-      toPosition: new THREE.Vector3(...focus.position),
-      toTarget: new THREE.Vector3(...focus.target),
-      elapsed: 0,
-    };
-  }, [flyRequest, camera]);
+  /** The `flyRequest` the camera has already been placed for; null before any. */
+  const placedForRef = useRef<number | null>(null);
 
   useFrame((state, delta) => {
     const controls = controlsRef.current;
     if (!controls) return;
     const activeCamera = state.camera;
+    const store = useStore.getState();
+    const bounds = currentBounds();
+
+    const step = cameraStep({
+      flyRequest: store.flyRequest,
+      placedFor: placedForRef.current,
+      bounds,
+      lod: store.lod,
+      anchor: currentAnchor(),
+      storedCamera: store.camera,
+    });
+
+    switch (step.kind) {
+      case "wait":
+        // Anatomy has not landed, so there is nowhere to fly and nothing may read
+        // the camera. Sit still; a later frame picks the same navigation back up.
+        return;
+      case "snap":
+        placedForRef.current = store.flyRequest;
+        tweenRef.current = null;
+        activeCamera.position.set(...step.camera.position);
+        controls.target.set(...step.camera.target);
+        controls.update();
+        return;
+      case "fly":
+        placedForRef.current = store.flyRequest;
+        tweenRef.current = {
+          fromPosition: activeCamera.position.clone(),
+          fromTarget: controls.target.clone(),
+          toPosition: new THREE.Vector3(...step.focus.position),
+          toTarget: new THREE.Vector3(...step.focus.target),
+          elapsed: 0,
+        };
+        break;
+      case "settled":
+        break;
+    }
 
     const tween = tweenRef.current;
     if (tween) {
@@ -105,21 +119,20 @@ export function CameraRig(): JSX.Element {
       controls.update();
       if (tween.elapsed >= TWEEN_SECONDS) {
         tweenRef.current = null;
-        useStore.getState().setCamera(readCameraState(activeCamera, controls));
+        store.setCamera(readCameraState(activeCamera, controls));
       }
       return;
     }
 
-    const bounds = currentBounds();
+    // Settled: the camera is where this navigation put it, so the level may follow
+    // wherever the user has since orbited or wheeled it to.
     if (!bounds) return;
     const distance = activeCamera.position.distanceTo(controls.target);
-    let lod = lodForDistance(distance, bounds);
-    const { sample, lod: storeLod, setLod } = useStore.getState();
-    // Manual zoom can't reach section/cell without a loaded sample to show there.
-    if (!sample && (lod === "section" || lod === "cell")) lod = "organ";
-    if (lod !== storeLod) setLod(lod);
+    const lod = manualLod(distance, bounds, store.sample !== null);
+    if (lod !== store.lod) store.setLod(lod);
   });
 
+  // The user grabbing the controls outranks a fly in progress.
   const handleTweenInterrupt = () => {
     tweenRef.current = null;
   };
