@@ -49,20 +49,25 @@ Violating one fails review regardless of anything else.
    no index on that column. Do not "optimise" it.
 2. **Measured data is never decorated.** Cell colours are viridis (counts) and magma (gene). The warm
    golden-hour palette is scene-only. Do not colour data with the scene palette or vice versa.
-3. **The species-mismatch note stays visible.** The atlas's one sample is human; the default body is a
+3. **The live R2 atlas is the viewer's only data source.** Confirmed by the user on 2026-08-15, after
+   `data/datasets.csv` and `data/model_dataset_usage.csv` landed on main: "r2 only". Do not blend,
+   fall back to, or seed the body from `literature_datasets.csv`, `datasets.csv`, or any other CSV.
+   The atlas holds one sample, so one organ lights and 29 render as inert sockets — that is correct
+   and intended, not a gap to paper over.
+4. **The species-mismatch note stays visible.** The atlas's one sample is human; the default body is a
    rat. The panel says so explicitly. Do not hide it, and do not silently force the body to match.
-4. **Bodies stay procedural — no body/organ asset files.** Silhouettes are signed-distance functions
+5. **Bodies stay procedural — no body/organ asset files.** Silhouettes are signed-distance functions
    voxelized at runtime; this is a deliberate licensing decision from the previous author. No model
    files for bodies or organs.
    **Amended 2026-08-15 by the user:** the sky backdrop is exempt. Task 5 uses a real 360
    equirectangular photograph. It must be **CC0 or public domain** (Poly Haven is CC0 and is the
    expected source) — check the licence before committing, and record it in the repo. Nothing else in
    this constraint changes.
-5. **Verify visually, and say what you saw.** Every task here changes what is on screen. "137 tests
+6. **Verify visually, and say what you saw.** Every task here changes what is on screen. "137 tests
    pass" is not evidence that a visual bug is fixed.
-6. **Green gates:** `npx tsc --noEmit` clean, `npm run test` passing, and for Python changes
+7. **Green gates:** `npx tsc --noEmit` clean, `npm run test` passing, and for Python changes
    `uv run ruff check src/`, `uv run ruff format --check src/`, `uv run pytest src/somics/viewer`.
-7. Tests live alongside source (`foo.ts` -> `foo.test.ts`). Type hints throughout on Python.
+8. Tests live alongside source (`foo.ts` -> `foo.test.ts`). Type hints throughout on Python.
 
 ## Task 1: Stop the LOD/camera feedback loop
 
