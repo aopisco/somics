@@ -1,6 +1,6 @@
 ---
 name: harvest-datasets
-description: Run a Paperclip literature search, extract the spatial omics datasets each paper reports, and add them to data/literature_datasets.csv in the somics repo on a new git branch with a PR. Use this whenever the user wants to grow the dataset inventory from the literature — phrases like "search for X and add it to the inventory", "harvest datasets on spatial proteomics", "run another literature search", "add these papers' datasets to the CSV", or any request to expand, extend, or top up the literature dataset table. Also use when the user names a modality, platform, tissue, or disease and wants to know what datasets the literature reports for it, since the answer belongs in the inventory rather than in chat. Do not use for reading a single paper, or for st_corpus.csv, which is the TERRA sample corpus and is maintained separately.
+description: Run a Paperclip literature search, extract the spatial omics datasets each paper reports, and add them to data/literature_datasets.csv in the somics repo (committed to main per team practice). Use this whenever the user wants to grow the dataset inventory from the literature — phrases like "search for X and add it to the inventory", "harvest datasets on spatial proteomics", "run another literature search", "add these papers' datasets to the CSV", or any request to expand, extend, or top up the literature dataset table. Also use when the user names a modality, platform, tissue, or disease and wants to know what datasets the literature reports for it, since the answer belongs in the inventory rather than in chat. Do not use for reading a single paper, or for st_corpus.csv, which is the TERRA sample corpus and is maintained separately.
 ---
 
 # Harvest datasets from the literature
@@ -38,13 +38,16 @@ Blank is a legitimate value and is much better than a guess. A blank `disease` m
 
 ### 0. Preflight
 
-Confirm a clean tree before touching anything — this workflow ends in a commit, and mixing it with unrelated work in progress makes the PR unreviewable.
+Confirm a clean tree before touching anything — this workflow ends in a commit straight to main, and mixing it with unrelated work in progress makes the diff unreviewable.
 
 ```bash
 cd ~/src/somics
-git status --short          # expect empty
-git checkout main && git pull
+git status --short                    # expect empty
+git checkout main
+git pull --ff-only origin main        # ALWAYS start from current origin/main
 ```
+
+Parallel sessions land commits on main frequently. Starting stale is how pushes get rejected later, so the pull is not optional.
 
 ### 1. Search
 
@@ -86,11 +89,11 @@ Turn the output into a JSON array of row objects, one per dataset, and fill `sou
 
 `map` is an AI reader, so treat its output as a draft. Papers that report no datasets are common and should produce zero rows rather than a speculative one — a methods paper that mentions Visium in passing did not contribute a dataset.
 
-### 4. Append on a branch
+### 4. Append
+
+Work directly on main — no feature branch.
 
 ```bash
-git checkout -b lit/spatial-proteomics-$(date +%Y-%m-%d)
-
 python scripts/append_datasets.py \
   --rows /tmp/extracted.json \
   --sheet data/literature_datasets.csv \
@@ -99,38 +102,40 @@ python scripts/append_datasets.py \
 
 The script refuses rows whose `source_paper_id` is already present, normalizes `platform` against the controlled vocabulary, validates column order, and prints a summary. If it rejects rows, read the reason before overriding — `--force` exists for the case where you deliberately want to re-mine a paper with a better prompt, and you should delete that paper's old rows first if so.
 
-### 5. Commit, push, PR
+### 5. Commit and push
+
+Team practice for this repo (decided 2026-08-15): harvest commits go to main
+directly rather than through a PR. The provenance that used to live in the PR
+description — queries, result ID, hit/new split, caveats — goes in the commit
+message body instead:
 
 ```bash
 git add data/literature_datasets.csv
-git commit -m "lit: +37 datasets from 18 papers (spatial proteomics)"
-git push -u origin HEAD
-```
+git commit -m "$(cat <<'EOF'
+lit: +37 datasets from 18 papers (spatial proteomics)
 
-Then open the PR. If the `gh` CLI is available:
-
-```bash
-gh pr create --title "lit: spatial proteomics harvest" --body "$(cat <<'EOF'
-## Queries
+Queries:
 - "spatial proteomics imaging mass cytometry atlas"
 - "CODEX multiplexed imaging tissue dataset"
 - "MIBI-TOF spatial single cell"
 
 Result ID: s_abc123
-
-## Result
-62 hits · 18 new papers · 37 dataset rows added (1028 -> 1065)
-
-## Notes
-- 4 papers reported no datasets
-- 2 rows have blank n_samples (not stated in source)
+62 hits · 18 new papers · 37 rows added (1028 -> 1065)
+4 papers reported no datasets; 2 rows blank n_samples (not stated)
 EOF
 )"
+
+git fetch origin && git rebase origin/main
+git push origin HEAD:main
 ```
 
-`gh` is often not installed — check with `command -v gh` rather than assuming, and don't treat its absence as a failure. Pushing a new branch makes GitHub print a `pull/new/<branch>` URL in the push output; surface that link to the user along with the PR body as text they can paste. The work is already safely on the remote either way, so the PR step should never block the run.
+Main moves often — parallel sessions land commits throughout the day — so
+rebase onto origin/main immediately before the push. If the push is rejected
+anyway, fetch and rebase again; do not force-push and do not merge.
 
-Whichever route, put the queries and the result ID in the description. Six weeks from now the only way to know why a row exists is that text, and a reviewer's first question is always "where did these come from."
+Six weeks from now the only way to know why a row exists is that commit
+message, and a reviewer's first question is always "where did these come
+from" — keep the queries and the result ID in it.
 
 ## Platform normalization
 
