@@ -10,8 +10,20 @@ Tools for working with spatial omics datasets.
 `data/literature_datasets.csv` is a literature-derived inventory of spatial omics datasets (1,028 rows),
 compiled from a paperclip full-text search of 983 papers on spatial transcriptomics/proteomics plus the
 dataset inventories of the TERRA, VirTues (spora corpus), and KRONOS foundation-model papers. Each row is
-one dataset as reported by one source paper: platform, modality, species, tissue, disease, sample count,
-data access link, whether the paper generated or reused it, and the source paper's title/DOI/year.
+one dataset as reported by one source paper (claim-level): platform, modality, species, tissue, disease,
+sample count, data access link, whether the paper generated or reused it, and the source paper's
+title/DOI/year. This is the raw extraction that feeds the curated tables below.
+
+`data/datasets.csv` is the curated dataset registry: **one row per dataset**, referenced by its
+**original publication** — the paper that first released the data. When data debuted in a model paper
+(e.g. TERRA's in-house Xenium pancreas), that model paper is the original reference
+(`first_published_by_model_paper = yes`). Vendor datasets (10x, Bruker) carry the vendor page as their
+reference. Rows are resolved by tracing each analyzing paper's dataset table to the cited original
+publication (see `docs/`).
+
+`data/model_dataset_usage.csv` tracks which model papers use which datasets (many-to-many):
+model, dataset_id, usage type (pretraining / benchmark / analysis), and the dataset's alias in the
+model paper (e.g. DRIFT's "10xHPC" = the spatialLIBD DLPFC dataset).
 
 ## Data access
 

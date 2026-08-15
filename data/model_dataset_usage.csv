@@ -1,0 +1,57 @@
+model,model_paper_title,model_paper_link,dataset_id,usage,alias_in_model_paper
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,maynard2021_dlpfc_visium,"benchmark (annotation, clustering)",10xHPC
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,villacampa2021_ovarian_visium,benchmark (alignment),10xHOC
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,mirzazadeh2023_smallintestine_visium,benchmark (alignment),10xHSI
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,farah2024_developing_heart_merfish,"benchmark (annotation, clustering)",MERHH
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,moffitt2018_preoptic_merfish,"benchmark (annotation, clustering)",MERMPH
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,zhang2023_whole_mouse_brain_merfish,"benchmark (annotation, clustering)",MERMB
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,allen2023_aging_brain_merfish,"benchmark (annotation, clustering)",MERMBA
+DRIFT,Diffusion-based Representation Integration for Foundation Models Improves Spatial Transcriptomics Analysis,https://doi.org/10.1101/2025.11.20.689624,chen2022_mosta_stereoseq,"benchmark (alignment, 3D reconstruction)",StereoME
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,bruker_cosmx_nsclc_ffpe,"benchmark (niche identification, held-out donors)",
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,10x_xenium_prime_skin_melanoma,benchmark (held-out dataset),
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,terra_iss_cartana_reproductive_tract,benchmark (held-out assay),
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,terra_xenium_skin_atlas,analysis (niche labeling),
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,terra_xenium_fetal_pancreas,analysis (developmental),
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,terra_xenium_adult_pancreas_npod,analysis (fetal-to-adult comparison),
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,cellxgene_mouse_brain_merfish_benchmark,"benchmark (mouse brain, ablations)",
+TERRA,Multi-scale modeling of human tissues from spatial transcriptomics with TERRA,https://doi.org/10.64898/2026.07.29.741565,zenodo_starmap_mouse_brain_benchmark,"benchmark (mouse brain, ablations)",
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,allam2022spatially,pretraining corpus (spora),allam2022spatially
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,borner2025collection,pretraining corpus (spora),borner2025collection
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,cho2025modeling,pretraining corpus (spora),cho2025modeling
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,cords2023cancer,pretraining corpus (spora),cords2023cancer
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,cords2024cancer,pretraining corpus (spora),cords2024cancer
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,damond2019map,pretraining corpus (spora),damond2019map
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,danenberg2022breast,pretraining corpus (spora),danenberg2022breast
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,ehret2025shaking,pretraining corpus (spora),ehret2025shaking
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,fischer2023multiplex,pretraining corpus (spora),fischer2023multiplex
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,gupta2026single,pretraining corpus (spora),gupta2026single
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,hickey2023organization,pretraining corpus (spora),hickey2023organization
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,hoch2022multiplexed,pretraining corpus (spora),hoch2022multiplexed
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,hu2023single,pretraining corpus (spora),hu2023single
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,jackson2020single,pretraining corpus (spora),jackson2020single
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,lin2022multiplexed,pretraining corpus (spora),lin2022multiplexed
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,lin2023high,pretraining corpus (spora),lin2023high
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,liu2022reproducible,pretraining corpus (spora),liu2022reproducible
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,malchiodi2024natural,pretraining corpus (spora),malchiodi2024natural
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,meyer2025stratification,pretraining corpus (spora),meyer2025stratification
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,moldoveanu2022spatially,pretraining corpus (spora),moldoveanu2022spatially
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,monkman2024spatial,pretraining corpus (spora),monkman2024spatial
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,phillips2021immune,pretraining corpus (spora),phillips2021immune
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,rigamonti2024integrating,pretraining corpus (spora),rigamonti2024integrating
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,ruf2023tumor,pretraining corpus (spora),ruf2023tumor
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,rumberger2025automated,pretraining corpus (spora),rumberger2025automated
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,salie2025spatial,pretraining corpus (spora),salie2025spatial
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,schulz2018simultaneous,pretraining corpus (spora),schulz2018simultaneous
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,schulz2024immucan,pretraining corpus (spora),schulz2024immucan
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,schurch2020coordinated,pretraining corpus (spora),schurch2020coordinated
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,xiao2022multiplexed,pretraining corpus (spora),xiao2022multiplexed
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,zhuhuman2025spatial,pretraining corpus (spora),zhuhuman2025spatial
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,hubmap_spleen_thymus_codex,pretraining,
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,immunoatlas,pretraining,
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,ibex_zenodo_5244551,pretraining,
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,celldive_idr,pretraining,
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,kronos_private_cohorts,pretraining,
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,shaban2024_chl_codex,"benchmark (cell phenotyping, cHL)",
+KRONOS,A Foundation Model for Spatial Proteomics,https://doi.org/10.48550/arXiv.2506.03373,yeo2024_dlbcl_multiomics,"benchmark (cell phenotyping, DLBCL-1/DLBCL-2)",
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,cords2024cancer,"benchmark (subtyping/grading, lung)",Cords et al. 42
+VirTues,The Virtual Tissues foundation model resolves spatial proteomics across scales,https://doi.org/10.1038/s41586-026-10884-y,danenberg2022breast,"benchmark (ER status/grading, survival)",Danenberg et al. 6
