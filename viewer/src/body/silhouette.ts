@@ -132,8 +132,36 @@ function ratParts(): Sdf[] {
   return parts;
 }
 
+/** Fins are flat sheets, but a sheet thinner than a voxel falls between grid samples
+ *  and disappears. 0.2 half-thickness is under a voxel wide once rendered and still
+ *  catches a sample whatever phase the grid lands on (worst case is half a voxel,
+ *  0.13, from the fin plane).
+ */
+const FIN_HALF_THICKNESS = 0.2;
+
+function zebrafishParts(): Sdf[] {
+  const parts: Sdf[] = [
+    ellipsoid(0.6, 2.65, 0, 6.4, 1.5, 0.85), // fusiform trunk
+    ellipsoid(5.9, 2.7, 0, 2.6, 1.25, 0.78), // head
+    ellipsoid(7.9, 2.5, 0, 1.2, 0.72, 0.5), // snout
+    ellipsoid(-6.0, 2.6, 0, 1.9, 0.62, 0.34), // caudal peduncle, narrow before the tail
+    // Forked caudal fin: two lobes splaying off the peduncle.
+    ellipsoid(-8.1, 3.4, 0, 1.5, 0.8, FIN_HALF_THICKNESS),
+    ellipsoid(-8.1, 1.8, 0, 1.5, 0.8, FIN_HALF_THICKNESS),
+    ellipsoid(-2.6, 4.3, 0, 1.9, 0.95, FIN_HALF_THICKNESS), // dorsal fin
+    ellipsoid(-3.4, 1.15, 0, 1.6, 0.75, FIN_HALF_THICKNESS), // anal fin
+  ];
+  for (const side of [-1, 1]) {
+    parts.push(sphere(6.7, 3.0, 0.55 * side, 0.45)); // eye bulge — the head is mostly eye
+    parts.push(ellipsoid(4.3, 1.9, 0.62 * side, 1.0, 0.5, FIN_HALF_THICKNESS)); // pectoral fin
+    parts.push(ellipsoid(1.6, 1.25, 0.4 * side, 0.8, 0.4, FIN_HALF_THICKNESS)); // pelvic fin
+  }
+  return parts;
+}
+
 export function bodySdf(species: Species): (x: number, y: number, z: number) => number {
-  const parts = species === "human" ? humanParts() : ratParts();
+  const parts =
+    species === "human" ? humanParts() : species === "zebrafish" ? zebrafishParts() : ratParts();
   return (x, y, z) => {
     let min = Infinity;
     for (const part of parts) {

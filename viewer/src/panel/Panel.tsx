@@ -14,7 +14,11 @@ import type { OrganNode, Sample, Species } from "../types";
 import "./Panel.css";
 import { formatCount, formatExtent, humanizeKey } from "./format";
 
-const SPECIES_LABEL: Record<Species, string> = { human: "human", rat: "rat" };
+const SPECIES_LABEL: Record<Species, string> = {
+  human: "human",
+  rat: "rat",
+  zebrafish: "zebrafish",
+};
 
 export function Panel(): JSX.Element {
   const store = useStore();

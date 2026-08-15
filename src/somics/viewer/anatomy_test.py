@@ -37,11 +37,42 @@ def test_every_organ_sits_inside_its_body(species):
 
 
 @pytest.mark.parametrize("species", SPECIES)
+def test_every_organ_is_authored_for_every_body(species):
+    """Every body carries all 30 sockets, so a sample can pin onto any of them.
+
+    A fish has no prostate, but the socket is authored anyway at the nearest plausible
+    structure — an organ missing for one species would make that sample's pin vanish
+    when the body is swapped.
+    """
+    for organ in ORGANS:
+        assert organ.authored(species), f"{organ.node_id} has no {species} geometry"
+
+
+@pytest.mark.parametrize("species", SPECIES)
+def test_no_organ_blob_pokes_out_of_the_body_box(species):
+    """Blobs are voxelized inside `BODY_BOUNDS`, so anything outside it is clipped away."""
+    low, high = BODY_BOUNDS[species]
+    for organ in ORGANS:
+        for blob in organ.blobs(species):
+            for axis in range(3):
+                assert low[axis] <= blob.center[axis] - blob.size[axis], (
+                    f"{organ.node_id} axis {axis} runs past the low {species} bound"
+                )
+                assert blob.center[axis] + blob.size[axis] <= high[axis], (
+                    f"{organ.node_id} axis {axis} runs past the high {species} bound"
+                )
+
+
+def test_authored_rejects_unknown_species():
+    with pytest.raises(ValueError, match="unknown species"):
+        ORGANS[0].authored("axolotl")
+
+
+@pytest.mark.parametrize("species", SPECIES)
 def test_mirrored_organs_come_in_pairs(species):
     for organ in ORGANS:
         if organ.mirror:
-            authored = organ.human if species == "human" else organ.rat
-            assert len(organ.blobs(species)) == 2 * len(authored)
+            assert len(organ.blobs(species)) == 2 * len(organ.authored(species))
 
 
 @pytest.mark.parametrize("species", SPECIES)
@@ -121,6 +152,13 @@ def test_atlas_v0_tissue_resolves():
         ("minor salivary glands", "tongue"),
         ("oral squamous cell carcinoma", "tongue"),
         ("gastric cancer", "stomach"),
+        # Fish respiratory anatomy routes to the lung socket; nothing else fits it.
+        ("gill", "lung"),
+        ("gills", "lung"),
+        ("swim bladder", "lung"),
+        # ...without stealing the urinary bladder's own labels.
+        ("bladder", "bladder"),
+        ("urinary bladder", "bladder"),
     ],
 )
 def test_literature_tissue_labels_route_to_an_organ(tissue, expected):

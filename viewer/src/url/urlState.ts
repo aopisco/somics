@@ -7,12 +7,11 @@
 import { useEffect, useRef } from "react";
 
 import { useStore, viewerState } from "../state";
-import { BUDGET_RANGE, DEFAULT_STATE, LODS, PIXEL_RANGE } from "../types";
+import { BUDGET_RANGE, DEFAULT_STATE, LODS, PIXEL_RANGE, SPECIES } from "../types";
 import type { CameraState, Lod, Paint, Species, Vec3, ViewerState } from "../types";
 
-// Kept in sync with the `Species`/`Paint` unions in types.ts by hand — those
-// types have no exported value arrays (unlike `LODS`) to validate against.
-const SPECIES_VALUES: readonly Species[] = ["human", "rat"];
+// Kept in sync with the `Paint` union in types.ts by hand — it has no exported value
+// array (unlike `LODS` and `SPECIES`) to validate against.
 const PAINT_VALUES: readonly Paint[] = ["counts", "gene"];
 
 const WRITE_THROTTLE_MS = 250; // ~4 writes/sec
@@ -91,7 +90,7 @@ export function decodeState(hash: string): ViewerState {
   const params = parseParams(extractFragment(hash));
 
   const sp = params.get("sp");
-  const species = sp !== undefined && (SPECIES_VALUES as readonly string[]).includes(sp) ? (sp as Species) : DEFAULT_STATE.species;
+  const species = sp !== undefined && (SPECIES as readonly string[]).includes(sp) ? (sp as Species) : DEFAULT_STATE.species;
 
   const lod = params.get("lod");
   const resolvedLod = lod !== undefined && (LODS as readonly string[]).includes(lod) ? (lod as Lod) : DEFAULT_STATE.lod;

@@ -1,6 +1,10 @@
 /** Shared contracts between the API, the scene graph, and the URL. */
 
-export type Species = "human" | "rat";
+export type Species = "human" | "rat" | "zebrafish";
+
+/** The union as a value, so validators do not each keep their own hand-typed copy.
+ *  Order is the order the body chips appear in. */
+export const SPECIES: Species[] = ["rat", "human", "zebrafish"];
 
 /** Zoom levels, outermost first. The camera crossfades between them by distance. */
 export type Lod = "orbit" | "organ" | "section" | "cell";

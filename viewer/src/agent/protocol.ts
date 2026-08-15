@@ -3,6 +3,7 @@
 import {
   BUDGET_RANGE,
   PIXEL_RANGE,
+  SPECIES,
   type Lod,
   type Paint,
   type Species,
@@ -16,7 +17,6 @@ export interface ControlMessage {
   actor: string | null;
 }
 
-const SPECIES_VALUES: readonly Species[] = ["human", "rat"];
 const LOD_VALUES: readonly Lod[] = ["orbit", "organ", "section", "cell"];
 const PAINT_VALUES: readonly Paint[] = ["counts", "gene"];
 
@@ -56,7 +56,7 @@ export function sanitizePatch(patch: unknown): Partial<ViewerState> {
   const out: Partial<ViewerState> = {};
 
   if (patch.species !== undefined) {
-    if (SPECIES_VALUES.includes(patch.species as Species)) out.species = patch.species as Species;
+    if (SPECIES.includes(patch.species as Species)) out.species = patch.species as Species;
   }
   if (patch.lod !== undefined) {
     if (LOD_VALUES.includes(patch.lod as Lod)) out.lod = patch.lod as Lod;

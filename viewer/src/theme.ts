@@ -46,7 +46,8 @@ export const MARKER = {
  *
  * Measured against the real anatomy payload: at 0.42 the smaller organs (eye, adrenal,
  * tonsil) round away to zero voxels and vanish; 0.26 gives every organ at least two and
- * the heart ~44, for ~3.7k cubes on the rat and ~5.3k on the human. Going finer reads as
- * smooth rather than pixelated and costs cubes for nothing.
+ * the heart ~44, for ~3.7k cubes on the rat, ~5.2k on the human and ~2.3k on the
+ * zebrafish. Going finer reads as smooth rather than pixelated and costs cubes for
+ * nothing.
  */
 export const VOXEL = 0.26;
