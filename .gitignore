@@ -9,6 +9,13 @@ dist/
 .venv/
 .env
 
+# Node
+node_modules/
+
+# Agent scratch
+.superpowers/
+.claude/claude-messages/
+
 # Tooling caches
 .ruff_cache/
 .pytest_cache/
@@ -16,3 +23,4 @@ dist/
 
 # OS
 .DS_Store
+data/downloads/

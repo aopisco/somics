@@ -2,14 +2,28 @@
 
 Tools for working with spatial omics datasets.
 
+📊 [Team slide deck](https://docs.google.com/presentation/d/1JAx5EtSJxe9Zc3rZCMGvH3-RoAFuo6U96toq0wJD7nE/) — project overview and paperclip demo (see also [docs/demo](docs/demo)).
+
 `data/st_corpus.csv` holds the sample corpus of spatial transcriptomics datasets and their metadata
 (this matches the TERRA supplementary table, doi:10.64898/2026.07.29.741565).
 
 `data/literature_datasets.csv` is a literature-derived inventory of spatial omics datasets (1,028 rows),
 compiled from a paperclip full-text search of 983 papers on spatial transcriptomics/proteomics plus the
 dataset inventories of the TERRA, VirTues (spora corpus), and KRONOS foundation-model papers. Each row is
-one dataset as reported by one source paper: platform, modality, species, tissue, disease, sample count,
-data access link, whether the paper generated or reused it, and the source paper's title/DOI/year.
+one dataset as reported by one source paper (claim-level): platform, modality, species, tissue, disease,
+sample count, data access link, whether the paper generated or reused it, and the source paper's
+title/DOI/year. This is the raw extraction that feeds the curated tables below.
+
+`data/datasets.csv` is the curated dataset registry: **one row per dataset**, referenced by its
+**original publication** — the paper that first released the data. When data debuted in a model paper
+(e.g. TERRA's in-house Xenium pancreas), that model paper is the original reference
+(`first_published_by_model_paper = yes`). Vendor datasets (10x, Bruker) carry the vendor page as their
+reference. Rows are resolved by tracing each analyzing paper's dataset table to the cited original
+publication (see `docs/`).
+
+`data/model_dataset_usage.csv` tracks which model papers use which datasets (many-to-many):
+model, dataset_id, usage type (pretraining / benchmark / analysis), and the dataset's alias in the
+model paper (e.g. DRIFT's "10xHPC" = the spatialLIBD DLPFC dataset).
 
 ## Data access
 
@@ -59,6 +73,22 @@ shape and `np.stack(crops)` works directly. Crops are stored as `uint16` but rea
 back as `float32`. Use `he_crop` in place of `morphology_crop` for H&E, and check
 the `has_he_crop` / `has_morphology_crop` flags before requesting either — not
 every section carries both.
+
+## Viewer
+
+`viewer/` is a 3D browser view of the atlas: a low-resolution voxel rat or human standing in a grass
+field, with a pin on every organ the atlas holds data for. Clicking a pin flies the camera inward
+through four zoom levels, ending on the section's individual cells and its morphology imagery. Every
+view is a URL, so a copied link reopens exactly what you were looking at, and an agent can drive the
+UI over HTTP while you watch.
+
+```bash
+uv run python -m somics.viewer            # API on http://127.0.0.1:8787
+cd viewer && npm install && npm run dev   # UI on http://127.0.0.1:5273
+```
+
+See [viewer/README.md](viewer/README.md) for the URL format, the agent control surface, and the
+performance notes.
 
 ## Install
 

@@ -45,10 +45,20 @@ from pathlib import Path
 # --------------------------------------------------------------------------
 
 COLUMNS = [
-    "dataset_name", "platform", "modality", "species", "tissue", "disease",
-    "n_samples", "data_access_link", "origin",
-    "source_paper_title", "source_paper_doi", "source_paper_year",
-    "source_paper_id", "found_via",
+    "dataset_name",
+    "platform",
+    "modality",
+    "species",
+    "tissue",
+    "disease",
+    "n_samples",
+    "data_access_link",
+    "origin",
+    "source_paper_title",
+    "source_paper_doi",
+    "source_paper_year",
+    "source_paper_id",
+    "found_via",
 ]
 
 VALID_ORIGIN = {"generated", "reused", ""}
@@ -59,8 +69,12 @@ VALID_MODALITY = {"spatial transcriptomics", "spatial proteomics", "spatial mult
 # so the cost of an omission is a fragmented group-by, not a wrong value.
 PLATFORM_ALIASES: dict[str, list[str]] = {
     "10x Visium": [
-        "visium", "10x visium", "visium spatial gene expression",
-        "10x genomics visium", "visium sge", "10x visium spatial transcriptomics",
+        "visium",
+        "10x visium",
+        "visium spatial gene expression",
+        "10x genomics visium",
+        "visium sge",
+        "10x visium spatial transcriptomics",
     ],
     "10x Visium HD": ["visium hd", "10x visium hd", "visium-hd"],
     "10x Xenium": ["xenium", "10x xenium", "xenium in situ", "10x genomics xenium"],
@@ -106,6 +120,7 @@ def clean(value) -> str:
 # I/O
 # --------------------------------------------------------------------------
 
+
 def read_sheet(path: Path) -> tuple[list[dict], list[str]]:
     if not path.exists():
         return [], COLUMNS[:]
@@ -131,6 +146,7 @@ def write_sheet(path: Path, rows: list[dict], cols: list[str]) -> None:
 # Main
 # --------------------------------------------------------------------------
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -138,10 +154,16 @@ def main() -> int:
     ap.add_argument("--sheet", required=True, type=Path)
     ap.add_argument("--rows", type=Path, help="JSON array of extracted dataset rows")
     ap.add_argument("--found-via", default="literature_search")
-    ap.add_argument("--known", action="store_true",
-                    help="print source_paper_ids already mined, one per line, then exit")
-    ap.add_argument("--force", action="store_true",
-                    help="append even for already-mined papers (delete their old rows first)")
+    ap.add_argument(
+        "--known",
+        action="store_true",
+        help="print source_paper_ids already mined, one per line, then exit",
+    )
+    ap.add_argument(
+        "--force",
+        action="store_true",
+        help="append even for already-mined papers (delete their old rows first)",
+    )
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -215,8 +237,10 @@ def main() -> int:
     new_papers = len({r["source_paper_id"] for r in accepted})
 
     if args.dry_run:
-        print(f"[dry run] would add {len(accepted)} rows from {new_papers} papers "
-              f"({before} -> {before + len(accepted)})")
+        print(
+            f"[dry run] would add {len(accepted)} rows from {new_papers} papers "
+            f"({before} -> {before + len(accepted)})"
+        )
     else:
         write_sheet(args.sheet, merged, cols)
 
