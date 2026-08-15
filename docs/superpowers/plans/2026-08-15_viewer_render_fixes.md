@@ -328,6 +328,49 @@ Escape key, in `viewer/src/App.tsx:54`. There is no visible control, so nobody d
 **What "done" means.** From cell level, four clicks walks you back out to orbit, with the panel
 content correct at each step. Screenshot of the button at section level in your report.
 
+## Task 9: Higher-resolution voxel bodies
+
+**What the user asked for (2026-08-15):** "can the 3d models be higher resolution?"
+
+**Where.** `VOXEL = 0.26` in `viewer/src/theme.ts` is the sampling size; `buildBodyVoxels` in
+`viewer/src/body/voxelize.ts` samples the signed-distance silhouette over each body's world-space
+bounds at that size and emits a shell plus per-organ voxel fields for instanced rendering. Smaller
+voxel means more, finer cubes and a silhouette that reads as the actual animal instead of a lumpy
+approximation.
+
+**Facts you need, already measured — do not rediscover them.**
+
+- **There is a grid cap.** `voxelize.ts` has `MAX_GRID_SAMPLES` and throws past it with "use a larger
+  voxel size". Grid samples scale as the **cube** of the resolution increase.
+- At `0.26`: the human (bounds 9 x 18 x 5) is about 35 x 69 x 19 ≈ 46k samples; the zebrafish was
+  measured at 74 x 21 x 10 = 15,540 against a 400k cap.
+- Halving to `0.13` puts the human at roughly 362k — right against that cap. `0.15`–`0.18` gives
+  4–5x the cubes with real headroom.
+- **Cube counts at 0.26:** rat 2,241 shell + 1,431 organ; human 2,523 + 2,652. Build ~23 ms.
+
+**Requirements.**
+
+- Pick a resolution by looking at the result, not by lowering the constant until something throws.
+  Say where you landed and why.
+- **Budget and report the new build time.** This runs once per (anatomy, species) in a `useMemo`, not
+  per frame, so a few hundred ms is fine; several seconds is not, because it blocks the body appearing
+  when the user switches species. Measure it, don't estimate.
+- Report the new cube counts per body, and the frame rate at orbit if you can measure it. Instanced
+  meshes handle tens of thousands of cubes, but this is the change most likely to cost frames.
+- If the cap needs raising, raise it deliberately and justify the new number.
+- **Keep the low-pixel aesthetic.** The user asked for higher resolution, not smooth meshes. There is
+  a floor below which it stops reading as voxel art and becomes a noisy blob — find it by looking.
+- **Watch the per-organ voxel floor.** `test_every_organ_claims_voxels` exists because at a coarser
+  size several organs rounded away to nothing. Going finer only helps, but confirm organs stay
+  distinguishable rather than dissolving into speckle — the fish's smallest organs currently claim as
+  few as 2–3 voxels.
+- The `pixels` slider in the UI controls render-buffer pixelation. That is a **different** thing from
+  voxel size; do not conflate them.
+
+**What "done" means.** Rat, human and zebrafish all read more clearly as the animals they are, at a
+measured build cost. The zebrafish is the sharpest test: its fins, tail and snout are shell-only and
+are the first things to disappear at a coarse voxel size. Before/after screenshots of all three.
+
 ## Suggested order
 
 1, 2, 3 are entangled (camera, placement, scale) and are the difference between a working app and a
