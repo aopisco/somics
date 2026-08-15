@@ -105,6 +105,11 @@ The script refuses rows whose `source_paper_id` is already present, normalizes `
 git add data/literature_datasets.csv
 git commit -m "lit: +37 datasets from 18 papers (spatial proteomics)"
 git push -u origin HEAD
+```
+
+Then open the PR. If the `gh` CLI is available:
+
+```bash
 gh pr create --title "lit: spatial proteomics harvest" --body "$(cat <<'EOF'
 ## Queries
 - "spatial proteomics imaging mass cytometry atlas"
@@ -123,7 +128,9 @@ EOF
 )"
 ```
 
-Put the queries and the result ID in the PR body. Six weeks from now the only way to know why a row exists is that description, and a reviewer's first question is always "where did these come from."
+`gh` is often not installed — check with `command -v gh` rather than assuming, and don't treat its absence as a failure. Pushing a new branch makes GitHub print a `pull/new/<branch>` URL in the push output; surface that link to the user along with the PR body as text they can paste. The work is already safely on the remote either way, so the PR step should never block the run.
+
+Whichever route, put the queries and the result ID in the description. Six weeks from now the only way to know why a row exists is that text, and a reviewer's first question is always "where did these come from."
 
 ## Platform normalization
 
