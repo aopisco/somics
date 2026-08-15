@@ -49,11 +49,9 @@ Violating one fails review regardless of anything else.
    no index on that column. Do not "optimise" it.
 2. **Measured data is never decorated.** Cell colours are viridis (counts) and magma (gene). The warm
    golden-hour palette is scene-only. Do not colour data with the scene palette or vice versa.
-3. **The live R2 atlas is the viewer's only data source.** Confirmed by the user on 2026-08-15, after
-   `data/datasets.csv` and `data/model_dataset_usage.csv` landed on main: "r2 only". Do not blend,
-   fall back to, or seed the body from `literature_datasets.csv`, `datasets.csv`, or any other CSV.
-   The atlas holds one sample, so one organ lights and 29 render as inert sockets — that is correct
-   and intended, not a gap to paper over.
+3. **The live R2 atlas is the viewer's only data source.** Confirmed twice by the user on 2026-08-15:
+   "r2 only", and "you should be querying from r2". Do not blend, fall back to, or seed the body from
+   `literature_datasets.csv`, `datasets.csv`, or any other CSV. Query the atlas.
 4. **The species-mismatch note stays visible.** The atlas's one sample is human; the default body is a
    rat. The panel says so explicitly. Do not hide it, and do not silently force the body to match.
 5. **Bodies stay procedural — no body/organ asset files.** Silhouettes are signed-distance functions
@@ -69,7 +67,29 @@ Violating one fails review regardless of anything else.
    `uv run ruff check src/`, `uv run ruff format --check src/`, `uv run pytest src/somics/viewer`.
 8. Tests live alongside source (`foo.ts` -> `foo.test.ts`). Type hints throughout on Python.
 
-## Task 1: Stop the LOD/camera feedback loop
+## The atlas changed under this plan — read this
+
+Written when the plan was drafted: "the atlas holds one sample". **That is no longer true.** The LIBD
+DLPFC Visium dataset was ingested on 2026-08-15 (`ff2245b`). `/api/samples` now returns **13 samples**:
+
+| organ | tissue | technology | sections | scale |
+|---|---|---|---|---|
+| `colon` | colon | xenium | 1 | 587,115 cells |
+| `brain` | dorsolateral prefrontal cortex | visium | 12 | 3,460–4,789 spots each |
+
+Three consequences every task should know:
+
+1. **Two organs light up now, not one.** 28 inert sockets, not 29.
+2. **The multi-sample path is live.** One organ (`brain`) carries twelve sections. The handoff flagged
+   the panel's and markers' multi-sample handling as never having been exercised with real data —
+   it now is, and it is the most likely place for a new bug to show up. An organ with 12 samples must
+   be selectable, listable, and navigable.
+3. **A second spatial unit is live.** Visium is spot-based at ~4k spots per section; Xenium is
+   cell-based at 587k. Anything that assumed one scale or the word "cell" — point sizing, budgets,
+   labels, `spatial_unit` handling — now has a second case, three orders of magnitude smaller. A point
+   size tuned for 587k cells may be invisible or absurd at 4k spots.
+
+Do not treat the one-sample statements elsewhere in this document as current. Query the API.
 
 **The bug.** The model flickers in and out, and the zoom level drifts on its own. Loading
 `#sp=rat&n=colon&s=183c734af72b51e0&lod=section` and waiting 45s ends with the hash at
@@ -214,13 +234,21 @@ angles in your report, plus the licence line from CREDITS.md.
 The morphology crops currently render as tiles in the 3D scene at cell level. The user wants the
 image surfaced in a panel the user can control.
 
-**Scope decision (controller ruling):** build it as a floating, in-page window over the canvas —
-draggable by its title bar, resizable from a corner, closable and re-openable — not an OS popup
-window. Cost if wrong: the user wanted a real browser window and we rebuild the shell; the contents
-and the plumbing carry over either way.
+**Scope, from the user (2026-08-15):** "the data should be in it's own window whose position should be
+locked to the frame, not the 3d viewer."
+
+That settles the one real design question here. The window is a **DOM overlay in screen space**,
+positioned relative to the viewport frame — *not* an object in the three.js scene, and not a thing
+that tracks a point in 3D. Orbiting, zooming, or flying between levels must not move it. It stays
+where the user put it while the scene moves underneath.
+
+Concretely: an absolutely-positioned element over the canvas, offsets anchored to a frame corner so
+it survives window resizes, drag and resize in CSS pixels. Do not use drei's `<Html>` or any
+scene-graph attachment — that is exactly the "locked to the 3d viewer" behaviour being ruled out.
 
 **Requirements.**
-- Appears at cell level with the sample's morphology crops in it.
+- Shows the selected sample's morphology imagery.
+- Position is locked to the frame: unaffected by camera movement, orbit, or zoom level changes.
 - Draggable, resizable, closable, and re-openable from a control.
 - Its geometry (position, size, open/closed) is part of the URL state, like everything else in this
   viewer — see `viewer/src/url/` and the `ViewerState` contract in `viewer/src/types.ts`. Follow the
