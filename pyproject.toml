@@ -7,7 +7,9 @@ authors = [
     { name = "conradry", email = "conradry71@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "homeobox==0.2.8",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]
