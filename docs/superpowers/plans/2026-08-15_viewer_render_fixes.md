@@ -371,6 +371,64 @@ approximation.
 measured build cost. The zebrafish is the sharpest test: its fins, tail and snout are shell-only and
 are the first things to disappear at a coarse voxel size. Before/after screenshots of all three.
 
+## Task 10: Replace the voxel rat with the photoreal Poly Haven mesh
+
+**What the user asked for (2026-08-15):** after twice asking for higher-resolution bodies, they
+downloaded a model and said **"just use this guy instead: /Users/gjohnson/Downloads"** — Poly Haven's
+`street_rat`, 4K glTF. Offered the choice between voxelizing that mesh (keeping the low-pixel look)
+and rendering it photoreal, they chose **photoreal, explicitly accepting that it breaks the voxel
+aesthetic and forces a rethink of the organ view.**
+
+**Source.** `/Users/gjohnson/Downloads/rat/`
+- `source/street_rat_4k_gltf.zip` — `street_rat_4k.gltf` (2.7 KB), `street_rat.bin` (1.37 MB
+  geometry), and 4K JPEG textures totalling ~29 MB
+- `textures/` — the same maps loose, including an `arm` map already split to `@channels=G`
+
+**Constraint 5 is amended again for this task.** Bodies were procedural for licensing reasons; the
+user has now supplied a licensed model. The rat may ship as an asset. **Human and zebrafish stay
+procedural** — we have models for neither, and this task does not touch them.
+
+### The hard part: the organs must survive
+
+This viewer exists to let you click an organ and fly into its data. Organs are authored in
+`src/somics/viewer/anatomy.py` as ellipsoid blobs positioned in each body's world-space `bounds`, and
+today they are rendered *inside* a translucent voxel shell. An opaque photoreal rat hides them
+completely, which would delete the application's core interaction.
+
+**Ruling (controller):** the mesh replaces the *shell*, not the organs. Render the rat mesh
+translucent — a glass body with the existing organ blobs glowing inside, which is exactly the
+relationship the voxel shell had at `SHELL_OPACITY = 0.16`, just with better geometry. The organ
+blobs, pins, hover, and click-to-fly behaviour all stay as they are. If translucency on this mesh
+looks bad, a cutaway or a toggle between solid and glass is an acceptable alternative — but organs
+being visible and clickable is not negotiable, and a solid rat with no way to see inside fails this
+task. Say what you chose and show it.
+
+**The alignment problem, which is the real work.** Organ anchors are defined against the rat's
+declared `bounds` in `anatomy.py`. The downloaded mesh has its own units, origin, and orientation, and
+they will not match. You must fit the mesh into those same bounds — scale, centre, and rotate it so
+that the existing organ blobs land in anatomically sensible places inside it (brain in the head, colon
+in the abdomen, not floating outside the body). **Verify this visually, organ by organ**, and treat
+"an organ pokes outside the rat" as a failure. Prefer transforming the mesh to fit the existing
+anatomy over rewriting every organ anchor.
+
+### Requirements
+
+- **Verify the licence.** Poly Haven publishes CC0, and the naming convention here matches, but check
+  the asset page before committing. Add `viewer/public/models/CREDITS.md` with asset, author, source
+  URL and licence — same as `viewer/public/env/CREDITS.md` does for the valley plate.
+- **Downsample the textures.** The bundle is ~1.14 MB today and the valley plate already added 1.25 MB.
+  29 MB of 4K maps is not acceptable. Go to 1K or 2K, prefer a single combined `.glb`, and target a
+  few MB total. State the final committed size. If a map is not visible at the sizes the rat is
+  actually rendered, drop it entirely rather than shipping it small.
+- Keep the existing lighting coherent — the scene is lit from the valley plate's own sun.
+- The species toggle keeps all three bodies working; only the rat changes.
+- `npx tsc --noEmit` clean, `npm run test` passing.
+
+**What "done" means.** `#sp=rat&lod=orbit` shows a recognisable photoreal rat, correctly scaled and
+oriented in the grass, with its organs visible inside it and still clickable. `#sp=human&lod=orbit`
+and `#sp=zebrafish&lod=orbit` are unchanged. Screenshots of all three, plus a close view showing
+organs inside the rat.
+
 ## Suggested order
 
 1, 2, 3 are entangled (camera, placement, scale) and are the difference between a working app and a
