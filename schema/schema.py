@@ -56,6 +56,7 @@ class SpatialTechnology(StrEnum):
     STARMAP = 'starmap'
     STARMAP_PLUS = 'starmap_plus'
     SEQFISH = 'seqfish'
+    IMC = 'imc'
     OTHER = 'other'
 
 
@@ -281,9 +282,22 @@ class GenomicFeatureSchema(FeatureBaseSchema):
 
 
 class ProteinSchema(FeatureBaseSchema):
-    """A protein target in a multiplexed protein panel."""
+    """
+    A protein target in a multiplexed protein panel.
+
+    A row is a target as an antibody measures it, not a protein entry as
+    UniProt defines it: a phospho-specific antibody and one against the
+    unmodified protein share an accession but are different measurements,
+    and are therefore different features.
+    """
+    # The identity a protein target dedupes on corpus-wide, composed as organism:target_id — for example Homo sapiens:P01732 for CD8a. The organism half is the NCBITaxon label the `organism` column holds, not its CURIE, matching GenomicFeatureSchema.feature_key. The target_id half is the UniProt accession where one resolved, suffixed with +`modification` for modification-specific antibodies (Homo sapiens:P62753+phospho-S235/S236), and otherwise the published `target_name` — panels routinely carry targets that map to no single accession: DNA intercalators, multi-chain targets like collagen I, and antibodies the source names but does not identify. It is a separate column because `uniprot_id` is null for those targets and cannot be the uid, while a name alone would merge a human and a mouse panel's CD45 into one feature; composing the organism in keeps the two apart, and one column is what compute_stable_uids can key on.
+    protein_key: str = StableUIDField.declare(default=...)
+    # The target as the panel names it, e.g. "CD8a", "pS6", "DNA1". Required, because it is the fallback identity for targets that resolve to no accession, and because the panel's own label is what the source's channel names join against.
+    target_name: str
     # UniProt accession, e.g. "P04637".
-    uniprot_id: str | None = combine_markers(StableUIDField.declare(), CrossReferenceField.declare(database_name='UniProt'), default=None)
+    uniprot_id: str | None = CrossReferenceField.declare(database_name='UniProt', default=None)
+    # The post-translational state the antibody is specific to, e.g. "phospho-S235/S236", "cleaved". Null for antibodies against the unmodified protein, which is most of a panel.
+    modification: str | None = None
     # Recommended protein name from UniProt.
     protein_name: str | None = None
     # Primary gene symbol encoding this protein.
