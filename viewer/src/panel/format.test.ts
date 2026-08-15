@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatCount, formatExtent, formatMicrons, humanizeKey } from "./format";
+import { backLabel, formatCount, formatExtent, formatMicrons, humanizeKey } from "./format";
 
 describe("formatCount", () => {
   const cases: [number, string][] = [
@@ -45,6 +45,31 @@ describe("humanizeKey", () => {
   ];
   it.each(cases)("humanizeKey(%p) -> %p", (input, expected) => {
     expect(humanizeKey(input)).toBe(expected);
+  });
+});
+
+describe("backLabel", () => {
+  const names = { organ: "Colon", section: "V1_DLPFC_1", species: "🐀 Rat" };
+
+  it("names the section it returns to at cell level", () => {
+    expect(backLabel("cell", names)).toBe("Back to V1_DLPFC_1");
+  });
+
+  it("names the organ it returns to at section level", () => {
+    expect(backLabel("section", names)).toBe("Back to Colon");
+  });
+
+  it("names the species it returns to at organ level", () => {
+    expect(backLabel("organ", names)).toBe("Back to 🐀 Rat");
+  });
+
+  it("hides the control at orbit — nowhere further up to go", () => {
+    expect(backLabel("orbit", names)).toBeNull();
+  });
+
+  it("falls back to a generic word when the specific name is not loaded yet", () => {
+    expect(backLabel("cell", { ...names, section: null })).toBe("Back to the section");
+    expect(backLabel("section", { ...names, organ: null })).toBe("Back to the organ");
   });
 });
 

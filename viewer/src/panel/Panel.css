@@ -150,6 +150,13 @@
   padding: 0.5rem 0.75rem;
 }
 
+.panel-back {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
 .panel-row:hover,
 .panel-card:hover,
 .panel-button:hover {

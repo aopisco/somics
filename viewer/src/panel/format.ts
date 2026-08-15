@@ -1,5 +1,7 @@
 /** Presentation formatting for the panel. Kept free of React so it is trivial to test. */
 
+import type { Lod } from "../types";
+
 const DASH = "-";
 
 /** Truncates (never rounds) to `decimals` places, so e.g. 6.916 -> 6.91, not 6.92. */
@@ -23,6 +25,28 @@ export function humanizeKey(key: string): string {
   if (!key) return key;
   const spaced = key.split("_").join(" ");
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
+/**
+ * Label for the panel's "go up a level" control. Named after where the click lands, not the
+ * generic word "back" — and worded with the same names the breadcrumb (`App.tsx`) already uses
+ * for each level, so the two controls read as one vocabulary. `null` at `orbit`: there is nowhere
+ * further up to go, so the caller should hide the control rather than render a dead one.
+ */
+export function backLabel(
+  lod: Lod,
+  names: { organ: string | null; section: string | null; species: string },
+): string | null {
+  switch (lod) {
+    case "cell":
+      return `Back to ${names.section ?? "the section"}`;
+    case "section":
+      return `Back to ${names.organ ?? "the organ"}`;
+    case "organ":
+      return `Back to ${names.species}`;
+    case "orbit":
+      return null;
+  }
 }
 
 export function formatExtent(extent: [number, number, number, number]): string {

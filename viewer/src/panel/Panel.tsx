@@ -12,28 +12,33 @@ import {
 } from "../state";
 import type { OrganNode, Sample, Species } from "../types";
 import "./Panel.css";
-import { formatCount, formatExtent, humanizeKey } from "./format";
+import { backLabel, formatCount, formatExtent, humanizeKey } from "./format";
 
 const SPECIES_LABEL: Record<Species, string> = { human: "human", rat: "rat" };
 
+/** Same species crumb text as the breadcrumb in `App.tsx`'s `Hud` — kept in sync by eye, since
+ * the two live in different components but must read as one vocabulary (see `backLabel`). */
+function speciesCrumbLabel(species: Species): string {
+  return species === "rat" ? "🐀 Rat" : "🧍 Human";
+}
+
 export function Panel(): JSX.Element {
   const store = useStore();
+  const organ = selectOrgan(store, store.node);
+  const sample = selectCurrentSample(store);
 
   let body: JSX.Element;
   if (store.sample) {
-    const sample = selectCurrentSample(store);
     body = sample ? (
       <SampleSection sample={sample} bodySpecies={store.species} />
     ) : (
       <p className="panel-empty">This sample is not in the catalog.</p>
     );
   } else if (store.node) {
-    const organ = selectOrgan(store, store.node);
     body = organ ? (
       <OrganSection
         organ={organ}
         samples={selectSamplesByNode(store)[organ.node_id] ?? []}
-        onBack={() => store.selectNode(null)}
         onSelectSample={store.selectSample}
       />
     ) : (
@@ -50,8 +55,19 @@ export function Panel(): JSX.Element {
     );
   }
 
+  const back = backLabel(store.lod, {
+    organ: organ?.label ?? null,
+    section: sample?.section_id ?? null,
+    species: speciesCrumbLabel(store.species),
+  });
+
   return (
     <aside className="panel">
+      {back && (
+        <button className="panel-button panel-back" onClick={() => store.zoomOut()}>
+          <span aria-hidden="true">←</span> {back}
+        </button>
+      )}
       {body}
       <p className="panel-footer">This atlas snapshot is read-only and public.</p>
     </aside>
@@ -133,12 +149,10 @@ function IntroSection({
 function OrganSection({
   organ,
   samples,
-  onBack,
   onSelectSample,
 }: {
   organ: OrganNode;
   samples: Sample[];
-  onBack: () => void;
   onSelectSample: (sectionUid: string) => void;
 }): JSX.Element {
   return (
@@ -147,12 +161,10 @@ function OrganSection({
       <p className="panel-muted">{organ.system}</p>
 
       {samples.length === 0 ? (
-        <>
-          <p className="panel-empty">The atlas has no samples for this organ yet.</p>
-          <button className="panel-button" onClick={onBack}>
-            Back to the whole body
-          </button>
-        </>
+        <p className="panel-empty">
+          The atlas has no samples for this organ yet — use the back control above to return to
+          the whole body.
+        </p>
       ) : (
         <ul className="panel-cards">
           {samples.map((sample) => (
