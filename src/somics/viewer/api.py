@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from somics.viewer.anatomy import BODY_BOUNDS, SPECIES, organ_payload
 from somics.viewer.atlas_source import AtlasConfig, AtlasSource, GeneNotFound, SampleNotFound
 from somics.viewer.control import ControlChannel, sanitize_patch
-from somics.viewer.paths import WEB_DIST
+from somics.viewer.paths import CORPUS_DIST, CORPUS_INDEX, WEB_DIST
 
 META_HEADER = "X-Somics-Meta"
 
@@ -176,6 +176,26 @@ async def report_state(state: Annotated[dict, Body()]) -> dict:
     channel.browser_state = sanitize_patch(state)
     return {"ok": True}
 
+
+@app.get("/api/corpus")
+def corpus() -> dict:
+    """The precomputed corpus index the builder UI renders.
+
+    Written by `scripts/build_corpus_index.py`, not computed here — the atlas is
+    small enough that a snapshot beats a query layer, and it means the UI holds
+    up with no atlas access at all.
+    """
+    if not CORPUS_INDEX.is_file():
+        raise HTTPException(
+            status_code=503,
+            detail="No corpus index. Run: uv run python scripts/build_corpus_index.py",
+        )
+    return json.loads(CORPUS_INDEX.read_text())
+
+
+# Mount order matters: the viewer claims "/", so anything more specific goes first.
+if CORPUS_DIST.is_dir():
+    app.mount("/corpus", StaticFiles(directory=CORPUS_DIST, html=True), name="corpus")
 
 if WEB_DIST.is_dir():
     app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")
