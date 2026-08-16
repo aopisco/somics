@@ -529,6 +529,66 @@ magma by gene, and measured data is never decorated. The style guide governs chr
 **What "done" means.** Put the two UIs side by side and they read as one product. Screenshots of the
 viewer at orbit and at a sample's detail view, plus the corpus builder, in your report.
 
+## Task 12: Serve the H&E imagery the atlas already holds
+
+**What the user asked for (2026-08-15):** "what are the images and metadata we have? we should look
+into the metadata that we have and view it in the panel specially if it's h&E and spatial positions,
+etc" — then "ok make sure we can view those different things".
+
+### The gap, measured against the live atlas
+
+The two technologies in the atlas carry **different imagery**, and only one of them is ever read:
+
+| section | `has_morphology_crop` | `has_he_crop` |
+|---|---|---|
+| `hColon_Cancer_Add_on_FFPE` (xenium, 587,115 cells) | **true** | false |
+| `LIBD_151509` … `LIBD_151676` (visium, 12 sections, ~4k spots each) | false | **true** |
+
+`AtlasSource.crops()` in `src/somics/viewer/atlas_source.py:358` returns early on
+`if not sample["has_morphology_crop"]`, and its query does
+`.select_fields("morphology_crop") … .to_spatial_batch("morphology_crop")`. The schema defines
+**`he_crop` at `schema/spatial_transcriptomics_atlas_schema.yaml:359`** alongside `morphology_crop` at
+line 369, but nothing reads it.
+
+**Consequence:** every one of the twelve brain sections returns an empty crop list. The H&E is sitting
+in the atlas and the viewer cannot show it. This is why clicking `libd_151510` yields no imagery.
+
+### Scope — Python only
+
+**This task stops at the HTTP boundary.** Another agent owns `viewer/src/panel/` and
+`viewer/src/layers/` and is moving the spots into the 2D panel; a second agent editing the same
+directories would collide. Deliver the data and the contract; the panel work consumes it.
+
+Touch only: `src/somics/viewer/atlas_source.py`, `src/somics/viewer/api.py`, their tests, and
+`viewer/src/types.ts` **only if** the API's response shape needs a matching type (keep that to the
+type declaration — do not wire it into components).
+
+### Requirements
+
+- `crops()` serves **H&E where the section has it and morphology where it has that**, rather than
+  assuming morphology. A section could in principle carry both; return what exists rather than
+  picking one arbitrarily.
+- Each returned tile says **which kind it is**. A caller must be able to label an image "H&E" or
+  "morphology" without re-deriving it from the sample's flags — H&E is colour, morphology is
+  greyscale, and they are not interchangeable to a biologist.
+- **Do not put a SQL predicate on `section_uid` for obs reads** (Global Constraint 1: measured at
+  21–27s versus a 2.5s scan). Note the existing `crops()` query already uses a `where` clause on the
+  crop table and that is fine and measured — 16 crops in a window at 2.2s. Follow the existing
+  pattern; the constraint is about obs reads.
+- **Measured data is never decorated** (Constraint 2). H&E is stained colour imagery — return it as it
+  is. Do not colourise, normalise, or tint.
+- Extend `src/somics/viewer/api_test.py` / `atlas_source` tests. There is no network in the test
+  suite, so test the selection logic — that a morphology-only section asks for morphology, an H&E-only
+  section asks for H&E, and each tile is labelled.
+- **Verify against the live atlas with curl** and put the actual output in your report: a brain
+  section must return non-empty tiles. This is the whole point of the task and no unit test can prove
+  it.
+- Gates: `uv run pytest src/somics/viewer`, `uv run ruff check src/`, `uv run ruff format --check src/`.
+
+**What "done" means.** `curl 'localhost:8787/api/samples/<a-brain-section-uid>/crops?...'` returns H&E
+tiles, labelled as H&E, where it previously returned an empty list — with the command and its output
+quoted in your report.
+
 ## Suggested order
 
 1, 2, 3 are entangled (camera, placement, scale) and are the difference between a working app and a
