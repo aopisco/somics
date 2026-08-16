@@ -14,3 +14,8 @@ WEB_DIST = REPO_ROOT / "viewer" / "dist"
 # The corpus builder: a precomputed index of the atlas, and the app that browses it.
 CORPUS_INDEX = REPO_ROOT / "data" / "corpus_index.json"
 CORPUS_DIST = REPO_ROOT / "web" / "dist"
+
+# One precomputed page per dataset, written by scripts/build_dataset_pages.py:
+# a directory of PNG layers plus the HTML that browses them. Served as plain
+# static files, so a page needs no atlas access and no Python at view time.
+DATASET_PAGES = REPO_ROOT / "data" / "dataset_pages"

@@ -14,6 +14,7 @@ The UI renders a precomputed index, so build that first:
 
 ```bash
 uv run python scripts/build_corpus_index.py   # reads the atlas on R2 -> data/corpus_index.json
+uv run python scripts/build_dataset_pages.py  # reads the atlas on R2 -> data/dataset_pages/
 uv run python -m somics.viewer                # API on http://127.0.0.1:8787
 cd web && npm install && npm run dev          # UI on http://127.0.0.1:5274
 ```
@@ -46,6 +47,21 @@ Two consequences worth knowing before reading the code:
   `docs/2026-08-15_corpus_builder_ui_mapping.md`.
 - **"Passes segmentation QC" is shown but inert**, because no segmentation verdict exists to
   filter on. It is rendered disabled rather than dropped, so the gap is visible instead of silent.
+
+## Open viewer
+
+The drawer's **Open viewer** button opens `/datasets/<dataset uid>/`, a page precomputed by
+`scripts/build_dataset_pages.py`: the section image and spatial maps as rendered PNGs, plus
+expression and protein summaries. The controls only ever swap between files already on disk.
+
+`App.tsx` fetches `/api/dataset-pages` for the `{card id: slug}` manifest and disables the button
+for any dataset without a page, so an unbuilt page is visibly unavailable rather than a dead click
+— which is what the button used to be, since it pointed at the 3D viewer's `viewer/dist` bundle
+that is not built here.
+
+To iterate on that page's design, edit `src/somics/pages/template.html` and run
+`uv run python scripts/build_dataset_pages.py --html-only` — it re-renders every page from the
+`page.json` beside it in under a second, with no atlas access.
 
 ## Layout
 

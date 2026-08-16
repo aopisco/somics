@@ -1,22 +1,34 @@
 {
-  "generatedAt": "2026-08-15T23:16:26+00:00",
+  "generatedAt": "2026-08-16T03:58:33+00:00",
   "atlasDir": "s3://epiblast-public/somics_spatial_atlas",
   "stats": {
-    "datasets": 13,
-    "ingestedDatasets": 13,
-    "units": 634796,
-    "sections": 13,
-    "platforms": 2,
-    "passAllQc": 12
+    "datasets": 57,
+    "ingestedDatasets": 57,
+    "units": 1646068,
+    "sections": 57,
+    "platforms": 4,
+    "passAllQc": 53
   },
   "facets": {
     "modality": [
+      {
+        "value": "Proteomics",
+        "count": 44
+      },
       {
         "value": "Transcriptomics",
         "count": 13
       }
     ],
     "platform": [
+      {
+        "value": "CODEX",
+        "count": 36
+      },
+      {
+        "value": "CosMx",
+        "count": 8
+      },
       {
         "value": "Visium",
         "count": 12
@@ -34,6 +46,10 @@
       {
         "value": "dorsolateral prefrontal cortex",
         "count": 12
+      },
+      {
+        "value": "lung",
+        "count": 44
       }
     ],
     "disease": [
@@ -44,21 +60,30 @@
       {
         "value": "colon adenocarcinoma",
         "count": 1
+      },
+      {
+        "value": "non-small cell lung carcinoma",
+        "count": 44
       }
     ],
     "resolution": [
+      {
+        "value": "Single-cell",
+        "count": 36
+      },
       {
         "value": "Spot",
         "count": 12
       },
       {
         "value": "Subcellular",
-        "count": 1
+        "count": 9
       }
     ]
   },
   "starterPrompts": [
     "colon, transcriptomics with images",
+    "lung, proteomics with images",
     "dorsolateral prefrontal cortex, transcriptomics with images"
   ],
   "datasets": [
@@ -160,6 +185,2690 @@
       ]
     },
     {
+      "id": "e26a121bb87d4a79",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung9_Rep2",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 150504,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "113",
+          "numeric": 113.0,
+          "threshold": "target \u2265 200",
+          "level": "warn"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.521%",
+          "numeric": 0.5208869969113721,
+          "threshold": "target \u2264 0.5%",
+          "level": "warn"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung9"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung9_Rep2",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung9_Rep2/Lung9_Rep2%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "e26a121bb87d4a79",
+          "sampleName": "Lung9_Rep2",
+          "unitCount": 150504,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "33684030c0605244"
+          ],
+          "medianCounts": 113.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung9_Rep2/Lung9_Rep2%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "eb803ee4f16e4298",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung5_Rep2",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 106660,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "260",
+          "numeric": 260.0,
+          "threshold": "target \u2265 200",
+          "level": "pass"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.372%",
+          "numeric": 0.3722155201830987,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung5"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung5_Rep2",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep2/Lung5_Rep2%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "eb803ee4f16e4298",
+          "sampleName": "Lung5_Rep2",
+          "unitCount": 106660,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "c8877cb4019d55fa"
+          ],
+          "medianCounts": 260.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep2/Lung5_Rep2%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "48854f6140d148d5",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung5_Rep1",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 100292,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "248",
+          "numeric": 248.0,
+          "threshold": "target \u2265 200",
+          "level": "pass"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.218%",
+          "numeric": 0.21834810965767776,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung5"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung5_Rep1",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep1/Lung5_Rep1%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "48854f6140d148d5",
+          "sampleName": "Lung5_Rep1",
+          "unitCount": 100292,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "4deaea6737f05979"
+          ],
+          "medianCounts": 248.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep1/Lung5_Rep1%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "9f198e711111442e",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung5_Rep3",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 100264,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "203",
+          "numeric": 203.0,
+          "threshold": "target \u2265 200",
+          "level": "pass"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.219%",
+          "numeric": 0.2193896272407794,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung5"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung5_Rep3",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep3/Lung5_Rep3%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "9f198e711111442e",
+          "sampleName": "Lung5_Rep3",
+          "unitCount": 100264,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "c7049b22cd895292"
+          ],
+          "medianCounts": 203.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung5_Rep3/Lung5_Rep3%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "d0f81800b1954529",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung6",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 93795,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "256",
+          "numeric": 256.0,
+          "threshold": "target \u2265 200",
+          "level": "pass"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.154%",
+          "numeric": 0.1539859385633356,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung6"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung6",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung6/Lung6%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "d0f81800b1954529",
+          "sampleName": "Lung6",
+          "unitCount": 93795,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "8d80b82dc44e549a"
+          ],
+          "medianCounts": 256.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung6/Lung6%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "56bc6ffc15a24735",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung9_Rep1",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 91972,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "154",
+          "numeric": 154.0,
+          "threshold": "target \u2265 200",
+          "level": "warn"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.339%",
+          "numeric": 0.33919046849384654,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung9"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung9_Rep1",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung9_Rep1/Lung9_Rep1%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "56bc6ffc15a24735",
+          "sampleName": "Lung9_Rep1",
+          "unitCount": 91972,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "da567ebc258b5f06"
+          ],
+          "medianCounts": 154.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung9_Rep1/Lung9_Rep1%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "ad3f1df662c64833",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung13",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 82843,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "214",
+          "numeric": 214.0,
+          "threshold": "target \u2265 200",
+          "level": "pass"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.329%",
+          "numeric": 0.3290548226494126,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung13"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung13",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung13/Lung13%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "ad3f1df662c64833",
+          "sampleName": "Lung13",
+          "unitCount": 82843,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "43923663e4cb52bb"
+          ],
+          "medianCounts": 214.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung13/Lung13%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "fb00cc672a424dea",
+      "title": "CosMx SMI NSCLC FFPE dataset Lung12",
+      "study": "CosMx SMI NSCLC FFPE dataset",
+      "platform": "CosMx",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 73997,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "185",
+          "numeric": 185.0,
+          "threshold": "target \u2265 200",
+          "level": "warn"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.625%",
+          "numeric": 0.6246000907285045,
+          "threshold": "target \u2264 0.5%",
+          "level": "warn"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "cell_boundary_stain",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "CosMx_NSCLC_Lung12"
+        ],
+        "panelName": "CosMx Human Universal Cell Characterization RNA Panel (960-plex prototype)",
+        "panelSize": 960,
+        "panelVersion": "prototype",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2022-10-06",
+        "publicationTitle": "High-plex imaging of RNA and proteins at subcellular resolution in fixed tissue by spatial molecular imaging.",
+        "publicationDoi": "10.1038/s41587-022-01483-z",
+        "accession": "SMI-Compressed/Lung12",
+        "accessionDatabase": "Bruker Spatial Biology public share",
+        "assays": [
+          "CosMx SMI"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression",
+          "protein_abundance"
+        ],
+        "description": "One FFPE section of non-small-cell lung cancer profiled on a CosMx Spatial Molecular Imager prototype with the 960-plex CosMx Human Universal Cell Characterization RNA panel (980 measured targets, 20 of them negative-control probes). Cells were segmented from a morphology stain of PanCK, CD45, CD3, DAPI and a membrane marker at 0.18 um/px. The vendor's per-field-of-view RGB composites are stitched into one section image in the same global pixel frame the cell coordinates use, and the mean fluorescence of each morphology channel within each cell is carried as the protein readout. Released by NanoString (now Bruker Spatial Biology) alongside He et al. 2022, Nat Biotechnol."
+      },
+      "location": "https://brukerspatialbiology.com/products/cosmx-spatial-molecular-imager/ffpe-dataset/nsclc-ffpe-dataset/",
+      "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung12/Lung12%20SMI%20Flat%20data.tar.gz",
+      "sections": [
+        {
+          "datasetUid": "fb00cc672a424dea",
+          "sampleName": "Lung12",
+          "unitCount": 73997,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "6515e75d9aa45376"
+          ],
+          "medianCounts": 185.0,
+          "downloadUrl": "https://nanostring-public-share.s3.us-west-2.amazonaws.com/SMI-Compressed/Lung12/Lung12%20SMI%20Flat%20data.tar.gz"
+        }
+      ]
+    },
+    {
+      "id": "bfaafc4462d041f3",
+      "title": "reg019 (TMA core 4B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 18337,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg019.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "bfaafc4462d041f3",
+          "sampleName": "reg019 (TMA core 4B)",
+          "unitCount": 18337,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "6e83b408ec415cff"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg019.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "062354dd3821495d",
+      "title": "reg009 (TMA core 2B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 12262,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg009.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "062354dd3821495d",
+          "sampleName": "reg009 (TMA core 2B)",
+          "unitCount": 12262,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "364d82fc7fe25ac5"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg009.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "76eaf55a79314537",
+      "title": "reg029 (TMA core 6B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 11284,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg029.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "76eaf55a79314537",
+          "sampleName": "reg029 (TMA core 6B)",
+          "unitCount": 11284,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "34c808c8f1605aa7"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg029.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "f8fe43044e234d9e",
+      "title": "reg013 (TMA core 3C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 8393,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg013.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "f8fe43044e234d9e",
+          "sampleName": "reg013 (TMA core 3C)",
+          "unitCount": 8393,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "f5b497b8e01a5909"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg013.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "34db383509654990",
+      "title": "reg032 (TMA core 7B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 8156,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg032.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "34db383509654990",
+          "sampleName": "reg032 (TMA core 7B)",
+          "unitCount": 8156,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "e6fa9db408055f5f"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg032.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "6f21439c25c4476b",
+      "title": "reg030 (TMA core 6A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 8028,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg030.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "6f21439c25c4476b",
+          "sampleName": "reg030 (TMA core 6A)",
+          "unitCount": 8028,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "97055c216fbc5536"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg030.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "bc19349d2eca48f2",
+      "title": "reg034 (TMA core 7D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 7681,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg034.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "bc19349d2eca48f2",
+          "sampleName": "reg034 (TMA core 7D)",
+          "unitCount": 7681,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "85e0337fb264528a"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg034.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "ae3fa3a3bcee454c",
+      "title": "reg025 (TMA core 5E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 7330,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg025.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "ae3fa3a3bcee454c",
+          "sampleName": "reg025 (TMA core 5E)",
+          "unitCount": 7330,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "0d6e03bf72595a55"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg025.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "c65a9cb2ca274425",
+      "title": "reg012 (TMA core 3B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6975,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg012.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "c65a9cb2ca274425",
+          "sampleName": "reg012 (TMA core 3B)",
+          "unitCount": 6975,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "3c65dc373e825386"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg012.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "185585f4750d4f20",
+      "title": "reg005 (TMA core 1E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6750,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg005.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "185585f4750d4f20",
+          "sampleName": "reg005 (TMA core 1E)",
+          "unitCount": 6750,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "01f3440001be598f"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg005.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "7ddcc04ac94e4966",
+      "title": "reg033 (TMA core 7C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6749,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg033.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "7ddcc04ac94e4966",
+          "sampleName": "reg033 (TMA core 7C)",
+          "unitCount": 6749,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "ce9fe3182f6b5fc4"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg033.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "14d93128f7da4b84",
+      "title": "reg001 (TMA core 1A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6373,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg001.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "14d93128f7da4b84",
+          "sampleName": "reg001 (TMA core 1A)",
+          "unitCount": 6373,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "4aaaa1fe774d5389"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg001.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "b1019a5b87444b98",
+      "title": "reg006 (TMA core 2E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6251,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg006.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "b1019a5b87444b98",
+          "sampleName": "reg006 (TMA core 2E)",
+          "unitCount": 6251,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "75bc3b2ad2da545f"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg006.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "fb92b2cd468c4bac",
+      "title": "reg028 (TMA core 6C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6211,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg028.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "fb92b2cd468c4bac",
+          "sampleName": "reg028 (TMA core 6C)",
+          "unitCount": 6211,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "1cdbfdf6d2ac566b"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg028.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "18ac4f6c1509467e",
+      "title": "reg022 (TMA core 5B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 6176,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg022.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "18ac4f6c1509467e",
+          "sampleName": "reg022 (TMA core 5B)",
+          "unitCount": 6176,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "abc4bf0862875c61"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg022.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "faeedcf96a954c49",
+      "title": "reg031 (TMA core 7A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 5828,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg031.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "faeedcf96a954c49",
+          "sampleName": "reg031 (TMA core 7A)",
+          "unitCount": 5828,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "2397ed141c935c61"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg031.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "69ed2ed54dab4763",
+      "title": "reg041 (TMA core 9A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 5675,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg041.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "69ed2ed54dab4763",
+          "sampleName": "reg041 (TMA core 9A)",
+          "unitCount": 5675,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "cd10f0dcc4e659f3"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg041.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "3888469b5d9a4366",
+      "title": "reg007 (TMA core 2D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 5035,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg007.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "3888469b5d9a4366",
+          "sampleName": "reg007 (TMA core 2D)",
+          "unitCount": 5035,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "d022ed48a9b05a6a"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg007.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "72c80006445f446c",
+      "title": "reg037 (TMA core 8D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4916,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg037.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "72c80006445f446c",
+          "sampleName": "reg037 (TMA core 8D)",
+          "unitCount": 4916,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "ce59d8c61fc7577f"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg037.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "bc435220953048dc",
+      "title": "reg017 (TMA core 4D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4906,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg017.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "bc435220953048dc",
+          "sampleName": "reg017 (TMA core 4D)",
+          "unitCount": 4906,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "9c6c4677752c5953"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg017.ome.tiff"
+        }
+      ]
+    },
+    {
       "id": "b434ef511d0a40ef",
       "title": "LIBD Human DLPFC Visium pilot 151509",
       "study": "LIBD Human DLPFC Visium pilot",
@@ -253,6 +2962,101 @@
           ],
           "medianCounts": 2416.0,
           "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151509_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "074d74488b1347df",
+      "title": "reg016 (TMA core 4E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4713,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg016.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "074d74488b1347df",
+          "sampleName": "reg016 (TMA core 4E)",
+          "unitCount": 4713,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "e7213132c0de5113"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg016.ome.tiff"
         }
       ]
     },
@@ -354,6 +3158,101 @@
       ]
     },
     {
+      "id": "901ac633b2f34cfe",
+      "title": "reg023 (TMA core 5C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4420,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg023.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "901ac633b2f34cfe",
+          "sampleName": "reg023 (TMA core 5C)",
+          "unitCount": 4420,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "284e83ae2bcb578e"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg023.ome.tiff"
+        }
+      ]
+    },
+    {
       "id": "cb378298fa034a99",
       "title": "LIBD Human DLPFC Visium pilot 151508",
       "study": "LIBD Human DLPFC Visium pilot",
@@ -447,6 +3346,196 @@
           ],
           "medianCounts": 2019.0,
           "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151508_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "5a139db6b52e4995",
+      "title": "reg021 (TMA core 5A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4294,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg021.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "5a139db6b52e4995",
+          "sampleName": "reg021 (TMA core 5A)",
+          "unitCount": 4294,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "e0327b71d6625d39"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg021.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "028c09e6c4754413",
+      "title": "reg040 (TMA core 8A)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4261,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg040.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "028c09e6c4754413",
+          "sampleName": "reg040 (TMA core 8A)",
+          "unitCount": 4261,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "aa51dfd6f38251e4"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg040.ome.tiff"
         }
       ]
     },
@@ -548,6 +3637,196 @@
       ]
     },
     {
+      "id": "0e7c0a78b8df4daa",
+      "title": "reg039 (TMA core 8B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4126,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg039.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "0e7c0a78b8df4daa",
+          "sampleName": "reg039 (TMA core 8B)",
+          "unitCount": 4126,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "fc966a163a7756a1"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg039.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "5db31c7f65574f91",
+      "title": "reg042 (TMA core 9B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4113,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg042.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "5db31c7f65574f91",
+          "sampleName": "reg042 (TMA core 9B)",
+          "unitCount": 4113,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "2a6ef0fda60a5245"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg042.ome.tiff"
+        }
+      ]
+    },
+    {
       "id": "9c90c06d75f946d3",
       "title": "LIBD Human DLPFC Visium pilot 151671",
       "study": "LIBD Human DLPFC Visium pilot",
@@ -641,6 +3920,196 @@
           ],
           "medianCounts": 3743.0,
           "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151671_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "68aa63dab9be4ad1",
+      "title": "reg003 (TMA core 1C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4110,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg003.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "68aa63dab9be4ad1",
+          "sampleName": "reg003 (TMA core 1C)",
+          "unitCount": 4110,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "bd6efb022daf5759"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg003.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "bd1fe94792d1419b",
+      "title": "reg002 (TMA core 1B)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 4109,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg002.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "bd1fe94792d1419b",
+          "sampleName": "reg002 (TMA core 1B)",
+          "unitCount": 4109,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "6f6767dd0ce45e4b"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg002.ome.tiff"
         }
       ]
     },
@@ -1227,6 +4696,196 @@
       ]
     },
     {
+      "id": "b855421103204c12",
+      "title": "reg004 (TMA core 1D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 3490,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg004.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "b855421103204c12",
+          "sampleName": "reg004 (TMA core 1D)",
+          "unitCount": 3490,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "33494fc8c0cd5c27"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg004.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "1a34bdbfdc3a476d",
+      "title": "reg035 (TMA core 7E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 3460,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg035.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "1a34bdbfdc3a476d",
+          "sampleName": "reg035 (TMA core 7E)",
+          "unitCount": 3460,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "2aabcfa7df275370"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg035.ome.tiff"
+        }
+      ]
+    },
+    {
       "id": "98430dc7e78b4c5a",
       "title": "LIBD Human DLPFC Visium pilot 151676",
       "study": "LIBD Human DLPFC Visium pilot",
@@ -1320,6 +4979,576 @@
           ],
           "medianCounts": 3419.0,
           "downloadUrl": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/151676_full_image.tif"
+        }
+      ]
+    },
+    {
+      "id": "256ef45be0b0455e",
+      "title": "reg026 (TMA core 6E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 3354,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg026.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "256ef45be0b0455e",
+          "sampleName": "reg026 (TMA core 6E)",
+          "unitCount": 3354,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "92f55db51c045659"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg026.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "19fa278c3e0a4102",
+      "title": "reg027 (TMA core 6D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 3189,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg027.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "19fa278c3e0a4102",
+          "sampleName": "reg027 (TMA core 6D)",
+          "unitCount": 3189,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "d2b64fb5f6d45032"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg027.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "0fac144caac548f9",
+      "title": "reg036 (TMA core 8E)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 2954,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg036.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "0fac144caac548f9",
+          "sampleName": "reg036 (TMA core 8E)",
+          "unitCount": 2954,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "082dd2e6a722539f"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg036.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "4750cc93c1bb4025",
+      "title": "reg018 (TMA core 4C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 2631,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg018.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "4750cc93c1bb4025",
+          "sampleName": "reg018 (TMA core 4C)",
+          "unitCount": 2631,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "b2524eedce7b5360"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg018.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "6a757f7d646747c5",
+      "title": "reg038 (TMA core 8C)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 2492,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg038.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "6a757f7d646747c5",
+          "sampleName": "reg038 (TMA core 8C)",
+          "unitCount": 2492,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "b853b3ad791d5125"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg038.ome.tiff"
+        }
+      ]
+    },
+    {
+      "id": "2a587dd17a77485a",
+      "title": "reg024 (TMA core 5D)",
+      "study": "Spatial Immune Associations of Immunotherapy Response in Non-Small Cell Lung Cancer by Multiplexed Tissue Imaging",
+      "platform": "CODEX",
+      "modality": "Proteomics",
+      "tissue": "lung",
+      "disease": "non-small cell lung carcinoma",
+      "resolution": "Single-cell",
+      "unitCount": 1913,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2265 200",
+          "level": "na"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "target \u2264 0.5%",
+          "level": "na"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": true,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [],
+        "panelName": "Monkman NSCLC 36-plex CODEX antibody panel",
+        "panelSize": 36,
+        "panelVersion": "study-specific",
+        "referenceGenome": null,
+        "license": null,
+        "released": "2024-03-04",
+        "publicationTitle": "Spatial insights into immunotherapy response in non-small cell lung cancer (NSCLC) by multiplexed tissue imaging.",
+        "publicationDoi": "10.1186/s12967-024-05035-8",
+        "accession": "10.5281/zenodo.10258578",
+        "accessionDatabase": "Zenodo",
+        "assays": [
+          "PhenoCycler"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "protein_abundance"
+        ],
+        "description": "One core of a non-small-cell lung cancer tissue microarray imaged on an Akoya CODEX (PhenoCycler) over 15 staining cycles with a 36-marker antibody panel at 0.3775 um/px. Cells were segmented in QuPath and the per-cell mean intensity of all 58 imaged channels is carried as the protein readout, rounded to integers. Cell types are the authors' published Leiden labels. Three channels of the 60-plane stack - CD45, PanCK, DAPI - are rendered as the section composite the crop pointers box into. Published by Monkman et al. 2024, J Transl Med, from a cohort that went on to receive PD-1 axis immunotherapy; the deposit carries no patient identifiers or clinical variables."
+      },
+      "location": "https://zenodo.org/records/10258578",
+      "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg024.ome.tiff",
+      "sections": [
+        {
+          "datasetUid": "2a587dd17a77485a",
+          "sampleName": "reg024 (TMA core 5D)",
+          "unitCount": 1913,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "851f9fd9286c5529"
+          ],
+          "medianCounts": null,
+          "downloadUrl": "https://zenodo.org/records/10258578/files/s293_c001_v001_r001_reg024.ome.tiff"
         }
       ]
     }
