@@ -462,6 +462,73 @@ oriented in the grass, with its organs visible inside it and still clickable. `#
 and `#sp=zebrafish&lod=orbit` are unchanged. Screenshots of all three, plus a close view showing
 organs inside the rat.
 
+## Task 11: Port the corpus builder's style guide into the 3D viewer
+
+**What the user asked for (2026-08-15):** "port style guide from corpus into the 3d viewer."
+
+The two UIs in this repo look like different products. `web/` (the corpus builder, PR #8) is built on
+the CZI Science Design System; `viewer/` grew its own palette. They should read as one product.
+
+### The two systems today
+
+**`web/` — CZI SDS, light.** `web/src/styles.css` defines the tokens in `:root`: a blue ramp with
+`--blue-500: #1a6cef` as the accent, a gray ramp `--gray-50` to `--gray-800`, green/yellow/red status
+ramps, `--font-ui: Inter` and `--font-mono: "IBM Plex Mono"`. `web/src/theme.ts` builds an MUI theme
+from `@czi-sds/components`, remapping SDS's `indigo` onto `blue` so every component's accent follows
+the packet rather than SDS's default purple. Deliberately light-only — the QC status colours are
+tuned for that ground.
+
+**`viewer/` — its own dark chrome.** `viewer/src/theme.ts` holds `UI` (a dark glass panel at
+`rgba(18, 22, 28, 0.82)`, text `#eef2f6`, gold accent `#ffd479`), `MARKER`, and the scene palettes
+`SKY`, `GROUND`, `BODY`. Chrome lives in `viewer/src/styles.css` (131 lines) and
+`viewer/src/panel/Panel.css` (297 lines).
+
+### What to port, and what not to — read this before touching anything
+
+**Port: the UI chrome.** Colour tokens, typography, spacing, radii, and the component idiom for
+things that are *interface* — the floating panel, its title bar, the HUD chips, sliders, breadcrumbs,
+buttons, labels, tables of metadata.
+
+**Do not port: the scene palette.** `SKY`, `GROUND`, and `BODY` in `viewer/src/theme.ts` are not
+arbitrary. As that file's docstring records, they were **read off the panorama photograph** in
+`viewer/public/env/` so the body is lit for the same day as the sky behind it. Restyling them to SDS
+grays would light the body for a different day, and it would show. Leave them alone.
+
+**Do not touch data colour.** Global Constraint 2 stands: cells are viridis by transcript count and
+magma by gene, and measured data is never decorated. The style guide governs chrome, not data.
+
+### Rulings (controller)
+
+1. **Port the tokens, not the component library.** Do not add `@czi-sds/components`, MUI, or Emotion
+   to `viewer/`. The viewer's bundle is already ~1.14 MB plus a 1.25 MB panorama, and it has no
+   component library today — pulling in SDS + MUI + Emotion to restyle a dozen chips is a large
+   dependency for a small surface. Lift the CSS custom properties and the type stack into the
+   viewer's own CSS and `theme.ts`. If you believe the component library genuinely earns its weight
+   here, make that argument in your report rather than acting on it.
+   *Cost if wrong: the two UIs share tokens but not components, so a future SDS component added to the
+   viewer needs the dependency then. Cheap to reverse; the tokens are the same either way.*
+
+2. **Light-vs-dark is yours to judge, and it is the real design risk.** The corpus builder is
+   light-only. The viewer's chrome is dark glass floating over a bright alpine photograph, which is
+   why it currently reads. A light SDS panel over that plate may wash out and lose its edges. Try it,
+   look at it, and decide: either the viewer adopts the light ground, or it keeps a dark surface while
+   adopting SDS's ramps, spacing, and type. **Show both in your report with screenshots** and say why
+   you chose what you chose. Do not silently pick one.
+   *Cost if wrong: a restyle we look at and revert — visible, and cheap.*
+
+### Requirements
+
+- Single source of truth for the shared tokens. Duplicating the hex values into a second file is the
+  thing this task exists to remove; if the ramps end up in two places, say why.
+- Inter and IBM Plex Mono for UI and mono respectively, matching `web/`.
+- The floating panel, HUD chips, breadcrumb, back control and sliders all follow the ported system.
+- **No functional change.** This is chrome only: no behaviour, no state, no layout logic. In
+  particular do not alter the floating panel's drag/resize/close behaviour or its URL geometry codec.
+- `npx tsc --noEmit` clean, `npm run test` passing.
+
+**What "done" means.** Put the two UIs side by side and they read as one product. Screenshots of the
+viewer at orbit and at a sample's detail view, plus the corpus builder, in your report.
+
 ## Suggested order
 
 1, 2, 3 are entangled (camera, placement, scale) and are the difference between a working app and a
