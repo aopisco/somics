@@ -1,21 +1,50 @@
 # somics viewer
 
-A browsable 3D view of the somics spatial atlas: a low-resolution voxel rat (or human) standing in a
-grass field, with a glowing pin on every organ the atlas holds data for. Clicking a pin flies the
-camera continuously inward through four zoom levels, ending inside real microscopy data.
+A browsable 3D view of the somics spatial atlas: a low-resolution voxel rat, human or zebrafish
+standing in a photographic alpine valley, with a glowing pin on every organ the atlas holds data for.
+Clicking a pin selects that organ's samples; the measured data itself is drawn in a floating 2D
+panel, not in the 3D scene.
 
 | Level | What you see |
 |---|---|
 | `orbit` | The whole body, turning slowly, pins on the organs |
 | `organ` | One organ's samples |
-| `section` | Every cell in the section as a point, coloured by transcript count |
-| `cell` | Morphology image tiles from the microscope, at 0.2125 µm/px |
+| `section` | The section's cells or spots, as a 2D plot in the panel, coloured by transcript count |
+| `cell` | The section's imagery in the panel, placed at the point you clicked |
 
-Snapshot v0 of the atlas holds one sample — a 587,115-cell 10x Xenium section of human colon
-adenocarcinoma — so one pin is lit and the other twenty-nine organs render as inert sockets. New
-ingests light up automatically: a sample's `tissue` label is matched to an organ by
+**Measured data lives in the panel, the body lives in 3D.** The section is a flat thing, so it is
+drawn flat: a canvas plot of every cell or spot, viridis by transcript count and magma by gene. The
+3D scene stays on the body, its organs and its pins. Clicking a point in the plot places the imagery
+view at those microns.
+
+New ingests light up automatically: a sample's `tissue` label is matched to an organ by
 [`anatomy.py`](../src/somics/viewer/anatomy.py), which routes 278 free-text tissue spellings onto 30
-clickable organs.
+clickable organs. As of 2026-08-15 the atlas holds 57 sections across three of them — query
+`/api/samples` rather than trusting a number in a document, because this has been wrong three times:
+
+| organ | technology | sections | unit |
+|---|---|---|---|
+| `brain` | visium | 12 | ~4k spots each |
+| `colon` | xenium | 1 | 587,115 cells |
+| `lung` | codex / cosmx | 36 / 8 | morphology |
+
+## Imagery
+
+Sections carry one of two kinds, and they are not interchangeable:
+
+- **H&E** — stained colour, on the twelve Visium brain sections
+- **Morphology** — detector intensity, greyscale, on the other 45
+
+`/api/samples/{uid}/crops` returns whichever the section has, and every tile carries a `kind` and a
+server-supplied `label`, so nothing downstream has to guess which stain it is looking at.
+
+## The floating panel
+
+The spatial information — metadata, the cell/spot plot, and the imagery — sits in a window that
+floats over the canvas in screen space. It is a DOM overlay, not attached to the 3D scene, so
+orbiting and zooming leave it exactly where you put it. Drag it by the title bar, resize it from the
+corner, close it, and reopen it from the `panel` chip. Its position, size and open state live in the
+URL with everything else.
 
 ## Run it
 

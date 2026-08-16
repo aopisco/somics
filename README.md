@@ -94,11 +94,13 @@ what the atlas can and cannot tell the UI, particularly on QC.
 
 ## Viewer
 
-`viewer/` is a 3D browser view of the atlas: a low-resolution voxel rat or human standing in a grass
-field, with a pin on every organ the atlas holds data for. Clicking a pin flies the camera inward
-through four zoom levels, ending on the section's individual cells and its morphology imagery. Every
-view is a URL, so a copied link reopens exactly what you were looking at, and an agent can drive the
-UI over HTTP while you watch.
+`viewer/` is a 3D browser view of the atlas: a low-resolution voxel rat, human or zebrafish standing
+in a photographic alpine valley, with a pin on every organ the atlas holds data for. Clicking a pin
+selects that organ's samples. The measured data — every cell or spot as a 2D plot, plus the section's
+H&E or morphology imagery — is drawn in a floating panel over the scene rather than in it, on the
+grounds that a tissue section is a flat thing. Every view is a URL, down to the panel's position and
+size, so a copied link reopens exactly what you were looking at, and an agent can drive the UI over
+HTTP while you watch.
 
 ```bash
 uv run python -m somics.viewer            # API on http://127.0.0.1:8787
