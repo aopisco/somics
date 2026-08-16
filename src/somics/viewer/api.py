@@ -10,7 +10,7 @@ import json
 from typing import Annotated
 
 from fastapi import Body, Depends, FastAPI, HTTPException, Query, Response
-from fastapi.responses import StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from somics.viewer.anatomy import BODY_BOUNDS, SPECIES, organ_payload
@@ -221,3 +221,10 @@ if CORPUS_DIST.is_dir():
 
 if WEB_DIST.is_dir():
     app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")
+elif CORPUS_DIST.is_dir():
+    # No 3D viewer build, but the corpus builder is there. Without this "/" is a
+    # bare 404, which reads as "the server is broken" rather than "run npm run
+    # build in viewer/". Send it somewhere useful instead.
+    @app.get("/", include_in_schema=False)
+    def _root_to_corpus() -> RedirectResponse:
+        return RedirectResponse("/corpus/")
