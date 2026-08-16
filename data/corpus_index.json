@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-16T03:58:33+00:00",
+  "generatedAt": "2026-08-16T15:30:14+00:00",
   "atlasDir": "s3://epiblast-public/somics_spatial_atlas",
   "stats": {
-    "datasets": 57,
-    "ingestedDatasets": 57,
-    "units": 1646068,
-    "sections": 57,
+    "datasets": 59,
+    "ingestedDatasets": 59,
+    "units": 2473116,
+    "sections": 59,
     "platforms": 4,
     "passAllQc": 53
   },
@@ -17,7 +17,7 @@
       },
       {
         "value": "Transcriptomics",
-        "count": 13
+        "count": 15
       }
     ],
     "platform": [
@@ -35,7 +35,7 @@
       },
       {
         "value": "Xenium",
-        "count": 1
+        "count": 3
       }
     ],
     "tissue": [
@@ -49,16 +49,20 @@
       },
       {
         "value": "lung",
-        "count": 44
+        "count": 46
       }
     ],
     "disease": [
       {
         "value": "Healthy",
-        "count": 12
+        "count": 13
       },
       {
         "value": "colon adenocarcinoma",
+        "count": 1
+      },
+      {
+        "value": "lung adenocarcinoma",
         "count": 1
       },
       {
@@ -77,14 +81,14 @@
       },
       {
         "value": "Subcellular",
-        "count": 9
+        "count": 11
       }
     ]
   },
   "starterPrompts": [
     "colon, transcriptomics with images",
-    "lung, proteomics with images",
-    "dorsolateral prefrontal cortex, transcriptomics with images"
+    "lung, transcriptomics with images",
+    "lung, proteomics with images"
   ],
   "datasets": [
     {
@@ -181,6 +185,200 @@
           ],
           "medianCounts": 95.0,
           "downloadUrl": "https://s3-us-west-2.amazonaws.com/10x.files/samples/xenium/1.6.0/Xenium_V1_hColon_Cancer_Add_on_FFPE/Xenium_V1_hColon_Cancer_Add_on_FFPE_outs.zip"
+        }
+      ]
+    },
+    {
+      "id": "c7701c43f4424bc7",
+      "title": "Xenium Human Lung 1 - Lung Cancer, pre-designed + add-on panel",
+      "study": "Human Lung Cancer Preview Data (Xenium Human Lung Gene Expression Panel + add-on)",
+      "platform": "Xenium",
+      "modality": "Transcriptomics",
+      "tissue": "lung",
+      "disease": "lung adenocarcinoma",
+      "resolution": "Subcellular",
+      "unitCount": 531165,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "105",
+          "numeric": 105.0,
+          "threshold": "target \u2265 200",
+          "level": "warn"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.010%",
+          "numeric": 0.01009697242973268,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "Xenium_Lung_Preview_lung_cancer"
+        ],
+        "panelName": "Xenium Human Lung Panel v1 + hLung_100g Add-On",
+        "panelSize": 392,
+        "panelVersion": "v1 preview",
+        "referenceGenome": null,
+        "license": null,
+        "released": null,
+        "publicationTitle": null,
+        "publicationDoi": null,
+        "accession": null,
+        "accessionDatabase": "10x Genomics Datasets",
+        "assays": [
+          "10x Xenium"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "Adult human lung section, FFPE. The 10x Human Lung Preview release is two sections profiled on the same panel \u2014 one non-diseased and one with invasive adenocarcinoma, both sourced from Avaden Biosciences across 2 donors; this dataset is the adenocarcinoma section. Profiled on Xenium Analyzer with the 292-gene pre-designed Xenium human lung panel (design PD_339, hLung_292g) plus a 100-gene lung add-on (PD_346, hLung_100g), for 392 gene targets reported alongside 149 control and blank codewords on a 541-column feature axis. Xenium Onboard Analysis xenium-1.3.0.5; run Human_Lung_Cancer_Add_on_2_FFPE started 2023-05-02T22:32:52Z. 531165 cells, 105 median transcripts per cell. Cells were segmented by 15 um expansion from the DAPI nucleus boundary. The outs bundle ships no H&E; the section image ingested here is the single-channel morphology_focus DAPI projection at 0.2125 um/px. The transcript-level table and the multi-z morphology stack are published in the same bundle but are not part of this package."
+      },
+      "location": "https://www.10xgenomics.com/datasets/xenium-human-lung-preview-data-1-standard",
+      "downloadUrl": "https://cf.10xgenomics.com/samples/xenium/1.3.0/Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE/Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE_outs.zip",
+      "sections": [
+        {
+          "datasetUid": "c7701c43f4424bc7",
+          "sampleName": "Xenium Human Lung 1 - Lung Cancer, pre-designed + add-on panel",
+          "unitCount": 531165,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "675239e93c335c34"
+          ],
+          "medianCounts": 105.0,
+          "downloadUrl": "https://cf.10xgenomics.com/samples/xenium/1.3.0/Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE/Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE_outs.zip"
+        }
+      ]
+    },
+    {
+      "id": "dddd831e939f4a2b",
+      "title": "Xenium Human Lung 1 - Non-diseased, pre-designed + add-on panel",
+      "study": "Human Lung Cancer Preview Data (Xenium Human Lung Gene Expression Panel + add-on)",
+      "platform": "Xenium",
+      "modality": "Transcriptomics",
+      "tissue": "lung",
+      "disease": "Healthy",
+      "resolution": "Subcellular",
+      "unitCount": 295883,
+      "unitNoun": "cells",
+      "sectionCount": 1,
+      "datasetCount": 1,
+      "hasImages": true,
+      "imageKinds": [
+        "morphology"
+      ],
+      "downloadable": true,
+      "qc": [
+        {
+          "key": "tx_per_cell",
+          "short": "tx/cell",
+          "label": "Median transcripts/cell",
+          "value": "71",
+          "numeric": 71.0,
+          "threshold": "target \u2265 200",
+          "level": "fail"
+        },
+        {
+          "key": "neg_probe",
+          "short": "neg-probe",
+          "label": "Negative-probe rate",
+          "value": "0.005%",
+          "numeric": 0.005453193118729979,
+          "threshold": "target \u2264 0.5%",
+          "level": "pass"
+        },
+        {
+          "key": "assigned",
+          "short": "assigned",
+          "label": "% transcripts assigned to cells",
+          "value": "\u2014",
+          "numeric": null,
+          "threshold": "not captured at ingest",
+          "level": "na"
+        },
+        {
+          "key": "segmentation",
+          "short": "seg",
+          "label": "Segmentation quality",
+          "value": "nucleus_expansion",
+          "numeric": null,
+          "threshold": "no verdict stored at ingest",
+          "level": "na"
+        }
+      ],
+      "passesAllQc": false,
+      "meta": {
+        "organism": "Homo sapiens",
+        "donorIds": [
+          "Xenium_Lung_Preview_non_diseased"
+        ],
+        "panelName": "Xenium Human Lung Panel v1 + hLung_100g Add-On",
+        "panelSize": 392,
+        "panelVersion": "v1 preview",
+        "referenceGenome": null,
+        "license": null,
+        "released": null,
+        "publicationTitle": null,
+        "publicationDoi": null,
+        "accession": null,
+        "accessionDatabase": "10x Genomics Datasets",
+        "assays": [
+          "10x Xenium"
+        ],
+        "featureSpaces": [
+          "discrete_image",
+          "gene_expression"
+        ],
+        "description": "Adult human lung section, FFPE. The 10x Human Lung Preview release is two sections profiled on the same panel \u2014 one non-diseased and one with invasive adenocarcinoma, both sourced from Avaden Biosciences across 2 donors; this dataset is the non-diseased section. Profiled on Xenium Analyzer with the 292-gene pre-designed Xenium human lung panel (design PD_339, hLung_292g) plus a 100-gene lung add-on (PD_346, hLung_100g), for 392 gene targets reported alongside 149 control and blank codewords on a 541-column feature axis. Xenium Onboard Analysis xenium-1.3.0.5; run Human_Non_diseased_Lung_Add_on_FFPE started 2023-05-02T22:32:52Z. 295883 cells, 71 median transcripts per cell. Cells were segmented by 15 um expansion from the DAPI nucleus boundary. The outs bundle ships no H&E; the section image ingested here is the single-channel morphology_focus DAPI projection at 0.2125 um/px. The transcript-level table and the multi-z morphology stack are published in the same bundle but are not part of this package."
+      },
+      "location": "https://www.10xgenomics.com/datasets/xenium-human-lung-preview-data-1-standard",
+      "downloadUrl": "https://cf.10xgenomics.com/samples/xenium/1.3.0/Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE/Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE_outs.zip",
+      "sections": [
+        {
+          "datasetUid": "dddd831e939f4a2b",
+          "sampleName": "Xenium Human Lung 1 - Non-diseased, pre-designed + add-on panel",
+          "unitCount": 295883,
+          "unitNoun": "cells",
+          "sectionUids": [
+            "b078a2710ca256ef"
+          ],
+          "medianCounts": 71.0,
+          "downloadUrl": "https://cf.10xgenomics.com/samples/xenium/1.3.0/Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE/Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE_outs.zip"
         }
       ]
     },
