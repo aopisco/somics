@@ -225,3 +225,32 @@ Don't retroactively rewrite existing rows as part of a harvest run. That's a sep
 **Treating a paper's mention as a dataset.** Reviews and benchmark papers name dozens of datasets they never touched. `origin` is meant to capture generated vs reused, but neither applies to a passing citation. When the paper didn't actually use the data, it shouldn't produce a row.
 
 **Assuming Paperclip has everything.** Its bioRxiv ingestion lags publication by roughly three months as of August 2026 — TERRA (posted 2026-08-04) is absent entirely. Recent work has to be added by hand, and a search returning nothing recent reflects the index, not the field.
+
+**A modeling/benchmark paper that extracts ZERO datasets.** This is almost always a
+false negative, not a paper without data. Modeling papers keep their dataset inventory in
+a *table* ("Table 1: Overview of datasets"), and Paperclip's text extraction routinely
+drops table bodies while keeping the caption — so the reader sees "summarized in Table 1"
+with no rows. Hit this twice: DRIFT and SpatialProp both extracted nothing on the first
+pass and both had a full dataset table.
+
+Recovery — fetch the PDF, which parses tables the corpus copy lost:
+
+```bash
+paperclip fetch "https://www.biorxiv.org/content/<doi>v1" --into /clipboard/somics/
+# wait for indexing, then read the table region
+paperclip grep -B 1 -A 3 "Table 1" /clipboard/somics/<usr_id>/content.lines
+paperclip cat /clipboard/somics/<usr_id>/content.lines > /tmp/paper.txt   # then parse locally
+```
+
+The table gives dataset → reference number; resolve each number in the bibliography
+(`grep -oE "\[N\][^[]{40,300}"` over the local copy) to get the original publication, then
+Crossref the title for the journal DOI. This is the same alias → reference → original chain
+`trace_originals.py` automates for the normal case; here you feed it by hand.
+
+**Treating "no perturbation vocabulary" as "no perturbation datasets."** Transcriptomics/
+proteomics/foundation-model queries do not surface CRISPR screens, drug-treatment series,
+transgenic-model or injury time-course data — a perturbation-specific probe in Aug 2026
+returned 54 papers of which 47 were unmined, and a wider one 246 of which 182 were unmined.
+When harvesting perturbation work, add `perturbation` to the claim schema (what was applied:
+knockout, compound, transgene, injury; null if observational) and record it inline in
+`dataset_name` as `[perturbation: ...]` so the rows stay findable.
