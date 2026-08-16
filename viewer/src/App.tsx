@@ -6,8 +6,6 @@ import { AgentBanner } from "./agent/AgentBanner";
 import { Body } from "./body/Body";
 import { CameraRig } from "./camera/CameraRig";
 import { layerOpacity } from "./camera/lod";
-import { CropTilesLayer } from "./layers/CropTiles";
-import { PointCloudLayer } from "./layers/PointCloud";
 import { SampleMarkers } from "./markers/SampleMarkers";
 import { Panel } from "./panel/Panel";
 import { GrassField } from "./scene/GrassField";
@@ -87,10 +85,11 @@ export function App() {
           <Motes fade={opacity.world} />
           <Body fade={opacity.body} />
           <SampleMarkers fade={opacity.body} />
-          <PointCloudLayer opacity={opacity.points} />
-          <CropTilesLayer opacity={opacity.crops} />
           <CameraRig />
         </Canvas>
+        {/* The measured data is deliberately absent from the scene above: the points and the crops
+            are 2D, in the panel below. What the canvas holds is the place — body, organs, pins —
+            and it holds it at every zoom level, so the stage is never blank. */}
         {/* Two DOM overlays over the canvas, both in screen space. The panel stacks above the HUD
             (see `.panel-frame`) so a window dragged over the breadcrumbs is still usable; the HUD
             is click-through except for its chips, so the one that reopens the panel is only ever

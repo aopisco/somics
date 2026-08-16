@@ -61,7 +61,7 @@ export function mosaicLayout(tiles: CropTile[]): Mosaic | null {
       uid: tile.uid,
       png: tile.png,
       leftPct: ((tile.x_um - tile.width_um / 2 - xMin) / widthUm) * 100,
-      // Micron y runs up, CSS top runs down; flipping keeps the panel and the 3D layer agreeing.
+      // Micron y runs up, CSS top runs down; flipping keeps this and the section plot agreeing.
       topPct: ((yMax - (tile.y_um + tile.height_um / 2)) / heightUm) * 100,
       widthPct: (tile.width_um / widthUm) * 100,
       heightPct: (tile.height_um / heightUm) * 100,

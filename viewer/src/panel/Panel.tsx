@@ -8,6 +8,7 @@
  */
 
 import type { JSX, ReactNode } from "react";
+import { useEffect, useRef } from "react";
 
 import type { LoadPhase } from "../state";
 import {
@@ -23,6 +24,7 @@ import { FloatingPanel } from "./FloatingPanel";
 import "./Panel.css";
 import { backLabel, formatCount, formatExtent, humanizeKey } from "./format";
 import { Morphology } from "./Morphology";
+import { SectionView } from "./SectionView";
 
 const SPECIES_LABEL: Record<Species, string> = {
   human: "human",
@@ -34,6 +36,14 @@ export function Panel(): JSX.Element {
   const store = useStore();
   const organ = selectOrgan(store, store.node);
   const sample = selectCurrentSample(store);
+
+  // A new selection is a new document, so it starts at the top. Without this, switching between two
+  // of the twelve brain sections keeps the old scroll offset and the plot — the whole point of the
+  // panel, and the first thing in it — opens below the fold.
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    bodyRef.current?.scrollTo({ top: 0 });
+  }, [store.sample, store.node]);
 
   let title: string;
   let body: JSX.Element;
@@ -75,7 +85,7 @@ export function Panel(): JSX.Element {
 
   return (
     <FloatingPanel title={title}>
-      <div className="panel">
+      <div className="panel" ref={bodyRef}>
         {back && (
           <button className="panel-button panel-back" onClick={() => store.zoomOut()}>
             <span aria-hidden="true">←</span> {back}
@@ -219,6 +229,10 @@ function SampleSection({
         </p>
       )}
 
+      {/* The measured points, flat and in screen space. They used to be a THREE.Points cloud the
+          camera flew into; the user asked twice for them here instead. */}
+      <SectionView unit={unitNoun([sample])} />
+
       <Morphology sample={sample} focusUm={focusUm} />
 
       <dl className="panel-fields">
@@ -289,7 +303,7 @@ function joinFields(a: string | null, b: string | null): string | null {
   return parts.length > 0 ? parts.join(" · ") : null;
 }
 
-/** The deepest zoom level renders real microscopy imagery, which needs a morphology crop. */
+/** What the atlas actually holds for this sample, so an empty imagery box is explained. */
 function modalityLine(sample: Sample): string {
   const present: string[] = [];
   if (sample.has_gene_expression) present.push("gene expression");
@@ -297,9 +311,9 @@ function modalityLine(sample: Sample): string {
   if (sample.has_he_crop) present.push("hematoxylin and eosin (H&E) imagery");
   if (present.length === 0) return "This sample carries no cell-level imagery or expression data.";
   const line = `Carries ${present.join(", ")}.`;
-  return sample.has_morphology_crop
-    ? `${line} The cell zoom level works for this sample.`
-    : `${line} The cell zoom level needs morphology imagery, which this sample does not have.`;
+  return sample.has_morphology_crop || sample.has_he_crop
+    ? `${line} The imagery above is cropped from it.`
+    : `${line} There is no imagery to crop, so only the points are shown.`;
 }
 
 function KeyValueTable({

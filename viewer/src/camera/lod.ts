@@ -11,27 +11,28 @@ import type { CameraState, Lod, Vec3 } from "../types";
 export interface LayerOpacity {
   world: number;
   body: number;
-  points: number;
-  crops: number;
 }
 
+/**
+ * Nothing dims any more, at any level.
+ *
+ * Section and cell used to fade the valley to nothing and the body to a ghost, because the section
+ * plane needed the frame to itself. The measured data is in the floating panel now, so there is no
+ * plane to clear a stage for — and a stage cleared for nothing is exactly what made the app read as
+ * broken. The body, its organs and their pins stay lit the whole way in.
+ *
+ * The table is kept rather than collapsed to a constant because the level is still the only thing
+ * that would ever drive a fade, and every layer already takes one.
+ */
 const LAYER_OPACITY: Record<Lod, LayerOpacity> = {
-  orbit: { world: 1, body: 1, points: 0, crops: 0 },
-  organ: { world: 1, body: 1, points: 0, crops: 0 },
-  section: { world: 0, body: 0.12, points: 1, crops: 0 },
-  cell: { world: 0, body: 0, points: 0.55, crops: 1 },
+  orbit: { world: 1, body: 1 },
+  organ: { world: 1, body: 1 },
+  section: { world: 1, body: 1 },
+  cell: { world: 1, body: 1 },
 };
 
 export function layerOpacity(lod: Lod): LayerOpacity {
   return LAYER_OPACITY[lod];
-}
-
-/** World units across the section plane's long axis. */
-export const SECTION_SIZE = 6;
-
-/** Where the section's unit square ([-1, 1] on its long axis) sits in world space. */
-export function sectionTransform(anchor: Vec3): { position: Vec3; scale: number } {
-  return { position: anchor, scale: SECTION_SIZE / 2 };
 }
 
 export interface Focus {
@@ -41,8 +42,19 @@ export interface Focus {
 
 const ORBIT_DISTANCE_FACTOR = 2.4;
 const ORGAN_DISTANCE = 4;
-const SECTION_DISTANCE = SECTION_SIZE * 0.5;
-const CELL_DISTANCE = SECTION_DISTANCE * 0.1;
+// Section and cell are a lean-in on the organ, not a flight past it.
+//
+// They used to be a plane six world units across, hung on the organ's anchor, framed head-on from
+// three units out and then from 0.3 — which is inside the body shell and, for a big organ, inside
+// the organ. That is the "it zooms into the brain" the user reported. There is no plane now, so the
+// deepest thing the camera has to look at is the organ, and it stops there.
+//
+// Fractions of the organ framing rather than absolutes, and deliberately shallow ones: the organ
+// distance is already close enough that a rat's colon is a body-width from the shell, and anything
+// that undercuts it much puts the camera inside the body. Whatever eventually re-frames the organ
+// level for body size carries these two with it.
+const SECTION_DISTANCE = ORGAN_DISTANCE * 0.92;
+const CELL_DISTANCE = ORGAN_DISTANCE * 0.85;
 
 export const TWEEN_SECONDS = 1.5;
 
@@ -69,8 +81,6 @@ function normalize(a: Vec3): Vec3 {
 // Only the direction changed; orbitDistance and so lodForDistance's thresholds did not.
 const ORBIT_DIR = normalize([0.55, 0.2, 0.82]);
 const ORGAN_DIR = normalize([0.4, 0.22, 0.9]);
-// Section/cell look straight down the section plane's normal.
-const PLANE_DIR: Vec3 = [0, 0, 1];
 
 function bodyCenter(bounds: [Vec3, Vec3]): Vec3 {
   const [min, max] = bounds;
@@ -100,14 +110,16 @@ export function focusFor(args: { lod: Lod; bounds: [Vec3, Vec3]; anchor: Vec3 | 
         position: addV(anchorPoint, scaleV(ORGAN_DIR, ORGAN_DISTANCE)),
         target: anchorPoint,
       };
-    case "section": {
-      const plane = sectionTransform(anchorPoint).position;
-      return { position: addV(plane, scaleV(PLANE_DIR, SECTION_DISTANCE)), target: plane };
-    }
-    case "cell": {
-      const plane = sectionTransform(anchorPoint).position;
-      return { position: addV(plane, scaleV(PLANE_DIR, CELL_DISTANCE)), target: plane };
-    }
+    case "section":
+      return {
+        position: addV(anchorPoint, scaleV(ORGAN_DIR, SECTION_DISTANCE)),
+        target: anchorPoint,
+      };
+    case "cell":
+      return {
+        position: addV(anchorPoint, scaleV(ORGAN_DIR, CELL_DISTANCE)),
+        target: anchorPoint,
+      };
   }
 }
 
@@ -126,14 +138,24 @@ export function lodForDistance(distance: number, bounds: [Vec3, Vec3]): Lod {
 }
 
 /**
- * The level a manual orbit/wheel zoom lands on. Section and cell have nothing to
- * draw without a loaded sample, so with none they collapse to organ rather than
- * emptying the screen.
+ * The level a manual orbit/wheel zoom lands on, given where it already is.
+ *
+ * Section and cell are no longer places the wheel can go. They used to be: a plane hung in front of
+ * the organ, with its own camera distance, that the wheel could fall into and out of. The measured
+ * data is in the floating panel now, so those two levels are a *selection* — a sample, and a point
+ * within it — and the camera has nothing of its own to show at either. It stops at the organ.
+ *
+ * That leaves the wheel two jobs and takes one away. It moves between orbit and organ as before,
+ * and it collapses the inner distances onto organ so wheeling in from the body cannot land on a
+ * level with no sample behind it. But it may not report a level while one of the inner two is
+ * selected: from the camera's distance, "parked at the organ" and "parked at the organ with a
+ * section open" are the same reading, and letting it answer would drop the selection every frame.
+ * The back control, the breadcrumb and Escape are how those levels are left.
  */
-export function manualLod(distance: number, bounds: [Vec3, Vec3], hasSample: boolean): Lod {
-  const lod = lodForDistance(distance, bounds);
-  if (!hasSample && (lod === "section" || lod === "cell")) return "organ";
-  return lod;
+export function manualLod(distance: number, bounds: [Vec3, Vec3], current: Lod): Lod {
+  if (current === "section" || current === "cell") return current;
+  const reached = lodForDistance(distance, bounds);
+  return reached === "section" || reached === "cell" ? "organ" : reached;
 }
 
 /**

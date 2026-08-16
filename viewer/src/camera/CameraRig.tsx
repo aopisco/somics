@@ -128,7 +128,7 @@ export function CameraRig(): JSX.Element {
     // wherever the user has since orbited or wheeled it to.
     if (!bounds) return;
     const distance = activeCamera.position.distanceTo(controls.target);
-    const lod = manualLod(distance, bounds, store.sample !== null);
+    const lod = manualLod(distance, bounds, store.lod);
     if (lod !== store.lod) store.setLod(lod);
   });
 
