@@ -552,9 +552,10 @@ def build_feature_layers(
         used.add(stem)
         name = f"map_{prefix}_{stem}.png"
         (out_dir / name).write_bytes(png)
+        # A subsample that reached every unit is not a subsample.
         drawn = (
             f"All {len(plot_x):,} units."
-            if drawn_from_all
+            if drawn_from_all or len(plot_x) >= n_total
             else f"{len(plot_x):,} of {n_total:,} units."
         )
         layers.append(
