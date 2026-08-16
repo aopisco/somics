@@ -1,6 +1,10 @@
+<img src="assets/logo/somics-mark.svg" alt="somics logo" width="96" align="left" />
+
 # somics
 
 Tools for working with spatial omics datasets.
+
+<br clear="left" />
 
 📊 [Team slide deck](https://docs.google.com/presentation/d/1JAx5EtSJxe9Zc3rZCMGvH3-RoAFuo6U96toq0wJD7nE/) — project overview and paperclip demo (see also [docs/demo](docs/demo)).
 
