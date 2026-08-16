@@ -67,29 +67,34 @@ Violating one fails review regardless of anything else.
    `uv run ruff check src/`, `uv run ruff format --check src/`, `uv run pytest src/somics/viewer`.
 8. Tests live alongside source (`foo.ts` -> `foo.test.ts`). Type hints throughout on Python.
 
-## The atlas changed under this plan — read this
+## The atlas keeps changing under this plan — measure it, do not trust this document
 
-Written when the plan was drafted: "the atlas holds one sample". **That is no longer true.** The LIBD
-DLPFC Visium dataset was ingested on 2026-08-15 (`ff2245b`). `/api/samples` now returns **13 samples**:
+The plan was drafted when the atlas held **one** sample. It then went to 13. **As of 2026-08-15 23:xx
+it holds 57**, measured against the live API:
 
-| organ | tissue | technology | sections | scale |
-|---|---|---|---|---|
-| `colon` | colon | xenium | 1 | 587,115 cells |
-| `brain` | dorsolateral prefrontal cortex | visium | 12 | 3,460–4,789 spots each |
+| organ | technology | sections | unit |
+|---|---|---|---|
+| `brain` | visium | 12 | ~4k spots each |
+| `colon` | xenium | 1 | 587,115 cells |
+| `lung` | codex | 36 | morphology |
+| `lung` | cosmx | 8 | morphology |
 
-Three consequences every task should know:
+Imagery: **12 sections carry H&E, 45 carry morphology.**
 
-1. **Two organs light up now, not one.** 28 inert sockets, not 29.
-2. **The multi-sample path is live.** One organ (`brain`) carries twelve sections. The handoff flagged
-   the panel's and markers' multi-sample handling as never having been exercised with real data —
-   it now is, and it is the most likely place for a new bug to show up. An organ with 12 samples must
-   be selectable, listable, and navigable.
-3. **A second spatial unit is live.** Visium is spot-based at ~4k spots per section; Xenium is
-   cell-based at 587k. Anything that assumed one scale or the word "cell" — point sizing, budgets,
-   labels, `spatial_unit` handling — now has a second case, three orders of magnitude smaller. A point
-   size tuned for 587k cells may be invisible or absurd at 4k spots.
+Consequences every task should know:
 
-Do not treat the one-sample statements elsewhere in this document as current. Query the API.
+1. **Three organs light up, not two.** 27 inert sockets.
+2. **The multi-sample path is heavily live** — `lung` alone carries 44 sections across two
+   technologies. The handoff flagged multi-sample handling as never exercised with real data; it now
+   is, at scale, and it is the likeliest place for a new bug.
+3. **Four technologies and two spatial units.** Visium ~4k spots against Xenium 587k cells is three
+   orders of magnitude. Anything tuned for one scale, or that hardcodes the word "cell", now has
+   several cases.
+4. **Two kinds of imagery.** H&E is stained colour; morphology is greyscale. They are not
+   interchangeable and each tile from `/api/samples/{uid}/crops` carries a `kind` and a `label`.
+
+**Any statement of sample counts in this document is a snapshot and may already be wrong. Query
+`/api/samples` before relying on one.**
 
 ## Task 1: Stop the LOD/camera feedback loop
 
