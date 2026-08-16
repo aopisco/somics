@@ -49,7 +49,15 @@ class FakeSource:
     def crops(self, section_uid, x_um, y_um, radius_um, limit):
         self.sample(section_uid)
         return [
-            {"uid": f"c{i}", "x_um": x_um, "y_um": y_um, "width_um": 27.2, "height_um": 27.2}
+            {
+                "uid": f"c{i}",
+                "x_um": x_um,
+                "y_um": y_um,
+                "width_um": 27.2,
+                "height_um": 27.2,
+                "kind": "morphology",
+                "label": "Morphology",
+            }
             for i in range(min(limit, 3))
         ]
 
@@ -132,6 +140,9 @@ def test_crops_window(client):
     ).json()
     assert len(body["tiles"]) == 2
     assert body["tiles"][0]["width_um"] == pytest.approx(27.2)
+    # The kind survives the HTTP boundary: the panel must not have to guess.
+    assert body["tiles"][0]["kind"] == "morphology"
+    assert body["tiles"][0]["label"] == "Morphology"
 
 
 def test_crops_requires_a_position(client):

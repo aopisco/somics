@@ -113,14 +113,23 @@ export interface GeneValues {
   meta: GeneMeta;
 }
 
-/** One morphology tile, positioned in the section's micron frame. */
+/**
+ * Which measurement a tile is. H&E is stained colour, morphology is detector
+ * intensity; they are not interchangeable and must not be labelled as one another.
+ */
+export type CropKind = "he" | "morphology";
+
+/** One image tile, positioned in the section's micron frame. */
 export interface CropTile {
   uid: string;
   x_um: number;
   y_um: number;
   width_um: number;
   height_um: number;
-  /** base64 PNG, greyscale, already percentile-stretched. */
+  kind: CropKind;
+  /** Display name for `kind`, e.g. "H&E" — server-supplied so nobody invents one. */
+  label: string;
+  /** base64 PNG. Colour and unaltered for H&E; greyscale percentile-stretched for morphology. */
   png: string;
 }
 

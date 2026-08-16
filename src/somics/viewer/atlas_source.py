@@ -15,6 +15,12 @@ one section) over Cloudflare R2:
     16 morphology crops in a window       2.2 s
     one gene across all cells            49.3 s   <- disk-cached, never on a hot path
 
+Imagery is not one thing. A section carries `he_crop`, `morphology_crop`, both, or
+neither, and the two are not interchangeable: H&E is stained colour, morphology is
+detector intensity. `crops` reads whichever the section actually has and tags every
+tile with its kind, because a caller that mislabels one as the other is worse than
+one that shows nothing.
+
 Every obs read here is a full-table scan filtered in polars, never a SQL predicate on
 `section_uid`: that predicate measured 21-27 s against v0 versus 2.5 s for the scan,
 because the column carries no index. The trade is right at v0 scale and will need
@@ -72,12 +78,45 @@ _COORD_COLUMNS = ("section_uid", "x_um", "y_um", "n_counts", "n_genes", "cell_ar
 # Decimation is deterministic so a reload shows the same cells in the same colours.
 _DECIMATION_SEED = 20260815
 
-# Intensity percentiles for stretching a raw uint16 crop into a viewable 8-bit tile.
+# Intensity percentiles for stretching a raw greyscale crop into a viewable 8-bit tile.
 _CROP_PERCENTILES = (1.0, 99.5)
+
+# Trailing-axis lengths that mean "this crop is colour, not a stack of planes".
+_COLOUR_CHANNELS = (3, 4)
 
 # Which body a sample's donor organism pins onto. Everything the viewer has no body for
 # falls back to the rat; the panel's species-mismatch note is what explains that.
 _BODY_SPECIES = {"Homo sapiens": "human", "Danio rerio": "zebrafish"}
+
+
+@dataclass(frozen=True)
+class CropKind:
+    """One kind of image the atlas can hold for a row, and how to ask for it.
+
+    Attributes
+    ----------
+    field
+        Pointer field on the obs schema, e.g. `he_crop`.
+    flag
+        Boolean column, on obs and on the sample record, saying the row has one.
+    kind
+        Machine-readable tag returned on every tile of this kind.
+    label
+        Display name. Returned so no caller has to invent one; "H&E" and
+        "morphology" mean different measurements and are not substitutes.
+    """
+
+    field: str
+    flag: str
+    kind: str
+    label: str
+
+
+# H&E first: where a section has both, the stained image is the one a human reads.
+CROP_KINDS = (
+    CropKind("he_crop", "has_he_crop", "he", "H&E"),
+    CropKind("morphology_crop", "has_morphology_crop", "morphology", "Morphology"),
+)
 
 
 class SampleNotFound(KeyError):
@@ -363,16 +402,63 @@ class AtlasSource:
         radius_um: float,
         limit: int,
     ) -> list[dict]:
-        """Morphology crops near a point, as base64 PNGs with their micron footprints.
+        """Image crops near a point, as base64 PNGs with their micron footprints.
 
-        Returns an empty list when the section carries no morphology imagery.
+        Serves whichever kinds the section actually holds — H&E, morphology, or both —
+        rather than assuming morphology. Every tile carries `kind` and `label`, so a
+        caller never has to re-derive from the sample flags what it is looking at.
+
+        `limit` is a budget over all kinds, split evenly between the ones present, so
+        the caller gets the number of tiles it asked for whichever kinds exist rather
+        than one budget's worth per kind.
+
+        Parameters
+        ----------
+        section_uid
+            Section to read. Raises `SampleNotFound` if the atlas has no such section.
+        x_um, y_um
+            Centre of the window, in the section's own micron frame.
+        radius_um
+            Half-width of the square window around that centre.
+        limit
+            Maximum number of tiles to return in total.
+
+        Returns
+        -------
+        list[dict]
+            Tiles with `uid`, `x_um`, `y_um`, `width_um`, `height_um`, `kind`, `label`,
+            and a base64 `png`. Empty when the section carries no imagery at all, or
+            when the window holds none.
         """
         sample = self.sample(section_uid)
-        if not sample["has_morphology_crop"]:
+        present = [spec for spec in CROP_KINDS if sample.get(spec.flag)]
+        if not present:
             return []
 
+        tiles = []
+        for spec, budget in zip(present, _split_limit(limit, len(present)), strict=True):
+            if budget:
+                tiles.extend(self._crop_tiles(section_uid, spec, x_um, y_um, radius_um, budget))
+        return tiles
+
+    def _crop_tiles(
+        self,
+        section_uid: str,
+        spec: CropKind,
+        x_um: float,
+        y_um: float,
+        radius_um: float,
+        limit: int,
+    ) -> list[dict]:
+        """Tiles of one kind in one window.
+
+        The `where` clause here is on the crop read, not an obs scan, and is the
+        measured-cheap path: 16 crops in a window at 2.2 s against snapshot v0. The
+        no-SQL-predicate rule in this module's header is about `_section_index` and
+        `_section_coords`, which read the whole obs table.
+        """
         predicate = (
-            f"section_uid = '{section_uid}' AND has_morphology_crop = true "
+            f"section_uid = '{section_uid}' AND {spec.flag} = true "
             f"AND x_um > {x_um - radius_um} AND x_um < {x_um + radius_um} "
             f"AND y_um > {y_um - radius_um} AND y_um < {y_um + radius_um}"
         )
@@ -380,9 +466,9 @@ class AtlasSource:
             self.atlas.query()
             .where(predicate)
             .select(["uid", "x_um", "y_um", "pixel_size_um"])
-            .select_fields("morphology_crop")
+            .select_fields(spec.field)
             .limit(limit)
-            .to_spatial_batch("morphology_crop")
+            .to_spatial_batch(spec.field)
         )
 
         # to_spatial_batch reorders rows; batch.metadata is the aligned source of truth.
@@ -390,13 +476,16 @@ class AtlasSource:
         tiles = []
         for i, crop in enumerate(batch.layers["raw"]):
             pixel_size = float(meta["pixel_size_um"][i])
+            height_px, width_px = _crop_pixel_shape(crop)
             tiles.append(
                 {
                     "uid": meta["uid"][i],
                     "x_um": float(meta["x_um"][i]),
                     "y_um": float(meta["y_um"][i]),
-                    "width_um": crop.shape[-1] * pixel_size,
-                    "height_um": crop.shape[-2] * pixel_size,
+                    "width_um": width_px * pixel_size,
+                    "height_um": height_px * pixel_size,
+                    "kind": spec.kind,
+                    "label": spec.label,
                     "png": _encode_crop(crop),
                 }
             )
@@ -471,20 +560,76 @@ def _decimation_order(n_rows: int, max_points: int) -> np.ndarray:
     return np.sort(rng.choice(n_rows, size=max_points, replace=False))
 
 
-def _encode_crop(crop: np.ndarray) -> str:
-    """Percentile-stretch a raw crop to 8-bit and return a base64 PNG.
+def _split_limit(limit: int, n_kinds: int) -> list[int]:
+    """Divide a tile budget across kinds, giving the remainder to the earlier ones.
 
-    Crops read back as float32 in raw uint16 intensity range; without the stretch they
-    render black.
+    A share can come out zero when the budget is smaller than the number of kinds;
+    the caller skips those rather than issuing a zero-limit query, which LanceDB
+    reads as "no limit".
+    """
+    base, extra = divmod(limit, n_kinds)
+    return [base + (i < extra) for i in range(n_kinds)]
+
+
+def _is_colour(shape: tuple[int, ...]) -> bool:
+    """Whether a crop's trailing axis is colour channels rather than pixels.
+
+    Homeobox delivers `discrete_image` crops channels-last: H&E and the codex
+    composites both measured `(128, 128, 3)`, xenium morphology `(128, 128)`.
+    """
+    return len(shape) >= 3 and shape[-1] in _COLOUR_CHANNELS
+
+
+def _crop_pixel_shape(crop: np.ndarray) -> tuple[int, int]:
+    """Pixel (height, width) of a crop, skipping a trailing colour axis.
+
+    Reading width off `shape[-1]` unconditionally makes an RGB tile three pixels
+    wide, which puts H&E on screen at a 40th of its real footprint.
+    """
+    shape = np.asarray(crop).shape
+    if _is_colour(shape):
+        return int(shape[-3]), int(shape[-2])
+    return int(shape[-2]), int(shape[-1])
+
+
+def _encode_crop(crop: np.ndarray) -> str:
+    """Return one crop as a base64 PNG, preserving colour where the crop has colour.
+
+    The two shapes the atlas returns need opposite treatment:
+
+    Greyscale `(Y, X)` morphology is raw detector intensity in uint16 range (measured
+    8-3030 on xenium) with no display range of its own, so it is percentile-stretched
+    or it renders black.
+
+    Colour `(Y, X, 3)` — H&E on visium, and the codex morphology composites — is
+    already an authored 0-255 display image. It is only rescaled into uint8's
+    container, never stretched: a per-channel stretch shifts the stain hue, and on an
+    H&E the stain colour *is* the measurement.
     """
     plane = np.asarray(crop)
+    # Drop leading singleton T/Z axes; channels, when present, are last.
+    while plane.ndim > 3:
+        plane = plane[0]
+
+    if _is_colour(plane.shape):
+        # A single scale across all channels: a container conversion, not a stretch.
+        peak = float(plane.max()) if plane.size else 0.0
+        full_scale = 255.0 if peak <= 255.0 else 65_535.0
+        scaled = np.clip(plane / full_scale, 0.0, 1.0)
+        return _png(scaled, "RGB" if plane.shape[-1] == 3 else "RGBA")
+
     while plane.ndim > 2:
         plane = plane[0]
     low, high = np.percentile(plane, _CROP_PERCENTILES)
     if high <= low:
         high = low + 1.0
     scaled = np.clip((plane - low) / (high - low), 0.0, 1.0)
-    image = Image.fromarray((scaled * 255).astype(np.uint8), mode="L")
+    return _png(scaled, "L")
+
+
+def _png(scaled: np.ndarray, mode: str) -> str:
+    """Base64 PNG of an array already normalized to [0, 1]."""
+    image = Image.fromarray((scaled * 255).astype(np.uint8), mode=mode)
     buffer = io.BytesIO()
     image.save(buffer, format="PNG", optimize=True)
     return base64.b64encode(buffer.getvalue()).decode("ascii")

@@ -4,7 +4,16 @@ import type { CropTile } from "../types";
 import { mosaicLayout } from "./mosaic";
 
 function tile(uid: string, xUm: number, yUm: number, side = 27.2): CropTile {
-  return { uid, x_um: xUm, y_um: yUm, width_um: side, height_um: side, png: `png-${uid}` };
+  return {
+    uid,
+    x_um: xUm,
+    y_um: yUm,
+    width_um: side,
+    height_um: side,
+    kind: "morphology",
+    label: "Morphology",
+    png: `png-${uid}`,
+  };
 }
 
 describe("mosaicLayout", () => {

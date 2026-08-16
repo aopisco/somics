@@ -98,7 +98,12 @@ def crops(
     radius_um: Annotated[float, Query(gt=0, le=5_000)] = 150.0,
     limit: Annotated[int, Query(ge=1, le=64)] = 24,
 ) -> dict:
-    """Morphology tiles near a point in the section's own micron frame."""
+    """Image tiles near a point in the section's own micron frame.
+
+    Serves whichever imagery the section holds. Each tile carries `kind` (`"he"` or
+    `"morphology"`) and a display `label`, because H&E and morphology are different
+    measurements and must not be presented as one another.
+    """
     try:
         tiles = source.crops(section_uid, x_um, y_um, radius_um, limit)
     except SampleNotFound:
