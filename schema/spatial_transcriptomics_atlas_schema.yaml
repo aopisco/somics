@@ -48,6 +48,8 @@ enums:
       STARMAP: starmap
       STARMAP_PLUS: starmap_plus
       SEQFISH: seqfish
+      IMC: imc
+      CODEX: codex
       OTHER: other
 
   DiseaseState:
@@ -522,15 +524,52 @@ feature_registry_tables:
           Redundant with `feature_type` but cheap to filter on.
 
   - name: ProteinSchema
-    doc: "A protein target in a multiplexed protein panel."
+    doc: |
+      A protein target in a multiplexed protein panel.
+
+      A row is a target as an antibody measures it, not a protein entry as
+      UniProt defines it: a phospho-specific antibody and one against the
+      unmodified protein share an accession but are different measurements,
+      and are therefore different features.
     fields:
+      - name: protein_key
+        type: str
+        stable_uid: true
+        doc: >-
+          The identity a protein target dedupes on corpus-wide, composed as
+          organism:target_id — for example Homo sapiens:P01732 for CD8a.
+          The organism half is the NCBITaxon label the `organism` column holds,
+          not its CURIE, matching GenomicFeatureSchema.feature_key.
+          The target_id half is the UniProt accession where one resolved,
+          suffixed with +`modification` for modification-specific antibodies
+          (Homo sapiens:P62753+phospho-S235/S236), and otherwise the published
+          `target_name` — panels routinely carry targets that map to no single
+          accession: DNA intercalators, multi-chain targets like collagen I,
+          and antibodies the source names but does not identify.
+          It is a separate column because `uniprot_id` is null for those
+          targets and cannot be the uid, while a name alone would merge a human
+          and a mouse panel's CD45 into one feature; composing the organism in
+          keeps the two apart, and one column is what compute_stable_uids can
+          key on.
+      - name: target_name
+        type: str
+        doc: >-
+          The target as the panel names it, e.g. "CD8a", "pS6", "DNA1".
+          Required, because it is the fallback identity for targets that
+          resolve to no accession, and because the panel's own label is what
+          the source's channel names join against.
       - name: uniprot_id
         type: str | None
         default: null
         doc: 'UniProt accession, e.g. "P04637".'
-        markers:
-          stable_uid: true
-          cross_reference: UniProt
+        cross_reference: UniProt
+      - name: modification
+        type: str | None
+        default: null
+        doc: >-
+          The post-translational state the antibody is specific to, e.g.
+          "phospho-S235/S236", "cleaved". Null for antibodies against the
+          unmodified protein, which is most of a panel.
       - name: protein_name
         type: str | None
         default: null

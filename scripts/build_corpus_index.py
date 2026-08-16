@@ -44,6 +44,9 @@ RESOLUTION_TIER = {
     "seqfish": "Subcellular",
     "cartana": "Single-cell",
     "slideseqv2": "Single-cell",
+    # CODEX images at subcellular resolution but is segmented and reported per
+    # cell, so it filters as single-cell rather than subcellular.
+    "codex": "Single-cell",
     "visium": "Spot",
     "visium_hd": "Spot",
 }
@@ -59,6 +62,7 @@ PLATFORM_LABEL = {
     "starmap": "STARmap",
     "starmap_plus": "STARmap PLUS",
     "seqfish": "seqFISH",
+    "codex": "CODEX",
 }
 
 UNIT_NOUN = {"cell": "cells", "nucleus": "nuclei", "spot": "spots", "bin": "bins", "bead": "beads"}

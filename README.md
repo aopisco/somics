@@ -60,7 +60,9 @@ query = atlas.query().where("tissue == 'colon'").limit(8)
 obs = query.to_polars()
 
 # Counts as AnnData. select_fields is required whenever the atlas carries more
-# than one AnnData-capable feature space.
+# than one AnnData-capable feature space. Imaging proteomics rows (CODEX, and
+# the morphology channels of CosMx) carry `protein_abundance` and no expression
+# at all, so check `has_gene_expression` before asking for it.
 adata = query.select_fields("gene_expression").to_anndata()
 
 # Image crops centred on each unit, one ndarray per row under the "raw" layer.
@@ -83,14 +85,42 @@ than querying the atlas live.
 
 ```bash
 uv run python scripts/build_corpus_index.py   # atlas on R2 -> data/corpus_index.json
+uv run python scripts/build_dataset_pages.py  # atlas on R2 -> data/dataset_pages/
 uv run python -m somics.viewer                # API on http://127.0.0.1:8787
 cd web && npm install && npm run dev          # UI on http://127.0.0.1:5274
 ```
 
-Rerun the index script after every ingest — it is a snapshot, and nothing warns you when it goes
+Rerun both scripts after every ingest — they are snapshots, and nothing warns you when they go
 stale. See [web/README.md](web/README.md) and
 [docs/2026-08-15_corpus_builder_ui_mapping.md](docs/2026-08-15_corpus_builder_ui_mapping.md) for
 what the atlas can and cannot tell the UI, particularly on QC.
+
+### Dataset pages
+
+"Open viewer" on a card opens `data/dataset_pages/<dataset>/`, a page rendered ahead of time by
+`scripts/build_dataset_pages.py` and served as plain static files — no atlas access, no Python, and
+nothing to build. Each page carries:
+
+* **a section map** of every spatial unit in physical coordinates, recoloured on click by unit
+  metrics (counts, genes, cell area, negative-control counts), by source annotation where it exists
+  (the DLPFC cortical layers), and by the genes and proteins whose expression is most *spatially
+  structured* rather than merely most abundant;
+* **the section image** — the stored H&E, immunofluorescence, or DAPI scan, read at a stride and
+  framed to the same micron window as the maps, so it lines up with the points;
+* **a crop gallery** spread across the tissue, each crop marked on the map where it was taken;
+* **expression and protein summaries**: abundance, detection, sparsity, and the distribution of
+  counts, genes, and cell area per unit.
+
+**Every map is drawn from every unit**, and all of them share one micron frame, so switching layers
+never moves the tissue. Only the *statistics* rest on a subsample (`--subsample`, 60k units): it
+picks which features are worth mapping, and then those few columns are re-read across the whole
+section to draw them. This matters more than it sounds — rows are stored in spatial order, so the
+first N rows of a section trace a lattice through it, and a map drawn from them shows the lattice
+instead of the tissue. For the same reason the crop gallery is sampled from offsets spread through
+the row range rather than from the first N rows. Panels that rest on the subsample say so.
+
+Build one page with `--only <dataset uid>` while iterating; `--only` is safe to use repeatedly,
+since the manifest is rebuilt from whatever is on disk.
 
 ## Viewer
 

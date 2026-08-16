@@ -36,10 +36,13 @@ export function DetailDrawer({
   dataset,
   onClose,
   onOpenViewer,
+  hasViewer,
 }: {
   dataset: Dataset;
   onClose: () => void;
   onOpenViewer: (dataset: Dataset) => void;
+  /** False until scripts/build_dataset_pages.py has rendered this dataset. */
+  hasViewer: boolean;
 }) {
   const { meta } = dataset;
   return (
@@ -154,7 +157,12 @@ export function DetailDrawer({
           >
             Download
           </Button>
-          <Button sdsStyle="outline" sdsType="secondary" onClick={() => onOpenViewer(dataset)}>
+          <Button
+            sdsStyle="outline"
+            sdsType="secondary"
+            onClick={() => onOpenViewer(dataset)}
+            disabled={!hasViewer}
+          >
             Open viewer
           </Button>
         </div>

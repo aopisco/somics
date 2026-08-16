@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dataset viewer</title>
+    <style>
+      /* Same SDS light tokens as the corpus builder, so a page opened from a
+         card does not look like a different product. The map stages are the one
+         dark surface: point maps and microscopy read better on near-black, and
+         the contrast marks them as the data rather than the chrome. */
+      :root {
+        --blue-100: #edf3fd;
+        --blue-200: #cce1ff;
+        --blue-400: #6ca6ff;
+        --blue-500: #1a6cef;
+        --blue-600: #0041b9;
+        --gray-50: #ffffff;
+        --gray-75: #f8f8f8;
+        --gray-100: #ededed;
+        --gray-200: #dfdfdf;
+        --gray-300: #c3c3c3;
+        --gray-400: #a5a5a5;
+        --gray-500: #969696;
+        --gray-600: #767676;
+        --gray-700: #3b3b3b;
+        --gray-800: #1b1b1b;
+        --green-100: #ebf9ed;
+        --green-500: #238444;
+        --yellow-100: #fff3db;
+        --yellow-500: #da9900;
+        --yellow-700: #7c3e00;
+        --red-100: #ffe8e6;
+        --red-500: #db2131;
+        --ink: #0b0f1a;
+        --font-ui: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-ui);
+        color: var(--gray-800);
+        background: var(--gray-75);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .mono {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+      }
+
+      a {
+        color: var(--blue-500);
+      }
+
+      /* --- top bar --------------------------------------------------------- */
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 14px 28px;
+        background: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex: none;
+        padding: 7px 13px;
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--gray-700);
+        text-decoration: none;
+      }
+
+      .back:hover {
+        border-color: var(--blue-500);
+        color: var(--blue-500);
+      }
+
+      .titles {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .titles h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subtitle {
+        margin-top: 2px;
+        font-size: 12.5px;
+        color: var(--gray-600);
+      }
+
+      .btn {
+        flex: none;
+        padding: 8px 16px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--blue-500);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: var(--blue-600);
+      }
+
+      .btn[aria-disabled="true"] {
+        background: var(--gray-200);
+        color: var(--gray-500);
+        pointer-events: none;
+      }
+
+      /* --- chip strip ------------------------------------------------------ */
+
+      .chipstrip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 16px 28px 0;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: var(--gray-100);
+        font-size: 12px;
+        color: var(--gray-700);
+      }
+
+      .chip b {
+        font-weight: 600;
+        color: var(--gray-800);
+      }
+
+      .chip.accent {
+        background: var(--blue-100);
+        color: var(--blue-600);
+      }
+
+      .chip.accent b {
+        color: var(--blue-600);
+      }
+
+      /* --- panels ---------------------------------------------------------- */
+
+      main {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 20px 28px 64px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 20px 22px 22px;
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .panel-head h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .panel-head .hint {
+        font-size: 12px;
+        color: var(--gray-600);
+        text-align: right;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gray-600);
+        margin-bottom: 8px;
+      }
+
+      /* --- map ------------------------------------------------------------- */
+
+      .map-grid {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr) 220px;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .rail {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        max-height: 640px;
+        overflow-y: auto;
+      }
+
+      .rail-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .layer-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        padding: 7px 10px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        background: transparent;
+        font-family: inherit;
+        font-size: 12.5px;
+        color: var(--gray-700);
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .layer-btn:hover {
+        background: var(--gray-100);
+      }
+
+      .layer-btn[aria-pressed="true"] {
+        background: var(--blue-100);
+        border-color: var(--blue-200);
+        color: var(--blue-600);
+        font-weight: 600;
+      }
+
+      .layer-btn .score {
+        font-size: 10.5px;
+        color: var(--gray-500);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .layer-btn[aria-pressed="true"] .score {
+        color: var(--blue-500);
+      }
+
+      /* The stage is the map's micron window. Every layer is placed inside it by
+         its own extent, so the section image — which covers a slightly wider
+         window than the points — stays registered to them instead of being
+         stretched to fit. */
+      .map-stage {
+        position: relative;
+        background: var(--ink);
+        border-radius: 8px;
+        overflow: hidden;
+        line-height: 0;
+      }
+
+      .map-stage img {
+        position: absolute;
+        display: block;
+        image-rendering: auto;
+      }
+
+      .markers {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .marker {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        margin: -7.5px 0 0 -7.5px;
+        border: 1.5px solid rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+        transition: all 0.12s;
+      }
+
+      .marker.active {
+        border-color: #ffe76a;
+        width: 23px;
+        height: 23px;
+        margin: -11.5px 0 0 -11.5px;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.6),
+          0 0 12px rgba(255, 231, 106, 0.7);
+      }
+
+      .scalebar {
+        position: absolute;
+        left: 14px;
+        bottom: 12px;
+        color: #fff;
+        font-size: 11px;
+        line-height: 1.6;
+        font-family: var(--font-mono);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      }
+
+      .scalebar .bar {
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      }
+
+      .legend h3 {
+        margin: 0 0 4px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .legend .note {
+        font-size: 11.5px;
+        color: var(--gray-600);
+        line-height: 1.5;
+        margin-bottom: 14px;
+      }
+
+      .ramp {
+        height: 10px;
+        border-radius: 3px;
+        margin-bottom: 5px;
+      }
+
+      .ramp-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--gray-600);
+      }
+
+      .cats {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .cat {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        color: var(--gray-700);
+      }
+
+      .swatch {
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        flex: none;
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 16px;
+        font-size: 12px;
+        color: var(--gray-700);
+        cursor: pointer;
+      }
+
+      .statlist {
+        margin-top: 16px;
+        border-top: 1px solid var(--gray-200);
+        padding-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .statlist div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--gray-600);
+      }
+
+      .statlist b {
+        color: var(--gray-800);
+        font-weight: 600;
+        font-family: var(--font-mono);
+      }
+
+      /* --- crops ----------------------------------------------------------- */
+
+      .crop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+        gap: 10px;
+      }
+
+      .crop {
+        position: relative;
+        padding: 0;
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        overflow: hidden;
+        background: var(--ink);
+        cursor: zoom-in;
+        line-height: 0;
+      }
+
+      .crop img {
+        display: block;
+        width: 100%;
+        height: auto;
+        image-rendering: pixelated;
+      }
+
+      .crop:hover,
+      .crop.active {
+        border-color: var(--blue-500);
+        box-shadow: 0 0 0 2px var(--blue-200);
+      }
+
+      /* The position label would crowd every thumbnail if it were always on;
+         the gallery is for scanning texture, and the coordinates matter only
+         once a crop has your attention. */
+      .crop .tag {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 4px 6px;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: #fff;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        line-height: 1.4;
+        text-align: left;
+        opacity: 0;
+        transition: opacity 0.12s;
+      }
+
+      .crop:hover .tag,
+      .crop:focus-visible .tag {
+        opacity: 1;
+      }
+
+      /* --- charts ---------------------------------------------------------- */
+
+      .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 26px;
+      }
+
+      .chart svg {
+        display: block;
+        width: 100%;
+        overflow: visible;
+      }
+
+      .bar-row:hover .bar-fill {
+        fill: var(--blue-600);
+      }
+
+      .axis-note {
+        font-size: 11.5px;
+        color: var(--gray-600);
+        margin-top: 6px;
+      }
+
+      /* --- QC + metadata --------------------------------------------------- */
+
+      .qc-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 10px;
+      }
+
+      .qc-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 11px 13px;
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-top: 5px;
+        flex: none;
+      }
+
+      .dot.pass {
+        background: var(--green-500);
+      }
+      .dot.warn {
+        background: var(--yellow-500);
+      }
+      .dot.fail {
+        background: var(--red-500);
+      }
+      .dot.na {
+        background: var(--gray-300);
+      }
+
+      .qc-item .label {
+        font-size: 12.5px;
+        font-weight: 500;
+      }
+
+      .qc-item .value {
+        font-size: 12px;
+        color: var(--gray-600);
+        font-family: var(--font-mono);
+        margin-top: 2px;
+      }
+
+      .qc-item .threshold {
+        font-size: 11px;
+        color: var(--gray-500);
+        margin-top: 2px;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 10px 28px;
+      }
+
+      .meta-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--gray-100);
+        font-size: 12.5px;
+      }
+
+      .meta-row .k {
+        color: var(--gray-600);
+        flex: none;
+      }
+
+      .meta-row .v {
+        text-align: right;
+        word-break: break-word;
+      }
+
+      /* --- lightbox -------------------------------------------------------- */
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(7, 10, 18, 0.9);
+        padding: 40px;
+      }
+
+      .lightbox.open {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-width: min(70vh, 90vw);
+        max-height: 70vh;
+        image-rendering: pixelated;
+        border-radius: 8px;
+      }
+
+      .lightbox .caption {
+        color: #fff;
+        font-size: 12.5px;
+        font-family: var(--font-mono);
+        margin-top: 14px;
+        text-align: center;
+      }
+
+      .lightbox .close {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        background: none;
+        border: 0;
+        color: #fff;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      .empty {
+        font-size: 13px;
+        color: var(--gray-600);
+      }
+
+      @media (max-width: 1100px) {
+        .map-grid {
+          grid-template-columns: 1fr;
+        }
+        .rail {
+          flex-direction: row;
+          flex-wrap: wrap;
+          max-height: none;
+        }
+        .rail-group {
+          flex: 1 1 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="back" href="/corpus/">&larr; Corpus</a>
+      <div class="titles">
+        <h1 id="title"></h1>
+        <div class="subtitle" id="subtitle"></div>
+      </div>
+      <a class="btn" id="download">Download</a>
+    </header>
+
+    <div class="chipstrip" id="chips"></div>
+
+    <main>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Section map</h2>
+          <div class="hint" id="map-hint"></div>
+        </div>
+        <div class="map-grid">
+          <div class="rail" id="rail"></div>
+          <div class="map-stage">
+            <img id="map-image" alt="Spatial map of the section" />
+            <div class="markers" id="markers"></div>
+            <div class="scalebar">
+              <div class="bar" id="scalebar-bar"></div>
+              <span id="scalebar-label"></span>
+            </div>
+          </div>
+          <div class="legend">
+            <h3 id="legend-title"></h3>
+            <div class="note" id="legend-note"></div>
+            <div id="legend-body"></div>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-markers" checked />
+              Show crop locations
+            </label>
+            <div class="statlist" id="map-stats"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="imagery-panel">
+        <div class="panel-head">
+          <h2>Imagery</h2>
+          <div class="hint" id="imagery-hint"></div>
+        </div>
+        <div class="crop-grid" id="crop-grid"></div>
+      </section>
+
+      <section class="panel" id="expression-panel">
+        <div class="panel-head">
+          <h2>Gene expression</h2>
+          <div class="hint" id="expression-hint"></div>
+        </div>
+        <div class="chart-grid" id="expression-charts"></div>
+      </section>
+
+      <section class="panel" id="protein-panel">
+        <div class="panel-head">
+          <h2>Protein</h2>
+          <div class="hint" id="protein-hint"></div>
+        </div>
+        <div class="chart-grid" id="protein-charts"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Quality control</h2></div>
+        <div class="qc-list" id="qc-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Dataset</h2>
+          <div class="hint" id="generated"></div>
+        </div>
+        <div class="meta-grid" id="meta-grid"></div>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+      <button class="close" id="lightbox-close" aria-label="Close">&times;</button>
+      <div>
+        <img id="lightbox-image" alt="" />
+        <div class="caption" id="lightbox-caption"></div>
+      </div>
+    </div>
+
+    <script id="payload" type="application/json">
+      __PAYLOAD__
+    </script>
+    <script>
+      const data = JSON.parse(document.getElementById("payload").textContent);
+
+      const num = (v, digits = 0) =>
+        v === null || v === undefined || Number.isNaN(v)
+          ? "—"
+          : v.toLocaleString("en-US", { maximumFractionDigits: digits });
+      const el = (tag, props = {}, children = []) => {
+        const node = Object.assign(document.createElement(tag), props);
+        for (const child of [].concat(children)) if (child) node.append(child);
+        return node;
+      };
+      const svgEl = (tag, attrs) => {
+        const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      /* --- header ---------------------------------------------------------- */
+
+      document.title = data.title + " · somics";
+      document.getElementById("title").textContent = data.title;
+      document.getElementById("subtitle").textContent = [data.study, data.meta.organism, data.tissue]
+        .filter(Boolean)
+        .join(" · ");
+
+      const download = document.getElementById("download");
+      if (data.downloadUrl) {
+        download.href = data.downloadUrl;
+        download.target = "_blank";
+        download.rel = "noreferrer";
+      } else {
+        download.setAttribute("aria-disabled", "true");
+        download.textContent = "No download link";
+      }
+
+      const chips = [
+        ["Platform", data.platform, true],
+        ["Modality", data.modality],
+        ["Resolution", data.resolution],
+        ["Disease", data.disease],
+        [
+          "Units",
+          num(data.section.nUnits) + " " + data.unitNoun + " on this section",
+        ],
+        ["Section", num(data.section.widthUm) + " × " + num(data.section.heightUm) + " µm"],
+      ];
+      document.getElementById("chips").append(
+        ...chips
+          .filter(([, value]) => value && value !== "—")
+          .map(([key, value, accent]) =>
+            el("span", { className: "chip" + (accent ? " accent" : "") }, [
+              key + " ",
+              el("b", { textContent: String(value) }),
+            ]),
+          ),
+      );
+
+      /* --- map ------------------------------------------------------------- */
+
+      const layers = data.map.layers;
+      const mapImage = document.getElementById("map-image");
+      const markerLayer = document.getElementById("markers");
+      let activeLayer = layers[0];
+
+      const railGroups = [];
+      for (const layer of layers) {
+        let group = railGroups.find((g) => g.name === layer.group);
+        if (!group) railGroups.push((group = { name: layer.group, layers: [] }));
+        group.layers.push(layer);
+      }
+
+      const rail = document.getElementById("rail");
+      const buttons = new Map();
+      for (const group of railGroups) {
+        const box = el("div", { className: "rail-group" }, [
+          el("div", { className: "section-label", textContent: group.name }),
+        ]);
+        for (const layer of group.layers) {
+          const button = el("button", { className: "layer-btn", type: "button" }, [
+            el("span", { textContent: layer.label }),
+          ]);
+          if (layer.structureScore !== undefined) {
+            // The rank the map menu is ordered by, shown so the ordering is not
+            // a mystery: share of this feature's variance that is spatial.
+            button.append(
+              el("span", {
+                className: "score",
+                textContent: (layer.structureScore * 100).toFixed(0) + "%",
+                title: "Share of variance that is spatial",
+              }),
+            );
+          }
+          button.addEventListener("click", () => selectLayer(layer));
+          buttons.set(layer.key, button);
+          box.append(button);
+        }
+        rail.append(box);
+      }
+
+      const stage = document.querySelector(".map-stage");
+      stage.style.aspectRatio = data.map.width + " / " + data.map.height;
+
+      // Place a layer inside the stage by its micron extent, as a share of the
+      // map window. A layer with no extent of its own is the map window.
+      function place(node, extent) {
+        const [mx0, my0, mx1, my1] = data.map.extent;
+        const [x0, y0, x1, y1] = extent || data.map.extent;
+        node.style.left = (100 * (x0 - mx0)) / (mx1 - mx0) + "%";
+        node.style.top = (100 * (y0 - my0)) / (my1 - my0) + "%";
+        node.style.width = (100 * (x1 - x0)) / (mx1 - mx0) + "%";
+        node.style.height = (100 * (y1 - y0)) / (my1 - my0) + "%";
+      }
+
+      function selectLayer(layer) {
+        activeLayer = layer;
+        mapImage.src = layer.file;
+        place(mapImage, layer.extent);
+        for (const [key, button] of buttons)
+          button.setAttribute("aria-pressed", String(key === layer.key));
+
+        document.getElementById("legend-title").textContent = layer.label;
+        document.getElementById("legend-note").textContent = layer.note || "";
+
+        const body = document.getElementById("legend-body");
+        body.replaceChildren();
+        if (layer.kind === "image") {
+          // Nothing to key: the pixels are the legend.
+        } else if (layer.kind === "categorical") {
+          body.append(
+            el(
+              "div",
+              { className: "cats" },
+              layer.categories.map((cat) =>
+                el("div", { className: "cat" }, [
+                  el("span", { className: "swatch", style: "background:" + cat.color }),
+                  el("span", { textContent: cat.label }),
+                ]),
+              ),
+            ),
+          );
+        } else {
+          // A layer built before valueRange was recorded still gets its ramp,
+          // just without end labels — better than an exception.
+          const [low, high] = layer.valueRange || [null, null];
+          body.append(
+            el("div", {
+              className: "ramp",
+              style: "background:linear-gradient(90deg," + layer.rampStops.join(",") + ")",
+            }),
+            el("div", { className: "ramp-labels" }, [
+              el("span", { textContent: num(low, 1) }),
+              el("span", { textContent: num(high, 1) + (high === null || high < 1 ? "" : "+") }),
+            ]),
+            el("div", {
+              className: "ramp-labels",
+              style: "margin-top:4px",
+              innerHTML: "<span>" + (layer.unit || "") + "</span>",
+            }),
+          );
+        }
+      }
+
+      // A bar of a round number of microns, sized as a share of the image so it
+      // stays correct however the page is resized.
+      (function scaleBar() {
+        const targetUm = (data.section.widthUm * 0.22) | 0;
+        const magnitude = Math.pow(10, Math.floor(Math.log10(targetUm || 1)));
+        const nice = [1, 2, 5, 10].map((m) => m * magnitude).filter((v) => v <= data.section.widthUm);
+        const barUm = nice.reduce((a, b) => (Math.abs(b - targetUm) < Math.abs(a - targetUm) ? b : a));
+        document.getElementById("scalebar-bar").style.width =
+          (100 * barUm) / data.section.widthUm + "%";
+        document.getElementById("scalebar-label").textContent =
+          barUm >= 1000 ? barUm / 1000 + " mm" : barUm + " µm";
+      })();
+
+      document.getElementById("map-hint").textContent =
+        data.section.siblings.length > 0
+          ? "Largest of " +
+            (data.section.siblings.length + 1) +
+            " sections · " +
+            data.section.sectionUid.slice(0, 8)
+          : "Section " + data.section.sectionUid.slice(0, 8);
+
+      document.getElementById("map-stats").append(
+        ...[
+          ["Units drawn", num(data.section.nUnits)],
+          ["Section width", num(data.section.widthUm) + " µm"],
+          // The raster scale of the point maps, not of the section image —
+          // which is read at its own stride and says so in its note.
+          ["Map scale", data.map.umPerPixel.toFixed(2) + " µm/px"],
+          ["Spatial unit", data.section.spatialUnit || "—"],
+        ].map(([key, value]) =>
+          el("div", {}, [el("span", { textContent: key }), el("b", { textContent: value })]),
+        ),
+      );
+
+      selectLayer(activeLayer);
+
+      /* --- crops ----------------------------------------------------------- */
+
+      const crops = data.crops;
+      const cropGrid = document.getElementById("crop-grid");
+      const extent = data.map.extent;
+      const cropButtons = [];
+
+      function positionPct(xUm, yUm) {
+        return {
+          left: (100 * (xUm - extent[0])) / (extent[2] - extent[0]),
+          top: (100 * (yUm - extent[1])) / (extent[3] - extent[1]),
+        };
+      }
+
+      if (crops && crops.tiles.length) {
+        document.getElementById("imagery-hint").textContent =
+          crops.modality +
+          " · " +
+          crops.cropShape.slice(0, 2).join("×") +
+          " px crops" +
+          (crops.pixelSizeUm ? " at " + crops.pixelSizeUm.toFixed(3) + " µm/px" : "") +
+          (crops.channelNames ? " · " + crops.channelNames.join(", ") : "");
+
+        crops.tiles.forEach((tile, index) => {
+          const marker = el("div", { className: "marker" });
+          const at = positionPct(tile.xUm, tile.yUm);
+          marker.style.left = at.left + "%";
+          marker.style.top = at.top + "%";
+          markerLayer.append(marker);
+
+          const button = el("button", { className: "crop", type: "button" }, [
+            el("img", { src: tile.file, alt: "Crop at " + num(tile.xUm) + ", " + num(tile.yUm) }),
+            el("span", {
+              className: "tag",
+              textContent: num(tile.xUm) + ", " + num(tile.yUm) + " µm",
+            }),
+          ]);
+          button.addEventListener("mouseenter", () => marker.classList.add("active"));
+          button.addEventListener("mouseleave", () => marker.classList.remove("active"));
+          button.addEventListener("click", () => openLightbox(index));
+          cropButtons.push({ button, marker, tile });
+          cropGrid.append(button);
+        });
+      } else {
+        document.getElementById("imagery-panel").remove();
+      }
+
+      document.getElementById("toggle-markers").addEventListener("change", (event) => {
+        markerLayer.style.display = event.target.checked ? "" : "none";
+      });
+
+      /* --- lightbox -------------------------------------------------------- */
+
+      const lightbox = document.getElementById("lightbox");
+      let lightboxIndex = 0;
+
+      function openLightbox(index) {
+        const entry = cropButtons[index];
+        if (!entry) return;
+        lightboxIndex = index;
+        document.getElementById("lightbox-image").src = entry.tile.file;
+        document.getElementById("lightbox-caption").textContent =
+          crops.modality +
+          " · " +
+          num(entry.tile.xUm) +
+          ", " +
+          num(entry.tile.yUm) +
+          " µm" +
+          (entry.tile.widthUm ? " · " + entry.tile.widthUm.toFixed(1) + " µm across" : "") +
+          // Absent on assays that report no per-unit counts, e.g. CODEX.
+          (entry.tile.nCounts === null || entry.tile.nCounts === undefined
+            ? ""
+            : " · " + num(entry.tile.nCounts) + " counts");
+        lightbox.classList.add("open");
+        for (const other of cropButtons) other.marker.classList.remove("active");
+        entry.marker.classList.add("active");
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        for (const other of cropButtons) other.marker.classList.remove("active");
+      }
+
+      document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (!lightbox.classList.contains("open")) return;
+        if (event.key === "Escape") closeLightbox();
+        if (event.key === "ArrowRight") openLightbox((lightboxIndex + 1) % cropButtons.length);
+        if (event.key === "ArrowLeft")
+          openLightbox((lightboxIndex - 1 + cropButtons.length) % cropButtons.length);
+      });
+
+      /* --- charts ---------------------------------------------------------- */
+
+      function barChart(rows, { valueKey, labelKey, unit }) {
+        const height = rows.length * 19 + 8;
+        const svg = svgEl("svg", { viewBox: "0 0 480 " + height, role: "img" });
+        const max = Math.max(...rows.map((r) => r[valueKey]), 1e-9);
+        rows.forEach((row, index) => {
+          const y = index * 19 + 4;
+          const width = (row[valueKey] / max) * 300;
+          const group = svgEl("g", { class: "bar-row" });
+          group.append(
+            svgEl("text", {
+              x: 118,
+              y: y + 11,
+              "text-anchor": "end",
+              "font-size": "11.5",
+              "font-family": "var(--font-mono)",
+              fill: "var(--gray-700)",
+            }),
+          );
+          group.lastChild.textContent = row[labelKey];
+          const rect = svgEl("rect", {
+            x: 126,
+            y: y + 2,
+            width: Math.max(width, 1),
+            height: 12,
+            rx: 2,
+            fill: "var(--blue-500)",
+            class: "bar-fill",
+          });
+          group.append(rect);
+          const value = svgEl("text", {
+            x: 132 + Math.max(width, 1),
+            y: y + 11,
+            "font-size": "11",
+            "font-family": "var(--font-mono)",
+            fill: "var(--gray-600)",
+          });
+          value.textContent =
+            row[valueKey] >= 100 ? num(row[valueKey]) : row[valueKey].toFixed(2);
+          group.append(value);
+          const title = svgEl("title", {});
+          title.textContent =
+            row[labelKey] +
+            ": " +
+            row[valueKey].toFixed(3) +
+            " " +
+            unit +
+            (row.detectionPct !== undefined
+              ? " · detected in " + row.detectionPct.toFixed(1) + "% of units"
+              : "");
+          group.append(title);
+          svg.append(group);
+        });
+        return svg;
+      }
+
+      function histogramChart(hist, { color = "var(--blue-500)" } = {}) {
+        const width = 480;
+        const height = 150;
+        const svg = svgEl("svg", { viewBox: "0 0 " + width + " " + height, role: "img" });
+        const max = Math.max(...hist.counts, 1);
+        const barWidth = width / hist.counts.length;
+        hist.counts.forEach((count, index) => {
+          const barHeight = (count / max) * (height - 26);
+          const rect = svgEl("rect", {
+            x: index * barWidth,
+            y: height - 22 - barHeight,
+            width: Math.max(barWidth - 1, 1),
+            height: Math.max(barHeight, count > 0 ? 1 : 0),
+            fill: color,
+            opacity: "0.85",
+          });
+          const title = svgEl("title", {});
+          title.textContent =
+            num(hist.edges[index], 1) +
+            "–" +
+            num(hist.edges[index + 1], 1) +
+            ": " +
+            num(count) +
+            " units";
+          rect.append(title);
+          svg.append(rect);
+        });
+        svg.append(
+          svgEl("line", {
+            x1: 0,
+            y1: height - 22,
+            x2: width,
+            y2: height - 22,
+            stroke: "var(--gray-300)",
+            "stroke-width": "1",
+          }),
+        );
+        for (const [fraction, value] of [
+          [0, hist.edges[0]],
+          [0.5, (hist.edges[0] + hist.clippedAt) / 2],
+          [1, hist.clippedAt],
+        ]) {
+          const label = svgEl("text", {
+            x: fraction * width,
+            y: height - 6,
+            "text-anchor": fraction === 0 ? "start" : fraction === 1 ? "end" : "middle",
+            "font-size": "11",
+            "font-family": "var(--font-mono)",
+            fill: "var(--gray-600)",
+          });
+          label.textContent = num(value, 1);
+          svg.append(label);
+        }
+        return svg;
+      }
+
+      function chartBlock(title, node, note) {
+        return el("div", { className: "chart" }, [
+          el("div", { className: "section-label", textContent: title }),
+          node,
+          note ? el("div", { className: "axis-note", textContent: note }) : null,
+        ]);
+      }
+
+      function renderFeaturePanel(summary, distributions, mount, hintNode, kind) {
+        if (!summary) {
+          mount.closest("section").remove();
+          return;
+        }
+        hintNode.textContent =
+          num(summary.nFeatures) +
+          " targets · " +
+          num(summary.nUnits) +
+          " of " +
+          num(summary.nUnitsTotal) +
+          " units sampled" +
+          (summary.sparsityPct === null || summary.sparsityPct === undefined
+            ? ""
+            : " · " + summary.sparsityPct.toFixed(1) + "% zeros");
+
+        mount.append(
+          chartBlock(
+            "Most abundant " + kind,
+            barChart(summary.top, {
+              valueKey: "mean",
+              labelKey: "name",
+              unit: "mean counts per unit",
+            }),
+            "Mean counts per unit. Hover a bar for its detection rate.",
+          ),
+        );
+
+        if (summary.ranked && summary.ranked.length) {
+          mount.append(
+            chartBlock(
+              "Most spatially structured",
+              barChart(summary.ranked, {
+                valueKey: "score",
+                labelKey: "name",
+                unit: "share of variance that is spatial",
+              }),
+              "Share of each target's variance that lies between regions rather than within them — the ranking behind the map menu.",
+            ),
+          );
+        }
+
+        for (const [label, hist, note] of distributions) {
+          if (!hist) continue;
+          mount.append(
+            chartBlock(
+              label,
+              histogramChart(hist),
+              note +
+                " · median " +
+                num(hist.median, 1) +
+                ", max " +
+                num(hist.max, 1) +
+                " (axis clipped at the 99th percentile)",
+            ),
+          );
+        }
+      }
+
+      renderFeaturePanel(
+        data.expression,
+        [
+          ["Counts per unit", data.distributions.nCounts, "All units on the section"],
+          ["Genes detected per unit", data.distributions.nGenes, "All units on the section"],
+          ["Cell area", data.distributions.cellArea, "µm² per segmented unit"],
+        ],
+        document.getElementById("expression-charts"),
+        document.getElementById("expression-hint"),
+        "genes",
+      );
+
+      renderFeaturePanel(
+        data.protein,
+        [],
+        document.getElementById("protein-charts"),
+        document.getElementById("protein-hint"),
+        "proteins",
+      );
+
+      /* --- QC + metadata --------------------------------------------------- */
+
+      document.getElementById("qc-list").append(
+        ...data.qc.map((metric) =>
+          el("div", { className: "qc-item" }, [
+            el("span", { className: "dot " + metric.level }),
+            el("div", {}, [
+              el("div", { className: "label", textContent: metric.label }),
+              el("div", { className: "value", textContent: metric.value }),
+              el("div", { className: "threshold", textContent: metric.threshold }),
+            ]),
+          ]),
+        ),
+      );
+
+      const meta = data.meta;
+      const metaRows = [
+        ["Organism", meta.organism],
+        ["Tissue", data.tissue],
+        ["Disease", data.disease],
+        ["Donors", meta.donorIds.join(", ")],
+        ["Panel", meta.panelName],
+        ["Panel size", meta.panelSize ? num(meta.panelSize) + " targets" : null],
+        ["Panel version", meta.panelVersion],
+        ["Assays", meta.assays.join(", ")],
+        ["Feature spaces", meta.featureSpaces.join(", ")],
+        ["Released", meta.released],
+        ["Publication", meta.publicationTitle],
+        ["DOI", meta.publicationDoi],
+        ["Accession", meta.accession ? meta.accession + " (" + meta.accessionDatabase + ")" : null],
+        ["Section uid", data.section.sectionUid],
+        ["Dataset uid", data.section.datasetUid],
+      ];
+      document.getElementById("meta-grid").append(
+        ...metaRows
+          .filter(([, value]) => value)
+          .map(([key, value]) =>
+            el("div", { className: "meta-row" }, [
+              el("span", { className: "k", textContent: key }),
+              el("span", { className: "v", textContent: String(value) }),
+            ]),
+          ),
+      );
+
+      document.getElementById("generated").textContent =
+        "Precomputed " + data.generatedAt.replace("T", " ").replace("+00:00", " UTC");
+    </script>
+  </body>
+</html>

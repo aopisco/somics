@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from somics.viewer.anatomy import BODY_BOUNDS, SPECIES, organ_payload
 from somics.viewer.atlas_source import AtlasConfig, AtlasSource, GeneNotFound, SampleNotFound
 from somics.viewer.control import ControlChannel, sanitize_patch
-from somics.viewer.paths import CORPUS_DIST, CORPUS_INDEX, WEB_DIST
+from somics.viewer.paths import CORPUS_DIST, CORPUS_INDEX, DATASET_PAGES, WEB_DIST
 
 META_HEADER = "X-Somics-Meta"
 
@@ -198,7 +198,24 @@ def corpus() -> dict:
     return json.loads(CORPUS_INDEX.read_text())
 
 
+@app.get("/api/dataset-pages")
+def dataset_pages() -> dict:
+    """Which datasets have a precomputed page, as {card id: slug}.
+
+    The corpus builder reads this to decide whether its "Open viewer" button
+    goes anywhere. An absent or empty manifest is not an error — it means the
+    pages have not been built yet, and the button disables itself.
+    """
+    manifest = DATASET_PAGES / "manifest.json"
+    if not manifest.is_file():
+        return {"generatedAt": None, "pages": {}}
+    return json.loads(manifest.read_text())
+
+
 # Mount order matters: the viewer claims "/", so anything more specific goes first.
+if DATASET_PAGES.is_dir():
+    app.mount("/datasets", StaticFiles(directory=DATASET_PAGES, html=True), name="datasets")
+
 if CORPUS_DIST.is_dir():
     app.mount("/corpus", StaticFiles(directory=CORPUS_DIST, html=True), name="corpus")
 
