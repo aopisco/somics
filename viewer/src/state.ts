@@ -93,17 +93,42 @@ export const useStore = create<Store>((set, get) => ({
     try {
       const [anatomy, samples] = await Promise.all([fetchAnatomy(), fetchSamples()]);
       set({ anatomy, samples, catalogPhase: "ready" });
+      // A shared link may already have named a sample; `hydrate` deferred its fetch to here.
       const { sample } = get();
-      if (sample) void loadPoints(set, get, sample);
+      if (sample) loadSample(set, get, sample);
     } catch (error) {
       set({ catalogPhase: "error", catalogError: String(error) });
     }
   },
 
+  /**
+   * Adopt a state the URL is asserting — the page's first hash, the back button, a pasted link.
+   *
+   * A hash names a sample exactly the way a click does and owes it the same fetch. It did not get
+   * one: the cold-load path is `loadCatalog`'s, which only fires once, so pressing Back into a
+   * section left the panel drawing nothing, and moving between two sections left the *previous*
+   * section's points on screen under the new one's caption. Deferring to `loadCatalog` while the
+   * catalog is still in flight is what keeps the page's own first hash from fetching twice.
+   */
   hydrate: (state) => {
+    const previous = get();
     const patch: Partial<Store> = {};
     for (const key of VIEWER_KEYS) patch[key] = state[key] as never;
-    set({ ...patch, flyRequest: get().flyRequest + 1 });
+
+    const changedSample = state.sample !== previous.sample;
+    const fetches = changedSample && state.sample !== null && previous.catalogPhase === "ready";
+    if (changedSample) {
+      patch.points = null;
+      patch.geneValues = null;
+      patch.geneList = [];
+      patch.genePhase = "idle";
+      // "loading" even when the fetch is deferred to `loadCatalog`: a sample is named, so points
+      // are coming, and saying "no points" in the gap would be wrong twice over.
+      patch.pointsPhase = state.sample ? "loading" : "idle";
+    }
+    set({ ...patch, flyRequest: previous.flyRequest + 1 });
+
+    if (fetches && state.sample) loadSample(set, get, state.sample);
   },
 
   setSpecies: (species) => set({ species }),
@@ -135,12 +160,7 @@ export const useStore = create<Store>((set, get) => ({
       geneList: [],
       flyRequest: s.flyRequest + 1,
     }));
-    if (sectionUid) {
-      void loadPoints(set, get, sectionUid);
-      void fetchGenes(sectionUid)
-        .then((genes) => set({ geneList: genes }))
-        .catch(() => set({ geneList: [] }));
-    }
+    if (sectionUid) loadSample(set, get, sectionUid);
   },
 
   setLod: (lod) => set({ lod }),
@@ -197,6 +217,26 @@ export const useStore = create<Store>((set, get) => ({
 
 type Set = (patch: Partial<Store> | ((s: Store) => Partial<Store>)) => void;
 type Get = () => Store;
+
+/**
+ * Everything a newly selected section needs from the API.
+ *
+ * One function because there are three ways to select one — a click, a hash change, and a shared
+ * link that names a sample before the catalog has landed — and they had drifted: the cold-link path
+ * fetched the points but not the gene list, so the HUD's gene control simply never appeared for
+ * anyone who opened a shared section link.
+ */
+function loadSample(set: Set, get: Get, sectionUid: string): void {
+  void loadPoints(set, get, sectionUid);
+  void fetchGenes(sectionUid)
+    .then((genes) => {
+      // A newer selection may have landed while this was in flight.
+      if (get().sample === sectionUid) set({ geneList: genes });
+    })
+    .catch(() => {
+      if (get().sample === sectionUid) set({ geneList: [] });
+    });
+}
 
 async function loadPoints(set: Set, get: Get, sectionUid: string) {
   set({ pointsPhase: "loading" });

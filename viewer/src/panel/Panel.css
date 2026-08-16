@@ -279,8 +279,29 @@
   margin-top: auto;
 }
 
-/* Measured data, undecorated: the crops are shown as the atlas returns them — greyscale PNGs at
-   their measured positions, no tint, no filter, no scene palette (global constraint 2). */
+/* The section's points, drawn flat. The canvas paints its own near-black background; the holder
+   only reserves the width the canvas measures itself against, so nothing here may set a height. */
+.panel-plot {
+  border: 1px solid var(--panel-edge);
+  border-radius: 0.3rem;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.panel-plot canvas {
+  cursor: crosshair;
+  display: block;
+}
+
+.panel-plot > p {
+  margin: 0;
+  padding: 1.25rem 0.9rem;
+  text-align: center;
+}
+
+/* Measured data, undecorated: the crops are shown as the atlas returns them — PNGs at their
+   measured positions, no tint, no filter, no scene palette (global constraint 2). */
 .panel-mosaic {
   background: #000;
   border: 1px solid var(--panel-edge);

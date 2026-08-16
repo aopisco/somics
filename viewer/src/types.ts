@@ -113,14 +113,14 @@ export interface GeneValues {
   meta: GeneMeta;
 }
 
-/** One morphology tile, positioned in the section's micron frame. */
+/** One image crop, positioned in the section's micron frame. */
 export interface CropTile {
   uid: string;
   x_um: number;
   y_um: number;
   width_um: number;
   height_um: number;
-  /** base64 PNG, greyscale, already percentile-stretched. */
+  /** base64 PNG: greyscale and percentile-stretched for morphology, colour for H&E. */
   png: string;
 }
 

@@ -1,11 +1,15 @@
 /**
- * The morphology imagery inside the floating panel.
+ * The tissue imagery inside the floating panel.
  *
- * The 3D scene only shows crops at the cell level, and only where the camera is pointing. The
- * panel is where the imagery belongs for the *sample*, so it fetches its own window: around the
- * cell-level focus when there is one, and around the middle of the section otherwise. Samples
- * without morphology (every Visium section in the atlas today carries H&E instead) render nothing
- * — `modalityLine` in `Panel.tsx` is already where that is said in words.
+ * The panel is now the only place imagery is shown at all — the 3D scene's tile layer is gone with
+ * the point cloud — so it fetches its own window: around the section view's focus when there is
+ * one, and around the middle of the section otherwise.
+ *
+ * Kinds are deliberately not distinguished. The crops endpoint is being extended to serve H&E
+ * alongside morphology, so a tile may be a colour H&E crop or a greyscale morphology one; an
+ * `<img>` renders either, and the layout in `mosaic.ts` only ever reads micron footprints. Samples
+ * the atlas holds neither kind for render nothing — `modalityLine` in `Panel.tsx` is where that is
+ * said in words.
  */
 
 import type { JSX } from "react";
@@ -35,7 +39,7 @@ export function Morphology({
   const [tiles, setTiles] = useState<CropTile[]>([]);
   const [phase, setPhase] = useState<LoadPhase>("idle");
 
-  const hasCrops = sample.has_morphology_crop;
+  const hasCrops = sample.has_morphology_crop || sample.has_he_crop;
   const [xMin, yMin, xMax, yMax] = sample.extent_um;
   const xUm = focusUm ? focusUm[0] : (xMin + xMax) / 2;
   const yUm = focusUm ? focusUm[1] : (yMin + yMax) / 2;
@@ -70,7 +74,7 @@ export function Morphology({
 
   return (
     <div className="panel-morphology">
-      <h2 className="panel-subtitle">Morphology</h2>
+      <h2 className="panel-subtitle">Imagery</h2>
       {phase === "loading" && <p className="panel-loading">Pulling crops from the atlas.</p>}
       {phase === "error" && <p className="panel-muted">The atlas dropped that crop request.</p>}
       {phase === "ready" && !mosaic && (
@@ -82,7 +86,7 @@ export function Morphology({
             className="panel-mosaic"
             style={{ aspectRatio: `${mosaic.aspect}` }}
             role="img"
-            aria-label={`${mosaic.tiles.length} morphology crops in their measured positions`}
+            aria-label={`${mosaic.tiles.length} tissue crops in their measured positions`}
           >
             {mosaic.tiles.map((tile) => (
               <img
@@ -101,7 +105,7 @@ export function Morphology({
           <p className="panel-muted">
             {mosaic.tiles.length} crops over {Math.round(mosaic.widthUm)} ×{" "}
             {Math.round(mosaic.heightUm)} µm, centred on ({Math.round(xUm)}, {Math.round(yUm)}) µm
-            {focusUm ? " — where the cell level is looking." : " — the middle of the section."}
+            {focusUm ? " — the point clicked above." : " — the middle of the section."}
           </p>
         </>
       )}

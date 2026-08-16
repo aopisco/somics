@@ -1,14 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  cameraStep,
-  focusFor,
-  layerOpacity,
-  lodForDistance,
-  manualLod,
-  sectionTransform,
-  SECTION_SIZE,
-} from "./lod";
+import { cameraStep, focusFor, layerOpacity, lodForDistance, manualLod } from "./lod";
 import { LODS } from "../types";
 import type { CameraState, Lod, Vec3 } from "../types";
 
@@ -32,24 +24,29 @@ function focusDistance(lod: Lod, bounds: [Vec3, Vec3], anchor: Vec3 | null): num
 }
 
 describe("layerOpacity", () => {
-  it("pins the exact opacity table", () => {
-    expect(layerOpacity("orbit")).toEqual({ world: 1, body: 1, points: 0, crops: 0 });
-    expect(layerOpacity("organ")).toEqual({ world: 1, body: 1, points: 0, crops: 0 });
-    expect(layerOpacity("section")).toEqual({ world: 0, body: 0.12, points: 1, crops: 0 });
-    expect(layerOpacity("cell")).toEqual({ world: 0, body: 0, points: 0.55, crops: 1 });
-  });
-});
-
-describe("sectionTransform", () => {
-  it("centres the unit square on the anchor at SECTION_SIZE / 2 scale", () => {
-    expect(SECTION_SIZE).toBe(6);
-    const { position, scale } = sectionTransform(ANCHOR);
-    expect(position).toEqual(ANCHOR);
-    expect(scale).toBe(3);
+  // The data left the scene for the panel, so no level clears the stage for it any more. A blank
+  // 3D stage is the thing that made this read as broken; this is the assertion that catches it
+  // coming back.
+  it("leaves the world and the body at full strength at every level", () => {
+    for (const lod of LODS) expect(layerOpacity(lod)).toEqual({ world: 1, body: 1 });
   });
 });
 
 describe("focusFor", () => {
+  it("frames every level from outside the organ, never through it", () => {
+    // The complaint was "it zooms into the brain". The closest level must still stand off the
+    // anchor by more than the largest organ blob is likely to be.
+    for (const lod of LODS) {
+      expect(focusDistance(lod, RAT_BOUNDS, ANCHOR)).toBeGreaterThan(2);
+    }
+  });
+
+  it("keeps section and cell pointed at the organ, not at a plane in front of it", () => {
+    for (const lod of ["organ", "section", "cell"] as const) {
+      expect(focusFor({ lod, bounds: RAT_BOUNDS, anchor: ANCHOR }).target).toEqual(ANCHOR);
+    }
+  });
+
   it.each([
     ["rat", RAT_BOUNDS],
     ["human", HUMAN_BOUNDS],
@@ -104,24 +101,30 @@ describe("lodForDistance", () => {
 });
 
 describe("manualLod", () => {
-  it("is lodForDistance when a sample is loaded", () => {
-    for (const lod of LODS) {
-      const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
-      expect(manualLod(d, RAT_BOUNDS, true)).toBe(lod);
+  it("moves between orbit and organ on distance alone", () => {
+    for (const from of ["orbit", "organ"] as const) {
+      for (const to of ["orbit", "organ"] as const) {
+        expect(manualLod(focusDistance(to, RAT_BOUNDS, ANCHOR), RAT_BOUNDS, from)).toBe(to);
+      }
     }
   });
 
-  it("collapses section and cell to organ with no sample to show there", () => {
+  it("collapses the inner distances onto organ — the wheel cannot select a sample", () => {
     for (const lod of ["section", "cell"] as const) {
       const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
-      expect(manualLod(d, RAT_BOUNDS, false)).toBe("organ");
+      expect(manualLod(d, RAT_BOUNDS, "organ")).toBe("organ");
+      expect(manualLod(d, RAT_BOUNDS, "orbit")).toBe("organ");
     }
   });
 
-  it("leaves the levels that need no sample alone", () => {
-    for (const lod of ["orbit", "organ"] as const) {
-      const d = focusDistance(lod, RAT_BOUNDS, ANCHOR);
-      expect(manualLod(d, RAT_BOUNDS, false)).toBe(lod);
+  // The regression this guards: section and cell now frame the organ, so their distance reads as
+  // "organ". If the wheel were allowed to answer, arriving at a section would immediately throw
+  // the section away again.
+  it("never moves a selected section or cell, at any distance", () => {
+    for (const current of ["section", "cell"] as const) {
+      for (const d of [0.01, 1, 2.6, 3.2, 4, 12, 40, 5000]) {
+        expect(manualLod(d, RAT_BOUNDS, current)).toBe(current);
+      }
     }
   });
 });
