@@ -80,22 +80,24 @@ def blob(center, r0):
     return verts
 
 
-def draw_glyph(ax, x0=0.0, y0=0.0):
+def draw_glyph(ax, x0=0.0, y0=0.0, scale=1.0):
     """Hybrid 's': spots upper-right, cells lower-left. Deterministic."""
     random.seed(42)
+    s = scale
     for p in INSIDE:
         c = color_for(p)
-        px, py = x0 + p[0] - xmin, y0 + p[1] - ymin
+        px, py = x0 + (p[0] - xmin) * s, y0 + (p[1] - ymin) * s
         if is_cell_half(p):
-            jx = px + random.uniform(-0.5, 0.5)
-            jy = py + random.uniform(-0.5, 0.5)
-            ax.add_patch(Polygon(blob((jx, jy), R * 1.28), closed=True,
-                                 facecolor=LIGHT[c], edgecolor=c, lw=0.9))
-            nx = jx + random.uniform(-0.6, 0.6)
-            ny = jy + random.uniform(-0.6, 0.6)
-            ax.add_patch(plt.Circle((nx, ny), R * 0.45, color=c, lw=0))
+            jx = px + random.uniform(-0.5, 0.5) * s
+            jy = py + random.uniform(-0.5, 0.5) * s
+            ax.add_patch(Polygon(blob((jx, jy), R * 1.28 * s), closed=True,
+                                 facecolor=LIGHT[c], edgecolor=c,
+                                 lw=0.9 * s))
+            nx = jx + random.uniform(-0.6, 0.6) * s
+            ny = jy + random.uniform(-0.6, 0.6) * s
+            ax.add_patch(plt.Circle((nx, ny), R * 0.45 * s, color=c, lw=0))
         else:
-            ax.add_patch(plt.Circle((px, py), R, color=c, lw=0))
+            ax.add_patch(plt.Circle((px, py), R * s, color=c, lw=0))
 
 
 def save(fig, stem):
@@ -119,11 +121,13 @@ save(fig, "somics-mark")
 
 # --- lockups: mark + "omics" wordmark (ink for light bg, white for dark) ---
 def lockup(stem, ink):
+    """Big lattice 'S', small 'omics' — reads like a capital-S wordmark."""
+    S_SCALE = 1.7
     fig, ax = plt.subplots(figsize=(8, 2.6))
-    draw_glyph(ax)
-    GAP = 6
+    draw_glyph(ax, scale=S_SCALE)
+    GAP = 7
     LETTER_SPACE = 4.5
-    cur = w + GAP
+    cur = w * S_SCALE + GAP
     for ch in "omics":
         tp = TextPath((0, 0), ch, size=100, prop=prop)
         cxmin = tp.vertices[:, 0].min()
@@ -132,7 +136,7 @@ def lockup(stem, ink):
         ax.add_patch(PathPatch(tp.transformed(t), color=ink, lw=0))
         cur += (cxmax - cxmin) + LETTER_SPACE
     ax.set_xlim(-pad, cur + pad)
-    ax.set_ylim(-pad, h * 1.35 + pad)
+    ax.set_ylim(-pad, h * S_SCALE + pad)
     ax.set_aspect("equal")
     ax.axis("off")
     save(fig, stem)
