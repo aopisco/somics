@@ -6,7 +6,7 @@ Tools for working with spatial omics datasets.
 
 <br clear="left" />
 
-📊 [Team slide deck](https://docs.google.com/presentation/d/1JAx5EtSJxe9Zc3rZCMGvH3-RoAFuo6U96toq0wJD7nE/) — project overview and paperclip demo (see also [docs/demo](docs/demo)).
+📊 [Team slide deck](https://docs.google.com/presentation/d/1CI3cQpbXedsKXsz2Dz-36f7e0NuwWvEF2D6LoYxKnVg/edit) — project overview and paperclip demo (see also [docs/demo](docs/demo)).
 
 `data/st_corpus.csv` holds the sample corpus of spatial transcriptomics datasets and their metadata
 (this matches the TERRA supplementary table, doi:10.64898/2026.07.29.741565).
