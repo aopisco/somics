@@ -60,7 +60,9 @@ query = atlas.query().where("tissue == 'colon'").limit(8)
 obs = query.to_polars()
 
 # Counts as AnnData. select_fields is required whenever the atlas carries more
-# than one AnnData-capable feature space.
+# than one AnnData-capable feature space. Imaging proteomics rows (CODEX, and
+# the morphology channels of CosMx) carry `protein_abundance` and no expression
+# at all, so check `has_gene_expression` before asking for it.
 adata = query.select_fields("gene_expression").to_anndata()
 
 # Image crops centred on each unit, one ndarray per row under the "raw" layer.

@@ -15,8 +15,10 @@ Three feature spaces, and they are written in fundamentally different ways:
   copy. Emitted row *i* is pointer row *i*. A CosMx flat expression CSV is the
   other shape this space arrives in: dense, and carrying one unassigned-
   transcript row per field of view that has no obs row to belong to.
-- **`protein_abundance`** is a row stream too, but dense and narrow — a handful
-  of imaging channels measured on the same cells.
+- **`protein_abundance`** is a row stream too, but dense and narrow — the imaging
+  channels measured on the same cells, from a five-channel morphology stain up to
+  a 58-channel CODEX run. A dataset may carry this space and no expression at
+  all, which is what an imaging proteomics assay is.
 - **`discrete_image`** is not a row stream at all. The section image is written
   once, at full resolution, and every obs row addresses a crop box into it.
   That is the whole reason the atlas schema stores imagery this way rather than
@@ -411,11 +413,13 @@ def load_protein_abundance(ctx: LoaderContext) -> LoaderResult:
     """A dense cell × target table of fluorescence intensities.
 
     Unlike an antibody-derived-tag count, this is the mean intensity of one
-    imaging channel inside the segmented cell. The vendor reports it as a
-    16-bit integer, which is what the feature space's ``counts`` layer stores;
-    the maximum intensity of the same channel travels on the obs row's
-    ``additional_metadata`` instead, since a target is a target however many
-    statistics are computed from it.
+    imaging channel inside the segmented cell, which is what the feature space's
+    ``counts`` layer stores. Sources that report it as a fraction — a mean over
+    a pixel set is rarely an integer — are rounded when the package is built,
+    not here, so that the loss is recorded once at a documented place rather
+    than silently at the write. Other statistics of the same channel travel on
+    the obs row's ``additional_metadata``, since a target is a target however
+    many statistics are computed from it.
     """
     paths = [p for p in ctx.data_files if p.endswith(".csv")]
     if len(paths) != 1:
@@ -476,6 +480,17 @@ def main(argv: list[str] | None = None) -> None:
         help="Skip the feature-oriented (CSC) copy of the expression matrix",
     )
     parser.add_argument("--no-snapshot", action="store_true", help="Leave the atlas unsnapshotted")
+    parser.add_argument(
+        "--no-optimize",
+        action="store_true",
+        help=(
+            "Skip the post-write optimize(). It is what assigns global_index to newly "
+            "registered features, so snapshot() will refuse to run without it; it also "
+            "compacts the obs table, which has once produced a fragment whose struct null "
+            "buffer disagreed with its row count and made every filtered read of the crop "
+            "pointers fail. Check with scripts/rewrite_obs_fragments.py --check-only after."
+        ),
+    )
     args = parser.parse_args(argv)
     collection_root = os.path.abspath(args.collection_root)
     schema_path = os.path.abspath(args.schema)
@@ -510,7 +525,8 @@ def main(argv: list[str] | None = None) -> None:
             print(f"writing feature-oriented copy for {group}")
             add_csc(atlas, group, field, obs_table_name=schema.obs_class)
 
-    atlas.optimize()
+    if not args.no_optimize:
+        atlas.optimize()
     if not args.no_snapshot:
         version = atlas.snapshot()
         print(f"atlas snapshot v{version}")

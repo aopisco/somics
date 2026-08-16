@@ -57,6 +57,7 @@ class SpatialTechnology(StrEnum):
     STARMAP_PLUS = 'starmap_plus'
     SEQFISH = 'seqfish'
     IMC = 'imc'
+    CODEX = 'codex'
     OTHER = 'other'
 
 
