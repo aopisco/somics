@@ -44,6 +44,17 @@ export function App() {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [toggles, setToggles] = useState<Toggles>(EMPTY_TOGGLES);
   const [selected, setSelected] = useState<string | null>(initial.selected);
+  const [pages, setPages] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Which datasets have a precomputed viewer page. Absent is not an error:
+    // the pages are built by their own script, and until they are, the card's
+    // viewer button simply stays disabled.
+    fetch("/api/dataset-pages")
+      .then((response) => (response.ok ? response.json() : { pages: {} }))
+      .then((manifest: { pages?: Record<string, string> }) => setPages(manifest.pages ?? {}))
+      .catch(() => setPages({}));
+  }, []);
 
   useEffect(() => {
     fetch("/api/corpus")
@@ -101,9 +112,11 @@ export function App() {
   };
 
   const openViewer = (dataset: Dataset) => {
-    const sectionUid = dataset.sections.flatMap((section) => section.sectionUids)[0];
-    // The 3D viewer is keyed by section, and it is served from the site root.
-    window.open(sectionUid ? `/#s=${sectionUid}&lod=section` : "/", "_blank", "noreferrer");
+    // The dataset's precomputed page: section imagery, spatial maps, and
+    // feature summaries, all rendered ahead of time by
+    // scripts/build_dataset_pages.py and served as static files.
+    const slug = pages[dataset.id];
+    if (slug) window.open(`/datasets/${slug}/`, "_blank", "noreferrer");
   };
 
   if (view === "home") {
@@ -208,6 +221,7 @@ export function App() {
           dataset={selectedDataset}
           onClose={() => setSelected(null)}
           onOpenViewer={openViewer}
+          hasViewer={Boolean(pages[selectedDataset.id])}
         />
       )}
 

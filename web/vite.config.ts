@@ -9,6 +9,8 @@ export default defineConfig({
     port: 5274,
     proxy: {
       "/api": { target: "http://127.0.0.1:8787", changeOrigin: true },
+      // Precomputed dataset pages, so "Open viewer" resolves in dev too.
+      "/datasets": { target: "http://127.0.0.1:8787", changeOrigin: true },
     },
   },
   test: {
