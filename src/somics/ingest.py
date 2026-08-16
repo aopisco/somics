@@ -6,13 +6,17 @@ here. Everything the atlas needs is already on disk by now — obs rows keyed an
 linked, features registered, dataset rows carrying their `zarr_group` — except
 the arrays themselves, which have never been written. This module writes them.
 
-Two feature spaces, and they are written in fundamentally different ways:
+Three feature spaces, and they are written in fundamentally different ways:
 
 - **`gene_expression`** is a row stream. The 10x `cell_feature_matrix.h5` stores
   the panel as CSC over a (features × cells) matrix, which is bit-identical to
   CSR over (cells × features) — the same three arrays, read as the transpose —
   so it drops straight into homeobox's `AnnDataReader` with no transpose and no
-  copy. Emitted row *i* is pointer row *i*.
+  copy. Emitted row *i* is pointer row *i*. A CosMx flat expression CSV is the
+  other shape this space arrives in: dense, and carrying one unassigned-
+  transcript row per field of view that has no obs row to belong to.
+- **`protein_abundance`** is a row stream too, but dense and narrow — a handful
+  of imaging channels measured on the same cells.
 - **`discrete_image`** is not a row stream at all. The section image is written
   once, at full resolution, and every obs row addresses a crop box into it.
   That is the whole reason the atlas schema stores imagery this way rather than
@@ -40,6 +44,7 @@ import anndata as ad
 import h5py
 import lancedb
 import numpy as np
+import pandas as pd
 import scipy.sparse as sp
 import tifffile
 from homeobox.atlas import create_or_open_atlas
@@ -300,27 +305,133 @@ def read_10x_h5_csr(path: str) -> sp.csr_matrix:
     return matrix
 
 
-def load_gene_expression(ctx: LoaderContext) -> LoaderResult:
-    h5_paths = [p for p in ctx.data_files if p.endswith(".h5")]
-    if len(h5_paths) != 1:
-        raise ValueError(
-            f"{ctx.dataset_name}/{ctx.feature_space}: expected exactly one .h5, got {h5_paths}"
-        )
-    matrix = read_10x_h5_csr(h5_paths[0])
+def read_cosmx_expr_csr(path: str) -> tuple[sp.csr_matrix, list[str]]:
+    """Read a CosMx ``exprMat_file.csv`` as a (cells × targets) CSR matrix.
+
+    The flat file is a dense cell-by-target table with two leading key columns,
+    and it carries one extra row per field of view — ``cell_ID == 0``, holding
+    the transcripts segmentation assigned to no cell. Those rows have no obs row
+    to belong to, so they are dropped; what remains is the vendor's cell
+    metadata file row for row, which is the order the obs artifact was built in.
+    """
+    columns = pd.read_csv(path, nrows=0).columns.tolist()
+    targets = columns[2:]
+    frame = pd.read_csv(path, dtype=dict.fromkeys(columns, np.int32))
+    frame = frame[frame["cell_ID"] != 0]
+    return sp.csr_matrix(frame[targets].to_numpy()), targets
+
+
+def var_in_matrix_order(
+    ctx: LoaderContext, names: list[str], *, name_columns: tuple[str, ...]
+) -> pd.DataFrame:
+    """Reorder the feature registry to the matrix's column order.
+
+    Homeobox writes registry row *j* as feature column *j*, but a registry table
+    reaches ingestion in whatever physical order harmonization left it in —
+    an in-place value update rewrites fragments and does not preserve row order.
+    So the rows are looked up by name instead of trusted positionally.
+
+    ``name_columns`` are tried in order for each row, which is how one lookup
+    covers a panel whose control probes have no gene symbol: the first non-null
+    of (gene_name, feature_id) is the name the matrix column carries.
+    """
     if ctx.var_table is None:
         raise ValueError(f"{ctx.dataset_name}/{ctx.feature_space}: no feature registry table")
-    if matrix.shape[1] != ctx.var_table.num_rows:
+    var_df = ctx.var_table.to_pandas()
+    missing = [column for column in name_columns if column not in var_df.columns]
+    if missing:
         raise ValueError(
-            f"{ctx.dataset_name}: matrix has {matrix.shape[1]} feature column(s) but the "
-            f"registry has {ctx.var_table.num_rows} row(s); the var table must be in matrix "
-            f"column order"
+            f"{ctx.dataset_name}/{ctx.feature_space}: registry has no {missing} column(s) to "
+            f"match matrix columns on; available: {list(var_df.columns)}"
         )
+
+    keys = var_df[list(name_columns)].bfill(axis=1).iloc[:, 0]
+    position = {}
+    for row, key in enumerate(keys):
+        if key in position:
+            raise ValueError(
+                f"{ctx.dataset_name}/{ctx.feature_space}: {key!r} names two registry rows; "
+                f"matrix columns cannot be matched unambiguously"
+            )
+        position[key] = row
+
+    absent = [name for name in names if name not in position]
+    if absent:
+        raise ValueError(
+            f"{ctx.dataset_name}/{ctx.feature_space}: {len(absent)} matrix column(s) are not in "
+            f"the feature registry; examples: {absent[:5]}"
+        )
+    if len(names) != len(var_df):
+        raise ValueError(
+            f"{ctx.dataset_name}/{ctx.feature_space}: matrix has {len(names)} column(s) but the "
+            f"registry has {len(var_df)} row(s)"
+        )
+    return var_df.iloc[[position[name] for name in names]].reset_index(drop=True)
+
+
+def load_gene_expression(ctx: LoaderContext) -> LoaderResult:
+    """10x ``cell_feature_matrix.h5`` or a CosMx flat expression CSV."""
+    paths = [p for p in ctx.data_files if p.endswith((".h5", ".csv"))]
+    if len(paths) != 1:
+        raise ValueError(
+            f"{ctx.dataset_name}/{ctx.feature_space}: expected exactly one .h5 or .csv, got {paths}"
+        )
+    path = paths[0]
+
+    if path.endswith(".h5"):
+        matrix = read_10x_h5_csr(path)
+        if ctx.var_table is None:
+            raise ValueError(f"{ctx.dataset_name}/{ctx.feature_space}: no feature registry table")
+        if matrix.shape[1] != ctx.var_table.num_rows:
+            raise ValueError(
+                f"{ctx.dataset_name}: matrix has {matrix.shape[1]} feature column(s) but the "
+                f"registry has {ctx.var_table.num_rows} row(s); the var table must be in matrix "
+                f"column order"
+            )
+        var_df = ctx.var_table.to_pandas()
+    else:
+        matrix, targets = read_cosmx_expr_csr(path)
+        var_df = var_in_matrix_order(ctx, targets, name_columns=("gene_name", "feature_id"))
+
     print(f"  {ctx.feature_space}: {matrix.shape[0]} x {matrix.shape[1]}, {matrix.nnz} nonzero")
     return LoaderResult(
         reader=AnnDataReader(ad.AnnData(X=matrix)),
         layer_mapping={"X": "counts"},
         n_vars=matrix.shape[1],
-        var_df=ctx.var_table.to_pandas(),
+        var_df=var_df,
+    )
+
+
+# ===========================================================================
+# protein_abundance: the per-cell morphology-channel intensities
+# ===========================================================================
+
+
+def load_protein_abundance(ctx: LoaderContext) -> LoaderResult:
+    """A dense cell × target table of fluorescence intensities.
+
+    Unlike an antibody-derived-tag count, this is the mean intensity of one
+    imaging channel inside the segmented cell. The vendor reports it as a
+    16-bit integer, which is what the feature space's ``counts`` layer stores;
+    the maximum intensity of the same channel travels on the obs row's
+    ``additional_metadata`` instead, since a target is a target however many
+    statistics are computed from it.
+    """
+    paths = [p for p in ctx.data_files if p.endswith(".csv")]
+    if len(paths) != 1:
+        raise ValueError(
+            f"{ctx.dataset_name}/{ctx.feature_space}: expected exactly one .csv, got {paths}"
+        )
+    frame = pd.read_csv(paths[0])
+    var_df = var_in_matrix_order(ctx, list(frame.columns), name_columns=("target_name",))
+    values = frame.to_numpy(dtype=np.uint32)
+
+    print(f"  {ctx.feature_space}: {values.shape[0]} x {values.shape[1]} dense")
+    return LoaderResult(
+        reader=AnnDataReader(ad.AnnData(X=values)),
+        layer_mapping={"X": "counts"},
+        n_vars=values.shape[1],
+        var_df=var_df,
     )
 
 
@@ -328,6 +439,7 @@ def build_loaders(collection_root: str) -> dict:
     """Per-feature-space loaders for one collection."""
     return {
         "gene_expression": load_gene_expression,
+        "protein_abundance": load_protein_abundance,
         "discrete_image": make_image_loader(image_fields_by_dataset(collection_root)),
     }
 
