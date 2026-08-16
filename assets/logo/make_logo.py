@@ -117,21 +117,26 @@ ax.set_aspect("equal")
 ax.axis("off")
 save(fig, "somics-mark")
 
-# --- lockup: mark + "omics" wordmark ---
-fig, ax = plt.subplots(figsize=(8, 2.6))
-draw_glyph(ax)
-GAP = 6
-LETTER_SPACE = 4.5
-cur = w + GAP
-for ch in "omics":
-    tp = TextPath((0, 0), ch, size=100, prop=prop)
-    cxmin = tp.vertices[:, 0].min()
-    cxmax = tp.vertices[:, 0].max()
-    t = Affine2D().translate(cur - cxmin, 0)
-    ax.add_patch(PathPatch(tp.transformed(t), color=INK, lw=0))
-    cur += (cxmax - cxmin) + LETTER_SPACE
-ax.set_xlim(-pad, cur + pad)
-ax.set_ylim(-pad, h * 1.35 + pad)
-ax.set_aspect("equal")
-ax.axis("off")
-save(fig, "somics-logo")
+# --- lockups: mark + "omics" wordmark (ink for light bg, white for dark) ---
+def lockup(stem, ink):
+    fig, ax = plt.subplots(figsize=(8, 2.6))
+    draw_glyph(ax)
+    GAP = 6
+    LETTER_SPACE = 4.5
+    cur = w + GAP
+    for ch in "omics":
+        tp = TextPath((0, 0), ch, size=100, prop=prop)
+        cxmin = tp.vertices[:, 0].min()
+        cxmax = tp.vertices[:, 0].max()
+        t = Affine2D().translate(cur - cxmin, 0)
+        ax.add_patch(PathPatch(tp.transformed(t), color=ink, lw=0))
+        cur += (cxmax - cxmin) + LETTER_SPACE
+    ax.set_xlim(-pad, cur + pad)
+    ax.set_ylim(-pad, h * 1.35 + pad)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    save(fig, stem)
+
+
+lockup("somics-logo", INK)
+lockup("somics-logo-dark", "#ffffff")  # for dark backgrounds (slides, dark mode)
