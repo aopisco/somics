@@ -1,9 +1,22 @@
 ---
 name: harvest-datasets
-description: Run a Paperclip literature search, extract the spatial omics datasets each paper reports, and add them to data/literature_datasets.csv in the somics repo (committed to main per team practice). Use this whenever the user wants to grow the dataset inventory from the literature — phrases like "search for X and add it to the inventory", "harvest datasets on spatial proteomics", "run another literature search", "add these papers' datasets to the CSV", or any request to expand, extend, or top up the literature dataset table. Also use when the user names a modality, platform, tissue, or disease and wants to know what datasets the literature reports for it, since the answer belongs in the inventory rather than in chat. Do not use for reading a single paper, or for st_corpus.csv, which is the TERRA sample corpus and is maintained separately.
+description: Run a Paperclip literature search, extract the spatial omics datasets each paper reports, add them to data/literature_datasets.csv, then curate them into data/datasets.csv (one row per dataset, referenced by its ORIGINAL publication) and data/model_dataset_usage.csv (which papers/models use which datasets) in the somics repo. Use this whenever the user wants to grow the dataset inventory from the literature or "check for new datasets" — phrases like "search for X and add it to the inventory", "harvest datasets on spatial proteomics", "run another literature search", "add these papers' datasets to the CSV", or any request to expand, extend, or top up the dataset tables. Also use when the user names a modality, platform, tissue, or disease and wants to know what datasets the literature reports for it, since the answer belongs in the inventory rather than in chat. Do not use for reading a single paper, or for st_corpus.csv, which is the TERRA sample corpus and is maintained separately.
 ---
 
 # Harvest datasets from the literature
+
+The inventory is three tables, fed in order:
+
+1. **`data/literature_datasets.csv`** — raw **claim-level** extraction: one row per
+   (dataset × source paper). Steps 0–5 below maintain it.
+2. **`data/datasets.csv`** — the curated registry: **one row per dataset**, referenced by
+   its **original publication** (the paper that FIRST released the data). In-house data
+   first released by a model paper carries that model paper as its original reference
+   (`first_published_by_model_paper = yes`); vendor datasets (10x, Bruker) carry the vendor
+   page. `data_access_link` is the landing page/accession; `download_url` is a direct
+   curl-able file URL (st_corpus.csv semantics). Steps 6–8 maintain it.
+3. **`data/model_dataset_usage.csv`** — many-to-many (paper/model × dataset): usage type
+   and the dataset's alias inside that paper (e.g. DRIFT's "10xHPC" = spatialLIBD DLPFC).
 
 `data/literature_datasets.csv` is an inventory of spatial omics datasets as reported by the papers that describe or reuse them. It is a **claim-level** table: one row per (dataset × source paper). If three papers all reuse the Visium DLPFC data, that is three rows, not one. Each row records what a specific paper said about a specific dataset.
 
@@ -136,6 +149,64 @@ anyway, fetch and rebase again; do not force-push and do not merge.
 Six weeks from now the only way to know why a row exists is that commit
 message, and a reviewer's first question is always "where did these come
 from" — keep the queries and the result ID in it.
+
+### 6. Trace new papers' datasets to their original publications
+
+The claim-level rows reference the *analyzing* paper; the curated registry wants the paper
+that *first released* the data. Papers cite datasets by reference number, so ask the map
+reader to expand each citation from the paper's own reference list. Run over the NEW papers
+only (same result set as step 3):
+
+```bash
+paperclip map --from s_abc123 \
+  --output-schema '{"type":"object","required":["datasets"],"additionalProperties":false,"properties":{"datasets":{"type":"array","items":{"type":"object","required":["name","platform","original_title","original_first_author","original_year","original_is_this_paper","accession_or_link"],"additionalProperties":false,"properties":{"name":{"type":"string"},"platform":{"type":["string","null"]},"species":{"type":["string","null"]},"tissue":{"type":["string","null"]},"original_first_author":{"type":["string","null"]},"original_title":{"type":["string","null"]},"original_journal":{"type":["string","null"]},"original_year":{"type":["integer","null"]},"original_is_this_paper":{"type":"boolean"},"accession_or_link":{"type":["string","null"]}}}}}}' \
+  "For every spatial omics DATASET that this paper analyzed or generated, trace it to its ORIGINAL publication - the paper that FIRST released the data. Papers usually cite datasets with reference numbers (in a datasets table or Methods); look up each cited reference in the REFERENCE LIST and extract: original_first_author (surname), original_title (full title), original_journal, original_year. If this paper itself generated the dataset (in-house/new data), set original_is_this_paper=true and leave the original_* fields null. Also give the dataset short name/alias as used in the paper, its platform, species, tissue, and any data accession/URL stated (null if none). Skip simulated/synthetic data. Methods/review papers with no specific datasets: return empty array."
+```
+
+**Operational limits learned the hard way (2026-08):**
+- A single map over ~1,000 papers hits the server's ~25 min cap with this heavier prompt.
+  Chunk with `-n 250 --offset 0/250/500/…` — each chunk runs in 5–10 min.
+- Chunks sometimes come back with mass transient `[error]` blocks. Do NOT rerun from
+  scratch: `paperclip map --resume m_XXXX --retry-failed` recovers them cheaply
+  (983 papers went from 6% to 98% success this way).
+- `paperclip sql`-saved result sets are NOT usable with `map --from`; only search/searches
+  result sets are. To subset, chunk with `-n/--offset` instead.
+- Export each chunk with `paperclip results m_XXXX --save trace_N.txt`.
+
+Also build the analyzing-paper metadata file (paperclip's SQL/`results --save` truncate
+titles, so read each paper's `meta.json`):
+
+```bash
+while read id; do paperclip cat /papers/$id/meta.json ...; done < new_ids.txt > meta.jsonl
+# one JSON object per line: {"id":..., "title":..., "doi":..., "year":...}
+```
+
+### 7. Merge into the curated tables
+
+```bash
+python3 scripts/trace_originals.py --trace trace_0.txt --trace trace_1.txt \
+    --meta meta.jsonl --cache /tmp/crossref_cache.json
+```
+
+The script dedupes claims by (original publication × platform family), resolves cited
+originals to DOIs via Crossref (title-match verified; misses are flagged in `notes`,
+never guessed), matches new datasets into existing rows by DOI, and appends the rest to
+`data/datasets.csv` + `data/model_dataset_usage.csv`. Existing rows are never modified.
+
+### 8. Resolve direct download URLs and verify links
+
+```bash
+python3 scripts/resolve_download_urls.py            # fills download_url (probes every URL)
+python3 scripts/verify_downloads.py data/datasets.csv   # optional: refresh data_downloadable
+```
+
+`resolve_download_urls.py` knows Zenodo (single file → content URL; ≤300 MB record →
+files-archive zip; larger → largest file), GEO bulk download, Dryad, and direct-file
+passthrough. It never overwrites a non-empty `download_url`. Sites behind bot protection
+(10x/Cloudflare 403) stay unresolved — that is expected, not a failure.
+
+Commit the curated tables in the same push as the claim-level append (step 5), listing the
+map IDs in the commit body.
 
 ## Platform normalization
 
