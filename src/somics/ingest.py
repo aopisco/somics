@@ -288,7 +288,7 @@ def make_image_loader(fields_by_dataset: dict[str, str]):
 # ===========================================================================
 
 
-def read_10x_h5_csr(path: str) -> sp.csr_matrix:
+def read_10x_h5_csr(path: str) -> tuple[sp.csr_matrix, list[str]]:
     """Read a 10x ``cell_feature_matrix.h5`` as a (cells × features) CSR matrix.
 
     The file holds CSC over a (features × cells) matrix. CSC of A is CSR of Aᵀ
@@ -296,6 +296,9 @@ def read_10x_h5_csr(path: str) -> sp.csr_matrix:
     at the transposed shape is exact and free — no transpose, no re-sort, and
     row order is the file's ``barcodes`` order, which is what the finalized obs
     artifact was built against.
+
+    The feature ids are returned alongside, in matrix column order, so the
+    registry can be matched to the columns by name rather than by position.
     """
     with h5py.File(path, "r") as handle:
         group = handle["matrix"]
@@ -304,7 +307,8 @@ def read_10x_h5_csr(path: str) -> sp.csr_matrix:
             (group["data"][:], group["indices"][:], group["indptr"][:]),
             shape=(n_cells, n_features),
         )
-    return matrix
+        feature_ids = np.asarray(group["features"]["id"]).astype(str).tolist()
+    return matrix, feature_ids
 
 
 def read_cosmx_expr_csr(path: str) -> tuple[sp.csr_matrix, list[str]]:
@@ -381,16 +385,13 @@ def load_gene_expression(ctx: LoaderContext) -> LoaderResult:
     path = paths[0]
 
     if path.endswith(".h5"):
-        matrix = read_10x_h5_csr(path)
-        if ctx.var_table is None:
-            raise ValueError(f"{ctx.dataset_name}/{ctx.feature_space}: no feature registry table")
-        if matrix.shape[1] != ctx.var_table.num_rows:
-            raise ValueError(
-                f"{ctx.dataset_name}: matrix has {matrix.shape[1]} feature column(s) but the "
-                f"registry has {ctx.var_table.num_rows} row(s); the var table must be in matrix "
-                f"column order"
-            )
-        var_df = ctx.var_table.to_pandas()
+        matrix, feature_ids = read_10x_h5_csr(path)
+        # Matched by name for the same reason the CosMx branch is: harmonization
+        # rewrites fragments and does not promise to preserve row order, and a
+        # silently permuted registry would mislabel every gene rather than fail.
+        # The 10x feature id is what `feature_id` holds for both the panel genes
+        # (an Ensembl id) and the control codewords (the codeword's own name).
+        var_df = var_in_matrix_order(ctx, feature_ids, name_columns=("feature_id",))
     else:
         matrix, targets = read_cosmx_expr_csr(path)
         var_df = var_in_matrix_order(ctx, targets, name_columns=("gene_name", "feature_id"))
