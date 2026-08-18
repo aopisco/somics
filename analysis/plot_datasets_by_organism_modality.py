@@ -6,6 +6,7 @@ platform keywords where blank; residual unknowns stay gray "Not specified".
 """
 
 import csv
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -106,28 +107,39 @@ def modality(row):
     return "Not specified"
 
 
-def organism(row):
+ORGANISM_KEYS = [
+    ("Human", ("human", "homo sapiens", "homo ")),
+    ("Mouse", ("mouse", "mus musculus", "mus ", "mice", "murine")),
+    ("Rat", ("rattus", "rat ")),
+    ("Zebrafish", ("zebrafish", "danio")),
+    ("Drosophila", ("drosophila",)),
+    ("C. elegans", ("elegans",)),
+    ("Arabidopsis", ("arabidopsis",)),
+    ("Macaque", ("macaque", "rhesus", "macaca")),
+    ("Axolotl", ("axolotl",)),
+    ("Chicken", ("chicken", "gallus")),
+    ("Pig", ("pig", "sus scrofa")),
+]
+
+
+def organisms(row):
+    """Every organism a dataset covers, not just one.
+
+    A cross-species dataset is genuinely human data *and* mouse data, so it is
+    counted under both rather than in a combined "Human & Mouse" bar that no one
+    can act on (36 of 1,822 rows land there otherwise). Bars therefore sum to
+    slightly more than the dataset count, which the subtitle states.
+    """
     s = row["species"].strip().lower()
     if not s:
-        return "Not specified"
-    both = ("human" in s or "homo" in s) and ("mouse" in s or "mus " in s or "mice" in s)
-    if both:
-        return "Human & Mouse"
-    if "human" in s or "homo sapiens" in s:
-        return "Human"
-    if "mouse" in s or "mus musculus" in s or s == "mice":
-        return "Mouse"
-    if "drosophila" in s:
-        return "Drosophila"
-    if "zebrafish" in s or "danio" in s:
-        return "Zebrafish"
-    if "elegans" in s:
-        return "C. elegans"
-    if s.startswith("rat") and "arab" not in s:
-        return "Rat"
-    if "arabidopsis" in s:
-        return "Arabidopsis"
-    return "Other"
+        return ["Not specified"]
+    # bare "rat" must not match "arabidopsis"/"strat…"; require a word boundary
+    hits = [
+        name
+        for name, keys in ORGANISM_KEYS
+        if any(re.search(rf"\b{re.escape(k.strip())}", s) for k in keys)
+    ]
+    return hits or ["Other"]
 
 
 def main():
@@ -135,8 +147,13 @@ def main():
         rows = list(csv.DictReader(f))
 
     counts = defaultdict(Counter)
+    multi = 0
     for r in rows:
-        counts[organism(r)][modality(r)] += 1
+        orgs = organisms(r)
+        if len(orgs) > 1:
+            multi += 1
+        for o in orgs:
+            counts[o][modality(r)] += 1
 
     named = [o for o in counts if o not in ("Other", "Not specified")]
     order = sorted(named, key=lambda o: sum(counts[o].values()), reverse=True)
@@ -189,7 +206,8 @@ def main():
         0,
         1.015,
         f"data/datasets.csv · {len(rows):,} datasets · modality "
-        "inferred from platform where unlabeled",
+        f"inferred from platform where unlabeled · {multi} multi-species "
+        "datasets counted under each organism",
         transform=ax.transAxes,
         fontsize=8.5,
         color=MUTED,

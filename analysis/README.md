@@ -7,6 +7,8 @@ Regenerate everything with:
 uv run python analysis/table_stats.py
 uv run python analysis/plot_datasets_by_organism_modality.py
 uv run python analysis/plot_technologies_by_model_reuse.py
+uv run python analysis/plot_datasets_by_year.py
+uv run python analysis/plot_top_tissues.py
 ```
 
 Outputs land in `analysis/plots/`. Requires matplotlib; it is not a project dependency, so either
@@ -14,7 +16,9 @@ Outputs land in `analysis/plots/`. Requires matplotlib; it is not a project depe
 
 - `plot_datasets_by_organism_modality.py` — stacked bars of `datasets.csv` by
   organism, colored by modality. Modality is inferred from platform keywords
-  where the `modality` column is blank; residual unknowns stay gray.
+  where the `modality` column is blank; residual unknowns stay gray. A dataset
+  covering more than one organism is counted under each, so bars sum to more
+  than the dataset count — a combined "Human & Mouse" bar was less useful.
 - `plot_technologies_by_model_reuse.py` — datasets per canonicalized technology,
   shaded by how many **named** model papers use each dataset (none / 1 / 2–4 /
   5+, from `model_dataset_usage.csv`).
@@ -30,6 +34,11 @@ Outputs land in `analysis/plots/`. Requires matplotlib; it is not a project depe
 
   Notable: Slide-seq (11%) and smFISH/ISH (9%) lead on reuse, while GeoMx DSP
   and mass spectrometry sit at 0%.
+- `plot_datasets_by_year.py` — datasets by the year of their *original*
+  publication. Recent years are undercounted: paperclip's bioRxiv ingestion lags
+  publication by roughly three months.
+- `plot_top_tissues.py` — most represented tissues, split by modality. Tissue is
+  free text, so unmatched labels are left out of the chart rather than bucketed.
 - `table_stats.py` — headline row/distinct counts for the three tables.
 
 Both charts use a colorblind-validated palette; canonicalization of organisms
