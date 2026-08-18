@@ -23,6 +23,7 @@ Usage:
 import argparse
 import csv
 import json
+import os
 import re
 import time
 import urllib.parse
@@ -39,6 +40,7 @@ DS_COLS = [
     "species",
     "tissue",
     "disease",
+    "perturbation",
     "n_samples",
     "data_access_link",
     "download_url",
@@ -153,6 +155,25 @@ def crossref_doi(title, cache):
         cache[tkey] = hit
         time.sleep(0.25)
     return cache[tkey]
+
+
+def _write_csv(path, canonical, existing, added):
+    """Rewrite a table atomically, keeping any columns already on disk.
+
+    The curated tables gain columns over time (`perturbation` arrived after this
+    script was written). Writing a hardcoded field list would either drop those
+    values or raise mid-write and leave a truncated file, so take the union of
+    the on-disk header and the canonical order, and only move the temp file into
+    place once every row is written.
+    """
+    on_disk = list(existing[0]) if existing else []
+    fieldnames = on_disk + [c for c in canonical if c not in on_disk]
+    tmp = f"{path}.tmp"
+    with open(tmp, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames, restval="")
+        w.writeheader()
+        w.writerows(existing + added)
+    os.replace(tmp, path)
 
 
 def main():
@@ -274,6 +295,7 @@ def main():
                         c["tissue"],
                         "",
                         "",
+                        "",
                         links[0] if links else "",
                         "",
                         "",
@@ -328,14 +350,8 @@ def main():
             )
         )
 
-    with open(args.datasets, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=DS_COLS)
-        w.writeheader()
-        w.writerows(existing + new_ds)
-    with open(args.usage, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=USE_COLS)
-        w.writeheader()
-        w.writerows(existing_use + new_use)
+    _write_csv(args.datasets, DS_COLS, existing, new_ds)
+    _write_csv(args.usage, USE_COLS, existing_use, new_use)
     print(
         f"added {len(new_ds)} datasets ({len(canon) - len(new_ds)} matched existing), "
         f"{len(new_use)} usage rows"
