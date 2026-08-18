@@ -247,6 +247,15 @@ The table gives dataset → reference number; resolve each number in the bibliog
 Crossref the title for the journal DOI. This is the same alias → reference → original chain
 `trace_originals.py` automates for the normal case; here you feed it by hand.
 
+**Searching only by method and modality, and missing resource papers.** The seed
+vocabulary was topic- and model-centric ("spatial transcriptomics", "foundation model",
+"pretrained representation"), which retrieves *methods* papers and misses *resource* papers
+that describe themselves as an atlas, reference, consortium or data release. SAHA (the
+Spatial Atlas of Human Anatomy, a multi-organ CosMx/Xenium/GeoMx reference) never appeared in
+any of the first ~1,300 papers retrieved, and an "atlas / reference / consortium" sweep in
+Aug 2026 came back **92% unmined** (117 of 126) — the worst-covered axis found so far. Search
+the artefact as well as the method.
+
 **Treating "no perturbation vocabulary" as "no perturbation datasets."** Transcriptomics/
 proteomics/foundation-model queries do not surface CRISPR screens, drug-treatment series,
 transgenic-model or injury time-course data — a perturbation-specific probe in Aug 2026
