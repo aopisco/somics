@@ -18,8 +18,7 @@ def main():
 
     with open(REPO / "data" / "literature_datasets.csv") as f:
         lit = list(csv.DictReader(f))
-    print("claim rows:", len(lit),
-          "| source papers:", len({r["source_paper_id"] for r in lit}))
+    print("claim rows:", len(lit), "| source papers:", len({r["source_paper_id"] for r in lit}))
 
     with open(REPO / "data" / "datasets.csv") as f:
         ds = list(csv.DictReader(f))

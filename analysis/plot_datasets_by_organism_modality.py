@@ -28,18 +28,63 @@ COLORS = {
 }
 MODALITIES = list(COLORS)
 
-SP_KEYS = ("codex", "imc", "imaging mass cytometry", "mibi", "cycif", "4i",
-           "phenocycler", "geomx", "lopit", "mass spec", "maldi", "ims",
-           "immunofluorescence", "ihc", "proteom")
-ST_KEYS = ("visium", "xenium", "merfish", "merscope", "cosmx", "seqfish",
-           "slide-seq", "slideseq", "stereo-seq", "stereoseq", "dbit", "hdst",
-           "starmap", "iss", "in situ sequencing", "fish", "ish", "tomo-seq",
-           "spatial transcriptom", "st", "hybriss", "expansion")
-REF_KEYS = ("scrna", "snrna", "single-cell", "single cell", "10x chromium",
-            "smart-seq", "smartseq", "drop-seq", "bulk", "rna-seq", "rnaseq",
-            "cite-seq", "atac")
-EPI_KEYS = ("epigenom", "cut&tag", "cut&run", "spatial-atac", "spatial atac",
-            "methyl", "perturb")
+SP_KEYS = (
+    "codex",
+    "imc",
+    "imaging mass cytometry",
+    "mibi",
+    "cycif",
+    "4i",
+    "phenocycler",
+    "geomx",
+    "lopit",
+    "mass spec",
+    "maldi",
+    "ims",
+    "immunofluorescence",
+    "ihc",
+    "proteom",
+)
+ST_KEYS = (
+    "visium",
+    "xenium",
+    "merfish",
+    "merscope",
+    "cosmx",
+    "seqfish",
+    "slide-seq",
+    "slideseq",
+    "stereo-seq",
+    "stereoseq",
+    "dbit",
+    "hdst",
+    "starmap",
+    "iss",
+    "in situ sequencing",
+    "fish",
+    "ish",
+    "tomo-seq",
+    "spatial transcriptom",
+    "st",
+    "hybriss",
+    "expansion",
+)
+REF_KEYS = (
+    "scrna",
+    "snrna",
+    "single-cell",
+    "single cell",
+    "10x chromium",
+    "smart-seq",
+    "smartseq",
+    "drop-seq",
+    "bulk",
+    "rna-seq",
+    "rnaseq",
+    "cite-seq",
+    "atac",
+)
+EPI_KEYS = ("epigenom", "cut&tag", "cut&run", "spatial-atac", "spatial atac", "methyl", "perturb")
 
 
 def modality(row):
@@ -106,14 +151,21 @@ def main():
     left = [0.0] * len(order)
     for mod in MODALITIES:
         vals = [counts[o].get(mod, 0) for o in order]
-        ax.barh(y, vals, left=left, height=0.62, color=COLORS[mod],
-                edgecolor=SURFACE, linewidth=1.4, label=mod)
-        left = [l + v for l, v in zip(left, vals)]
+        ax.barh(
+            y,
+            vals,
+            left=left,
+            height=0.62,
+            color=COLORS[mod],
+            edgecolor=SURFACE,
+            linewidth=1.4,
+            label=mod,
+        )
+        left = [acc + v for acc, v in zip(left, vals, strict=True)]
 
     for i, o in enumerate(order):
         total = sum(counts[o].values())
-        ax.text(total + 8, i, f"{total:,}", va="center", ha="left",
-                fontsize=9, color=INK2)
+        ax.text(total + 8, i, f"{total:,}", va="center", ha="left", fontsize=9, color=INK2)
 
     ax.set_yticks(list(y))
     ax.set_yticklabels(order, fontsize=10, color=INK2)
@@ -125,20 +177,40 @@ def main():
     for side in ("top", "right", "left", "bottom"):
         ax.spines[side].set_visible(False)
 
-    ax.set_title("somics dataset registry: datasets by organism and modality",
-                 fontsize=13, color=INK, loc="left", pad=14, fontweight="bold")
-    ax.text(0, 1.015, f"data/datasets.csv · {len(rows):,} datasets · modality "
-            "inferred from platform where unlabeled", transform=ax.transAxes,
-            fontsize=8.5, color=MUTED)
+    ax.set_title(
+        "somics dataset registry: datasets by organism and modality",
+        fontsize=13,
+        color=INK,
+        loc="left",
+        pad=14,
+        fontweight="bold",
+    )
+    ax.text(
+        0,
+        1.015,
+        f"data/datasets.csv · {len(rows):,} datasets · modality "
+        "inferred from platform where unlabeled",
+        transform=ax.transAxes,
+        fontsize=8.5,
+        color=MUTED,
+    )
 
     totals = Counter()
     for c in counts.values():
         totals.update(c)
     handles, labels = ax.get_legend_handles_labels()
-    labels = [f"{l}  ({totals[l]:,})" for l in labels]
-    ax.legend(handles, labels, loc="lower right", frameon=False, fontsize=9,
-              labelcolor=INK2, handlelength=1.0, handleheight=1.0,
-              borderaxespad=0.2)
+    labels = [f"{lab}  ({totals[lab]:,})" for lab in labels]
+    ax.legend(
+        handles,
+        labels,
+        loc="lower right",
+        frameon=False,
+        fontsize=9,
+        labelcolor=INK2,
+        handlelength=1.0,
+        handleheight=1.0,
+        borderaxespad=0.2,
+    )
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
