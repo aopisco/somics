@@ -170,3 +170,25 @@ Lint and format manually:
 uv run ruff check .
 uv run ruff format .
 ```
+
+## Credits
+
+somics started as a weekend hackathon project (2026-08-15) by
+[Angela Oliveira Pisco](https://github.com/aopisco) and
+[Ryan Conrad](https://github.com/conradry).
+
+The atlas is built on two open-source packages by Ryan Conrad, and would not
+exist without them:
+
+- **[homeobox](https://pypi.org/project/homeobox/)** — multimodal biomedical
+  atlas builder. Provides the `RaggedAtlas` the spatial atlas *is*: the Lance
+  tables, the zarr feature spaces, and the readers this repo queries through
+  `src/somics/viewer/atlas_source.py`.
+- **[polycomb](https://pypi.org/project/polycomb/)** — automatic atlas design
+  and curation utilities. Provides the collection model, the ontology and gene
+  resolvers, the curation transactions, and the `ingest_collection` machinery
+  that `src/somics/ingest.py` drives.
+
+The ingestion pipeline is a thin set of per-dataset adapters over those two;
+the schema-harmonization, staging and finalization steps it calls are also
+Ryan's work.
