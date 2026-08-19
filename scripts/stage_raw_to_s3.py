@@ -118,7 +118,10 @@ def filename_for(url, dataset_id):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bucket", required=True)
-    ap.add_argument("--profile", required=True)
+    ap.add_argument(
+        "--profile",
+        help="AWS profile; omit on EC2 to use the instance role via the default credential chain",
+    )
     ap.add_argument("--prefix", default="raw")
     ap.add_argument("--limit", type=int, help="only the first N datasets")
     ap.add_argument(
@@ -131,9 +134,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    s3 = boto3.Session(profile_name=args.profile).client(
-        "s3", config=Config(max_pool_connections=8, retries={"max_attempts": 3})
-    )
+    session = boto3.Session(profile_name=args.profile) if args.profile else boto3.Session()
+    s3 = session.client("s3", config=Config(max_pool_connections=8, retries={"max_attempts": 3}))
     xfer = TransferConfig(
         multipart_threshold=64 * 1024**2, multipart_chunksize=64 * 1024**2, max_concurrency=6
     )

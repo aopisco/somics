@@ -60,16 +60,18 @@ def list_objects(client, bucket, prefix):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dest-bucket", required=True)
-    ap.add_argument("--profile", required=True, help="AWS profile for the destination")
+    ap.add_argument(
+        "--profile",
+        help="AWS profile; omit on EC2 to use the instance role via the default credential chain",
+    )
     ap.add_argument("--prefix", default=PREFIX, help="Source prefix; also the destination prefix")
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     src = r2_client()
-    dst = boto3.Session(profile_name=args.profile).client(
-        "s3", config=Config(max_pool_connections=args.workers * 2)
-    )
+    session = boto3.Session(profile_name=args.profile) if args.profile else boto3.Session()
+    dst = session.client("s3", config=Config(max_pool_connections=args.workers * 2))
 
     print(f"scanning r2://{R2_BUCKET}/{args.prefix} ...", flush=True)
     source = list_objects(src, R2_BUCKET, args.prefix)
