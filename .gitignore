@@ -31,3 +31,6 @@ tmp/
 # scripts/build_dataset_pages.py. The corpus index next to it stays tracked
 # because it is small and text.
 data/dataset_pages/
+
+# publication scan cache (regenerable)
+data/.doi_to_paperclip.json
