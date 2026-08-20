@@ -29,11 +29,13 @@ Run:
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import csv
 import hashlib
 import json
 import re
 import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -127,17 +129,28 @@ def main():
     ap.add_argument(
         "--diverse",
         action="store_true",
-        help="pick the smallest dataset from each distinct host, so a trial "
-        "run exercises many hosts rather than many bundles on one",
+        help="pick one dataset from each distinct host, so a trial run "
+        "exercises many hosts rather than many bundles on one",
     )
     ap.add_argument("--max-bytes", type=float, default=None, help="skip bundles above this size")
+    ap.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="datasets fetched concurrently. Each source is individually slow "
+        "(~10 MB/s observed), so wall time scales down almost linearly "
+        "with this until the local NIC saturates.",
+    )
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     session = boto3.Session(profile_name=args.profile) if args.profile else boto3.Session()
-    s3 = session.client("s3", config=Config(max_pool_connections=8, retries={"max_attempts": 3}))
+    s3 = session.client(
+        "s3",
+        config=Config(max_pool_connections=max(16, args.workers * 8), retries={"max_attempts": 3}),
+    )
     xfer = TransferConfig(
-        multipart_threshold=64 * 1024**2, multipart_chunksize=64 * 1024**2, max_concurrency=6
+        multipart_threshold=64 * 1024**2, multipart_chunksize=64 * 1024**2, max_concurrency=4
     )
 
     rows = [r for r in csv.DictReader(open(REPO / "data" / "datasets.csv")) if r["download_url"]]
@@ -150,13 +163,22 @@ def main():
         print(f"--diverse: one dataset from each of {len(rows)} hosts")
     if args.limit:
         rows = rows[: args.limit]
-    print(f"{len(rows)} datasets with a download_url\n")
+    print(f"{len(rows)} datasets with a download_url, {args.workers} worker(s)\n", flush=True)
 
-    done = skipped = failed = 0
-    total_bytes = 0
+    lock = threading.Lock()
+    n = {"done": 0, "skipped": 0, "failed": 0, "bytes": 0}
     failures = []
 
-    for i, r in enumerate(rows, 1):
+    def tally(key, **extra):
+        with lock:
+            n[key] += 1
+            if "nbytes" in extra:
+                n["bytes"] += extra["nbytes"]
+            if "failure" in extra:
+                failures.append(extra["failure"])
+
+    def handle(item):
+        i, r = item
         did, url = r["dataset_id"], r["download_url"].strip()
         key_prefix = f"{args.prefix}/{did}"
         mkey = f"{key_prefix}/_manifest.json"
@@ -164,22 +186,21 @@ def main():
         try:  # already staged?
             prev = json.loads(s3.get_object(Bucket=args.bucket, Key=mkey)["Body"].read())
             if prev.get("source_url") == url and prev.get("bytes", 0) > 0:
-                print(f"[{i}/{len(rows)}] skip (already staged) {did}")
-                skipped += 1
-                continue
+                print(f"[{i}/{len(rows)}] skip (already staged) {did}", flush=True)
+                tally("skipped")
+                return
         except Exception:
             pass
 
         if args.dry_run:
-            print(f"[{i}/{len(rows)}] would fetch {did} <- {url[:80]}")
-            continue
+            print(f"[{i}/{len(rows)}] would fetch {did} <- {url[:80]}", flush=True)
+            return
 
         fetch_url = direct_url(url)
         name = filename_for(fetch_url, did)
         okey = f"{key_prefix}/{name}"
         t0 = time.time()
         wrapped = status = None
-        too_big = False
         last_err = "unknown"
 
         for attempt, ua in enumerate(USER_AGENTS):
@@ -190,10 +211,11 @@ def main():
                     if args.max_bytes and declared > args.max_bytes:
                         print(
                             f"[{i}/{len(rows)}] skip (>{args.max_bytes / 1e9:.0f}GB: "
-                            f"{declared / 1e9:.1f}GB) {did}"
+                            f"{declared / 1e9:.1f}GB) {did}",
+                            flush=True,
                         )
-                        too_big = True
-                        break
+                        tally("skipped")
+                        return
                     size_note = f"({declared / 1e6:.0f} MB)" if declared else "(size unknown)"
                     retry_note = " [retry, plain agent]" if attempt else ""
                     print(f"[{i}/{len(rows)}] {did} <- {name} {size_note}{retry_note}", flush=True)
@@ -202,7 +224,6 @@ def main():
                     wrapped, status = w, resp.status
                     break
             except Exception as e:
-                # boto3 wraps a reader exception, so match on the cause too
                 cause = getattr(e, "__cause__", None) or getattr(e, "__context__", None)
                 if isinstance(e, HtmlResponse) or isinstance(cause, HtmlResponse):
                     last_err = "html page, not data"
@@ -214,53 +235,55 @@ def main():
                     last_err = type(e).__name__
                 break
 
-        if too_big:
-            skipped += 1
-            continue
         if wrapped is None:
-            print(f"          FAILED {last_err}")
-            failures.append((did, url, last_err))
-            failed += 1
-            continue
-
+            print(f"    FAILED {did}: {last_err}", flush=True)
+            tally("failed", failure=(did, url, last_err))
+            return
         if wrapped.n == 0:
-            print("          FAILED empty body")
-            s3.delete_object(Bucket=args.bucket, Key=f"{key_prefix}/{name}")
-            failures.append((did, url, "empty body"))
-            failed += 1
-            continue
+            print(f"    FAILED {did}: empty body", flush=True)
+            s3.delete_object(Bucket=args.bucket, Key=okey)
+            tally("failed", failure=(did, url, "empty body"))
+            return
 
-        manifest = {
-            "dataset_id": did,
-            "dataset_name": r["dataset_name"],
-            "source_url": url,
-            "s3_key": f"{key_prefix}/{name}",
-            "bytes": wrapped.n,
-            "md5": wrapped.md5.hexdigest(),
-            "http_status": status,
-            "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "original_publication_link": r["original_publication_link"],
-        }
         s3.put_object(
             Bucket=args.bucket,
             Key=mkey,
-            Body=json.dumps(manifest, indent=1).encode(),
             ContentType="application/json",
+            Body=json.dumps(
+                {
+                    "dataset_id": did,
+                    "dataset_name": r["dataset_name"],
+                    "source_url": url,
+                    "s3_key": okey,
+                    "bytes": wrapped.n,
+                    "md5": wrapped.md5.hexdigest(),
+                    "http_status": status,
+                    "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    "original_publication_link": r["original_publication_link"],
+                },
+                indent=1,
+            ).encode(),
         )
         dt = time.time() - t0
-        total_bytes += wrapped.n
-        done += 1
+        tally("done", nbytes=wrapped.n)
         print(
-            f"          ok {wrapped.n / 1e6:.0f} MB in {dt:.0f}s "
-            f"({wrapped.n / 1e6 / max(dt, 1):.1f} MB/s)"
+            f"    ok {did}: {wrapped.n / 1e6:.0f} MB in {dt:.0f}s "
+            f"({wrapped.n / 1e6 / max(dt, 1):.1f} MB/s)",
+            flush=True,
         )
 
-    print(f"\nstaged {done} · skipped {skipped} · failed {failed} · {total_bytes / 1e9:.2f} GB")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as ex:
+        list(ex.map(handle, enumerate(rows, 1)))
+
+    print(
+        f"\nstaged {n['done']} · skipped {n['skipped']} · failed {n['failed']} · "
+        f"{n['bytes'] / 1e9:.2f} GB"
+    )
     if failures:
         print("\nfailures:")
         for did, url, why in failures:
-            print(f"  {why:16} {did[:34]:36} {url[:60]}")
-    return 1 if failed and not done else 0
+            print(f"  {why:20} {did[:34]:36} {url[:60]}")
+    return 1 if n["failed"] and not n["done"] else 0
 
 
 if __name__ == "__main__":
