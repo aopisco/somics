@@ -141,6 +141,14 @@ def main():
         "(~10 MB/s observed), so wall time scales down almost linearly "
         "with this until the local NIC saturates.",
     )
+    ap.add_argument(
+        "--from-csv",
+        type=Path,
+        help="stage from a CSV of dataset_id,accession,download_url instead of "
+        "datasets.csv. Used for the ambiguous datasets that cite 2-3 "
+        "accessions: all are fetched under raw/_candidates/<accession>/ "
+        "rather than guessing which one belongs to the dataset.",
+    )
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -153,7 +161,24 @@ def main():
         multipart_threshold=64 * 1024**2, multipart_chunksize=64 * 1024**2, max_concurrency=4
     )
 
-    rows = [r for r in csv.DictReader(open(REPO / "data" / "datasets.csv")) if r["download_url"]]
+    if args.from_csv:
+        seen, rows = set(), []
+        for r in csv.DictReader(open(args.from_csv)):
+            acc = r["accession"].strip()
+            if not r["download_url"].strip() or acc in seen:
+                continue
+            seen.add(acc)
+            # key the S3 prefix by accession, since several datasets may share one
+            rows.append(
+                {
+                    **r,
+                    "dataset_id": f"_candidates/{re.sub(r'[^A-Za-z0-9._-]', '_', acc)}",
+                    "original_publication_link": "",
+                }
+            )
+    else:
+        all_rows = csv.DictReader(open(REPO / "data" / "datasets.csv"))
+        rows = [r for r in all_rows if r["download_url"]]
     if args.diverse:
         by_host = {}
         for r in rows:

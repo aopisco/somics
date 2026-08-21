@@ -1,0 +1,69 @@
+dataset_id,dataset_name,accession,download_url
+villacampa2021_ovarian_visium,Human ovarian cancer FFPE Visium,GSE185715,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE185nnn/GSE185715/suppl/GSE185715_RAW.tar
+li2025_stereo,Zebrafish heart regeneration atlas,GSE153481,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE153nnn/GSE153481/suppl/GSE153481_RAW.tar
+li2025_stereo,Zebrafish heart regeneration atlas,GSE188888,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE188nnn/GSE188888/suppl/GSE188888_RAW.tar
+sanchezferras2021_spatial_tran,Urinary tract development dataset,GSE143806,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE143nnn/GSE143806/suppl/GSE143806_RAW.tar
+sanchezferras2021_spatial_tran,Urinary tract development dataset,GSE160136,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE160nnn/GSE160136/suppl/GSE160136_50perc_Epcam_SC-6_repABC_filtered_feature_bc_matrix.h5
+sanchezferras2021_spatial_tran,Urinary tract development dataset,GSE160137,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE160nnn/GSE160137/suppl/GSE160137_RAW.tar
+hunter2021_spatial_tran,Zebrafish tumor-microenvironment dataset,10.5281/zenodo.5512629,https://zenodo.org/api/records/5512629/files-archive
+andrews2022_spatial_tran,Healthy human liver spatial RNA-seq,GSE185477,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE185nnn/GSE185477/suppl/GSE185477_GSM3178784_C41_SC_raw_counts.zip
+akeret2022_spatial_tran,Mouse brain heme injection spatial transcriptome,GSE182127,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE182nnn/GSE182127/suppl/GSE182127_RAW.tar
+andersson2020_st_2,Mouse brain ST dataset (Andersson et al.),10.5281/zenodo.3951884,https://zenodo.org/api/records/3951884/files-archive
+de2025_unknown,CRC-HD,10.5281/zenodo.15042463,https://zenodo.org/api/records/15042463/files-archive
+de2025_unknown,CRC-HD,GSE280318,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE280nnn/GSE280318/suppl/GSE280318_RAW.tar
+de2025_unknown,CRC-HD,zenodo.org/records/15042463,https://zenodo.org/api/records/15042463/files-archive
+huang2024_merfish,Mouse ovary MERFISH dataset,10.5281/zenodo.3758540,https://zenodo.org/api/records/3758540/files-archive
+huang2024_merfish,Mouse ovary MERFISH dataset,GSE294534,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE294nnn/GSE294534/suppl/GSE294534_10x_update.rds
+boersma2020_seqfish,seqFISH cell culture dataset,GSE159280,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159280/suppl/GSE159280_HUB-SB.tsv.gz
+ma2022_masp_microsc,mouse brain coronal spatial proteomics data,10.5281/zenodo.7320146,https://zenodo.org/api/records/7320146/files-archive
+nobori2025_spatial_tran,mature rosette leaf spatial dataset,GSE248054,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE248nnn/GSE248054/suppl/GSE248054_count_table.txt.gz
+nikopoulou2023_visium,10x Visium (mouse liver dataset),10.5281/zenodo.5986130,https://zenodo.org/api/records/5986130/files-archive
+lake2019_snrnaseq,human kidney snRNAseq dataset,GSE109564,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109564/suppl/GSE109564_Kidney.biopsy.dge.txt.gz
+lake2019_snrnaseq,human kidney snRNAseq dataset,GSE114156,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE114nnn/GSE114156/suppl/GSE114156_Human.kidney.dge.txt.gz
+taylor2020_singlecell_r,single-cell transcriptomes for all neuronal cell types,GSE136049,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE136nnn/GSE136049/suppl/GSE136049_c_elegans.PRJNA13758.WS273.canonical_geneset.extend3UTR_optimized.gtf.gz
+li2022_unknown_2,spatial transcriptomics data from a recent clinical trial of neoadjuvant immunotherapies for pancreatic ductal adenocarcinoma (PDAC),10.5281/zenodo.1185418,https://zenodo.org/api/records/1185418/files-archive
+ren2023_visium,Ren et al. 2023,GSM3828672,https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3828nnn/GSM3828672/suppl/GSM3828672_Smartseq2_GBM_IDHwt_processed_TPM.tsv.gz
+akeret2022_unknown,Coronal Mouse Brain Dataset,GSE182127,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE182nnn/GSE182127/suppl/GSE182127_RAW.tar
+van2021_imc,Mouse lung cancer dataset,10.5281/zenodo.5412513,https://zenodo.org/api/records/5412513/files-archive
+zhang2023_visium,Visium spatial transcriptomics,10.5281/zenodo.8210185,https://zenodo.org/api/records/8210185/files-archive
+zhang2023_visium,Visium spatial transcriptomics,GSE238264,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE238nnn/GSE238264/suppl/GSE238264_RAW.tar
+vannan2025_xenium,human lung fibrosis data,10.5281/zenodo.11562577,https://zenodo.org/api/records/11562577/files-archive
+vannan2025_xenium,human lung fibrosis data,10.5281/zenodo.14538392,https://zenodo.org/api/records/14538392/files-archive
+li2025_spatial_tran,Wheat grain spatiotemporal transcriptomics,zenodo.org/records/15110459,https://zenodo.org/api/records/15110459/files-archive
+jung2022_visium,Spatiotemporal cardiac infarction dataset,GSE163129,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE163nnn/GSE163129/suppl/GSE163129_RAW.tar
+vo2023_visium,medulloblastoma PDX ST dataset,GSE118068,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE118nnn/GSE118068/suppl/GSE118068_RAW.tar
+hcc_codex_and_vi_visium,HCC CODEX and Visium dataset,zenodo.org/records/7879713,https://zenodo.org/api/records/7879713/files-archive
+perturb_fish_asd2023_merfish,Perturb-FISH ASD risk genes dataset in human iPSC-derived astrocytes,10.5281/zenodo.3758540,https://zenodo.org/api/records/3758540/files-archive
+nigro2023_unknown,mouse inguinal white adipose tissue exercise dataset (Nigro),GSE116801,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE116nnn/GSE116801/suppl/GSE116801_RAW.tar
+nigro2023_unknown,mouse inguinal white adipose tissue exercise dataset (Nigro),GSE68161,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE68nnn/GSE68161/suppl/GSE68161_RAW.tar
+stereo_seq_adult2026_stereo,Stereo-seq adult mouse brain dataset,10.5281/zenodo.17959756,https://zenodo.org/api/records/17959756/files-archive
+xenium_adult_mou2026_xenium,Xenium adult mouse brain dataset,10.5281/zenodo.17959756,https://zenodo.org/api/records/17959756/files-archive
+nichterwitz2016_lcmseq,LCM-seq dataset 1,GSE52564,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE52nnn/GSE52564/suppl/GSE52564_RAW.tar
+nichterwitz2016_lcmseq,LCM-seq dataset 1,GSE76514,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE76nnn/GSE76514/suppl/GSE76514_Mouse_Small_neurons_Hb9_FPKM_table.txt.gz
+merfish_dataset_2023_merfish,MERFISH dataset of mouse subventricular zone,GSE95025,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE95nnn/GSE95025/suppl/GSE95025_high_quality_cells_digital_expression.txt.gz
+phenocycler_fusi2023_phenocycler,PhenoCycler Fusion dataset,GSE161529,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161529/suppl/GSE161529_features.tsv.gz
+cosmx_dataset2023_cosmx,CosMX dataset,GSE161529,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161529/suppl/GSE161529_features.tsv.gz
+ou2022_stereo,Stereo-seq human cervical squamous cell carcinoma dataset,GSE63514,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63514/suppl/GSE63514_RAW.tar
+boogerd2022_tomo,Human ACM heart Tomo-Seq dataset,GSE114770,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE114nnn/GSE114770/suppl/GSE114770_RAW.tar
+visium_spatial_t2024_visium_3,Visium spatial transcriptomics (paediatric),10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+ibex_cyclic_prot2024_ibex_cyclic,IBEX cyclic protein imaging (paediatric),10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+rarecyte_protein2024_rarecyte_pro,RareCyte protein imaging,10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+rnascope_single_2024_rnascope,RNAscope single-molecule fluorescence in situ hybridization,10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+merfish_gut_atla2025_merfish,MERFISH Gut Atlas,GSE143342,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE143nnn/GSE143342/suppl/GSE143342_RAW.tar
+nanostring_geomx2025_geomx_2,NanoString GeoMx DSP Whole Transcriptome Atlas (WTA) dataset,GSE171668,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE171nnn/GSE171668/suppl/GSE171668_rsem.genes.counts.matrix.txt.gz
+nanostring_geomx2025_geomx_2,NanoString GeoMx DSP Whole Transcriptome Atlas (WTA) dataset,zenodo.org/records/14547678,https://zenodo.org/api/records/14547678/files-archive
+nanostring_cosmx2025_cosmx,NanoString CosMx spatial molecular imager dataset,GSE171668,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE171nnn/GSE171668/suppl/GSE171668_rsem.genes.counts.matrix.txt.gz
+nanostring_cosmx2025_cosmx,NanoString CosMx spatial molecular imager dataset,zenodo.org/records/14547678,https://zenodo.org/api/records/14547678/files-archive
+visium_spatial_t2023_visium_4,Visium spatial transcriptomics (fetal and paediatric),10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+visium_spatial_t2023_visium_4,Visium spatial transcriptomics (fetal and paediatric),GSE147520,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE147nnn/GSE147520/suppl/GSE147520_Bautista_Park_combined.h5ad.gz
+visium_spatial_t2023_visium_4,Visium spatial transcriptomics (fetal and paediatric),GSE159745,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159745/suppl/GSE159745_meta.data.csv.gz
+ibex_multiplex_i2023_ibex,IBEX multiplex imaging,10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+ibex_multiplex_i2023_ibex,IBEX multiplex imaging,GSE147520,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE147nnn/GSE147520/suppl/GSE147520_Bautista_Park_combined.h5ad.gz
+ibex_multiplex_i2023_ibex,IBEX multiplex imaging,GSE159745,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159745/suppl/GSE159745_meta.data.csv.gz
+rarecyte_multipl2023_rarecyte_ori,RareCyte multiplex imaging,10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+rarecyte_multipl2023_rarecyte_ori,RareCyte multiplex imaging,GSE147520,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE147nnn/GSE147520/suppl/GSE147520_Bautista_Park_combined.h5ad.gz
+rarecyte_multipl2023_rarecyte_ori,RareCyte multiplex imaging,GSE159745,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159745/suppl/GSE159745_meta.data.csv.gz
+rnascope_single_2023_rnascope,RNAscope single molecule FISH,10.5281/zenodo.7693279,https://zenodo.org/api/records/7693279/files-archive
+rnascope_single_2023_rnascope,RNAscope single molecule FISH,GSE147520,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE147nnn/GSE147520/suppl/GSE147520_Bautista_Park_combined.h5ad.gz
+rnascope_single_2023_rnascope,RNAscope single molecule FISH,GSE159745,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159745/suppl/GSE159745_meta.data.csv.gz
+bone_marrow_cite2024_10x_genomics,Bone marrow CITE-seq and Infinity Flow datasets,GSM5613757,https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5613nnn/GSM5613757/suppl/GSM5613757_2019-11-04-count-1_RNA_soupx_processed.csv.gz
