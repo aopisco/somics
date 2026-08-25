@@ -53,7 +53,11 @@ s3://somics-dev/            (us-east-1, account 440744247602)
   somics_spatial_atlas/     24 GB   — the ingested atlas, mirrored from the hackathon R2 bucket
   raw/                      2.52 TB — literature-derived bundles, one prefix per dataset_id
   raw/_candidates/<acc>/    100 GB  — all accessions for datasets citing 2-3, since the mapping is unknown
-  hubmap/<HBM-ID>/          growing — whole HuBMAP datasets, source layout preserved
+  hubmap/<HBM-ID>/          17.5 TB — whole HuBMAP datasets, source layout preserved
+  hubmap/_metadata/         the two portal exports this was built from:
+                            the datasets metadata TSV (3,945 rows x 173 cols)
+                            and the Globus download manifest
+  hubmap/_staging_run.log   first pass; _staging_retry.log the second
 ```
 
 Only prefixes with a `_manifest.json` are actually staged; the manifest records
@@ -66,8 +70,12 @@ each dataset.
 ## Where things stand
 
 - **465 literature datasets staged**, 2.52 TB, zero unexplained failures.
-- **HuBMAP Tier 2 downloading**: 1,891 datasets / 18.5 TB, on an
-  auto-terminating EC2 box. ~1.1 TB done at last check.
+- **HuBMAP Tier 2 transferred**: 1,891 datasets, **17.52 TB**, 87,679 objects.
+  1,734 datasets complete; 157 short by 6,392 files after the first pass at 16
+  workers. Retesting showed 5 of 6 reachable, so most failures were transient
+  rate-limiting rather than missing data — a **retry at 6 workers** is running
+  and skips everything already complete. 175 of the 2,066 tier-2 datasets have
+  no files indexed at all.
 - **Ingestion into the atlas is blocked** on `polycomb`/`homeobox` — see below.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
@@ -124,6 +132,11 @@ over ~1,000 papers hit a ~25 min server cap, so chunk with `-n`/`--offset` and
 recover with `map --resume <id> --retry-failed`; `.xlsx` supplements are indexed
 as *summaries only* (row/column counts, no cell values), so spreadsheet SI is
 invisible to grep.
+
+**Concurrency has a ceiling with HuBMAP assets.** 16 workers produced 6,392
+file errors clustered into 157 datasets — several failing wholesale (0/743) —
+while the same files retest fine individually. Use ~6 workers; the transfer is
+network-bound on their side, not ours, so the extra concurrency buys nothing.
 
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
