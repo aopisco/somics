@@ -63,19 +63,24 @@ s3://somics-dev/            (us-east-1, account 440744247602)
 Only prefixes with a `_manifest.json` are actually staged; the manifest records
 source URL, bytes, md5 and fetch time.
 
-**Still to do:** organise the bucket once the HuBMAP pull finishes — it
-currently preserves HuBMAP's own layout, which mixes raw and processed within
-each dataset.
+**Still to do:** organise the bucket — it currently preserves HuBMAP's own
+layout, which mixes raw and processed within each dataset.
+
+**What is staged** (`scripts/staged_summary.py`, 2026-08-25): 20.19 TB over
+2,408 prefixes. 2,310 join to a registry row (19.54 TB); the 97 that do not are
+61 dissociated-reference prefixes whose rows moved to
+`dissociated_reference_datasets.csv` (0.61 TB), 15 HuBMAP IDs staged from the
+download manifest but absent from the portal TSV, and two log files. Largest
+technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
+2.92 TB, Autofluorescence 1.58 TB, Xenium 1.19 TB.
 
 ## Where things stand
 
 - **465 literature datasets staged**, 2.52 TB, zero unexplained failures.
-- **HuBMAP Tier 2 transferred**: 1,891 datasets, **17.52 TB**, 87,679 objects.
-  1,734 datasets complete; 157 short by 6,392 files after the first pass at 16
-  workers. Retesting showed 5 of 6 reachable, so most failures were transient
-  rate-limiting rather than missing data — a **retry at 6 workers** is running
-  and skips everything already complete. 175 of the 2,066 tier-2 datasets have
-  no files indexed at all.
+- **HuBMAP Tier 2 complete**: 1,891 datasets, **17.67 TB**, 92,179 files.
+  Two passes; the retry recovered 40 datasets. **1,774 complete, 117 short by
+  6,232 files (0.96 TB)** and those are *permanent* 404s, not transient — see
+  below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **Ingestion into the atlas is blocked** on `polycomb`/`homeobox` — see below.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
@@ -133,10 +138,20 @@ recover with `map --resume <id> --retry-failed`; `.xlsx` supplements are indexed
 as *summaries only* (row/column counts, no cell values), so spreadsheet SI is
 invisible to grep.
 
-**Concurrency has a ceiling with HuBMAP assets.** 16 workers produced 6,392
-file errors clustered into 157 datasets — several failing wholesale (0/743) —
-while the same files retest fine individually. Use ~6 workers; the transfer is
-network-bound on their side, not ours, so the extra concurrency buys nothing.
+**Some HuBMAP files are indexed but not served.** The files index lists them,
+`assets.hubmapconsortium.org` returns 404 for every one, on any UA, at any
+concurrency. 117 datasets are affected and 9 of them fail *wholesale* (743/743
+files), concentrated in **seqFISH and MALDI**. A retry at 6 workers moved this
+only from 157 datasets to 117, so treat it as missing upstream data and stop
+retrying. The remaining gap is 6,232 files / 0.96 TB.
+
+*This was initially misdiagnosed as concurrency-induced rate limiting.* Two
+things caused that: a 6-file spot check that happened to land on
+partially-short datasets rather than the wholesale-failing ones, and the fact
+that `stage_hubmap_to_s3.py` collects failures in memory and prints them only
+in its closing summary — so grepping a running log for errors returns zero no
+matter how many have occurred. **Judge a run's health from manifests vs actual
+objects, not from its log.**
 
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
@@ -180,6 +195,8 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/add_hubmap_to_registry.py` | portal TSV → registry rows |
 | `scripts/classify_spatial_modality.py` | `is_spatial` flag + spatial epigenomics |
 | `scripts/bucket_inventory.py` | what is actually staged, by tissue/species/technology |
+| `scripts/staged_summary.py` | one nested table: technology > tissue > species |
+| `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
 | `analysis/*.py` | the four report figures |

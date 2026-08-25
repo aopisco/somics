@@ -34,3 +34,4 @@ data/dataset_pages/
 
 # publication scan cache (regenerable)
 data/.doi_to_paperclip.json
+data/.bucket_listing.json
