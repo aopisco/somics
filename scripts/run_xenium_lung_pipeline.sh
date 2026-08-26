@@ -25,7 +25,7 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SCHEMA="$REPO/schema/spatial_transcriptomics_atlas_schema.yaml"
+SCHEMA="${SOMICS_SCHEMA:-$REPO/schema/spatial_transcriptomics_atlas_schema.yaml}"
 DATA_HOME="${SOMICS_DATA_HOME:-/home/ubuntu}"
 ROOT="$DATA_HOME/polycomb_data_packages/xenium_lung_preview"
 SKILLS="${POLYCOMB_SKILLS:-$HOME/.agents/skills}"
