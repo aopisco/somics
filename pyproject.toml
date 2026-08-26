@@ -9,8 +9,10 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.141.1",
-    "homeobox==0.2.8",
+    "homeobox==0.2.9",
     "pillow>=12.3.0",
+    "polycomb==0.0.3",
+    "tifffile>=2026.8.23",
     "uvicorn[standard]>=0.52.3",
 ]
 

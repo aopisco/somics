@@ -72,7 +72,7 @@ def main():
     ap.add_argument("--profile", default="sci-data-dev-poweruser")
     ap.add_argument("--refresh", action="store_true")
     ap.add_argument("--cache", default=None)
-    ap.add_argument("--min-gb", type=float, default=5.0, help="roll smaller technologies into one line")
+    ap.add_argument("--min-gb", type=float, default=5.0, help="roll up smaller technologies")
     ap.add_argument("--max-tissues", type=int, default=8, help="tissues shown per technology")
     args = ap.parse_args()
 
@@ -113,7 +113,7 @@ def main():
 
     tech_tot: dict[str, list] = defaultdict(lambda: [0, 0])
     tt_tot: dict[tuple, list] = defaultdict(lambda: [0, 0])
-    for (t, o, s), (b, n) in cell.items():
+    for (t, o, _sp), (b, n) in cell.items():
         for d, k in ((tech_tot, t), (tt_tot, (t, o))):
             d[k][0] += b
             d[k][1] += n
@@ -156,7 +156,9 @@ def main():
     gb = sum(v[0] for v in cell.values())
     gn = sum(v[1] for v in cell.values())
     print(f"{'staged datasets with registry metadata':<{w}} {gn:>9,} {gb / 1e12:>8.2f} TB")
-    print(f"{'prefixes with no registry match':<{w}} {unjoined[1]:>9,} {unjoined[0] / 1e12:>8.2f} TB")
+    print(
+        f"{'prefixes with no registry match':<{w}} {unjoined[1]:>9,} {unjoined[0] / 1e12:>8.2f} TB"
+    )
     print(f"{'somics_spatial_atlas/ (ingested)':<{w}} {atlas[1]:>9,} {atlas[0] / 1e12:>8.2f} TB")
     tot_b = gb + unjoined[0] + atlas[0]
     print(f"{'BUCKET TOTAL':<{w}} {gn + unjoined[1] + atlas[1]:>9,} {tot_b / 1e12:>8.2f} TB")

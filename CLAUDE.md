@@ -85,27 +85,34 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
-## The blocker
+## The blocker — library half resolved 2026-08-25
 
-`python -m somics.ingest` cannot run anywhere but the original hackathon box.
+@conradry released **homeobox 0.2.9** and **polycomb 0.0.3** (both 2026-08-25),
+and they fix the import wall. `homeobox.schema` is now a package with `.ir` and
+`.parser`, it defines `emit`, and `polycomb.ingestion` imports against it.
+`pyproject.toml` pins both; `tifffile` was also missing and is now declared.
+Verified: every symbol the repo imports resolves, 170 tests pass,
+`somics.ingest` imports, and the existing 59-section atlas still opens under
+0.2.9, so no migration is needed. **homeobox 0.2.9 requires Python >= 3.12.**
 
-- `polycomb` is imported by 21 files but is in neither `pyproject.toml` nor
-  `uv.lock`. Public PyPI polycomb 0.0.2 cannot satisfy `polycomb.ingestion`
-  against the pinned `homeobox==0.2.8`: `ImportError: cannot import name 'emit'
-  from 'homeobox.schema'`. **No released homeobox defines `emit`** (checked
-  0.2.1-0.2.8), and polycomb expects `homeobox.schema` to be a *package* with
-  `.ir` and `.parser` submodules where 0.2.8 has a single module file. So the
-  ingest box runs an unreleased polycomb against an unreleased homeobox.
-- Both are @conradry's open-source projects. The fix is a release or a git-ref
-  pin, **not** vendoring or reimplementation — the missing pieces are private,
-  mid-refactor internals and any stub would silently produce wrong output.
-- Five pipeline scripts live only on that box under
-  `/home/ubuntu/.claude/skills/`: `stage_lance_tables.py`,
-  `stage_library_table.py`, `stage_dataset_table.py`, `apply_resolution_pass.py`,
-  `finalize_collection.py`.
+**Still missing: the five driver scripts.** They are Claude *skills*, not part
+of either package, and `scripts/run_xenium_lung_pipeline.sh` invokes them by
+absolute path on a box we do not have:
 
-Tracked in `aopisco/somics#14`. @conradry is tagged; he is outside the CZI org,
-so that conversation must stay on the public repo.
+    /home/ubuntu/.claude/skills/prepare-package-for-resolution/scripts/
+        stage_lance_tables.py, stage_library_table.py, stage_dataset_table.py
+    /home/ubuntu/.claude/skills/schema-harmonization/scripts/apply_resolution_pass.py
+    /home/ubuntu/.claude/skills/finalize-tables/scripts/finalize_collection.py
+
+The library functions they drive (`ingest_collection`, `finalize_columns`,
+`resolve_*`) are all present in polycomb 0.0.3, so these are orchestration, not
+missing capability — but the step order is load-bearing (see the runner's
+comment about `materialize_bare_obs.py --phase bare` having to precede
+finalization) and rewriting them blind would be guesswork. Ask @conradry to
+publish the three skill directories.
+
+Tracked in `aopisco/somics#14`. @conradry is outside the CZI org, so that
+conversation must stay on the public repo.
 
 ## Gotchas that cost real time
 
