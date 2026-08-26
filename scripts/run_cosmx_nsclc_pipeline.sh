@@ -7,20 +7,14 @@
 # SpatialObs_protein_abundance, and finalization needs three extra steps around
 # it that a single-modality dataset does not:
 #
-#   reconcile_barcodes.py       writes multimodal_barcode on each per-space obs
-#                               table, choosing the normalization that maximises
-#                               cross-modality overlap
-#   join_feature_space_obs.py   outer-joins them into the bare obs class name,
-#                               keeping the per-space tables for ingestion
-#   stamp_uid_on_feature_space_obs.py
-#                               copies the finalized uid back onto each per-space
-#                               table in DATA row order, which is what ingestion
-#                               aligns emitted matrix rows through
+#   reconcile_barcodes.py   writes multimodal_barcode on each per-space obs
+#                           table, choosing the normalization that maximises
+#                           cross-modality overlap
 #
-# The bracket around finalize_collection.py is load-bearing in the same way as
-# the Xenium runner's: the join must precede it (finalization discovers obs by
-# exact class name) and the stamp must follow it (it copies uids that
-# finalization assigns).
+# That is the only extra step. Everything else multimodal -- joining the
+# per-space obs tables and stamping the finalized uid back onto them -- is
+# already inside finalize_collection, unlike the Xenium runner where
+# materialize_bare_obs has to bracket it.
 #
 # Every step is idempotent, so a re-run after a fix is safe.
 #
@@ -73,28 +67,18 @@ for db in "$ROOT"/*/lance_db; do
   $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs
 done
 
-echo "== 6. finalize, with the stamp slotted in =="
-# finalize_collection is an orchestrator: join -> assign_uids ->
-# populate_registry_keys -> ensure_schema_columns -> drop_leftover_columns ->
-# validate_tables. A multimodal dataset cannot just call it, because the stamp
-# has to run *between* two of those steps and cannot run either side of the
-# whole thing:
+echo "== 6. finalize =="
+# finalize_collection does the whole sequence itself, including the pieces a
+# multimodal dataset needs: join feature-space obs, assign uids, stamp uid back
+# onto each per-space table (its step 1b), set dataset_uid, populate registry
+# keys, compute derived columns, drop leftovers, validate.
 #
-#   after assign_uids   - it needs the finalized uid to copy
-#   before drop_leftover_columns - it joins on multimodal_barcode, which that
-#                         step removes from the bare obs table as a non-schema
-#                         field
-#   before the next join - the stamp replaces each {obs}_{space} table with a
-#                         uid-only artifact, so a second join finds no barcodes
-#
-# So the steps are run individually here rather than through the orchestrator.
-$PY "$FIN/join_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
-$PY "$FIN/assign_uids.py" "$ROOT" --schema "$SCHEMA"
-$PY "$FIN/stamp_uid_on_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
-$PY "$FIN/populate_registry_keys.py" "$ROOT" --schema "$SCHEMA"
-$PY "$FIN/ensure_schema_columns.py" "$ROOT" --schema "$SCHEMA"
-$PY "$FIN/drop_leftover_columns.py" "$ROOT" --schema "$SCHEMA"
-$PY "$FIN/validate_tables.py" "$ROOT" --schema "$SCHEMA"
+# Do not call join_feature_space_obs, assign_uids or
+# stamp_uid_on_feature_space_obs separately around it. Those are for
+# table-by-table debugging; running them alongside the orchestrator double-runs
+# steps and breaks it -- the stamp replaces each per-space table with a uid-only
+# artifact, so a second join finds no barcodes to join on.
+$PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
 
 echo "== 7. ingest =="
 PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT"
