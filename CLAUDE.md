@@ -85,34 +85,53 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
-## The blocker — library half resolved 2026-08-25
+## The blocker — libraries fixed, scripts reconstructed, unproven
 
-@conradry released **homeobox 0.2.9** and **polycomb 0.0.3** (both 2026-08-25),
-and they fix the import wall. `homeobox.schema` is now a package with `.ir` and
-`.parser`, it defines `emit`, and `polycomb.ingestion` imports against it.
-`pyproject.toml` pins both; `tifffile` was also missing and is now declared.
-Verified: every symbol the repo imports resolves, 170 tests pass,
-`somics.ingest` imports, and the existing 59-section atlas still opens under
-0.2.9, so no migration is needed. **homeobox 0.2.9 requires Python >= 3.12.**
+@conradry released **homeobox 0.2.9** and **polycomb 0.0.3** (2026-08-25), which
+fix the import wall. `homeobox.schema` is a package again with `.ir`/`.parser`,
+it defines `emit`, and `polycomb.ingestion` imports. `pyproject.toml` pins both;
+`tifffile` was also undeclared and is now. Verified: every symbol the repo
+imports resolves, 170 tests pass, and the existing 59-section atlas still opens
+under 0.2.9, so no migration is needed. **0.2.9 requires Python >= 3.12.**
 
-**Still missing: the five driver scripts.** They are Claude *skills*, not part
-of either package, and `scripts/run_xenium_lung_pipeline.sh` invokes them by
-absolute path on a box we do not have:
+**Seven driver scripts were never released** — they are Claude skills, not
+package code. Five are reconstructed in `scripts/pipeline/`
+(`stage_lance_tables`, `stage_library_table`, `stage_dataset_table`,
+`apply_resolution_pass`, `finalize_collection`); the runner now calls those
+instead of `/home/ubuntu/.claude/skills/`. Two more —
+`join_feature_space_obs.py` and `stamp_uid_on_feature_space_obs.py`, named in
+`materialize_bare_obs.py` — are **not** reconstructed. They are only needed by
+datasets with two obs tables, so CosMx and Monkman, not the Xenium gate.
 
-    /home/ubuntu/.claude/skills/prepare-package-for-resolution/scripts/
-        stage_lance_tables.py, stage_library_table.py, stage_dataset_table.py
-    /home/ubuntu/.claude/skills/schema-harmonization/scripts/apply_resolution_pass.py
-    /home/ubuntu/.claude/skills/finalize-tables/scripts/finalize_collection.py
+**Treat the reconstruction as unproven until it passes tier 2** of
+`scripts/verify_rebuild_matches_atlas.py`. Full evidence trail in
+`docs/2026-08-25_pipeline_reconstruction.md`; the plan in
+`docs/2026-08-25_atlas_rebuild_plan.md`.
 
-The library functions they drive (`ingest_collection`, `finalize_columns`,
-`resolve_*`) are all present in polycomb 0.0.3, so these are orchestration, not
-missing capability — but the step order is load-bearing (see the runner's
-comment about `materialize_bare_obs.py --phase bare` having to precede
-finalization) and rewriting them blind would be guesswork. Ask @conradry to
-publish the three skill directories.
+`SOMICS_DATA_HOME` overrides the `/home/ubuntu` prefix everywhere (19 files).
 
 Tracked in `aopisco/somics#14`. @conradry is outside the CZI org, so that
 conversation must stay on the public repo.
+
+## Rebuilding the atlas is the correctness gate
+
+Do not ingest 20 TB before reproducing the 59 sections we have — the published
+atlas is the only ground truth, and a pipeline regression in new data is
+indistinguishable from a quirk of the new data.
+
+- **Stable uids reproduce; obs uids do not.** `make_stable_uid("hColon_Cancer_
+  Add_on_FFPE")` is the published `section_uid`, so sections, donors, panels and
+  features are comparable exactly. `uid` on obs and `dataset_uid` are `uuid4` —
+  join on `source_obs_id` instead, and never compare them.
+- **Only 46 of 59 sections have a builder.** The 12 spatialLIBD Visium sections
+  and the 1 Xenium colon section never had one in this repo — checked the full
+  history including deleted files.
+- **10x's CDN gives us ~0.3 MB/s** regardless of user agent, against 16 MB/s
+  from S3. Fetch vendor bundles on EC2 into `s3://somics-dev/rebuild/` and pull
+  from there. Version paths differ per dataset: lung preview is `1.3.0`, colon
+  is `1.6.0`, and guessing one for both returns 403.
+- **Six members of an outs bundle are enough** — selective extraction turns
+  18.42 GB into 1.3 GB. `transcripts.parquet` is the bulk and is unused.
 
 ## Gotchas that cost real time
 
@@ -203,6 +222,8 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/classify_spatial_modality.py` | `is_spatial` flag + spatial epigenomics |
 | `scripts/bucket_inventory.py` | what is actually staged, by tissue/species/technology |
 | `scripts/staged_summary.py` | one nested table: technology > tissue > species |
+| `scripts/pipeline/` | the reconstructed staging/resolution/finalization scripts |
+| `scripts/verify_rebuild_matches_atlas.py` | three-tier diff of a rebuild against the published atlas |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
