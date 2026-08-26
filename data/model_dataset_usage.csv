@@ -1698,7 +1698,7 @@ PMC11645551,PMC11645551,PMC11645551,hbc_xenium,analysis/benchmark,HBC
 PMC11645551,PMC11645551,PMC11645551,maynard2021_visium,analysis/benchmark,DLPFC
 PMC11645551,PMC11645551,PMC11645551,andersson2021_st,analysis/benchmark,HER2ST
 PMC11645551,PMC11645551,PMC11645551,mbc_visium,analysis/benchmark,MBC
-PMC11645551,PMC11645551,PMC11645551,hbchd_visiumhd,analysis/benchmark,MBHD
+PMC11645551,PMC11645551,PMC11645551,mbhd_visiumhd,analysis/benchmark,MBHD
 PMC12597895,PMC12597895,PMC12597895,li2022_unknown_2,analysis/benchmark,spatial transcriptomics data from a recent clinical trial of neoadjuvant immunotherapies for pancreatic ductal adenocarcinoma (PDAC)
 PMC10627116,PMC10627116,PMC10627116,bodenmiller2019_imaging_mass,analysis/benchmark,breast cancer Imaging Mass Cytometry dataset
 PMC12278630,PMC12278630,PMC12278630,meylan2022_visium,analysis/benchmark,RCC ST dataset
@@ -3525,3 +3525,7 @@ PMC11387200,An integrated single-cell reference atlas of the human endometrium,h
 PMC9560986,Spatial and Transcriptomic Analysis of Perineural Invasion in Oral Cancer,https://doi.org/10.1158/1078-0432.CCR-21-4543,nanostring_geomx2022_geomx_2,analysis/benchmark,NanoString GeoMx Digital Spatial Profiler Transcriptomic Atlas dataset
 PMC10313933,Integrated spatial transcriptome and metabolism study reveals metabolic heterogeneity in human injured brain,https://doi.org/10.1016/j.xcrm.2023.101057,spatial_transcri2023_visium,analysis/benchmark,Spatial Transcriptome and Spatial Metabolism Dataset
 PMC3022534,A High-Resolution Anatomical Atlas of the Transcriptome in the Mouse Embryo,https://doi.org/10.1371/journal.pbio.1000582,eurexpress_trans2011_rna_in_situ,analysis/benchmark,Eurexpress transcriptome atlas
+PMC11645551,PMC11645551,PMC11645551,hp_xenium,analysis/benchmark,HP
+PMC11645551,PMC11645551,PMC11645551,hn_xenium,analysis/benchmark,HN
+PMC11645551,PMC11645551,PMC11645551,mbs_visium,analysis/benchmark,MBS
+PMC11645551,PMC11645551,PMC11645551,hbchd_visiumhd,analysis/benchmark,HBCHD
