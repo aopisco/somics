@@ -3,6 +3,15 @@
 *2026-08-25 · how the five missing scripts were recovered, what evidence each
 convention rests on, and what is still unverified*
 
+> **Superseded 2026-08-26.** @conradry pointed out that polycomb's skills ship
+> separately from the package and install with
+> `curl -sSL https://raw.githubusercontent.com/epiblastai/homeobox/refs/heads/main/packages/polycomb/install.sh | bash`.
+> The real scripts are now installed and `scripts/pipeline/` has been deleted —
+> keeping a divergent reimplementation of installable scripts is a trap, not an
+> asset. This document is kept because the conventions it records are still how
+> the pipeline works, and because the reconstruction ran far enough to be worth
+> scoring. See **"What the reconstruction got right and wrong"** at the end.
+
 ## The situation
 
 `scripts/run_xenium_lung_pipeline.sh` is the whole ingest chain, and three of
@@ -178,6 +187,40 @@ Only six members of each bundle are needed — `cells.parquet`,
 `metrics_summary.csv`, `gene_panel.json`. Selective extraction turns 18.42 GB
 into **1.3 GB** on disk; the bulk of the bundle is `transcripts.parquet`, which
 the package does not use.
+
+## What the reconstruction got right and wrong
+
+The reconstruction ran steps 1-4 of the pipeline before failing, which is enough
+to grade it against the originals (3,229 lines across 14 scripts, against ~600
+across 5).
+
+**Right.** Every convention in the evidence table above. The lance_db layout,
+exact-match table naming, the `<ObsClass>_<space>` obs suffix, the
+`<Target>_join` / `<field>_<Target>_join` pair, one dataset-table row per
+feature space carrying only structural columns, `discrete_image` having no
+feature registry. All five CLI signatures matched the originals, which is why
+the runner needed no argument changes when it was pointed at the real scripts.
+Staging produced obs tables of 531,165 and 295,883 rows — the published atlas's
+exact counts — and all four registries.
+
+**Wrong, in one discoverable way.** Real staging reads an OBS/VAR table with
+`index_col=0` and then `reset_index(names="obs_index"/"var_index")`, so **the
+source's leading column becomes the index column**. For obs this is invisible,
+because the package builder already emits `obs_index` first. For var it is not:
+10x's leading `gene_id` becomes `var_index`, and `harmonize_xenium_lung_datasets.py`
+reads exactly that column. My staging loaded columns verbatim, so
+`GenomicFeatureSchema` had no `var_index` and the harmonizer raised
+`KeyError: 'Field "var_index" does not exist in schema'`.
+
+The comment naming the convention was three lines above the failure the whole
+time: *"Staging renames the source's leading column (10x's gene_id) to
+var_index."* I had read that file for the join-column convention and not for
+this.
+
+**What that says about the approach.** The failure was loud, immediate, and
+pointed at its own cause — which is the property the atlas-as-ground-truth
+argument was resting on. It is also a reminder that "I read the file" is not the
+same as "I read the file for this question".
 
 ## What is still unverified
 
