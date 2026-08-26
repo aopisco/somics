@@ -73,18 +73,28 @@ for db in "$ROOT"/*/lance_db; do
   $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs
 done
 
-echo "== 6. finalize (join, assign uids, stamp, then the rest) =="
-# The stamp has to sit between assign_uids and the rest of finalization, not
-# after it. It copies each finalized uid back onto the per-space tables by
-# joining on multimodal_barcode -- and drop_leftover_columns, which runs inside
-# finalize_collection, removes multimodal_barcode because it is not a schema
-# field. Running the whole of finalization first leaves the stamp nothing to
-# join on. assign_uids is idempotent, so finalize_collection re-running it is
-# harmless.
+echo "== 6. finalize, with the stamp slotted in =="
+# finalize_collection is an orchestrator: join -> assign_uids ->
+# populate_registry_keys -> ensure_schema_columns -> drop_leftover_columns ->
+# validate_tables. A multimodal dataset cannot just call it, because the stamp
+# has to run *between* two of those steps and cannot run either side of the
+# whole thing:
+#
+#   after assign_uids   - it needs the finalized uid to copy
+#   before drop_leftover_columns - it joins on multimodal_barcode, which that
+#                         step removes from the bare obs table as a non-schema
+#                         field
+#   before the next join - the stamp replaces each {obs}_{space} table with a
+#                         uid-only artifact, so a second join finds no barcodes
+#
+# So the steps are run individually here rather than through the orchestrator.
 $PY "$FIN/join_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
 $PY "$FIN/assign_uids.py" "$ROOT" --schema "$SCHEMA"
 $PY "$FIN/stamp_uid_on_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
-$PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
+$PY "$FIN/populate_registry_keys.py" "$ROOT" --schema "$SCHEMA"
+$PY "$FIN/ensure_schema_columns.py" "$ROOT" --schema "$SCHEMA"
+$PY "$FIN/drop_leftover_columns.py" "$ROOT" --schema "$SCHEMA"
+$PY "$FIN/validate_tables.py" "$ROOT" --schema "$SCHEMA"
 
 echo "== 7. ingest =="
 PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT"
