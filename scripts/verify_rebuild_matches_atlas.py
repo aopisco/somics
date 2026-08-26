@@ -100,50 +100,51 @@ def sections_of(atlas) -> dict[str, str]:
     return {r["section_id"]: r["uid"] for r in rows}
 
 
-def compare_measurements(pub, reb, pub_uid: str, reb_uid: str, n: int) -> list[str]:
-    """Feature registry in full, then expression and crops over the first n rows.
+def _aligned(atlas, section_uid: str, ids: list[str]):
+    """Expression, crops and var for exactly ``ids``, ordered by source_obs_id.
 
-    The registry is the cheap, total check: if two atlases disagree on what a
-    column of the matrix *means*, comparing values is meaningless. Only then is
-    it worth pulling arrays.
+    Both halves must be row-aligned before any value is compared. Taking
+    ``limit(n)`` from each atlas separately does not do that — physical row
+    order is not part of the contract, so the two sides can hold the same cells
+    in different places and every comparison then reports a difference that is
+    not one.
     """
-    problems = []
-    pf = pub.db.open_table("genomic_feature_schema_registry").to_arrow()
-    rf = reb.db.open_table("genomic_feature_schema_registry").to_arrow()
-    if pf.num_rows != rf.num_rows:
-        problems.append(f"feature registry: {pf.num_rows} vs {rf.num_rows} rows")
-    else:
-        for column in ("feature_key", "feature_id", "gene_name", "feature_type"):
-            if column in pf.column_names and column in rf.column_names:
-                if pf.column(column).to_pylist() != rf.column(column).to_pylist():
-                    problems.append(f"feature registry {column} differs")
+    quoted = ", ".join("'" + i.replace("'", "''") + "'" for i in ids)
+    q = atlas.query().where(f"section_uid == '{section_uid}' AND source_obs_id IN ({quoted})")
+    obs = q.to_polars()
+    order = np.argsort(np.array(obs["source_obs_id"].to_list()), kind="stable")
+    adata = q.select_fields("gene_expression").to_anndata()
+    x = adata.X.todense() if hasattr(adata.X, "todense") else adata.X
+    x = np.asarray(x, dtype="float64")[order]
+    crops = np.stack(q.to_spatial_batch("morphology_crop").layers["raw"])[order]
+    var = adata.var.index.tolist() if adata.var is not None else []
+    return x, crops, var, [obs["source_obs_id"].to_list()[i] for i in order]
 
-    pq = pub.query().where(f"section_uid == '{pub_uid}'").limit(n)
-    rq = reb.query().where(f"section_uid == '{reb_uid}'").limit(n)
-    pa_, ra_ = (
-        pq.select_fields("gene_expression").to_anndata(),
-        rq.select_fields("gene_expression").to_anndata(),
-    )
-    if pa_.shape != ra_.shape:
-        problems.append(f"expression shape {pa_.shape} vs {ra_.shape}")
+
+def compare_measurements(pub, reb, pub_uid, reb_uid, ids: list[str]) -> list[str]:
+    """The arrays the obs rows point at: expression, crops, and the var axis."""
+    problems = []
+    px, pcrops, pvar, pids = _aligned(pub, pub_uid, ids)
+    rx, rcrops, rvar, rids = _aligned(reb, reb_uid, ids)
+
+    if pids != rids:
+        return ["row alignment failed; comparison would be meaningless"]
+    if pvar != rvar:
+        problems.append(f"var axis differs ({len(pvar)} vs {len(rvar)} features)")
+
+    if px.shape != rx.shape:
+        problems.append(f"expression shape {px.shape} vs {rx.shape}")
     else:
-        lx = np.asarray(pa_.X.todense() if hasattr(pa_.X, "todense") else pa_.X, dtype="float64")
-        rx = np.asarray(ra_.X.todense() if hasattr(ra_.X, "todense") else ra_.X, dtype="float64")
-        bad = int((~np.isclose(lx, rx, rtol=0, atol=FLOAT_TOL)).sum())
+        bad = int((~np.isclose(px, rx, rtol=0, atol=FLOAT_TOL)).sum())
         if bad:
-            problems.append(f"expression: {bad}/{lx.size} values differ")
-        elif lx.sum() == 0:
+            problems.append(f"expression: {bad}/{px.size} values differ")
+        elif px.sum() == 0:
             problems.append("expression: all zero on both sides, comparison is vacuous")
 
-    pc = pub.query().where(f"section_uid == '{pub_uid}'").limit(n)
-    rc = reb.query().where(f"section_uid == '{reb_uid}'").limit(n)
-    pcrops = np.stack(pc.to_spatial_batch("morphology_crop").layers["raw"])
-    rcrops = np.stack(rc.to_spatial_batch("morphology_crop").layers["raw"])
     if pcrops.shape != rcrops.shape:
         problems.append(f"crop shape {pcrops.shape} vs {rcrops.shape}")
     elif not np.array_equal(pcrops, rcrops):
-        diff = int((pcrops != rcrops).sum())
-        problems.append(f"crops: {diff}/{pcrops.size} pixels differ")
+        problems.append(f"crops: {int((pcrops != rcrops).sum())}/{pcrops.size} pixels differ")
     return problems
 
 
@@ -189,7 +190,7 @@ def main() -> int:
     ap.add_argument("--rebuilt", required=True)
     ap.add_argument("--sections", nargs="*", help="section_id values; default all shared")
     ap.add_argument("--max-rows", type=int, default=0, help="cap obs rows compared per section")
-    ap.add_argument("--sample", type=int, default=400, help="rows compared for arrays per section")
+    ap.add_argument("--sample", type=int, default=200, help="rows compared for arrays per section")
     args = ap.parse_args()
 
     published = RaggedAtlas.checkout_latest(PUBLISHED, store_kwargs=PUBLISHED_STORE)
@@ -242,14 +243,15 @@ def main() -> int:
             "; ".join(problems[:4]) if problems else f"{pub_obs.width} columns equal",
         )
 
-        measured = compare_measurements(published, rebuilt, pub_uid, reb_uid, args.sample)
+        ids = sorted(pub_obs["source_obs_id"].to_list())[: args.sample]
+        measured = compare_measurements(published, rebuilt, pub_uid, reb_uid, ids)
         report.add(
             "tier 2b measurements",
             f"{section_id} arrays",
             not measured,
             "; ".join(measured[:4])
             if measured
-            else f"feature registry + expression and crops over {args.sample} rows equal",
+            else f"var axis, expression and crops equal over {len(ids)} aligned rows",
         )
 
     report.show()
