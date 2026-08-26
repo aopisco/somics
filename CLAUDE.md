@@ -91,33 +91,35 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
-## The blocker — libraries fixed, scripts reconstructed, unproven
+## Running an ingest
 
-@conradry released **homeobox 0.2.9** and **polycomb 0.0.3** (2026-08-25), which
-fix the import wall. `homeobox.schema` is a package again with `.ir`/`.parser`,
-it defines `emit`, and `polycomb.ingestion` imports. `pyproject.toml` pins both;
-`tifffile` was also undeclared and is now. Verified: every symbol the repo
-imports resolves, 170 tests pass, and the existing 59-section atlas still opens
-under 0.2.9, so no migration is needed. **0.2.9 requires Python >= 3.12.**
+**`docs/2026-08-26_ingestion_pipeline.md` is the operating manual.** Read it
+before running an ingest or writing a builder. The four prerequisites, in the
+order they bite:
 
-**Seven driver scripts were never released** — they are Claude skills, not
-package code. Five are reconstructed in `scripts/pipeline/`
-(`stage_lance_tables`, `stage_library_table`, `stage_dataset_table`,
-`apply_resolution_pass`, `finalize_collection`); the runner now calls those
-instead of `/home/ubuntu/.claude/skills/`. Two more —
-`join_feature_space_obs.py` and `stamp_uid_on_feature_space_obs.py`, named in
-`materialize_bare_obs.py` — are **not** reconstructed. They are only needed by
-datasets with two obs tables, so CosMx and Monkman, not the Xenium gate.
+1. **Python >= 3.12** (homeobox 0.2.9 requires it; 0.2.8 did not).
+2. **Install polycomb's skills** — they are not on PyPI:
+   `curl -sSL https://raw.githubusercontent.com/epiblastai/homeobox/refs/heads/main/packages/polycomb/install.sh | bash`
+3. **Install the reference cache** from `s3://somics-dev/polycomb/reference_db`
+   (84 GB) and `polycomb setup --db-path <path>`. Without it `resolve_genes`
+   falls through to gget, which opens MySQL to Ensembl on **port 5306** — an
+   egress our security group does not allow — and hangs in SYN-SENT with no
+   timeout. That cost 3.5 hours before it was diagnosed.
+4. **`imagecodecs`** is a real dependency: some Xenium morphology TIFFs are
+   JPEG2000, and it varies *within* a dataset family.
 
-**Treat the reconstruction as unproven until it passes tier 2** of
-`scripts/verify_rebuild_matches_atlas.py`. Full evidence trail in
-`docs/2026-08-25_pipeline_reconstruction.md`; the plan in
-`docs/2026-08-25_atlas_rebuild_plan.md`.
+Two pipeline shapes, decided by how many obs tables staging produces. A
+single-obs dataset brackets `finalize_collection` with
+`materialize_bare_obs` (a somics bridge with no polycomb equivalent). A
+multimodal one adds `reconcile_barcodes` and then **just calls
+`finalize_collection`** — it already joins the per-space obs tables and stamps
+uids back onto them. Do not wrap it in `join_feature_space_obs` / `assign_uids`
+/ `stamp_uid_on_feature_space_obs`; those are for debugging, and running them
+alongside the orchestrator breaks it.
 
-`SOMICS_DATA_HOME` overrides the `/home/ubuntu` prefix everywhere (19 files).
-
-Tracked in `aopisco/somics#14`. @conradry is outside the CZI org, so that
-conversation must stay on the public repo.
+**A crashed ingest is not resumable.** `skip_existing` checks the dataset uid,
+not whether the dataset is complete, so the next run skips it and then fails
+looking for its zarr group. Wipe the atlas and re-ingest.
 
 ## Rebuilding the atlas is the correctness gate
 
