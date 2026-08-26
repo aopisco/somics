@@ -65,6 +65,145 @@ async def fetch(out_path: str) -> None:
     print(f"saved {len(seen)} records to {out_path}")
 
 
+BUNDLE_SUFFIXES = (
+    "_xe_outs.zip",
+    "_outs.zip",
+    "_binned_outputs.tar.gz",
+    "_filtered_feature_bc_matrix.tar.gz",
+)
+CDN_RE = re.compile(r"https://cf\.10xgenomics\.com/samples/[^\"'\\ <>]+")
+
+
+def _head(url: str) -> tuple[object, int]:
+    import urllib.request
+
+    ua = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124 Safari/537.36"
+    }
+    try:
+        req = urllib.request.Request(url, headers=ua, method="HEAD")
+        with urllib.request.urlopen(req, timeout=45) as resp:
+            return resp.status, int(resp.headers.get("Content-Length") or 0)
+    except Exception as exc:  # noqa: BLE001 - any failure means "not usable"
+        return getattr(exc, "code", type(exc).__name__), 0
+
+
+def bundles_from_links(links: list[str]) -> list[tuple[str, int]]:
+    """Verified bundle URLs for a page's CDN links.
+
+    Pages render inconsistently: some list every file including the outs bundle,
+    some list only ancillary files (gene_panel.json, the H&E image), and Visium
+    HD pages list nothing but the Loupe installer. Where the bundle is absent it
+    is still *derivable* — any ancillary link exposes the sample prefix, and the
+    bundle sits beside it under a known suffix.
+
+    Derived URLs are probed before being returned. Nothing unverified is written;
+    guessing a CDN path from a title is how a pancreas section ends up labelled
+    breast.
+    """
+    found: dict[str, int] = {}
+    prefixes = set()
+    for link in links:
+        if any(link.endswith(s) for s in BUNDLE_SUFFIXES):
+            status, size = _head(link)
+            if status == 200:
+                found[link] = size
+        # ".../<Sample>/<Sample>_something.ext" -> ".../<Sample>/<Sample>"
+        m = re.match(r"(https://cf\.10xgenomics\.com/samples/[^/]+/[^/]+/([^/]+)/\2)[._]", link)
+        if m:
+            prefixes.add(m.group(1))
+    for prefix in sorted(prefixes):
+        if any(u.startswith(prefix) for u in found):
+            continue
+        for suffix in BUNDLE_SUFFIXES:
+            status, size = _head(prefix + suffix)
+            if status == 200:
+                found[prefix + suffix] = size
+                break
+    return sorted(found.items(), key=lambda kv: -kv[1])
+
+
+async def resolve_links(rows_out: str, limit: int | None) -> None:
+    """Visit each catalogue row's landing page and record verified bundle URLs."""
+    from playwright.async_api import async_playwright
+
+    registry = list(csv.DictReader(open("data/datasets.csv")))
+    todo = [
+        r
+        for r in registry
+        if r["dataset_id"].startswith("tenx_")
+        and not (r.get("download_url") or "").strip()
+        and "10xgenomics.com/datasets/" in (r.get("data_access_link") or "")
+    ][: limit or None]
+    print(f"resolving links for {len(todo)} row(s)")
+
+    results: dict[str, dict] = {}
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await (await browser.new_context()).new_page()
+        for i, r in enumerate(todo, 1):
+            url = r["data_access_link"]
+            try:
+                await page.goto(url, wait_until="networkidle", timeout=90_000)
+                await page.wait_for_timeout(1200)
+                html = await page.content()
+            except Exception as exc:  # noqa: BLE001
+                print(f"  [{i}/{len(todo)}] {r['dataset_id']}: page error {type(exc).__name__}")
+                continue
+            links = sorted(set(CDN_RE.findall(html)))
+            bundles = bundles_from_links(links)
+            results[r["dataset_id"]] = {
+                "links_seen": len(links),
+                "bundles": [{"url": u, "bytes": n} for u, n in bundles],
+            }
+            top = bundles[0][0].split("/samples/")[-1][:58] if bundles else "-"
+            print(
+                f"  [{i}/{len(todo)}] {r['dataset_id'][:34]:<34} {len(bundles)} bundle(s)  {top}",
+                flush=True,
+            )
+            json.dump(results, open(rows_out, "w"), indent=1)
+        await browser.close()
+    print(
+        f"\nwrote {rows_out}: {sum(1 for v in results.values() if v['bundles'])} "
+        f"of {len(results)} rows got a verified bundle"
+    )
+
+
+def apply_links(results_path: str, apply: bool) -> None:
+    results = json.load(open(results_path))
+    rows = list(csv.DictReader(open("data/datasets.csv")))
+    cols = list(rows[0])
+    filled = 0
+    for r in rows:
+        res = results.get(r["dataset_id"])
+        if not res or not res["bundles"] or (r.get("download_url") or "").strip():
+            continue
+        best = res["bundles"][0]
+        r["download_url"] = best["url"]
+        extra = len(res["bundles"]) - 1
+        note = f"bundle verified {best['bytes'] / 1e9:.1f} GB"
+        if extra:
+            note += f"; {extra} further section bundle(s) on the same page"
+        r["notes"] = re.sub(
+            r"download_url not set: the catalogue API carries no file links",
+            note,
+            r.get("notes", ""),
+        )
+        filled += 1
+    print(f"rows to fill: {filled}")
+    if not apply:
+        print("dry run — pass --apply to write")
+        return
+    tmp = "data/datasets.csv.tmp"
+    with open(tmp, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=cols, restval="")
+        w.writeheader()
+        w.writerows(rows)
+    os.replace(tmp, "data/datasets.csv")
+    print(f"wrote data/datasets.csv ({filled} download_url set)")
+
+
 def platform_of(record: dict) -> str:
     """The platform as the registry names it, not as the facet does.
 
@@ -166,12 +305,19 @@ def main() -> None:
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--out", default="10x_catalog.json")
     ap.add_argument("--merge", metavar="CATALOG_JSON")
+    ap.add_argument("--links", metavar="RESULTS_JSON", help="resolve bundle URLs into this file")
+    ap.add_argument("--limit", type=int)
+    ap.add_argument("--apply-links", metavar="RESULTS_JSON")
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
     if args.fetch:
         asyncio.run(fetch(args.out))
     if args.merge:
         merge(args.merge, args.apply)
+    if args.links:
+        asyncio.run(resolve_links(args.links, args.limit))
+    if args.apply_links:
+        apply_links(args.apply_links, args.apply)
 
 
 if __name__ == "__main__":

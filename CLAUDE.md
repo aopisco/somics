@@ -43,6 +43,12 @@ mapping is unresolved), `first_published_by_model_paper`.
   original reference.
 - HuBMAP `dataset_id` is `hubmap_<HBM-ID>_<technology>_<tissue>_<analyte>`. The
   HuBMAP ID alone is unique; the rest is for legibility.
+- **Visium and Visium HD are separate platforms here, deliberately.** 10x's own
+  dataset facet labels both "Visium", but they are different instruments at
+  different resolution — 55 um spots against 2 um bins — and pooling them
+  overstates what the corpus can support. `scripts/harvest_10x_catalog.py` sets
+  the platform from the dataset title rather than the facet for exactly this
+  reason. Do not "fix" it back.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
 

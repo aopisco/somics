@@ -1,0 +1,56 @@
+{
+ "tenx_xenium_protein_ffpe_human_renal_ccrcc": {
+  "links_seen": 5,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/xenium/4.0.0/Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein/Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein_xe_outs.zip",
+    "bytes": 29945691491
+   }
+  ]
+ },
+ "tenx_visium_hd_cytassist_6p5mm_rat_liver": {
+  "links_seen": 13,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Rat_Liver/Visium_HD_6p5mm_Rat_Liver_binned_outputs.tar.gz",
+    "bytes": 13781189419
+   }
+  ]
+ },
+ "tenx_visium_hd_cytassist_11mm_human_breast_cancer": {
+  "links_seen": 12,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Human_Breast_Cancer/Visium_HD_11mm_Human_Breast_Cancer_binned_outputs.tar.gz",
+    "bytes": 25773911640
+   }
+  ]
+ },
+ "tenx_visium_hd_cytassist_11mm_human_pancreas": {
+  "links_seen": 12,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Human_Pancreas/Visium_HD_11mm_Human_Pancreas_binned_outputs.tar.gz",
+    "bytes": 30470696327
+   }
+  ]
+ },
+ "tenx_visium_hd_cytassist_6p5mm_human_brain_cancer": {
+  "links_seen": 13,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Brain_Cancer/Visium_HD_6p5mm_Human_Brain_Cancer_binned_outputs.tar.gz",
+    "bytes": 7332055933
+   }
+  ]
+ },
+ "tenx_visium_hd_cytassist_6p5mm_mouse_brain": {
+  "links_seen": 13,
+  "bundles": [
+   {
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Mouse_Brain/Visium_HD_6p5mm_Mouse_Brain_binned_outputs.tar.gz",
+    "bytes": 8572829862
+   }
+  ]
+ }
+}
