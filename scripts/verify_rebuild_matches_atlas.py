@@ -113,42 +113,55 @@ def _aligned(atlas, section_uid: str, ids: list[str]):
     q = atlas.query().where(f"section_uid == '{section_uid}' AND source_obs_id IN ({quoted})")
     obs = q.to_polars()
     order = np.argsort(np.array(obs["source_obs_id"].to_list()), kind="stable")
-    adata = q.select_fields("gene_expression").to_anndata()
-    x = adata.X.todense() if hasattr(adata.X, "todense") else adata.X
-    x = np.asarray(x, dtype="float64")[order]
+    spaces = {}
+    for space in ("gene_expression", "protein_abundance"):
+        try:
+            adata = q.select_fields(space).to_anndata()
+        except Exception:  # noqa: BLE001 - a section need not carry every space
+            continue
+        values = adata.X.todense() if hasattr(adata.X, "todense") else adata.X
+        values = np.asarray(values, dtype="float64")[order]
+        names = adata.var.index.tolist() if adata.var is not None else []
+        if names:
+            columns = np.argsort(np.array(names), kind="stable")
+            values = values[:, columns]
+            names = [names[i] for i in columns]
+        spaces[space] = (values, names)
     crops = np.stack(q.to_spatial_batch("morphology_crop").layers["raw"])[order]
-    var = adata.var.index.tolist() if adata.var is not None else []
+    x, var = spaces.get("gene_expression", (np.zeros((len(ids), 0)), []))
     # Columns are ordered by the atlas's own feature registration, which depends
-    # on what else is in the atlas: the published corpus registered these 541
-    # alongside ~33k Visium features, our two-section rebuild registered only
-    # these. Same features, different positions. Sort both by feature uid so the
-    # comparison is cell x feature rather than cell x column-slot.
-    if var:
-        columns = np.argsort(np.array(var), kind="stable")
-        x = x[:, columns]
-        var = [var[i] for i in columns]
-    return x, crops, var, [obs["source_obs_id"].to_list()[i] for i in order]
+    # on what else is in the atlas: the published corpus registered these
+    # alongside ~33k others, a small rebuild registered only its own. Same
+    # features, different positions — so each space is sorted by feature uid
+    # above, making the comparison cell x feature rather than cell x column-slot.
+    return spaces, crops, var, [obs["source_obs_id"].to_list()[i] for i in order], x
 
 
 def compare_measurements(pub, reb, pub_uid, reb_uid, ids: list[str]) -> list[str]:
     """The arrays the obs rows point at: expression, crops, and the var axis."""
     problems = []
-    px, pcrops, pvar, pids = _aligned(pub, pub_uid, ids)
-    rx, rcrops, rvar, rids = _aligned(reb, reb_uid, ids)
+    pspaces, pcrops, _pvar, pids, _px = _aligned(pub, pub_uid, ids)
+    rspaces, rcrops, _rvar, rids, _rx = _aligned(reb, reb_uid, ids)
 
     if pids != rids:
         return ["row alignment failed; comparison would be meaningless"]
-    if pvar != rvar:
-        problems.append(f"var axis differs ({len(pvar)} vs {len(rvar)} features)")
+    if set(pspaces) != set(rspaces):
+        problems.append(f"feature spaces differ: {sorted(pspaces)} vs {sorted(rspaces)}")
 
-    if px.shape != rx.shape:
-        problems.append(f"expression shape {px.shape} vs {rx.shape}")
-    else:
+    for space in sorted(set(pspaces) & set(rspaces)):
+        px, pvar = pspaces[space]
+        rx, rvar = rspaces[space]
+        if pvar != rvar:
+            problems.append(f"{space}: var axis differs ({len(pvar)} vs {len(rvar)})")
+            continue
+        if px.shape != rx.shape:
+            problems.append(f"{space}: shape {px.shape} vs {rx.shape}")
+            continue
         bad = int((~np.isclose(px, rx, rtol=0, atol=FLOAT_TOL)).sum())
         if bad:
-            problems.append(f"expression: {bad}/{px.size} values differ")
+            problems.append(f"{space}: {bad}/{px.size} values differ")
         elif px.sum() == 0:
-            problems.append("expression: all zero on both sides, comparison is vacuous")
+            problems.append(f"{space}: all zero on both sides, comparison is vacuous")
 
     if pcrops.shape != rcrops.shape:
         problems.append(f"crop shape {pcrops.shape} vs {rcrops.shape}")
@@ -260,7 +273,7 @@ def main() -> int:
             not measured,
             "; ".join(measured[:4])
             if measured
-            else f"var axis, expression and crops equal over {len(ids)} aligned rows",
+            else f"all feature spaces and crops equal over {len(ids)} aligned rows",
         )
 
     report.show()
