@@ -86,9 +86,11 @@ def sections_of(atlas) -> dict[str, str]:
     uid means a rebuild is still matched up if a uid ever stops being stable,
     and makes a mismatch legible when it happens.
     """
-    table = atlas.registry_tables()["TissueSectionSchema"]
-    frame = table.to_polars() if hasattr(table, "to_polars") else pl.from_arrow(table.to_arrow())
-    return {r["section_id"]: r["uid"] for r in frame.select(["section_id", "uid"]).to_dicts()}
+    # registry_tables holds the *feature* registries; the entity registries are
+    # plain tables in the atlas db.
+    table = atlas.db.open_table("TissueSectionSchema").to_arrow()
+    rows = table.select(["section_id", "uid"]).to_pylist()
+    return {r["section_id"]: r["uid"] for r in rows}
 
 
 def compare_frames(a: pl.DataFrame, b: pl.DataFrame, key: str) -> list[str]:
