@@ -138,22 +138,8 @@ def main() -> int:
     published = RaggedAtlas.checkout_latest(PUBLISHED, store_kwargs=PUBLISHED_STORE)
     rebuilt = RaggedAtlas.checkout_latest(args.rebuilt)
 
-    pub_sections = {
-        r["section_id"]: r
-        for r in published.query()
-        .to_polars()
-        .unique("section_uid")
-        .select(["section_id", "section_uid"])
-        .to_dicts()
-    }
-    reb_sections = {
-        r["section_id"]: r
-        for r in rebuilt.query()
-        .to_polars()
-        .unique("section_uid")
-        .select(["section_id", "section_uid"])
-        .to_dicts()
-    }
+    pub_sections = sections_of(published)
+    reb_sections = sections_of(rebuilt)
 
     shared = sorted(set(pub_sections) & set(reb_sections))
     if args.sections:
