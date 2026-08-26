@@ -78,6 +78,19 @@ def obs_for(atlas, section_uid: str) -> pl.DataFrame:
     return atlas.query().where(f"section_uid == '{section_uid}'").to_polars()
 
 
+def sections_of(atlas) -> dict[str, str]:
+    """section_id -> section_uid, read from the section registry.
+
+    Obs rows carry only ``section_uid``; the human-readable ``section_id`` lives
+    in ``TissueSectionSchema``. Keying the comparison on the id rather than the
+    uid means a rebuild is still matched up if a uid ever stops being stable,
+    and makes a mismatch legible when it happens.
+    """
+    table = atlas.registry_tables()["TissueSectionSchema"]
+    frame = table.to_polars() if hasattr(table, "to_polars") else pl.from_arrow(table.to_arrow())
+    return {r["section_id"]: r["uid"] for r in frame.select(["section_id", "uid"]).to_dicts()}
+
+
 def compare_frames(a: pl.DataFrame, b: pl.DataFrame, key: str) -> list[str]:
     """Column-by-column diff of two frames aligned on ``key``. Returns problems."""
     problems = []
@@ -157,8 +170,8 @@ def main() -> int:
     )
 
     for section_id in shared:
-        pub_uid = pub_sections[section_id]["section_uid"]
-        reb_uid = reb_sections[section_id]["section_uid"]
+        pub_uid = pub_sections[section_id]
+        reb_uid = reb_sections[section_id]
         report.add(
             "tier 1 structural",
             f"{section_id} section_uid",
