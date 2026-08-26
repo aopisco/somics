@@ -118,6 +118,15 @@ def _aligned(atlas, section_uid: str, ids: list[str]):
     x = np.asarray(x, dtype="float64")[order]
     crops = np.stack(q.to_spatial_batch("morphology_crop").layers["raw"])[order]
     var = adata.var.index.tolist() if adata.var is not None else []
+    # Columns are ordered by the atlas's own feature registration, which depends
+    # on what else is in the atlas: the published corpus registered these 541
+    # alongside ~33k Visium features, our two-section rebuild registered only
+    # these. Same features, different positions. Sort both by feature uid so the
+    # comparison is cell x feature rather than cell x column-slot.
+    if var:
+        columns = np.argsort(np.array(var), kind="stable")
+        x = x[:, columns]
+        var = [var[i] for i in columns]
     return x, crops, var, [obs["source_obs_id"].to_list()[i] for i in order]
 
 
