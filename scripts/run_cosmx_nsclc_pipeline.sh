@@ -73,10 +73,18 @@ for db in "$ROOT"/*/lance_db; do
   $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs
 done
 
-echo "== 6. finalize (join before, stamp after) =="
+echo "== 6. finalize (join, assign uids, stamp, then the rest) =="
+# The stamp has to sit between assign_uids and the rest of finalization, not
+# after it. It copies each finalized uid back onto the per-space tables by
+# joining on multimodal_barcode -- and drop_leftover_columns, which runs inside
+# finalize_collection, removes multimodal_barcode because it is not a schema
+# field. Running the whole of finalization first leaves the stamp nothing to
+# join on. assign_uids is idempotent, so finalize_collection re-running it is
+# harmless.
 $PY "$FIN/join_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
-$PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
+$PY "$FIN/assign_uids.py" "$ROOT" --schema "$SCHEMA"
 $PY "$FIN/stamp_uid_on_feature_space_obs.py" "$ROOT" --obs-class SpatialObs
+$PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
 
 echo "== 7. ingest =="
 PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT"
