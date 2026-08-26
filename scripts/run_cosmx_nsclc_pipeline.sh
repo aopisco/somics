@@ -70,7 +70,7 @@ $PY "$REPO/scripts/harmonize_cosmx_datasets.py"
 echo "== 5. reconcile barcodes across the two modalities =="
 for db in "$ROOT"/*/lance_db; do
   [ -d "$db" ] || continue
-  $PY "$ALIGN/reconcile_barcodes.py" "$db"
+  $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs
 done
 
 echo "== 6. finalize (join before, stamp after) =="
