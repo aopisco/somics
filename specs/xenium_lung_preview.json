@@ -1,0 +1,19 @@
+{
+  "dataset_key": "xenium_lung_preview",
+  "study": "Xenium_Lung_Preview",
+  "panel_name": "Xenium Human Lung Panel v1 + hLung_100g Add-On",
+  "samples": {
+    "Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE": {
+      "section": "non_diseased",
+      "donor": "non_diseased",
+      "disease_state": "healthy",
+      "disease": null
+    },
+    "Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE": {
+      "section": "lung_cancer",
+      "donor": "lung_cancer",
+      "disease_state": "diseased",
+      "disease": "lung adenocarcinoma"
+    }
+  }
+}
