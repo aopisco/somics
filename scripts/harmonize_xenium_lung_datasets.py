@@ -125,8 +125,12 @@ def gene_rows(sample: str) -> list[dict]:
     and applied as one keyed batch rather than as per-row SQL.
     """
     table = lancedb.connect(lance_db(sample)).open_table("GenomicFeatureSchema").to_arrow()
-    # Staging renames the source's leading column (10x's gene_id) to var_index.
-    ids = table.column("var_index").to_pylist()
+    # Staging makes the source's leading column (10x's gene_id) the table's key
+    # column. It was called var_index when this package was first ingested and
+    # is var_key in current polycomb; accept either so the script works against
+    # both, rather than pinning us to one skill version.
+    key = "var_key" if "var_key" in table.column_names else "var_index"
+    ids = table.column(key).to_pylist()
     names = table.column("gene_name").to_pylist()
     types = table.column("feature_type").to_pylist()
     rows = []
@@ -145,11 +149,17 @@ def gene_rows(sample: str) -> list[dict]:
     return rows
 
 
+def feature_key_column(sample: str) -> str:
+    """Whichever name staging gave the feature-identity column."""
+    table = lancedb.connect(lance_db(sample)).open_table("GenomicFeatureSchema").to_arrow()
+    return "var_key" if "var_key" in table.column_names else "var_index"
+
+
 def harmonize_genes(sample: str, *, dry_run: bool) -> None:
     rows = gene_rows(sample)
     ops: list = [
         RenameColumn(
-            column="var_index",
+            column=feature_key_column(sample),
             new_name="feature_id",
             tool="schema_align",
             reason=(
