@@ -13,6 +13,13 @@ almost nothing: it would pass with every expression value wrong.
 column by column: coordinates and metrics within a float tolerance, everything
 else exactly. This is the tier that means something.
 
+**Tier 2b — measurements.** Obs equality says nothing about the arrays the obs
+rows point at, which are the actual data. This tier compares the feature
+registry in full, and the expression matrix and image crops over a deterministic
+sample of rows. Sampled rather than exhaustive because the published atlas is
+read over the network; the sample is fixed by row order, not random, so a rerun
+compares the same cells.
+
 **Tier 3 — provenance.** The metadata each section carries — study, panel,
 donor, disease, accession link.
 
@@ -93,6 +100,53 @@ def sections_of(atlas) -> dict[str, str]:
     return {r["section_id"]: r["uid"] for r in rows}
 
 
+def compare_measurements(pub, reb, pub_uid: str, reb_uid: str, n: int) -> list[str]:
+    """Feature registry in full, then expression and crops over the first n rows.
+
+    The registry is the cheap, total check: if two atlases disagree on what a
+    column of the matrix *means*, comparing values is meaningless. Only then is
+    it worth pulling arrays.
+    """
+    problems = []
+    pf = pub.db.open_table("genomic_feature_schema_registry").to_arrow()
+    rf = reb.db.open_table("genomic_feature_schema_registry").to_arrow()
+    if pf.num_rows != rf.num_rows:
+        problems.append(f"feature registry: {pf.num_rows} vs {rf.num_rows} rows")
+    else:
+        for column in ("feature_key", "feature_id", "gene_name", "feature_type"):
+            if column in pf.column_names and column in rf.column_names:
+                if pf.column(column).to_pylist() != rf.column(column).to_pylist():
+                    problems.append(f"feature registry {column} differs")
+
+    pq = pub.query().where(f"section_uid == '{pub_uid}'").limit(n)
+    rq = reb.query().where(f"section_uid == '{reb_uid}'").limit(n)
+    pa_, ra_ = (
+        pq.select_fields("gene_expression").to_anndata(),
+        rq.select_fields("gene_expression").to_anndata(),
+    )
+    if pa_.shape != ra_.shape:
+        problems.append(f"expression shape {pa_.shape} vs {ra_.shape}")
+    else:
+        lx = np.asarray(pa_.X.todense() if hasattr(pa_.X, "todense") else pa_.X, dtype="float64")
+        rx = np.asarray(ra_.X.todense() if hasattr(ra_.X, "todense") else ra_.X, dtype="float64")
+        bad = int((~np.isclose(lx, rx, rtol=0, atol=FLOAT_TOL)).sum())
+        if bad:
+            problems.append(f"expression: {bad}/{lx.size} values differ")
+        elif lx.sum() == 0:
+            problems.append("expression: all zero on both sides, comparison is vacuous")
+
+    pc = pub.query().where(f"section_uid == '{pub_uid}'").limit(n)
+    rc = reb.query().where(f"section_uid == '{reb_uid}'").limit(n)
+    pcrops = np.stack(pc.to_spatial_batch("morphology_crop").layers["raw"])
+    rcrops = np.stack(rc.to_spatial_batch("morphology_crop").layers["raw"])
+    if pcrops.shape != rcrops.shape:
+        problems.append(f"crop shape {pcrops.shape} vs {rcrops.shape}")
+    elif not np.array_equal(pcrops, rcrops):
+        diff = int((pcrops != rcrops).sum())
+        problems.append(f"crops: {diff}/{pcrops.size} pixels differ")
+    return problems
+
+
 def compare_frames(a: pl.DataFrame, b: pl.DataFrame, key: str) -> list[str]:
     """Column-by-column diff of two frames aligned on ``key``. Returns problems."""
     problems = []
@@ -135,6 +189,7 @@ def main() -> int:
     ap.add_argument("--rebuilt", required=True)
     ap.add_argument("--sections", nargs="*", help="section_id values; default all shared")
     ap.add_argument("--max-rows", type=int, default=0, help="cap obs rows compared per section")
+    ap.add_argument("--sample", type=int, default=400, help="rows compared for arrays per section")
     args = ap.parse_args()
 
     published = RaggedAtlas.checkout_latest(PUBLISHED, store_kwargs=PUBLISHED_STORE)
@@ -185,6 +240,16 @@ def main() -> int:
             f"{section_id} obs",
             not problems,
             "; ".join(problems[:4]) if problems else f"{pub_obs.width} columns equal",
+        )
+
+        measured = compare_measurements(published, rebuilt, pub_uid, reb_uid, args.sample)
+        report.add(
+            "tier 2b measurements",
+            f"{section_id} arrays",
+            not measured,
+            "; ".join(measured[:4])
+            if measured
+            else f"feature registry + expression and crops over {args.sample} rows equal",
         )
 
     report.show()
