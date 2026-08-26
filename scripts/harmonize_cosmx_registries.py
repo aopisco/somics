@@ -32,7 +32,12 @@ from polycomb import (
 )
 from polycomb.ontologies import OntologyEntity, resolve_ontology_terms
 
-LANCE_DB = "/home/ubuntu/polycomb_data_packages/cosmx_nsclc_ffpe/lance_db"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+LANCE_DB = f"{DATA_HOME}/polycomb_data_packages/cosmx_nsclc_ffpe/lance_db"
 
 
 def apply(txn: CurationTransaction, allowed: set[str], *, dry_run: bool) -> None:

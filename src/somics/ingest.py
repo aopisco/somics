@@ -61,7 +61,12 @@ from polycomb.ingestion import (
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DEFAULT_SCHEMA = os.path.join(REPO_ROOT, "schema", "spatial_transcriptomics_atlas_schema.yaml")
-DEFAULT_ATLAS = "/home/ubuntu/polycomb_atlases/somics_spatial_atlas"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+DEFAULT_ATLAS = f"{DATA_HOME}/polycomb_atlases/somics_spatial_atlas"
 
 # Crop side, in full-resolution pixels — one constant for the whole atlas, so
 # crops from any platform stack into a batch without resizing. At Xenium's

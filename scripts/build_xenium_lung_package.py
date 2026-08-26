@@ -45,11 +45,16 @@ import pandas as pd
 import pyarrow.parquet as pq
 import tifffile
 
-SOURCE_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/extracted"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+SOURCE_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/extracted"
 # Built files land in staging, not in the package root: the collection's own
 # coalesce() is what moves them into place, and it refuses to move a file onto
 # itself.
-STAGING_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/staging"
+STAGING_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/staging"
 
 STUDY = "Xenium_Lung_Preview"
 PANEL_NAME = "Xenium Human Lung Panel v1 + hLung_100g Add-On"

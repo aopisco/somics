@@ -31,7 +31,12 @@ from polycomb import (
     default_audit_db_path,
 )
 
-LANCE_DB = "/home/ubuntu/polycomb_data_packages/monkman_nsclc_codex/lance_db"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+LANCE_DB = f"{DATA_HOME}/polycomb_data_packages/monkman_nsclc_codex/lance_db"
 
 # Red, green, blue of the rendered composite, in stored order.
 COMPOSITE_CHANNELS = ["CD45", "PanCK", "DAPI"]

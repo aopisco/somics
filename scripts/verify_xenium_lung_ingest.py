@@ -34,13 +34,18 @@ import pyarrow.parquet as pq
 import scipy.sparse as sp
 import tifffile
 
-PACKAGE_ROOT = "/home/ubuntu/polycomb_data_packages/xenium_lung_preview"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+PACKAGE_ROOT = f"{DATA_HOME}/polycomb_data_packages/xenium_lung_preview"
 # cells.parquet is the one vendor file the package does not carry: the builder
 # derives the obs CSV from it. Checking the atlas against the extracted original
 # rather than against the derived table is the stronger comparison anyway, since
 # it re-tests the derivation as well as the ingest.
-EXTRACTED_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/extracted"
-DEFAULT_ATLAS = "/home/ubuntu/polycomb_atlases/somics_spatial_atlas"
+EXTRACTED_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/extracted"
+DEFAULT_ATLAS = f"{DATA_HOME}/polycomb_atlases/somics_spatial_atlas"
 CROP_PX = 128
 
 

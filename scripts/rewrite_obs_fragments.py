@@ -29,7 +29,12 @@ import sys
 import lancedb
 import pyarrow as pa
 
-DEFAULT_ATLAS = "/home/ubuntu/polycomb_atlases/somics_spatial_atlas"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+DEFAULT_ATLAS = f"{DATA_HOME}/polycomb_atlases/somics_spatial_atlas"
 POINTER_SUFFIXES = ("_crop", "_expression", "_abundance", "_features")
 
 

@@ -47,11 +47,16 @@ from PIL import Image
 
 Image.MAX_IMAGE_PIXELS = None
 
-SOURCE_ROOT = "/home/ubuntu/datasets/cosmx_nsclc_ffpe/extracted"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+SOURCE_ROOT = f"{DATA_HOME}/datasets/cosmx_nsclc_ffpe/extracted"
 # Built files land in staging, not in the package root: the collection's own
 # coalesce() is what moves them into place, and it refuses to move a file onto
 # itself.
-STAGING_ROOT = "/home/ubuntu/datasets/cosmx_nsclc_ffpe/staging"
+STAGING_ROOT = f"{DATA_HOME}/datasets/cosmx_nsclc_ffpe/staging"
 
 # 180 nm per pixel, from the vendor ReadMe; every FOV is the same size.
 UM_PER_PX = 0.18

@@ -25,8 +25,13 @@ import sys
 import lancedb
 import pandas as pd
 
-PACKAGE_ROOT = "/home/ubuntu/polycomb_data_packages/monkman_nsclc_codex"
-STAGING_ROOT = "/home/ubuntu/datasets/monkman_nsclc_codex/staging"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+PACKAGE_ROOT = f"{DATA_HOME}/polycomb_data_packages/monkman_nsclc_codex"
+STAGING_ROOT = f"{DATA_HOME}/datasets/monkman_nsclc_codex/staging"
 FEATURE_SPACES = ("protein_abundance",)
 
 

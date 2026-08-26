@@ -49,10 +49,15 @@ import numpy as np
 import pandas as pd
 import tifffile
 
-SOURCE_ROOT = "/home/ubuntu/datasets/monkman_nsclc_codex/raw"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+SOURCE_ROOT = f"{DATA_HOME}/datasets/monkman_nsclc_codex/raw"
 # Built files land in staging: the collection's coalesce() moves them into the
 # package root, and it refuses to move a file onto itself.
-STAGING_ROOT = "/home/ubuntu/datasets/monkman_nsclc_codex/staging"
+STAGING_ROOT = f"{DATA_HOME}/datasets/monkman_nsclc_codex/staging"
 
 CELLS_FILE = "4301_cells.csv"
 CHANNELS_FILE = "4301_channelnames.csv"

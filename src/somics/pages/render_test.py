@@ -29,8 +29,9 @@ def test_rasterize_maps_extent_to_the_canvas():
     # the canvas keeps the aspect of that window.
     assert meta["extent"][0] < 0 < meta["extent"][2]
     assert meta["width"] == 200
-    assert meta["height"] == round(200 * (meta["extent"][3] - meta["extent"][1]) /
-                                   (meta["extent"][2] - meta["extent"][0]))
+    assert meta["height"] == round(
+        200 * (meta["extent"][3] - meta["extent"][1]) / (meta["extent"][2] - meta["extent"][0])
+    )
 
 
 def test_unpainted_pixels_keep_the_background():
@@ -121,13 +122,19 @@ def test_explicit_extent_pins_every_layer_to_one_frame():
     """
     extent = [0.0, 0.0, 100.0, 50.0]
     all_units = rasterize_points(
-        np.array([1.0, 99.0]), np.array([1.0, 49.0]), np.array([1.0, 2.0]),
-        width=200, extent=extent,
+        np.array([1.0, 99.0]),
+        np.array([1.0, 49.0]),
+        np.array([1.0, 2.0]),
+        width=200,
+        extent=extent,
     )[1]
     # A tighter cloud, which would otherwise be framed to its own bounds.
     subset = rasterize_points(
-        np.array([40.0, 60.0]), np.array([20.0, 30.0]), np.array([1.0, 2.0]),
-        width=200, extent=extent,
+        np.array([40.0, 60.0]),
+        np.array([20.0, 30.0]),
+        np.array([1.0, 2.0]),
+        width=200,
+        extent=extent,
     )[1]
 
     assert all_units["extent"] == extent == subset["extent"]

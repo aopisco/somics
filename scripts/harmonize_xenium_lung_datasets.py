@@ -42,7 +42,12 @@ from polycomb import (
     default_audit_db_path,
 )
 
-PACKAGE_ROOT = "/home/ubuntu/polycomb_data_packages/xenium_lung_preview"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+PACKAGE_ROOT = f"{DATA_HOME}/polycomb_data_packages/xenium_lung_preview"
 DATASET_REGISTRY = os.path.join(PACKAGE_ROOT, "other_files", "dataset_registry.csv")
 
 ORGANISM = "Homo sapiens"

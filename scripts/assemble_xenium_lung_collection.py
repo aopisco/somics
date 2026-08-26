@@ -39,13 +39,18 @@ import pandas as pd
 import tifffile
 from polycomb.collection import Collection, Dataset, FileTypeTag
 
-PACKAGE_ROOT = "/home/ubuntu/polycomb_data_packages/xenium_lung_preview"
-SOURCE_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/extracted"
-STAGING_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/staging"
+# Where the source bundles, packages and atlases live. Defaulted to the
+# hackathon box's layout so committed paths still read as they did, and
+# overridable so the pipeline can run anywhere else.
+DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+
+PACKAGE_ROOT = f"{DATA_HOME}/polycomb_data_packages/xenium_lung_preview"
+SOURCE_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/extracted"
+STAGING_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/staging"
 # The downloaded outs bundles are kept outside the package: 49 GB of vendor zip
 # is provenance, not package content, and every file the package needs has been
 # extracted out of it.
-RAW_ROOT = "/home/ubuntu/datasets/xenium_lung_preview/raw"
+RAW_ROOT = f"{DATA_HOME}/datasets/xenium_lung_preview/raw"
 MANIFEST = "collection.json"
 
 STUDY = "Xenium_Lung_Preview"
