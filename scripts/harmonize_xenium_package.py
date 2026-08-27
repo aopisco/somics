@@ -177,7 +177,19 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
         path,
         sample,
         CurationTransaction(table_name="GenomicFeatureSchema", changes=genes),
-        {"feature_id", "feature_key", "organism", "feature_type", "is_control", "ensembl_gene_id"},
+        # Same set the lung harmonizer allows. gene_name belongs here because the
+        # keyed merge writes it, not because any op names it directly, and
+        # allowed_columns is checked against every column a transaction touches.
+        {
+            "feature_id",
+            "feature_type",
+            "is_control",
+            "ensembl_gene_id",
+            "gene_name",
+            "organism",
+            "ensembl_version",
+            "feature_key",
+        },
         dry_run,
     )
 
