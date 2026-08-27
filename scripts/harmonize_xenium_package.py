@@ -144,6 +144,20 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             for raw, mapped in FEATURE_TYPES.items()
             if raw in present
         ],
+        # MergeColumns fills existing columns; it does not create them. So the
+        # two the merge populates are declared empty first.
+        AddColumn(
+            column="is_control",
+            data_type="bool",
+            tool="schema_align",
+            reason="filled by the keyed merge below, per feature type",
+        ),
+        AddColumn(
+            column="ensembl_gene_id",
+            data_type="string",
+            tool="schema_align",
+            reason="filled by the keyed merge below; null for controls",
+        ),
         # LanceDB's SQL dialect has no CASE WHEN, so the three columns that are
         # populated for panel targets and null for controls are computed here and
         # applied as one batch keyed on the published feature id.
