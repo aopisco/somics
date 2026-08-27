@@ -168,8 +168,12 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
             "cell_area_um2": cells.cell_area.to_numpy(),
             "nucleus_area_um2": cells.nucleus_area.to_numpy(),
             "total_counts": cells.total_counts.to_numpy(),
-            "section_id": f"{study}_{spec['section']}",
-            "donor_id": f"{study}_{spec['donor']}",
+            # Verbatim when the spec states them. A published section's uid is
+            # a content hash of exactly this string, so a rebuild only reproduces
+            # it if the string matches character for character -- and not every
+            # study follows the study-prefixed convention.
+            "section_id": spec.get("section_id") or f"{study}_{spec['section']}",
+            "donor_id": spec.get("donor_id") or f"{study}_{spec['donor']}",
             "panel_name": panel,
         }
     )
