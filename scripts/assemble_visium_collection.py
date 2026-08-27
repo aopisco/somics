@@ -52,8 +52,14 @@ def write_registries(spec: dict, geometry: dict, staging: str) -> None:
                 "sex": donor["sex"],
                 "age_value": donor["age_value"],
                 "age_unit": "year",
-                "life_stage": "adult",
+                "life_stage": donor["life_stage"],
                 "human_development_stage": donor["human_development_stage"],
+                "description": donor.get("description"),
+                # Present but empty on purpose. The resolution pass plans a
+                # clinical_diagnosis pass from the schema and errors if the
+                # column is absent; these donors are neurotypical controls, so
+                # the right value is null rather than a diagnosis.
+                "clinical_diagnosis": None,
             }
             for donor_id, donor in spec["donors"].items()
         ]
