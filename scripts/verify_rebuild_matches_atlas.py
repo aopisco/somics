@@ -119,8 +119,16 @@ def _aligned(atlas, section_uid: str, ids: list[str]):
             adata = q.select_fields(space).to_anndata()
         except Exception:  # noqa: BLE001 - a section need not carry every space
             continue
+        # A space the section does not carry comes back as an AnnData with X
+        # None rather than raising, so absence has to be checked as well as
+        # caught. Xenium has no protein_abundance; CosMx has both.
+        if adata is None or adata.X is None:
+            continue
         values = adata.X.todense() if hasattr(adata.X, "todense") else adata.X
-        values = np.asarray(values, dtype="float64")[order]
+        values = np.asarray(values, dtype="float64")
+        if values.ndim != 2 or values.shape[0] != len(order):
+            continue
+        values = values[order]
         names = adata.var.index.tolist() if adata.var is not None else []
         if names:
             columns = np.argsort(np.array(names), kind="stable")
