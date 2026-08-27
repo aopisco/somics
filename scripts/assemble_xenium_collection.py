@@ -52,6 +52,14 @@ def write_registries(spec: dict, geometry: list[dict], staging: str) -> None:
                 "sex": donor["sex"],
                 "life_stage": donor["life_stage"],
                 "human_development_stage": donor["human_development_stage"],
+                # Declared even when unknown. age_unit is an enum, so the schema
+                # types it as an Arrow dictionary -- and Lance cannot write an
+                # all-null dictionary column at any row count (empty dictionary,
+                # "Value at position 0 out of bounds"). Writing it through the
+                # CSV makes it a plain nullable string instead, which Lance
+                # accepts and which ensure_schema_columns then leaves alone.
+                "age_value": donor.get("age_value"),
+                "age_unit": donor.get("age_unit"),
                 "clinical_diagnosis": donor.get("clinical_diagnosis"),
                 "description": donor.get("description"),
             }
