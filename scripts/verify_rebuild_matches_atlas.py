@@ -135,7 +135,17 @@ def _aligned(atlas, section_uid: str, ids: list[str]):
             values = values[:, columns]
             names = [names[i] for i in columns]
         spaces[space] = (values, names)
-    crops = np.stack(q.to_spatial_batch("morphology_crop").layers["raw"])[order]
+    # Which crop pointer a section carries depends on what was imaged: Xenium,
+    # CosMx and Monkman store a morphology stack, LIBD Visium stores H&E. Ask for
+    # each and keep whichever returns arrays, rather than assuming one.
+    crops = {}
+    for pointer in ("morphology_crop", "he_crop"):
+        try:
+            layers = q.to_spatial_batch(pointer).layers["raw"]
+        except Exception:  # noqa: BLE001 - a section need not carry this pointer
+            continue
+        if len(layers):
+            crops[pointer] = np.stack(layers)[order]
     x, var = spaces.get("gene_expression", (np.zeros((len(ids), 0)), []))
     # Columns are ordered by the atlas's own feature registration, which depends
     # on what else is in the atlas: the published corpus registered these
@@ -171,10 +181,16 @@ def compare_measurements(pub, reb, pub_uid, reb_uid, ids: list[str]) -> list[str
         elif px.sum() == 0:
             problems.append(f"{space}: all zero on both sides, comparison is vacuous")
 
-    if pcrops.shape != rcrops.shape:
-        problems.append(f"crop shape {pcrops.shape} vs {rcrops.shape}")
-    elif not np.array_equal(pcrops, rcrops):
-        problems.append(f"crops: {int((pcrops != rcrops).sum())}/{pcrops.size} pixels differ")
+    if set(pcrops) != set(rcrops):
+        problems.append(f"crop pointers differ: {sorted(pcrops)} vs {sorted(rcrops)}")
+    for pointer in sorted(set(pcrops) & set(rcrops)):
+        pc, rc = pcrops[pointer], rcrops[pointer]
+        if pc.shape != rc.shape:
+            problems.append(f"{pointer}: shape {pc.shape} vs {rc.shape}")
+        elif not np.array_equal(pc, rc):
+            problems.append(f"{pointer}: {int((pc != rc).sum())}/{pc.size} pixels differ")
+    if not pcrops:
+        problems.append("no crop pointer on either side; imagery was not compared")
     return problems
 
 
