@@ -48,6 +48,12 @@ def write_registries(spec: dict, geometry: dict, staging: str) -> None:
         [
             {
                 "donor_id": donor_id,
+                # Target side of the join convention. A RegistryKeyField
+                # resolves by matching a referrer's <field>_<Target>_join
+                # against the target's own <Target>_join, so the target has to
+                # carry the natural key too -- finalization raises rather than
+                # guessing if it is absent.
+                "DonorSchema_join": donor_id,
                 "organism": spec["organism"],
                 "sex": donor["sex"],
                 "age_value": donor["age_value"],
@@ -69,7 +75,9 @@ def write_registries(spec: dict, geometry: dict, staging: str) -> None:
         [
             {
                 "section_id": entry["section_id"],
+                "TissueSectionSchema_join": entry["section_id"],
                 "donor_id": entry["donor_id"],
+                "donor_uid_DonorSchema_join": entry["donor_id"],
                 "block_id": entry["block_id"],
                 "section_index": entry["section_index"],
                 "tissue": spec["tissue"],
@@ -90,6 +98,9 @@ def write_registries(spec: dict, geometry: dict, staging: str) -> None:
         [
             {
                 "section_id": spec["samples"][g["sample"]]["section_id"],
+                "section_uid_TissueSectionSchema_join": (
+                    spec["samples"][g["sample"]]["section_id"]
+                ),
                 "image_modality": spec["image_modality"],
                 "pixel_size_um": g["pixel_size_um"],
                 "height_px": g["height_px"],
