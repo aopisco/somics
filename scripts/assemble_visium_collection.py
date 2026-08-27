@@ -74,6 +74,12 @@ def write_registries(spec: dict, geometry: dict, staging: str) -> None:
                 "section_index": entry["section_index"],
                 "tissue": spec["tissue"],
                 "disease_state": spec["disease_state"],
+                # Empty on purpose, like clinical_diagnosis above. The
+                # resolution pass plans one pass per ontology-aligned column it
+                # has a resolver for -- tissue and disease here -- and errors if
+                # the column is absent rather than skipping it. A healthy
+                # section has no disease, so the column must exist and be null.
+                "disease": None,
                 "preservation": spec["preservation"],
             }
             for entry in spec["samples"].values()
