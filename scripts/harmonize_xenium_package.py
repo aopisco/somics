@@ -26,6 +26,7 @@ from polycomb import (
     AddColumn,
     CurationApplicator,
     CurationTransaction,
+    MergeColumns,
     RenameColumn,
     ReplaceValue,
     default_audit_db_path,
@@ -65,6 +66,31 @@ def apply(
             raise RuntimeError(f"{label}/{txn.table_name}: {result.error}")
     finally:
         applicator.close()
+
+
+def gene_rows(path: str, var_key: str) -> list[dict]:
+    """Per-feature values that depend on the vendor's feature type.
+
+    A control codeword has no gene identity, so gene_name and ensembl_gene_id
+    are nulled rather than left holding a codeword name in a field the schema
+    declares as a gene symbol.
+    """
+    table = lancedb.connect(path).open_table("GenomicFeatureSchema").to_arrow()
+    ids = table.column(var_key).to_pylist()
+    names = table.column("gene_name").to_pylist()
+    types = table.column("feature_type").to_pylist()
+    rows = []
+    for feature_id, gene_name, raw in zip(ids, names, types, strict=True):
+        is_gene = FEATURE_TYPES[raw] == "gene"
+        rows.append(
+            {
+                "feature_id": feature_id,
+                "gene_name": gene_name if is_gene else None,
+                "ensembl_gene_id": feature_id if is_gene else None,
+                "is_control": not is_gene,
+            }
+        )
+    return rows
 
 
 def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> None:
@@ -118,17 +144,19 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             for raw, mapped in FEATURE_TYPES.items()
             if raw in present
         ],
-        AddColumn(
-            column="is_control",
-            value_sql="feature_type != 'gene'",
+        # LanceDB's SQL dialect has no CASE WHEN, so the three columns that are
+        # populated for panel targets and null for controls are computed here and
+        # applied as one batch keyed on the published feature id.
+        MergeColumns(
+            column="gene_name",
+            key_column="feature_id",
+            rows=gene_rows(path, var_key),
             tool="schema_align",
-            reason="redundant with feature_type but cheap to filter on",
-        ),
-        AddColumn(
-            column="ensembl_gene_id",
-            value_sql="CASE WHEN feature_type = 'gene' THEN feature_id ELSE NULL END",
-            tool="schema_align",
-            reason="only panel targets carry an Ensembl id; a codeword name is not one",
+            reason=(
+                "gene_name, ensembl_gene_id and is_control keyed on the published feature id: "
+                "populated for panel targets, null/true for control and blank codewords"
+            ),
+            source="10x cell_feature_matrix.h5 feature table",
         ),
     ]
     apply(
