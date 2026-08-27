@@ -33,6 +33,7 @@ from polycomb import (
     CurationApplicator,
     CurationTransaction,
     RenameColumn,
+    ReplaceValue,
     default_audit_db_path,
 )
 
@@ -92,9 +93,13 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             tool="resolve_organisms",
             reason="NCBITaxon canonical name for the study organism",
         ),
-        AddColumn(
+        # feature_type already exists: the builder copies 10x's own label out of
+        # the h5. Map it onto the schema enum in place so the audit trail records
+        # where the vendor label went, rather than adding a second column.
+        ReplaceValue(
             column="feature_type",
-            value="gene",
+            old_value="Gene Expression",
+            new_value="gene",
             tool="schema_align",
             reason="a whole-transcriptome capture has no probes or control codewords",
         ),
