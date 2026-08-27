@@ -249,7 +249,10 @@ def main(argv: list[str] | None = None) -> None:
             sample,
             spec["samples"][sample],
             spec["study"],
-            spec["panel_name"],
+            # The panel is a bare name in the older specs and an object in the
+            # ones the assembler also reads, which needs its vendor and target
+            # count. Accept either rather than forcing every spec to be rewritten.
+            spec.get("panel_name") or spec["panel"]["panel_name"],
             os.path.join(source, sample),
             os.path.join(out, sample),
         )
