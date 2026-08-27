@@ -117,6 +117,13 @@ uids back onto them. Do not wrap it in `join_feature_space_obs` / `assign_uids`
 / `stamp_uid_on_feature_space_obs`; those are for debugging, and running them
 alongside the orchestrator breaks it.
 
+**Never ingest a package twice.** A rebuilt package carries fresh
+`dataset_uid`s, so `skip_existing` never fires, while `section_uid` is a stable
+hash — so the two copies merge and every obs row doubles. The section count does
+not change, so nothing looks wrong. `somics.ingest` now refuses on an overlapping
+section and needs `--allow-existing-sections` to proceed. Build the atlas in one
+pass; if a package changes, rebuild the atlas.
+
 **A crashed ingest is not resumable.** `skip_existing` checks the dataset uid,
 not whether the dataset is complete, so the next run skips it and then fails
 looking for its zarr group. Wipe the atlas and re-ingest.

@@ -147,6 +147,28 @@ four I caused.
    `materialize_bare_obs` is a somics-specific bridge with no polycomb
    equivalent. Reading the orchestrator's import block would have settled it.
 
+**Re-ingesting a package silently duplicates it.** This is the worst failure
+mode found so far, because the run succeeds and the obvious health check passes.
+
+`ingest_collection(skip_existing=True)` decides it has seen a dataset before by
+`dataset_uid` — which `make_uid()` generates fresh on every build, so a rebuilt
+package never looks familiar. Its `section_uid` values *are* stable content
+hashes, so both copies land on the same section and merge:
+
+```
+LIBD_151507 obs rows:  8,452   (published: 4,226)
+LIBD dataset rows:        48   (expected: 24)
+sections in registry:     59   <- unchanged
+```
+
+Section count is the number everyone checks, and it does not move. Only a row
+count against a known value exposes it.
+
+`python -m somics.ingest` now refuses when any incoming `section_uid` is already
+in the atlas, with `--allow-existing-sections` as the escape hatch for when the
+previous datasets have genuinely been removed. **Build an atlas in one pass from
+a fixed set of packages**; if a package is rebuilt, rebuild the atlas.
+
 **The resume trap.** `ingest_collection(skip_existing=True)` checks the dataset
 uid, not whether that dataset is *complete*. A crashed ingest leaves rows
 written and a dataset record missing; the next run skips the dataset as present

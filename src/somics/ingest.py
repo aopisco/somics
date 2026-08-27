@@ -475,6 +475,35 @@ def sparse_zarr_groups(collection_root: str, schema, feature_space: str) -> list
     return groups
 
 
+def sections_already_present(collection_root: str, atlas_path: str) -> set[str]:
+    """Section uids this package would add that the atlas already holds.
+
+    Ingestion skips a dataset it has seen before by ``dataset_uid`` — but that
+    is minted by ``make_uid()``, so a rebuilt package always carries new ones and
+    never looks familiar. Its ``section_uid`` values are stable content hashes,
+    so the two copies land on the same section and *merge*: obs rows double, and
+    the section count does not change. Nothing about the run looks wrong.
+
+    Cheap to detect up front by comparing the section registry on both sides.
+    """
+    package_db = os.path.join(collection_root, "lance_db")
+    if not os.path.isdir(package_db) or not os.path.isdir(atlas_path):
+        return set()
+    section_class = "TissueSectionSchema"
+    try:
+        package = lancedb.connect(package_db)
+        if section_class not in package.table_names():
+            return set()
+        incoming = set(package.open_table(section_class).to_arrow().column("uid").to_pylist())
+        atlas_db = lancedb.connect(os.path.join(atlas_path, "lance_db"))
+        if section_class not in atlas_db.table_names():
+            return set()
+        existing = set(atlas_db.open_table(section_class).to_arrow().column("uid").to_pylist())
+    except Exception:  # noqa: BLE001 - an unreadable atlas is not this check's problem
+        return set()
+    return incoming & existing
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("collection_root", help="Finalized data package (holds collection.json)")
@@ -497,10 +526,28 @@ def main(argv: list[str] | None = None) -> None:
             "pointers fail. Check with scripts/rewrite_obs_fragments.py --check-only after."
         ),
     )
+    parser.add_argument(
+        "--allow-existing-sections",
+        action="store_true",
+        help="ingest even if the atlas already holds these sections (duplicates their rows)",
+    )
     args = parser.parse_args(argv)
     collection_root = os.path.abspath(args.collection_root)
     schema_path = os.path.abspath(args.schema)
     atlas_path = os.path.abspath(args.atlas)
+
+    clash = sections_already_present(collection_root, atlas_path)
+    if clash and not args.allow_existing_sections:
+        raise SystemExit(
+            f"refusing to ingest: {len(clash)} section(s) in this package are already in the "
+            f"atlas, e.g. {sorted(clash)[:3]}.\n"
+            "Re-ingesting a rebuilt package does not replace those sections, it duplicates "
+            "their rows -- dataset_uid is regenerated per build so skip_existing never fires, "
+            "while section_uid is stable so both copies merge into one section. The section "
+            "count stays the same, which is why this has to be caught here.\n"
+            "Rebuild the atlas from scratch, or pass --allow-existing-sections if you have "
+            "already removed the previous datasets."
+        )
 
     report = ingest_collection(
         collection_root=collection_root,
