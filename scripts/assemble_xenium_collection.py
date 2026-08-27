@@ -42,7 +42,9 @@ def dataset_files(sample: str, staging: str) -> list[tuple[str, FileTypeTag, str
     ]
 
 
-def write_registries(spec: dict, geometry: list[dict], staging: str) -> None:
+def write_registries(
+    spec: dict, uid_by_sample: dict[str, str], geometry: list[dict], staging: str
+) -> None:
     pd.DataFrame(
         [
             {
@@ -91,6 +93,11 @@ def write_registries(spec: dict, geometry: list[dict], staging: str) -> None:
         [
             {
                 "section_id": spec["samples"][g["sample"]]["section_id"],
+                # The pointer an image fills is resolved by joining
+                # SectionImageSchema.dataset_uid to the manifest. Without it the
+                # map is empty and ingestion falls back to morphology_crop --
+                # silently correct for a DAPI stack, silently wrong for H&E.
+                "dataset_uid": uid_by_sample[g["sample"]],
                 "section_uid_TissueSectionSchema_join": (
                     spec["samples"][g["sample"]]["section_id"]
                 ),
@@ -150,15 +157,17 @@ def main(argv: list[str] | None = None) -> None:
     with open(os.path.join(staging, "sample_geometry.json")) as handle:
         geometry = json.load(handle)
 
-    write_registries(spec, geometry, staging)
-    write_dataset_registry(spec, geometry, staging)
-
     collection = Collection(root_dir=package)
+    uid_by_sample: dict[str, str] = {}
     for g in geometry:
         dataset = Dataset(g["sample"])
         for path, tag, space in dataset_files(g["sample"], staging):
             dataset.add_file(path, tag, space)
         collection.add_dataset(dataset)
+        uid_by_sample[dataset.dataset_name] = dataset.uid
+
+    write_registries(spec, uid_by_sample, geometry, staging)
+    write_dataset_registry(spec, geometry, staging)
 
     for name in (
         "donor_registry.csv",
