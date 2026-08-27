@@ -128,6 +128,34 @@ pass; if a package changes, rebuild the atlas.
 not whether the dataset is complete, so the next run skips it and then fails
 looking for its zarr group. Wipe the atlas and re-ingest.
 
+## The rebuild: done, and it found a defect in the original
+
+**58 of 59 sections reproduce exactly; the 59th differs because the published
+atlas is wrong.** Full write-up in `docs/2026-08-27_atlas_rebuild_results.md`.
+
+The published `hColon_Cancer_Add_on_FFPE` has a **misaligned gene axis** — right
+counts, wrong genes. Against the source h5 over 40 cells: published 1041/1833
+nonzero values correct, rebuilt 1833/1833. Every other family agrees with its
+source perfectly on both sides. Per-cell totals, sorted vectors, row counts and
+uids all match, so nothing but a gene-by-gene comparison against the source
+finds it. **Do not treat the published colon section as authoritative.**
+
+The rebuilt atlas is 59 sections / ~2.47M obs rows on
+`schema/spatial_omics_atlas_schema.yaml`, built in one pass on EC2. Its only obs
+difference from the published atlas is `has_chromatin_accessibility`, a presence
+flag the extended schema introduces.
+
+**Rebuild it with:** the five runners below in any order into a fresh atlas, then
+`scripts/verify_rebuild_matches_atlas.py --rebuilt <path>`.
+
+```
+scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_lung_preview.json
+scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_colon_preview.json
+scripts/run_cosmx_nsclc_pipeline.sh
+scripts/run_monkman_codex_pipeline.sh
+scripts/run_libd_dlpfc_pipeline.sh
+```
+
 ## Rebuilding the atlas is the correctness gate
 
 Do not ingest 20 TB before reproducing the 59 sections we have — the published
@@ -138,9 +166,12 @@ indistinguishable from a quirk of the new data.
   Add_on_FFPE")` is the published `section_uid`, so sections, donors, panels and
   features are comparable exactly. `uid` on obs and `dataset_uid` are `uuid4` —
   join on `source_obs_id` instead, and never compare them.
-- **Only 46 of 59 sections have a builder.** The 12 spatialLIBD Visium sections
-  and the 1 Xenium colon section never had one in this repo — checked the full
-  history including deleted files.
+- **All 59 sections now have a spec-driven builder.** The 12 LIBD Visium and 1
+  Xenium colon sections never had one — confirmed across all 478 blobs in the
+  object store — because `create-data-package` is a *skill*: an agent drives the
+  Collection API and the artifact is the package, not a script. Ryan's estimate
+  is $10-20 and 30-60 min of agent time per dataset, which is why per-family
+  builders only pay for homogeneous vendor bundles.
 - **10x's CDN gives us ~0.3 MB/s** regardless of user agent, against 16 MB/s
   from S3. Fetch vendor bundles on EC2 into `s3://somics-dev/rebuild/` and pull
   from there. Version paths differ per dataset: lung preview is `1.3.0`, colon
