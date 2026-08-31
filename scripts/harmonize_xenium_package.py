@@ -221,11 +221,25 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             tool="schema_align",
             reason="section-level health status",
         ),
-        AddColumn(
-            column="disease",
-            value=entry.get("disease"),
-            tool="resolve_diseases",
-            reason="MONDO label; null for a healthy section",
+        # AddColumn will not take value=None; for a healthy section it has to be
+        # told the column type instead. The column still has to exist rather than
+        # be skipped -- the schema declares it, and finalization null-inits what
+        # is missing, which is the path that produces an all-null enum column and
+        # trips the Lance encoder.
+        (
+            AddColumn(
+                column="disease",
+                value=entry["disease"],
+                tool="resolve_diseases",
+                reason="MONDO label for this section's diagnosis",
+            )
+            if entry.get("disease")
+            else AddColumn(
+                column="disease",
+                data_type="string",
+                tool="schema_align",
+                reason="healthy section: disease is null, not absent",
+            )
         ),
         AddColumn(
             column="spatial_unit",
