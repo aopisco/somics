@@ -207,6 +207,21 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
+**The work is on the `atlas-rebuild` branch, not `main`.** `main` stops at the
+three-tier verifier; everything after it — the spec-driven builders, the
+extended schema, the specs, the rebuild script and all the docs referenced here
+— is on the branch. A fresh clone lands on `main` and misses it.
+
+```bash
+git checkout atlas-rebuild && git pull
+```
+
+`aopisco/somics#17` is the PR, deliberately still a **draft**: it should not be
+marked ready until the rebuild has landed and verified, because a green-looking
+PR would imply a result we do not yet have. AWS access expires; re-run the
+`aws-oidc configure` line under Infrastructure if a call returns a credentials
+error.
+
 **First thing in a new session: did the rebuild land?** It runs unattended on
 EC2 (`scripts/rebuild_atlas_ec2.sh`), syncs the atlas to S3 **before** verifying,
 then terminates. So the S3 prefix is the answer, not the instance — the box is
