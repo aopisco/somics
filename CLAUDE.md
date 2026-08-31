@@ -59,6 +59,24 @@ mapping is unresolved), `first_published_by_model_paper`.
   different for each.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
+- **One technology per row.** A row is one measurement of one tissue on one
+  platform. A row naming several is several datasets — split it, duplicating
+  every other field and the `model_dataset_usage.csv` entries.
+  `scripts/split_multiplatform_rows.py` does this and only splits when *every*
+  part is a platform the registry already uses alone; 34 rows became 76 and
+  **64 are left for a human in `data/platform_rows_needing_review.csv`**.
+  Punctuation is not a reliable signal: `LC-MS/MS` is one technique,
+  `Xenium 5K + custom panel` is a platform and a qualifier,
+  `VisiumHD / 10X Genomics` is a platform and its vendor.
+- **Never overwrite `platform` without recording the original** in `notes`:
+  `platform recorded by the source as '<original>'; normalised for grouping`.
+  `classify_spatial_modality.py` used to overwrite and only *print* the change,
+  which lost nine rows' original wording to disk (seven backfilled from
+  `b5da607^`). It matters most where a spelling names a different instrument —
+  `VisiumHD` and `Visium` differ by one letter and are 2 um bins against 55 um
+  spots. `scripts/normalize_platform_strings.py` folds vendor and generic noise
+  (324 rows, "visium" strings 102 -> 36) and keeps HD, CytAssist, v1/v2 and
+  "(no probes)" distinct.
 
 ## The bucket
 

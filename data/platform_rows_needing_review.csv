@@ -1,0 +1,65 @@
+dataset_id,platform,species,tissue,download_url,original_publication_link
+super_resolution2025_st,(d)STORM and 3D-DHPSF super-resolution fluorescence microscopy,Human,Lung epithelial cells (A549-ACE2),,https://doi.org/10.1101/2025.08.15.670620
+human_reference_2022_visium,10x Genomics Visium Spatial Gene Expression assay / NextSeq2000,Human,Universal human reference RNA,,https://doi.org/10.1016/j.heliyon.2022.e09651
+spatial_transcri2023_visium,10x Genomics Visium and AFADESI-MSI,Human and Rat,Injured brain tissue,https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE223245&format=file,https://doi.org/10.1016/j.xcrm.2023.101057
+visium_spatial_g2025_visium,10x Genomics Visium and Chromium 3' gene expression,human,anterior hippocampus,https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE264624&format=file,https://doi.org/10.1038/s41593-025-02022-0
+hu2024_visium,AFADESI-MSI / Visium,human,clear cell renal cell carcinoma (kidney),https://zenodo.org/api/records/14986870/files/results_data.zip/content,https://doi.org/10.1016/j.eururo.2024.04.001
+comet_if_and_hyp_imc,COMET IF and Hyperion XTi IMC,Human,Bone marrow,,
+3d_multiplexed_i2023_confocal_mic,Confocal microscopy / multiphoton microscopy,human,kidney,,https://doi.org/10.1038/s41586-023-05769-3
+spatial_atlas_of2025_xenium,"CosMx SMI, Xenium, RNAscope, GeoMx DSP, snRNA-seq",Human,"Stomach, liver, pancreas, small intestine (ileum), large intestine (descending colon, appendix), bone marrow, lymph nodes, PBMCs",,https://doi.org/10.1101/2025.06.16.658716
+human_cerebellum_dbit,DBiTplus / CODEX,mouse,embryo,,
+human_reactive_l2024_dbit,DBiTplus and CODEX,mouse,embryo,,https://doi.org/10.21203/rs.3.rs-5398491/v1
+colorectal_adeno_st,Deep Visual Proteomics (DVP) / timsTOF mass spectrometry,Human,Colorectal adenoma (FFPE tissue),,
+karaiskos2017_st,DistMap / spatial imaging,Drosophila,embryo,,
+hipr_fish_and_162024_hiprfish_and,HiPR-FISH and PacBio 16S HiFi sequencing,"Murine (mouse, BALB/c)",Cecum and distal colon,,https://doi.org/10.1128/mbio.00707-24
+expanded_tissuen2025_codex,"IMC, CODEX, MIBI, IBEX, MICS, Cell DIVE, CycIF, InSituPlex, Vectra",Human,Various (17 tissue types),,https://doi.org/10.1101/2024.11.02.621624
+chen2020_iss,ISS and capture-based ST,human and mouse,brain,,
+spatial_dmt_post2025_st,Illumina NovaSeq 6000 sequencer and NovaSeq X Plus system,Mouse,Embryo (E11),https://ftp.ncbi.nlm.nih.gov/geo/series/GSE270nnn/GSE270498/suppl/GSE270498_spatial.obj_E11_facial.rds,https://doi.org/10.1101/2025.07.01.662607
+schulz2018_imc,Imaging mass cytometry (IMC) and RNAscope ISH,,breast cancer,,
+hybriss_hybiss_g_iss,In situ sequencing (ISS) / SIM microscopy,mouse,coronal brain tissue sections,,
+macsima_imaging_2025_st,MACSima and timsTOF SCP,Human,Tonsil cancer,,https://doi.org/10.1016/j.xpro.2025.103901
+ffpe_hepatocellu_maldiims_ngl,MALDI-IMS N-glycan imaging and GlycoTyper antibody array,Human,Liver (hepatocellular carcinoma and cirrhosis),,
+rat_brain_spatia_st,MALDI-TOF / timsTOF fleX (nLC-MS/MS),Rat,Brain (cerebellum and horizontal sections),,
+scrna_seq_lcmseq2020_marsseq_mcsc,"MARS-seq, mcSCRBseq",human,liver,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE146nnn/GSE146409/suppl/GSE146409_normal_liver_zonation_UMItab.txt.gz,https://doi.org/10.15252/msb.20209682
+arabidopsis_life_merfish,MERSCOPE (MERFISH) and Curio Seeker,Arabidopsis,"seed, seedling, mature leaf, stem, flower, silique",,
+the_duke_mouse_b2025_tomo,"Magnetic resonance histology (MRH), Light sheet microscopy (LSM), Micro-computed tomography (micro-CT)",Mouse (C57BL/6J),Brain,,https://doi.org/10.1126/sciadv.adq8089
+t_cell_spatial_p_mass_spectro,Mass spectrometry / TMT labeling,Human,Jurkat T cells,,
+nanostring_geomx2022_geomx_2,NanoString GeoMx Digital Spatial Profiler / Human NGS Whole Transcriptome Atlas,Human,Oral cavity oral squamous cell carcinoma (OSCC),,https://doi.org/10.1158/1078-0432.CCR-21-4543
+er2018_iss,Nissl stains and AMBA genetic cell-type markers,mouse,brain,,
+kim2025_novascope_se,NovaScope / Seq-Scope,,,,
+a549_cells_frame2023_iss,PerturbView / In situ sequencing (ISS) / Flow cytometry,Human,A549 cell line,,https://doi.org/10.1101/2023.12.26.573143
+dld_1_colon_canc2023_xenium,PerturbView / Xenium spatial transcriptomics,Human / Mouse (xenograft),Subcutaneous tumor / colon cancer xenograft,,https://doi.org/10.1101/2023.12.26.573143
+multi_cancer_tma_codex,PhenoCycler-Fusion (PCF) / high-plex immunohistochemistry (CODEX),human,"tissue microarray (TMA) containing normal and tumor tissues including breast adenocarcinoma (BRC), non-small cell lung carcinoma (NSCLC), colorectal cancer (CRC), melanoma (MEL), hepatocellular carcinoma (HCC), Merkel cell carcinoma (MCC), and tonsil",https://zenodo.org/api/records/15825670/files/Bwb_SpatialProteomics_TMA_rawfiles.zip/content,
+greek_validation2025_geomx,PhenoCycler-Fusion / DSP-GeoMx WTA or CTA,human,non-small cell lung cancer tissue,,https://doi.org/10.1038/s41588-025-02351-7
+perturb_multi_mo2025_merfish,RCA-MERFISH and 10x Flex scRNA-seq,mouse,liver,https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE275483&format=file,https://doi.org/10.1016/j.cell.2025.05.022
+deep_starmap_and_starmap,STARmap / RIBOmap,mouse,brain,,
+chick_fetal_hear2025_seeker_curio,Seeker (Curio) and Parse Split-seq,Chicken (Gallus gallus),Fetal heart,,https://doi.org/10.64898/2025.12.09.693024
+cho2021_seqscope_no,Seq-Scope / NovaScope,,,,https://doi.org/10.1016/j.cell.2021.05.010
+chen2013_sleeping_bea,Sleeping Beauty lacZ transposons / lacZ imaging,mouse,,,https://doi.org/10.1186/1471-2164-14-215
+xu2024_iss,Spatial Transcriptomics / ISS,Human,Human embryonic heart,,https://doi.org/10.1093/nar/gkad933
+rat_kidney_st_se2022_visium,Visium (10x Genomics) and Chromium Single Cell,rat,kidney,,https://doi.org/10.1093/dnares/dsac007
+visium_and_rna_r2025_visium,Visium / RRST,human,lung,,https://doi.org/10.1038/s41467-025-65704-0
+to2024_visium,"Visium CytAssist, CARTANA HS",Human,Limb and cranium,,
+gse1990662022_visium,Visium Spatial Gene Expression Slides and Reagent Kits (10X Genomics),mouse,brain,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE199nnn/GSE199066/suppl/GSE199066_All.counts.exp.txt.gz,https://doi.org/10.3389/fnins.2022.1086168
+spatial_transcri_visium_9,Visium and AFADESI-MSI,Human,Injured brain tissue (brain contusion),https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE223245&format=file,
+azx_dosed_rat_lu2026_visium,Visium and DESI MSI,Rat,Lung,https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE312168&format=file,https://doi.org/10.1038/s41467-025-68003-w
+visium_spatial_t2024_visium,Visium for FFPE and CytAssist,human,lung,https://zenodo.org/api/records/10012934/files/adata_vis_human_spatial_paper.h5ad/content,https://doi.org/10.1126/sciadv.adl5473
+lawrence2024_visium,"Visium, CARTANA HS",Human,Spine,,
+whole_embryo_spa2026_visium,"Visium, Xenium, RareCyte, MACSIMA",human,whole embryo,,https://doi.org/10.64898/2026.03.30.714220
+tumor_tma_1_ttma2025_xenium,"Xenium, MERSCOPE, CosMx, 10x Chromium Single Cell Gene Expression FLEX",Human,Tumor and normal tissue microarrays (17 tumor and 16 normal types),https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE308145&format=file,https://doi.org/10.1038/s41467-025-64990-y
+khong2017_biochemical,biochemical purification and sequencing,,stress granules,,https://doi.org/10.3410/f.732110920.793547391
+itzhak2016_differential,differential centrifugation and SILAC,human,HeLa cell line,,https://doi.org/10.7554/elife.16950.025
+hirst2018_differential,differential centrifugation and SILAC,human,"HeLa cell lines (wild type, AP5Z1-KO1, AP5Z1-KO2)",,https://doi.org/10.3410/f.732583681.793542576
+lin2023_imaging_mask,imaging / mask geometries,human,colorectal cancer (CRC),,https://doi.org/10.3410/f.742499353.793597974
+satija2015_in_situ_hybr,in situ hybridization (ISH) / binarized reference atlas,zebrafish,embryo,https://www.dropbox.com/s/ev78jelev0jgu5s/seurat_files_zfin.zip?dl=1,https://doi.org/10.3410/f.725432282.793514068
+spatially_sorted2019_mcscrbseq_n,mcSCRB-seq / NextSeq 500,mouse,liver,,https://doi.org/10.1038/s42255-019-0109-9
+rat_brain_tissue_st,nanoPOTS-TDP coupled with LCM and MALDI,rat,brain (cortex and hypothalamus),,
+brink2020_tomo,scRNA-seq and Tomo-seq,mouse,gastruloids,,https://doi.org/10.3410/f.737396582.793577089
+wu2021_single_cell,single cell and spatially resolved transcriptomics,Human,breast,,
+garciaalonso2021_singlecell_a,single-cell and spatial reference maps,Human,uterus,,
+zhao2022_slidednaseq,slide-DNA-seq and slide-RNA-seq,Mouse,Liver,,https://doi.org/10.3410/f.741322092.793591057
+karaiskos2017_smfish_spat,smFISH / spatial transcriptomics atlas,Drosophila melanogaster,embryo,,
+chen2020_spatial_tran_3,spatial transcriptomics and in situ sequencing,Mouse,brain,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE152nnn/GSE152506/suppl/GSE152506_logCPM_counts.txt.gz,
+joglekar2021_spatial_tran_2,spatial transcriptomics and long-read sequencing,Mouse,brain,,
+human_tonsil_and_iss,timsTOF Pro2 / timsTOF SCP mass spectrometry coupled with laser microdissection (Deep Visual Proteomics),human,tonsil and skin,,
+visel2007_transgenic_m,transgenic mice / lacZ,human and mouse,,,https://doi.org/10.1093/nar/gkl822
