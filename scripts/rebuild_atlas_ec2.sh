@@ -14,7 +14,13 @@ B=s3://somics-dev/rebuild
 STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
 ATLAS_DEST=$B/atlas/$STAMP
 
-fail() { aws s3 cp /var/log/rebuild.log $B/rebuild-FAILED-$STAMP.log --region us-east-1; exit 1; }
+# Upload the log, then stop the box. A failed run that keeps running is a bill
+# with nothing to show for it, and nobody is necessarily watching.
+fail() {
+  aws s3 cp /var/log/rebuild.log $B/rebuild-FAILED-$STAMP.log --region us-east-1
+  shutdown -h now
+  exit 1
+}
 
 dnf install -y git unzip tmux
 export HOME=/root
