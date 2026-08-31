@@ -208,6 +208,31 @@ passthrough. It never overwrites a non-empty `download_url`. Sites behind bot pr
 Commit the curated tables in the same push as the claim-level append (step 5), listing the
 map IDs in the commit body.
 
+## One technology per row
+
+**A row describes one measurement of one tissue on one platform.** If a paper
+reports the same tissue on several platforms, that is several datasets, and the
+row is duplicated once per platform rather than written as
+`Visium, Visium HD, Xenium, and MERFISH`.
+
+A merged row breaks everything downstream at once: platform counts under-report,
+no builder can be selected for it, and the row cannot carry more than one
+`download_url` — so at most one of the platforms is fetchable and the rest look
+staged when they are not.
+
+When extraction produces one, split it: keep the original `dataset_id` for the
+first platform, give the others `<stem>_<platform-slug>`, copy every other field
+unchanged, and note in `notes` what it was split from. Duplicate the row's
+entries in `model_dataset_usage.csv` too — a model that used the merged dataset
+used each of the split ones.
+
+`scripts/split_multiplatform_rows.py` does this, and is deliberately timid: it
+only splits when **every** part is a platform the registry already uses on its
+own, and lists the rest for a human. That matters because punctuation is not a
+reliable signal — `LC-MS/MS` is one technique, `Xenium 5K + custom panel` is a
+platform plus a qualifier, and `VisiumHD / 10X Genomics` is a platform plus its
+vendor. Splitting those would invent platforms that do not exist.
+
 ## Platform normalization
 
 `10x Visium`, `Visium`, and `Visium Spatial Gene Expression` are the same platform written three ways, and the existing table contains all three. That fragmentation makes the column useless for grouping, which is most of what anyone wants it for.

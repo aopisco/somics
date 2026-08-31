@@ -3529,3 +3529,98 @@ PMC11645551,PMC11645551,PMC11645551,hp_xenium,analysis/benchmark,HP
 PMC11645551,PMC11645551,PMC11645551,hn_xenium,analysis/benchmark,HN
 PMC11645551,PMC11645551,PMC11645551,mbs_visium,analysis/benchmark,MBS
 PMC11645551,PMC11645551,PMC11645551,hbchd_visiumhd,analysis/benchmark,HBCHD
+PMC12240810,A visual–omics foundation model to bridge histopathology with spatial transcriptomics,https://doi.org/10.1038/s41592-025-02707-1,janesick2023_xenium_3,analysis/benchmark,Human breast cancer Visium and Xenium dataset
+PMC11994907,PMC11994907,PMC11994907,janesick2023_xenium_3,analysis/benchmark,10X Visium breast cancer ductal carcinoma in situ (DCIS) dataset
+PMC12439975,Impact of Data Quality on Deep Learning Prediction of Spatial Transcriptomics from Histology Images,https://doi.org/10.1101/2025.09.04.674228,janesick2023_xenium_3,analysis/benchmark,"Xenium In Situ Replicate 1 and Replicate 2, and Visium CytAssist"
+PMC12325965,PMC12325965,PMC12325965,janesick2023_xenium_3,analysis/benchmark,Human breast cancer dataset
+PMC11952649,PMC11952649,PMC11952649,janesick2023_xenium_3,analysis/benchmark,Human breast cancer by Xenium & Visium
+PMC12807613,PMC12807613,PMC12807613,janesick2023_xenium_3,analysis/benchmark,DSID000600
+PMC12667712,PMC12667712,PMC12667712,janesick2023_xenium_3,analysis/benchmark,"BRCA pair (Xenium In Situ Sample 1, Replicate 1; Visium Spatial; FRP)"
+RESCUE,RESCUE: recovery of idiosyncratic expression patterns in spatial transcriptomics,https://doi.org/10.1101/2025.08.11.669542,janesick2023_xenium_3,analysis/benchmark,Human breast cancer Visium data
+SANTO,SANTO: a coarse-to-fine alignment and stitching method for spatial omics,https://doi.org/10.1038/s41467-024-50308-x,janesick2023_xenium_3,analysis/benchmark,Xenium and Visium human breast cancer dataset
+PMC12259099,PMC12259099,PMC12259099,codex_mif_data_a_codex,analysis/benchmark,CODEX MIF Data and Visium ST Data
+PMC12632580,PMC12632580,PMC12632580,la2021_xenium_xenium,analysis/benchmark,Xenium-brain
+scGPT-spatial,scGPT-spatial: Continual Pretraining of Single-Cell Foundation Model for Spatial Transcriptomics,https://doi.org/10.1101/2025.02.05.636714,spatialhuman30m_visiumhd_visium_hd,analysis/benchmark,SpatialHuman30M
+scGPT-spatial,scGPT-spatial: Continual Pretraining of Single-Cell Foundation Model for Spatial Transcriptomics,https://doi.org/10.1101/2025.02.05.636714,spatialhuman30m_visiumhd_xenium,analysis/benchmark,SpatialHuman30M
+scGPT-spatial,scGPT-spatial: Continual Pretraining of Single-Cell Foundation Model for Spatial Transcriptomics,https://doi.org/10.1101/2025.02.05.636714,spatialhuman30m_visiumhd_merfish,analysis/benchmark,SpatialHuman30M
+scGPT-spatial,scGPT-spatial: Continual Pretraining of Single-Cell Foundation Model for Spatial Transcriptomics,https://doi.org/10.1101/2025.02.05.636714,quach2024_xenium,analysis/benchmark,Developing Fetal Lung dataset
+PMC12713592,PMC12713592,PMC12713592,de2025_xenium,analysis/benchmark,Visium and Xenium spatial transcriptomics of colorectal cancer
+PMC12667768,PMC12667768,PMC12667768,de2025_xenium,analysis/benchmark,Visium_HumanColon_Oliveira
+PMC12713592,PMC12713592,PMC12713592,vicari2023_visium_visium,analysis/benchmark,Spatial metabolomics and transcriptomics of human striatum brain section
+PMC12500918,PMC12500918,PMC12500918,vicari2023_visium_visium,analysis/benchmark,Mouse brain (m3_FMP)
+PMC11009106,PMC11009106,PMC11009106,vicari2023_visium_visium,analysis/benchmark,mouse striatum samples
+PMC12236840,spRefine Denoises and Imputes Spatial Transcriptomics with a Reference-Free Framework Powered by Genomic Language Model,https://doi.org/10.1101/2025.04.22.649977,jaume2024_visiumhd_xenium,analysis/benchmark,HEST-1k
+PMC12236840,spRefine Denoises and Imputes Spatial Transcriptomics with a Reference-Free Framework Powered by Genomic Language Model,https://doi.org/10.1101/2025.04.22.649977,jaume2024_visiumhd_visium_hd,analysis/benchmark,HEST-1k
+PMC11952344,Sequencing-free whole genome spatial transcriptomics at molecular resolution in intact tissue,https://doi.org/10.1101/2025.03.06.641951,perturb_raefish_2025_merfish_merfish,analysis/benchmark,Perturb-RAEFISH A549 dataset
+PMC10499928,PMC10499928,PMC10499928,additional_patie_phenocycler,analysis/benchmark,MAR21 (Visium ST and PhenoCycler SP)
+PMC11229351,PMC11229351,PMC11229351,mouse_cerebellum_slide_seqv2,analysis/benchmark,Mouse cerebellum and hippocampus Slide-seq and Visium data (generated in this study)
+PMC10723440,PMC10723440,PMC10723440,tumor_tma_and_no_xenium_vizgen_merscope,analysis/benchmark,Tumor TMA and Normal TMA datasets
+PMC10723440,PMC10723440,PMC10723440,tumor_tma_and_no_xenium_nanostring_cosmx,analysis/benchmark,Tumor TMA and Normal TMA datasets
+PMC12199153,PMC12199153,PMC12199153,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse olfactory bulb dataset (Slide-seqV2 and Stereo-seq)
+PMC9684472,Spatially aware dimension reduction for spatial transcriptomics,https://doi.org/10.1038/s41467-022-34879-1,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse hippocampus data
+PMC9116027,Modeling zero inflation is not necessary for spatial transcriptomics,https://doi.org/10.1186/s13059-022-02684-0,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse brain (Puck_190921_19)
+PMC10406862,SONAR enables cell type deconvolution with spatially weighted Poisson-Gamma model for spatial transcriptomics,https://doi.org/10.1038/s41467-023-40458-9,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus dataset
+PMC11972348,Spatially informed graph transformers for spatially resolved transcriptomics,https://doi.org/10.1038/s42003-025-08015-w,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus Slide-seqV2 data
+PMC11142628,Uncover spatially informed variations for single-cell spatial transcriptomics with STew,https://doi.org/10.1093/bioadv/vbae064,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse hippocampus dataset
+PMC11272174,Unraveling spatial domain characterization in spatially resolved transcriptomics with robust graph contrastive clustering,https://doi.org/10.1093/bioinformatics/btae451,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse hippocampus dataset (Slide-seqV2)
+PMC10849194,Spatially contrastive variational autoencoder for deciphering tissue heterogeneity from spatially resolved transcriptomics,https://doi.org/10.1093/bib/bbae016,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus Slide-seq V2 dataset
+PMC11607964,Deciphering spatial domains from spatially resolved transcriptomics through spatially regularized deep graph networks,https://doi.org/10.1186/s12864-024-11072-w,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus (Slide-seqV2)
+PMC11725393,Deep learning in integrating spatial transcriptomics with other modalities,https://doi.org/10.1093/bib/bbae719,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse cortex
+PMC11541207,Interpretable spatially aware dimension reduction of spatial transcriptomics with STAMP,https://doi.org/10.1038/s41592-024-02463-8,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seq V2 mouse hippocampus dataset
+SRTsim,SRTsim: spatial pattern preserving simulations for spatially resolved transcriptomics,https://doi.org/10.1186/s13059-023-02879-z,stickels2021_stereo_stereo_seq,analysis/benchmark,Puck_190926_03
+PMC9338929,Knowledge-graph-based cell-cell communication inference for spatially resolved transcriptomic data with SpaTalk,https://doi.org/10.1038/s41467-022-32111-8,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse somatosensory cortex dataset (Puck_200306_03)
+PMC10790257,Unsupervised spatially embedded deep representation of spatial transcriptomics,https://doi.org/10.1186/s13073-024-01283-x,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse olfactory bulb Slide-seqV2 dataset
+PMC10832355,Assembling spatial clustering framework for heterogeneous spatial transcriptomics data with GRAPHDeep,https://doi.org/10.1093/bioinformatics/btae023,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse hippocampus dataset
+DeepST,DeepST: identifying spatial domains in spatial transcriptomics by deep learning,https://doi.org/10.1093/nar/gkac901,stickels2021_stereo_stereo_seq,analysis/benchmark,SlideseqV2 dataset of mouse hippocampus
+PMC12036962,Benchmarking algorithms for spatially variable gene identification in spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btaf131,stickels2021_stereo_stereo_seq,analysis/benchmark,BISCP948CE
+PMC8976049,Deciphering spatial domains from spatially resolved transcriptomics with an adaptive graph attention auto-encoder,https://doi.org/10.1038/s41467-022-29439-6,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse hippocampus dataset
+PMC9911355,Screening cell–cell communication in spatial transcriptomics via collective optimal transport,https://doi.org/10.1038/s41592-022-01728-4,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus Slide-seqV2 data
+CellMap,CellMap: precision mapping of cellular landscape in spatial transcriptomics,https://doi.org/10.1093/nar/gkaf1484,stickels2021_stereo_stereo_seq,analysis/benchmark,Dataset7 (mosue hippocampus)
+PMC12029715,Advances in Microfluidic Single-Cell RNA Sequencing and Spatial Transcriptomics,https://doi.org/10.3390/mi16040426,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2
+PMC11141295,Multi-modal domain adaptation for revealing spatial functional landscape from spatially resolved transcriptomics,https://doi.org/10.1093/bib/bbae257,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse olfactory bulb dataset
+PMC11399101,Systematic comparison of sequencing-based spatial transcriptomic methods,https://doi.org/10.1038/s41592-024-02325-3,stickels2021_stereo_stereo_seq,analysis/benchmark,"Slide-seq V2 mouse eye and hippocampus pucks (Puck_190926_03, Puck_191204_01, Puck_200115_08)"
+CellDART,CellDART: cell type inference by domain adaptation of single-cell and spatial transcriptomic data,https://doi.org/10.1093/nar/gkac084,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seq data for mouse hippocampus
+PMC10939418,Deciphering spatial domains from spatially resolved transcriptomics with Siamese graph autoencoder,https://doi.org/10.1093/gigascience/giae003,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse olfactory bulb SLIDE-seq v2 dataset
+bio_1ebf17936fa3,Towards a universal spatial molecular atlas of the mouse brain,https://doi.org/10.1101/2024.05.27.594872,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 query dataset
+PMC11996334,PMC11996334,PMC11996334,yeh2024_xenium_xenium,analysis/benchmark,Ovarian cancer datasets
+PMC12667708,PMC12667708,PMC12667708,yeh2024_xenium_xenium,analysis/benchmark,"Ovarian Cancer datasets (CosMx, Xenium, MERFISH)"
+PMC12697357,T issue N arrator : Generative Modeling of Spatial Transcriptomics with Large Language Models,https://doi.org/10.1101/2025.11.24.690325,yeh2024_xenium_xenium,analysis/benchmark,Human ovarian cancer (CosMx SMI)
+POPARI,POPARI: Modeling multisample variation in spatial transcriptomics,https://doi.org/10.1101/2025.05.08.652741,yeh2024_xenium_xenium,analysis/benchmark,Tubooovarian high-grade serous carcinoma dataset
+PMC11996334,PMC11996334,PMC11996334,yeh2024_xenium_merfish,analysis/benchmark,Ovarian cancer datasets
+PMC12667708,PMC12667708,PMC12667708,yeh2024_xenium_merfish,analysis/benchmark,"Ovarian Cancer datasets (CosMx, Xenium, MERFISH)"
+PMC12697357,T issue N arrator : Generative Modeling of Spatial Transcriptomics with Large Language Models,https://doi.org/10.1101/2025.11.24.690325,yeh2024_xenium_merfish,analysis/benchmark,Human ovarian cancer (CosMx SMI)
+POPARI,POPARI: Modeling multisample variation in spatial transcriptomics,https://doi.org/10.1101/2025.05.08.652741,yeh2024_xenium_merfish,analysis/benchmark,Tubooovarian high-grade serous carcinoma dataset
+PMC10753200,PMC10753200,PMC10753200,long2023_merfish_merfish,analysis/benchmark,SpaceTx (smFISH and MERFISH)
+PMC12667712,PMC12667712,PMC12667712,oliveira2025_visium_visium,analysis/benchmark,"CRC pair (Visium CytAssist V2, Sample P2 CRC; Xenium In Situ, Sample P2 CRC; Chromium Single Cell Flex)"
+PMC12667768,Orchestrating Spatial Transcriptomics Analysis with Bioconductor,https://doi.org/10.1101/2025.11.20.688607,oliveira2025_visium_visium,analysis/benchmark,"human CRC (Vis/HD, Xen)"
+PMC11870578,PMC11870578,PMC11870578,visium_cytassist_visium_2_visium,analysis/benchmark,"Xenium In Situ Sample 1, Replicate 1 / Visium Spatial / FRP"
+SpatialData,SpatialData: an open and universal data framework for spatial omics,https://doi.org/10.1038/s41592-024-02212-x,janesick2023_visium_2_visium,analysis/benchmark,Human breast cancer Xenium and Visium dataset
+PMC12240810,A visual–omics foundation model to bridge histopathology with spatial transcriptomics,https://doi.org/10.1038/s41592-025-02707-1,janesick2023_visium_2_visium,analysis/benchmark,Breast cancer Visium and Xenium dataset
+SpaNorm,SpaNorm: spatially-aware normalization for spatial transcriptomics data,https://doi.org/10.1186/s13059-025-03565-y,janesick2023_visium_2_visium,analysis/benchmark,Xenium Mouse Brain dataset
+Thor,Thor: a platform for cell-level investigation of spatial transcriptomics and histology,https://doi.org/10.1038/s41467-025-62593-1,janesick2023_visium_2_visium,analysis/benchmark,Human breast cancer Xenium & Visium dataset
+Thor,Thor: a platform for cell-level investigation of spatial transcriptomics and histology,https://doi.org/10.21203/rs.3.rs-4909620/v1,janesick2023_visium_2_visium,analysis/benchmark,Human breast cancer by Xenium & Visium
+PMC11725393,Deep learning in integrating spatial transcriptomics with other modalities,https://doi.org/10.1093/bib/bbae719,janesick2023_visium_2_visium,analysis/benchmark,human breast cancer (Xenium)
+DeepSpaceDB,DeepSpaceDB: a spatial transcriptomics atlas for interactive in-depth analysis of tissues and tissue microenvironments,https://doi.org/10.1093/nar/gkaf1117,janesick2023_visium_2_visium,analysis/benchmark,DeepSpaceDB 10X Genomics Visium collection (human breast cancer sample DSID000600)
+STForte,STForte: tissue context-specific encoding and consistency-aware spatial imputation for spatially resolved transcriptomics,https://doi.org/10.1093/bib/bbaf174,janesick2023_visium_2_visium,analysis/benchmark,10x Xenium mouse brain dataset
+PMC12667768,Orchestrating Spatial Transcriptomics Analysis with Bioconductor,https://doi.org/10.1101/2025.11.20.688607,janesick2023_visium_2_visium,analysis/benchmark,"human breast cancer (Vis, Xen)"
+HISSTA,HISSTA: a human in situ single-cell transcriptome atlas,https://doi.org/10.1093/bioinformatics/btaf142,janesick2023_visium_2_visium,analysis/benchmark,XEN008
+PMC12732828,PMC12732828,PMC12732828,lee2025_merfish,analysis/benchmark,Arabidopsis life cycle atlas
+PMC12416547,"A single-cell, spatial transcriptomic atlas of the  Arabidopsis  life cycle",https://doi.org/10.1038/s41477-025-02072-z,lee2025_merfish,analysis/benchmark,seed spatial transcriptomic dataset
+PMC11126312,PMC11126312,PMC11126312,karras2022_visium_molecular_cartograph,analysis/benchmark,Mouse melanoma (Karras et al.)
+PMC12458195,PMC12458195,PMC12458195,human_t2d_pancre_phenocycler,analysis/benchmark,Human AD brain spatial transcriptomics and proteomics dataset
+PMC12111281,PMC12111281,PMC12111281,visium_visium_hd_visiumhd_visium_hd,analysis/benchmark,Visium / Visium HD and Xenium In Situ datasets
+PMC12111281,PMC12111281,PMC12111281,visium_visium_hd_visiumhd_xenium_in_situ,analysis/benchmark,Visium / Visium HD and Xenium In Situ datasets
+bio_9cbaa1b27021,Learning single-cell spatial context through integrated spatial multiomics with CORAL,https://doi.org/10.1101/2025.02.01.636038,hcc_codex_and_vi_visium_visium,analysis/benchmark,HCC CODEX and Visium dataset
+bio_5b02e4bb7294,"Simultaneous CRISPR screening and spatial transcriptomics reveals intracellular, intercellular, and functional transcriptional circuits",https://doi.org/10.1101/2023.11.30.569494,perturb_fish_asd2023_merfish_merfish,analysis/benchmark,Perturb-FISH LPS response dataset in THP1-derived macrophages
+SDMap,SDMap: a comprehensive database of spatial drug perturbation maps,https://doi.org/10.1093/nar/gkaf1046,sdmap_spatial_tr2026_visium_xenium,analysis/benchmark,"SDMap spatial transcriptomics datasets (989 slices across 35 tissue types, including 10x Visium, Xenium, and GEO datasets)"
+PMC12350917,Single cell spatial transcriptomics links Wnt signaling disruption to extracellular matrix development in a cleft palate model,https://doi.org/10.1038/s41598-025-14807-1,spatial_rna_sequ2025_visiumhd_xenium_in_situ,analysis/benchmark,Spatial RNA-sequencing raw data
+PMC11875297,Single Cell Spatial Transcriptomics of the Murine Embryonic Palate Links Pax9 to Patterning and Organization of Extracellular Matrix Components,https://doi.org/10.21203/rs.3.rs-5969552/v1,visium_hd_spatia2025_visiumhd_xenium_in_situ,analysis/benchmark,Visium HD Spatial RNA-sequencing and Xenium In Situ mRNA spatial profiling
+PMC11817049,Spatial Transcriptomics in Human Cardiac Tissue,https://doi.org/10.3390/ijms26030995,linnakuosmanen2024_molecular_cartograph,analysis/benchmark,Linna-Kuosmanen et al. right atrial tissue ST dataset
+Spatial-CITE-seq,Spatial-CITE-seq: spatially resolved high-plex protein and whole transcriptome co-mapping,https://doi.org/10.21203/rs.3.rs-1499315/v1,spatial_cite_seq2022_spatialcites_10x_genomics_chromiu,analysis/benchmark,Spatial-CITE-seq and scRNA-seq human skin biopsy dataset (COVID-19 vaccine injection site)
+PMC11919255,Spatial transcriptomics in the adult  Drosophila  brain and body,https://doi.org/10.7554/eLife.92618,molecular_cartog2025_molecular_ca_smfish,analysis/benchmark,Molecular Cartography dataset of adult fly head and body
+PMC12180266,Comparison of spatial transcriptomics technologies using tumor cryosections,https://doi.org/10.1186/s13059-025-03624-4,mc_additional_da2025_xenium_merscope,analysis/benchmark,"MC (additional data), Merscope, Xenium"
+PMC12180266,Comparison of spatial transcriptomics technologies using tumor cryosections,https://doi.org/10.1186/s13059-025-03624-4,mc_additional_da2025_xenium_xenium,analysis/benchmark,"MC (additional data), Merscope, Xenium"
+PMC12633530,A spatial and projection-based transcriptomic atlas of paraventricular hypothalamic cell types,https://doi.org/10.21203/rs.3.rs-7895391/v1,mouse_merfish_da2025_merfish_merfish,analysis/benchmark,Mouse MERFISH data
+bio_b2a93a3f6e4f,Multiscale Spatial Transcriptomic Atlas of Human Basal Ganglia Cell-Type and Cellular Community Organization,https://doi.org/10.64898/2025.12.02.691876,merfish_and_ster2025_stereo_seq,analysis/benchmark,MERFISH+ and Stereo-seq human basal ganglia dataset
+bio_2ecf87026d95,A spatial transcriptomics atlas of live donors reveals unique zonation patterns in the healthy human liver,https://doi.org/10.1101/2025.02.22.639181,human_live_donor2025_visiumhd_visium_hd,analysis/benchmark,Human live donor and liver pathology spatial transcriptomics dataset
+bio_2ecf87026d95,A spatial transcriptomics atlas of live donors reveals unique zonation patterns in the healthy human liver,https://doi.org/10.1101/2025.02.22.639181,human_live_donor2025_visiumhd_merfish,analysis/benchmark,Human live donor and liver pathology spatial transcriptomics dataset
