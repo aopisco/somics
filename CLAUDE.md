@@ -205,6 +205,34 @@ indistinguishable from a quirk of the new data.
 - **Six members of an outs bundle are enough** — selective extraction turns
   18.42 GB into 1.3 GB. `transcripts.parquet` is the bulk and is unused.
 
+## Where to pick up
+
+The rebuild is running unattended on EC2 (`scripts/rebuild_atlas_ec2.sh`); it
+syncs the atlas to `s3://somics-dev/rebuild/atlas/<timestamp>/` **before**
+verifying, then terminates. Failures upload `rebuild-FAILED-<stamp>.log` to
+`s3://somics-dev/rebuild/` and shut the box down.
+
+**Next, once the atlas has landed:**
+
+1. **Ingest the 175 datasets an existing builder can read.** Coverage is by
+   *source layout*, not platform: 130 10x Visium/HD, 44 10x Xenium outs, 1
+   Monkman. All have verified bundle URLs. The builders are spec-driven and
+   proven byte-identical against the published atlas.
+2. Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
+   staged), and MIBI + PhenoCycler + Cell DIVE (~590). Both need adapters.
+3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
+   staged, 120 from GEO, and GEO deposits are flat per-GSM files rather than a
+   Space Ranger directory — `filtered_feature_bc_matrix.h5` next to `.cloupe`
+   and loose TIFFs, named differently in every deposit. Per-deposit agent
+   curation, not a spec.
+4. GeoMx is **blocked on access**, not code: all 1,362 HuBMAP GeoMx datasets are
+   `data_access_level: protected`. See `aopisco/somics#16`.
+
+**Open issues:** `#16` HuBMAP (the single tracker), `#18` staging completeness
+(one file per multi-file deposit, plus 16 prefixes holding source code rather
+than data), `#19` the published colon section's misaligned gene axis, `#14`
+portable ingestion, `#15` SAHA watch.
+
 ## Gotchas that cost real time
 
 **Hosts disagree about user agents, in opposite directions.** Dropbox serves an
@@ -250,6 +278,14 @@ that `stage_hubmap_to_s3.py` collects failures in memory and prints them only
 in its closing summary — so grepping a running log for errors returns zero no
 matter how many have occurred. **Judge a run's health from manifests vs actual
 objects, not from its log.**
+
+**A successful operation is not a correct outcome.** Four instances this week,
+all the same shape: "465 datasets staged, zero failures" where each fetch pulled
+one file from a multi-file record; a HuBMAP run judged healthy from a log that
+cannot show errors until it ends; a verification reporting "0 failures" having
+performed 0 checks; and 16 staged prefixes holding a GitHub source release
+instead of data, each with a manifest and `data_downloadable = yes`. Check the
+artifact, not the exit status.
 
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
