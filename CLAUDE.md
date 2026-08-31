@@ -49,6 +49,14 @@ mapping is unresolved), `first_published_by_model_paper`.
   overstates what the corpus can support. `scripts/harvest_10x_catalog.py` sets
   the platform from the dataset title rather than the facet for exactly this
   reason. Do not "fix" it back.
+
+  They do **share an ingestion schema**, though: same feature spaces
+  (`gene_expression` + `discrete_image`), same obs shape, and a bin is a
+  `spatial_unit` exactly as a spot is. So one builder serves both — what differs
+  is the source layout (`binned_outputs.tar.gz` at several bin sizes, against a
+  spatial directory) and `unit_size_um`. Separate platforms in the registry, one
+  builder in the pipeline; those are different questions and the answer is
+  different for each.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
 

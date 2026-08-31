@@ -68,8 +68,12 @@ and the builders already exist.
 
 - 141 of 148 have a **verified** bundle URL; 1.41 TB across 219 bundles.
 - Xenium (35) and Visium (62) use builders proven against the published atlas.
-- **Visium HD (49) needs one new builder** — 2 µm bins rather than 55 µm spots,
-  so a new obs geometry but the same shape of work. Estimate 1 day.
+- **Visium HD (49) reuses the Visium builder.** Same atlas schema, same feature
+  spaces, and a bin is a `spatial_unit` exactly as a spot is; what differs is the
+  source layout (`binned_outputs.tar.gz` carrying several bin sizes) and
+  `unit_size_um`. So this is a variant in `build_visium_package.py` and a choice
+  of which bin size to ingest, not a new builder. Revised estimate: half a day,
+  down from one.
 - Atera (2) is a new platform; treat as a spike, not a commitment.
 
 Per-dataset cost after the builder exists is a spec: minutes of agent time,
@@ -177,7 +181,10 @@ deliberately skipped stays skipped.
 ## What would change these numbers most
 
 1. **Consolidating platform strings before Phase 3.** Plausibly the single
-   highest-leverage day of work in the plan.
+   highest-leverage day of work in the plan. Started: 34 multi-platform rows
+   split into 76, with 71 left needing a human. The remaining spread is real —
+   **102 distinct strings contain "visium"** — and most of it is casing and
+   vendor-suffix noise over a handful of genuine platforms.
 2. **A metabolomics feature space upstream** unlocks 151 staged MALDI datasets
    for the price of one adapter.
 3. **Whether HuBMAP's AnnData is as uniform as it looks.** I have confirmed the
