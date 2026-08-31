@@ -207,10 +207,32 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
-The rebuild is running unattended on EC2 (`scripts/rebuild_atlas_ec2.sh`); it
-syncs the atlas to `s3://somics-dev/rebuild/atlas/<timestamp>/` **before**
-verifying, then terminates. Failures upload `rebuild-FAILED-<stamp>.log` to
-`s3://somics-dev/rebuild/` and shut the box down.
+**First thing in a new session: did the rebuild land?** It runs unattended on
+EC2 (`scripts/rebuild_atlas_ec2.sh`), syncs the atlas to S3 **before** verifying,
+then terminates. So the S3 prefix is the answer, not the instance — the box is
+gone either way.
+
+```bash
+P="--profile sci-data-dev-poweruser"
+aws s3 ls s3://somics-dev/rebuild/atlas/ $P                  # atlas present = success
+aws s3 ls s3://somics-dev/rebuild/ $P | grep FAILED | tail -1  # newest failure log
+```
+
+- **Atlas present** → read `<timestamp>/_verify.txt` beside it for the diff, and
+  `_rebuild.log` for the run. Expect 59 sections and the only obs difference to
+  be `has_chromatin_accessibility`. Then start the 175 below.
+- **Only a FAILED log** → `aws s3 cp` it and read the tail; the run stops at the
+  first error and shuts the box down, so the last traceback is the cause. Fix,
+  push, relaunch with the `run-instances` call in
+  `docs/2026-08-30_full_atlas_build_plan.md`.
+- **Neither** → it is still going. It takes ~3-4 hours: ~1.5 h of fetching
+  (Monkman from Zenodo is the slow leg at ~10-19 MB/s), then the pipelines.
+
+Four attempts failed before this one, all in the scaffolding rather than the
+pipeline: a shutdown timer that took the atlas with it, `/tmp` being a tmpfs too
+small for an 18 GB bundle, a lung spec predating the parameterized assembler,
+and `AddColumn` rejecting `value=None` for a healthy section's null disease.
+The pipeline itself has produced all 59 sections correctly.
 
 **Next, once the atlas has landed:**
 
