@@ -25,7 +25,11 @@ export PATH="/root/.local/bin:$PATH"
 curl -sSL https://raw.githubusercontent.com/epiblastai/homeobox/refs/heads/main/packages/polycomb/install.sh | bash
 
 D=/mnt/work
-mkdir -p $D && cd $D
+# Scratch on the data volume, never /tmp: on AL2023 /tmp is a tmpfs sized to a
+# fraction of RAM, so an 18 GB vendor bundle downloaded there fills memory and
+# fails with ENOSPC while the 400 GB root sits empty.
+TMP=$D/scratch
+mkdir -p $D $TMP && cd $D
 git clone -b atlas-rebuild https://github.com/aopisco/somics.git repo || fail
 cd repo && uv sync || fail
 cd $D
@@ -48,20 +52,20 @@ MEMBERS=(cells.parquet cell_feature_matrix.h5 morphology_focus.ome.tif experimen
 pull_outs() {  # $1 = sample, $2 = url
   local s=$1 u=$2 dir=$X/$1
   mkdir -p "$dir"
-  curl -sL -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36" -o /tmp/b.zip "$u" || return 1
-  unzip -o -j -q /tmp/b.zip "*/cells.parquet" "*/cell_feature_matrix.h5" "*/morphology_focus.ome.tif" \
+  curl -sL -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36" -o $TMP/b.zip "$u" || return 1
+  unzip -o -j -q $TMP/b.zip "*/cells.parquet" "*/cell_feature_matrix.h5" "*/morphology_focus.ome.tif" \
       "*/experiment.xenium" "*/metrics_summary.csv" "*/gene_panel.json" -d "$dir" \
-    || unzip -o -j -q /tmp/b.zip "${MEMBERS[@]}" -d "$dir"
-  rm -f /tmp/b.zip
+    || unzip -o -j -q $TMP/b.zip "${MEMBERS[@]}" -d "$dir"
+  rm -f $TMP/b.zip
 }
 CDN=https://cf.10xgenomics.com/samples/xenium
 # The non-diseased lung bundle is already in our bucket; 10x's CDN gives us
 # ~0.3 MB/s while S3 gives 16, so prefer ours where it exists.
 S=Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE
-aws s3 cp s3://somics-dev/raw/human_lung2025_xenium/${S}_outs.zip /tmp/b.zip --region us-east-1 --only-show-errors \
+aws s3 cp s3://somics-dev/raw/human_lung2025_xenium/${S}_outs.zip $TMP/b.zip --region us-east-1 --only-show-errors \
   && mkdir -p $X/$S \
-  && (unzip -o -j -q /tmp/b.zip "*/cells.parquet" "*/cell_feature_matrix.h5" "*/morphology_focus.ome.tif" "*/experiment.xenium" "*/metrics_summary.csv" "*/gene_panel.json" -d $X/$S || unzip -o -j -q /tmp/b.zip "${MEMBERS[@]}" -d $X/$S) \
-  && rm -f /tmp/b.zip
+  && (unzip -o -j -q $TMP/b.zip "*/cells.parquet" "*/cell_feature_matrix.h5" "*/morphology_focus.ome.tif" "*/experiment.xenium" "*/metrics_summary.csv" "*/gene_panel.json" -d $X/$S || unzip -o -j -q $TMP/b.zip "${MEMBERS[@]}" -d $X/$S) \
+  && rm -f $TMP/b.zip
 S2=Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE
 pull_outs $S2 $CDN/1.3.0/$S2/${S2}_outs.zip || fail
 
@@ -78,8 +82,8 @@ mkdir -p $CX && cd $CX
 for s in Lung5_Rep1 Lung5_Rep2 Lung5_Rep3 Lung6 Lung9_Rep1 Lung9_Rep2 Lung12 Lung13; do
   mkdir -p "$s"
   aws s3 cp --no-sign-request --region us-west-2 \
-    "s3://nanostring-public-share/SMI-Compressed/$s/$s SMI Flat data.tar.gz" /tmp/c.tgz --only-show-errors || fail
-  tar -xzf /tmp/c.tgz -C "$s" && rm -f /tmp/c.tgz
+    "s3://nanostring-public-share/SMI-Compressed/$s/$s SMI Flat data.tar.gz" $TMP/c.tgz --only-show-errors || fail
+  tar -xzf $TMP/c.tgz -C "$s" && rm -f $TMP/c.tgz
   # the tarball nests one level deeper than the builder expects
   [ -d "$s/$s" ] && mv "$s/$s"/* "$s"/ && rmdir "$s/$s"
 done
