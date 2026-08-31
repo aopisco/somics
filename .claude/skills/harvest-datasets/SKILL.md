@@ -239,6 +239,18 @@ vendor. Splitting those would invent platforms that do not exist.
 
 The script maps known aliases to canonical forms and leaves anything unrecognized untouched rather than guessing. When it reports an unmapped platform, decide whether it's genuinely new or another spelling of something present — and if it's a new spelling, add it to `PLATFORM_ALIASES` so the next run handles it. The vocabulary is meant to grow.
 
+**Never overwrite `platform` without recording what it said.** The normalised
+value is for grouping; the source's own wording is evidence, and once it is gone
+it is gone. Write `platform recorded by the source as '<original>'; normalised
+for grouping` into `notes` in the same pass.
+
+This matters most where two spellings mean two instruments. `VisiumHD` and
+`Visium` differ by one letter and are 2 µm bins against 55 µm spots — if a row
+is normalised to `Visium` and the original is lost, nothing downstream can tell
+whether that was a transcription of `VisiumHD` or a genuine Visium run, and the
+row silently joins the wrong platform group. The same applies to `Xenium 5K`
+against `Xenium`, and to any panel or version qualifier a normalisation drops.
+
 Don't retroactively rewrite existing rows as part of a harvest run. That's a separate, reviewable change; bundling it into an append makes the diff impossible to read.
 
 ## What tends to go wrong
