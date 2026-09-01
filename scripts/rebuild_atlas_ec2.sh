@@ -43,7 +43,13 @@ cd $D
 # The reference cache, from our mirror rather than Hugging Face: without it
 # resolve_genes falls through to gget, which opens MySQL to Ensembl on port 5306
 # and hangs forever behind an egress-restricted security group.
-aws s3 sync $B/../polycomb/reference_db $D/reference_db --region us-east-1 --only-show-errors || fail
+# Spell the prefix out: `$B/../polycomb` reached S3 with the `..` unresolved,
+# matched zero keys, and synced nothing with exit 0. `polycomb setup` then
+# created 11 empty tables over the void, and CosMx gene resolution fell through
+# to gget's Ensembl MySQL hang -- 4 h of SYN-SENT on attempt 5.
+aws s3 sync s3://somics-dev/polycomb/reference_db $D/reference_db --region us-east-1 --only-show-errors || fail
+# The cache is ~84 GB; a sync that "succeeded" onto an empty dir is a failure.
+[ "$(du -sm $D/reference_db | cut -f1)" -gt 50000 ] || fail
 (cd repo && uv run polycomb setup --db-path $D/reference_db) || fail
 
 export SOMICS_DATA_HOME=$D/data
