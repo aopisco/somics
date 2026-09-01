@@ -193,6 +193,37 @@ deliberately skipped stays skipped.
    de-risk the largest block in the plan; it is a couple of hours and I would do
    it before committing to the Phase 2 estimate.
 
+## Relaunching the rebuild
+
+The exact call, recovered from CloudTrail after the terminated boxes took it
+with them. The box clones `atlas-rebuild` from GitHub at boot, so push first —
+a local fix that is not on the remote does not exist as far as the run is
+concerned. Bump the `Name` tag's attempt number.
+
+```bash
+aws ec2 run-instances \
+  --profile sci-data-dev-poweruser --region us-east-1 \
+  --image-id ami-0332d564d76dbd8d6 \
+  --instance-type m5n.2xlarge \
+  --count 1 \
+  --security-group-ids sg-0e81dbfc34d71253c \
+  --subnet-id subnet-0fce42712a109e498 \
+  --iam-instance-profile Name=somics-raw-staging \
+  --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":400,"VolumeType":"gp3","DeleteOnTermination":true}}]' \
+  --instance-initiated-shutdown-behavior terminate \
+  --user-data file://scripts/rebuild_atlas_ec2.sh \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=somics-atlas-rebuild-N}]'
+```
+
+To watch a run in flight, tail its log over SSM — the box has no SSH:
+
+```bash
+aws ssm send-command --instance-ids <id> --document-name AWS-RunShellScript \
+  --parameters 'commands=["tail -25 /var/log/rebuild.log"]' \
+  --profile sci-data-dev-poweruser --region us-east-1
+# then: aws ssm get-command-invocation --command-id <cid> --instance-id <id> ...
+```
+
 ## Non-negotiables carried from the rebuild
 
 - **Build an atlas in one pass.** Re-ingesting a package duplicates it silently;
