@@ -52,7 +52,11 @@ export SOMICS_SCHEMA=$D/repo/schema/spatial_omics_atlas_schema.yaml
 export PYTHON="uv run python"
 mkdir -p $SOMICS_DATA_HOME
 
-# ---- sources -------------------------------------------------------------
+# ---- fetch + build, one family at a time ---------------------------------
+# Ordered fail-fast: each family is fetched immediately before its own build,
+# and the lung preview -- the section whose null disease killed the last run --
+# goes first. A bad fix now surfaces minutes after boot, not after the full
+# ~1.5 h fetch of every other source.
 X=$SOMICS_DATA_HOME/datasets/xenium_lung_preview/extracted
 MEMBERS=(cells.parquet cell_feature_matrix.h5 morphology_focus.ome.tif experiment.xenium metrics_summary.csv gene_panel.json)
 pull_outs() {  # $1 = sample, $2 = url
@@ -75,13 +79,18 @@ aws s3 cp s3://somics-dev/raw/human_lung2025_xenium/${S}_outs.zip $TMP/b.zip --r
 S2=Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE
 pull_outs $S2 $CDN/1.3.0/$S2/${S2}_outs.zip || fail
 
+cd $D/repo
+SPEC=$D/repo/specs/xenium_lung_preview.json bash scripts/run_xenium_pipeline.sh || fail
+cd $D
+
 C=Xenium_V1_hColon_Cancer_Add_on_FFPE
 mkdir -p $SOMICS_DATA_HOME/datasets/xenium_colon_preview/extracted
 X=$SOMICS_DATA_HOME/datasets/xenium_colon_preview/extracted
 pull_outs $C $CDN/1.6.0/$C/${C}_outs.zip || fail
 
-aws s3 cp $B/fetch_zenodo.py $D/fetch_zenodo.py --region us-east-1 || fail
-python3 $D/fetch_zenodo.py 10258578 $SOMICS_DATA_HOME/datasets/monkman_nsclc_codex/raw 4 || fail
+cd $D/repo
+SPEC=$D/repo/specs/xenium_colon_preview.json bash scripts/run_xenium_pipeline.sh || fail
+cd $D
 
 CX=$SOMICS_DATA_HOME/datasets/cosmx_nsclc_ffpe/extracted
 mkdir -p $CX && cd $CX
@@ -93,12 +102,15 @@ for s in Lung5_Rep1 Lung5_Rep2 Lung5_Rep3 Lung6 Lung9_Rep1 Lung9_Rep2 Lung12 Lun
   # the tarball nests one level deeper than the builder expects
   [ -d "$s/$s" ] && mv "$s/$s"/* "$s"/ && rmdir "$s/$s"
 done
-cd $D/repo
 
-# ---- build, one atlas, one pass -----------------------------------------
-SPEC=$D/repo/specs/xenium_lung_preview.json bash scripts/run_xenium_pipeline.sh || fail
-SPEC=$D/repo/specs/xenium_colon_preview.json bash scripts/run_xenium_pipeline.sh || fail
-bash scripts/run_cosmx_nsclc_pipeline.sh   || fail
+cd $D/repo
+bash scripts/run_cosmx_nsclc_pipeline.sh || fail
+cd $D
+
+aws s3 cp $B/fetch_zenodo.py $D/fetch_zenodo.py --region us-east-1 || fail
+python3 $D/fetch_zenodo.py 10258578 $SOMICS_DATA_HOME/datasets/monkman_nsclc_codex/raw 4 || fail
+
+cd $D/repo
 bash scripts/run_monkman_codex_pipeline.sh || fail
 bash scripts/run_libd_dlpfc_pipeline.sh    || fail
 
