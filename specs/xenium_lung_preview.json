@@ -1,0 +1,64 @@
+{
+  "dataset_key": "xenium_lung_preview",
+  "study": "Xenium_Lung_Preview",
+  "panel_name": "Xenium Human Lung Panel v1 + hLung_100g Add-On",
+  "samples": {
+    "Xenium_Preview_Human_Non_diseased_Lung_With_Add_on_FFPE": {
+      "section": "non_diseased",
+      "donor": "non_diseased",
+      "disease_state": "healthy",
+      "disease": null,
+      "section_id": "Xenium_Lung_Preview_non_diseased",
+      "donor_id": "Xenium_Lung_Preview_non_diseased",
+      "sample_name": "Xenium Human Lung 1 - Non-diseased"
+    },
+    "Xenium_Preview_Human_Lung_Cancer_With_Add_on_2_FFPE": {
+      "section": "lung_cancer",
+      "donor": "lung_cancer",
+      "disease_state": "diseased",
+      "disease": "lung adenocarcinoma",
+      "section_id": "Xenium_Lung_Preview_lung_cancer",
+      "donor_id": "Xenium_Lung_Preview_lung_cancer",
+      "sample_name": "Xenium Human Lung 2 - Cancer, pre-designed + add-on panel"
+    }
+  },
+  "study_name": "Human Lung Preview Data (Xenium Human Lung Gene Expression Panel + add-on)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "lung",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-human-lung-preview-data-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.3.0/{sample}/{sample}_outs.zip",
+  "panel": {
+    "panel_name": "Xenium Human Lung Panel v1 + hLung_100g Add-On",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": 392,
+    "has_custom_addon": true,
+    "description": "292 pre-designed lung genes plus a 100-gene add-on; both sections were run on the one panel design, which is what makes them comparable."
+  },
+  "donors": {
+    "Xenium_Lung_Preview_non_diseased": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": "adult stage",
+      "clinical_diagnosis": null,
+      "description": "Non-diseased lung donor of the 10x Human Lung Preview release (tissue sourced from Avaden Biosciences). 10x publishes no donor identifier, age, or sex, so donor_id is a package-local key and those columns stay null."
+    },
+    "Xenium_Lung_Preview_lung_cancer": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": "adult stage",
+      "clinical_diagnosis": "lung adenocarcinoma",
+      "description": "Invasive lung adenocarcinoma donor of the 10x Human Lung Preview release (tissue sourced from Avaden Biosciences). 10x publishes no donor identifier, age, sex, or tumour stage, so donor_id is a package-local key and those columns stay null."
+    }
+  }
+}

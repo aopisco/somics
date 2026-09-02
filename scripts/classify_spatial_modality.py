@@ -105,6 +105,15 @@ def main():
         for pat, better in RENAME:
             if r["platform"] and pat.search(r["platform"]) and r["platform"] != better:
                 renames.append((r["dataset_id"], r["platform"], better))
+                # Record what was replaced. A normalised platform column is for
+                # grouping; the source's own wording is evidence and is not
+                # recoverable once overwritten. It matters most where two
+                # spellings mean different instruments -- "VisiumHD" against
+                # "Visium" is one letter and a different machine.
+                note = (
+                    f"platform recorded by the source as {r['platform']!r}; normalised for grouping"
+                )
+                r["notes"] = f"{r['notes']}; {note}" if r.get("notes") else note
                 r["platform"] = better
                 break
 

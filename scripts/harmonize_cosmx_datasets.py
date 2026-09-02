@@ -161,7 +161,19 @@ def gene_replacements(symbols: list[str]) -> list[ReplaceValue]:
     return ops
 
 
+def key_column(sample: str, table: str, stem: str) -> str:
+    """Whichever name staging gave a table's identity column.
+
+    Staging makes the source's leading column the table key. It was
+    ``{stem}_index`` when this package was first ingested and is ``{stem}_key``
+    in current polycomb; accept either rather than pinning to one skill version.
+    """
+    columns = lancedb.connect(lance_db(sample)).open_table(table).to_arrow().column_names
+    return f"{stem}_key" if f"{stem}_key" in columns else f"{stem}_index"
+
+
 def harmonize_genes(sample: str, replacements: list[ReplaceValue], *, dry_run: bool) -> None:
+    var_key = key_column(sample, "GenomicFeatureSchema", "var")
     ops: list = [
         AddColumn(
             column="ensembl_gene_id",
@@ -172,7 +184,7 @@ def harmonize_genes(sample: str, replacements: list[ReplaceValue], *, dry_run: b
         *replacements,
         AddColumn(
             column="feature_id",
-            value_sql="coalesce(ensembl_gene_id, var_index)",
+            value_sql=f"coalesce(ensembl_gene_id, {var_key})",
             tool="schema_align",
             reason=(
                 "the measured feature's identity: its Ensembl gene id where the panel's symbol "

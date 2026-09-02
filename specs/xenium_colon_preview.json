@@ -1,0 +1,44 @@
+{
+  "dataset_key": "xenium_colon_preview",
+  "study": "Xenium_Colon_Preview",
+  "study_name": "Human Colon Preview Data (Xenium Human Colon Gene Expression Panel)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "colon",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-colon-preview-data-xenium-human-colon-gene-expression-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.6.0/{sample}/{sample}_outs.zip",
+  "panel": {
+    "panel_name": "Human Colon Add-On",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": 425,
+    "has_custom_addon": true,
+    "description": "325 pre-designed genes covering absorptive enterocytes, enteroendocrine cells, goblet cells, Paneth cells, fibroblasts and vascular endothelium, plus 100 add-on signaling/chemokine and stromal marker genes."
+  },
+  "donors": {
+    "Xenium_V1_hColon_Cancer_Add_on_FFPE_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": "adult stage",
+      "clinical_diagnosis": "colon adenocarcinoma",
+      "description": "Cancer donor for the 10x Human Colon Preview release (tissue sourced from Discovery Life Sciences). 10x publishes no donor identifier, so donor_id is a package-local key."
+    }
+  },
+  "samples": {
+    "Xenium_V1_hColon_Cancer_Add_on_FFPE": {
+      "section_id": "hColon_Cancer_Add_on_FFPE",
+      "donor_id": "Xenium_V1_hColon_Cancer_Add_on_FFPE_donor",
+      "sample_name": "Xenium Human Colon 1 - Cancer, pre-designed + add-on panel",
+      "disease_state": "diseased",
+      "disease": "colon adenocarcinoma"
+    }
+  }
+}

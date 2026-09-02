@@ -37,7 +37,10 @@ import os
 import lancedb
 import pyarrow as pa
 
-OBS_INDEX_COLUMN = "obs_index"
+# The column carrying a row's position in DATA order. Current polycomb staging
+# writes row_position and reuses obs_key for the source's leading column; older
+# staging wrote obs_index. Try them in that order.
+OBS_INDEX_CANDIDATES = ("row_position", "obs_index")
 UID_COLUMN = "uid"
 SOURCE_ID_COLUMN = "source_obs_id"
 
@@ -59,14 +62,15 @@ def lone_suffixed(db: lancedb.DBConnection, obs_class: str) -> str | None:
 
 
 def in_data_order(table: pa.Table, label: str) -> pa.Table:
-    if OBS_INDEX_COLUMN not in table.column_names:
-        print(f"  {label}: warning — no {OBS_INDEX_COLUMN!r}; trusting physical order")
+    column = next((c for c in OBS_INDEX_CANDIDATES if c in table.column_names), None)
+    if column is None:
+        print(f"  {label}: warning — none of {OBS_INDEX_CANDIDATES}; trusting physical order")
         return table
-    positions = table.column(OBS_INDEX_COLUMN).to_pylist()
+    positions = table.column(column).to_pylist()
     if positions == sorted(positions):
         return table
-    print(f"  {label}: restored DATA order from {OBS_INDEX_COLUMN!r}")
-    return table.sort_by(OBS_INDEX_COLUMN)
+    print(f"  {label}: restored DATA order from {column!r}")
+    return table.sort_by(column)
 
 
 def make_bare(name: str, lance_path: str, obs_class: str, *, dry_run: bool) -> bool:

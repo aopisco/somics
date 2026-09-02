@@ -43,8 +43,40 @@ mapping is unresolved), `first_published_by_model_paper`.
   original reference.
 - HuBMAP `dataset_id` is `hubmap_<HBM-ID>_<technology>_<tissue>_<analyte>`. The
   HuBMAP ID alone is unique; the rest is for legibility.
+- **Visium and Visium HD are separate platforms here, deliberately.** 10x's own
+  dataset facet labels both "Visium", but they are different instruments at
+  different resolution — 55 um spots against 2 um bins — and pooling them
+  overstates what the corpus can support. `scripts/harvest_10x_catalog.py` sets
+  the platform from the dataset title rather than the facet for exactly this
+  reason. Do not "fix" it back.
+
+  They do **share an ingestion schema**, though: same feature spaces
+  (`gene_expression` + `discrete_image`), same obs shape, and a bin is a
+  `spatial_unit` exactly as a spot is. So one builder serves both — what differs
+  is the source layout (`binned_outputs.tar.gz` at several bin sizes, against a
+  spatial directory) and `unit_size_um`. Separate platforms in the registry, one
+  builder in the pipeline; those are different questions and the answer is
+  different for each.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
+- **One technology per row.** A row is one measurement of one tissue on one
+  platform. A row naming several is several datasets — split it, duplicating
+  every other field and the `model_dataset_usage.csv` entries.
+  `scripts/split_multiplatform_rows.py` does this and only splits when *every*
+  part is a platform the registry already uses alone; 34 rows became 76 and
+  **64 are left for a human in `data/platform_rows_needing_review.csv`**.
+  Punctuation is not a reliable signal: `LC-MS/MS` is one technique,
+  `Xenium 5K + custom panel` is a platform and a qualifier,
+  `VisiumHD / 10X Genomics` is a platform and its vendor.
+- **Never overwrite `platform` without recording the original** in `notes`:
+  `platform recorded by the source as '<original>'; normalised for grouping`.
+  `classify_spatial_modality.py` used to overwrite and only *print* the change,
+  which lost nine rows' original wording to disk (seven backfilled from
+  `b5da607^`). It matters most where a spelling names a different instrument —
+  `VisiumHD` and `Visium` differ by one letter and are 2 um bins against 55 um
+  spots. `scripts/normalize_platform_strings.py` folds vendor and generic noise
+  (324 rows, "visium" strings 102 -> 36) and keeps HD, CytAssist, v1/v2 and
+  "(no probes)" distinct.
 
 ## The bucket
 
@@ -81,38 +113,163 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   Two passes; the retry recovered 40 datasets. **1,774 complete, 117 short by
   6,232 files (0.96 TB)** and those are *permanent* 404s, not transient — see
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
-- **Ingestion into the atlas is blocked** on `polycomb`/`homeobox` — see below.
+- **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
+  to pick up" below. Ingestion of new data is unblocked.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
-## The blocker — library half resolved 2026-08-25
+## Running an ingest
 
-@conradry released **homeobox 0.2.9** and **polycomb 0.0.3** (both 2026-08-25),
-and they fix the import wall. `homeobox.schema` is now a package with `.ir` and
-`.parser`, it defines `emit`, and `polycomb.ingestion` imports against it.
-`pyproject.toml` pins both; `tifffile` was also missing and is now declared.
-Verified: every symbol the repo imports resolves, 170 tests pass,
-`somics.ingest` imports, and the existing 59-section atlas still opens under
-0.2.9, so no migration is needed. **homeobox 0.2.9 requires Python >= 3.12.**
+**`docs/2026-08-26_ingestion_pipeline.md` is the operating manual.** Read it
+before running an ingest or writing a builder. The four prerequisites, in the
+order they bite:
 
-**Still missing: the five driver scripts.** They are Claude *skills*, not part
-of either package, and `scripts/run_xenium_lung_pipeline.sh` invokes them by
-absolute path on a box we do not have:
+1. **Python >= 3.12** (homeobox 0.2.9 requires it; 0.2.8 did not).
+2. **Install polycomb's skills** — they are not on PyPI:
+   `curl -sSL https://raw.githubusercontent.com/epiblastai/homeobox/refs/heads/main/packages/polycomb/install.sh | bash`
+3. **Install the reference cache** from `s3://somics-dev/polycomb/reference_db`
+   (84 GB) and `polycomb setup --db-path <path>`. Without it `resolve_genes`
+   falls through to gget, which opens MySQL to Ensembl on **port 5306** — an
+   egress our security group does not allow — and hangs in SYN-SENT with no
+   timeout. That cost 3.5 hours before it was diagnosed.
+4. **`imagecodecs`** is a real dependency: some Xenium morphology TIFFs are
+   JPEG2000, and it varies *within* a dataset family.
 
-    /home/ubuntu/.claude/skills/prepare-package-for-resolution/scripts/
-        stage_lance_tables.py, stage_library_table.py, stage_dataset_table.py
-    /home/ubuntu/.claude/skills/schema-harmonization/scripts/apply_resolution_pass.py
-    /home/ubuntu/.claude/skills/finalize-tables/scripts/finalize_collection.py
+Two pipeline shapes, decided by how many obs tables staging produces. A
+single-obs dataset brackets `finalize_collection` with
+`materialize_bare_obs` (a somics bridge with no polycomb equivalent). A
+multimodal one adds `reconcile_barcodes` and then **just calls
+`finalize_collection`** — it already joins the per-space obs tables and stamps
+uids back onto them. Do not wrap it in `join_feature_space_obs` / `assign_uids`
+/ `stamp_uid_on_feature_space_obs`; those are for debugging, and running them
+alongside the orchestrator breaks it.
 
-The library functions they drive (`ingest_collection`, `finalize_columns`,
-`resolve_*`) are all present in polycomb 0.0.3, so these are orchestration, not
-missing capability — but the step order is load-bearing (see the runner's
-comment about `materialize_bare_obs.py --phase bare` having to precede
-finalization) and rewriting them blind would be guesswork. Ask @conradry to
-publish the three skill directories.
+**Never ingest a package twice.** A rebuilt package carries fresh
+`dataset_uid`s, so `skip_existing` never fires, while `section_uid` is a stable
+hash — so the two copies merge and every obs row doubles. The section count does
+not change, so nothing looks wrong. `somics.ingest` now refuses on an overlapping
+section and needs `--allow-existing-sections` to proceed. Build the atlas in one
+pass; if a package changes, rebuild the atlas.
 
-Tracked in `aopisco/somics#14`. @conradry is outside the CZI org, so that
-conversation must stay on the public repo.
+**A crashed ingest is not resumable.** `skip_existing` checks the dataset uid,
+not whether the dataset is complete, so the next run skips it and then fails
+looking for its zarr group. Wipe the atlas and re-ingest.
+
+## The rebuild: done, and it found a defect in the original
+
+**58 of 59 sections reproduce exactly; the 59th differs because the published
+atlas is wrong.** Full write-up in `docs/2026-08-27_atlas_rebuild_results.md`.
+
+The published `hColon_Cancer_Add_on_FFPE` has a **misaligned gene axis** — right
+counts, wrong genes. Against the source h5 over 40 cells: published 1041/1833
+nonzero values correct, rebuilt 1833/1833. Every other family agrees with its
+source perfectly on both sides. Per-cell totals, sorted vectors, row counts and
+uids all match, so nothing but a gene-by-gene comparison against the source
+finds it. **Do not treat the published colon section as authoritative.**
+
+The rebuilt atlas is 59 sections / ~2.47M obs rows on
+`schema/spatial_omics_atlas_schema.yaml`, built in one pass on EC2. Its only obs
+difference from the published atlas is `has_chromatin_accessibility`, a presence
+flag the extended schema introduces.
+
+**Rebuild it with:** the five runners below in any order into a fresh atlas, then
+`scripts/verify_rebuild_matches_atlas.py --rebuilt <path>`. "Any order" is only
+true since `ensure_registry_tables` in `somics.ingest` — before it, whichever
+package ingested first set the registry tables' column types (see gotcha below),
+and this exact claim cost attempt 6 its final step.
+
+```
+scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_lung_preview.json
+scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_colon_preview.json
+scripts/run_cosmx_nsclc_pipeline.sh
+scripts/run_monkman_codex_pipeline.sh
+scripts/run_libd_dlpfc_pipeline.sh
+```
+
+## Rebuilding the atlas is the correctness gate
+
+Do not ingest 20 TB before reproducing the 59 sections we have — the published
+atlas is the only ground truth, and a pipeline regression in new data is
+indistinguishable from a quirk of the new data.
+
+- **Stable uids reproduce; obs uids do not.** `make_stable_uid("hColon_Cancer_
+  Add_on_FFPE")` is the published `section_uid`, so sections, donors, panels and
+  features are comparable exactly. `uid` on obs and `dataset_uid` are `uuid4` —
+  join on `source_obs_id` instead, and never compare them.
+- **All 59 sections now have a spec-driven builder.** The 12 LIBD Visium and 1
+  Xenium colon sections never had one — confirmed across all 478 blobs in the
+  object store — because `create-data-package` is a *skill*: an agent drives the
+  Collection API and the artifact is the package, not a script. Ryan's estimate
+  is $10-20 and 30-60 min of agent time per dataset, which is why per-family
+  builders only pay for homogeneous vendor bundles.
+- **10x's CDN gives us ~0.3 MB/s** regardless of user agent, against 16 MB/s
+  from S3. Fetch vendor bundles on EC2 into `s3://somics-dev/rebuild/` and pull
+  from there. Version paths differ per dataset: lung preview is `1.3.0`, colon
+  is `1.6.0`, and guessing one for both returns 403.
+- **Six members of an outs bundle are enough** — selective extraction turns
+  18.42 GB into 1.3 GB. `transcripts.parquet` is the bulk and is unused.
+
+## Where to pick up
+
+**The work is on the `atlas-rebuild` branch, not `main`.** `main` stops at the
+three-tier verifier; everything after it — the spec-driven builders, the
+extended schema, the specs, the rebuild script and all the docs referenced here
+— is on the branch. A fresh clone lands on `main` and misses it.
+
+```bash
+git checkout atlas-rebuild && git pull
+```
+
+`aopisco/somics#17` is the PR, marked **ready for review** on 2026-09-02 — the
+unattended rebuild landing and verifying was the condition it was held on. AWS
+access expires; re-run the `aws-oidc configure` line under Infrastructure if a
+call returns a credentials error.
+
+**The rebuild has landed.** Attempt 7 built, synced and verified unattended in
+~3h20m on 2026-09-02: `s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z/`,
+with `_verify.txt` and `_rebuild.log` beside it. **236/237 checks passed**; the
+one failure is `hColon_Cancer_Add_on_FFPE` gene_expression (6417/108200 values
+differ), which is the published atlas's misaligned gene axis (`#19`) — the
+rebuild is the correct side of that diff.
+
+For any future rebuild: `scripts/rebuild_atlas_ec2.sh` as user-data (the exact
+`run-instances` call and an SSM log-tail are in
+`docs/2026-08-30_full_atlas_build_plan.md`). It fetches then builds one family
+at a time, lung preview first, so a regression fails in minutes rather than
+after the full fetch; it syncs the atlas to S3 **before** verifying, then
+terminates — so the S3 prefix is the answer, not the instance. ~3-4 hours end
+to end. Judge a run by its artifacts, and check the log's *mtime* over SSM if
+nothing is landing: attempt 5 sat four hours in a silent SYN-SENT hang that no
+FAILED log would ever report.
+
+Seven attempts; six failures, all scaffolding, never pipeline: a shutdown timer
+that took the atlas with it; `/tmp` a tmpfs too small for an 18 GB bundle; a
+lung spec predating the parameterized assembler; `AddColumn` rejecting
+`value=None` for a healthy section's null disease; the reference cache silently
+never syncing (the `..` gotcha below), which sent gene resolution into gget's
+Ensembl-MySQL hang; and registry tables typed by whichever package ingested
+first (the other new gotcha below).
+
+**Next:**
+
+1. **Ingest the 175 datasets an existing builder can read.** Coverage is by
+   *source layout*, not platform: 130 10x Visium/HD, 44 10x Xenium outs, 1
+   Monkman. All have verified bundle URLs. The builders are spec-driven and
+   proven byte-identical against the published atlas.
+2. Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
+   staged), and MIBI + PhenoCycler + Cell DIVE (~590). Both need adapters.
+3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
+   staged, 120 from GEO, and GEO deposits are flat per-GSM files rather than a
+   Space Ranger directory — `filtered_feature_bc_matrix.h5` next to `.cloupe`
+   and loose TIFFs, named differently in every deposit. Per-deposit agent
+   curation, not a spec.
+4. GeoMx is **blocked on access**, not code: all 1,362 HuBMAP GeoMx datasets are
+   `data_access_level: protected`. See `aopisco/somics#16`.
+
+**Open issues:** `#16` HuBMAP (the single tracker), `#18` staging completeness
+(one file per multi-file deposit, plus 16 prefixes holding source code rather
+than data), `#19` the published colon section's misaligned gene axis, `#14`
+portable ingestion, `#15` SAHA watch.
 
 ## Gotchas that cost real time
 
@@ -138,6 +295,26 @@ entirely and need controlled access; **no transport change reaches them**.
 a single-part server-side copy of identical bytes have different ETags. Compare
 sizes and content, not ETags.
 
+**S3 takes `..` in a key literally.** `aws s3 sync s3://bucket/a/../b/ dest`
+matches zero keys, copies nothing, and exits 0. That left the 84 GB reference
+cache silently absent on attempt 5's box — `polycomb setup` then created 11
+*empty* tables over the void and reported "Reference DB ready", and gene
+resolution fell through to gget's Ensembl MySQL and hung. Guard a sync by what
+landed on disk (`du -sm`), never by its exit status. (`polycomb setup` saying
+CREATED rather than "already existed" is itself the tell that the sync
+delivered nothing.)
+
+**The first package to ingest types the atlas's registry tables.** polycomb's
+`_copy_registry_key_tables` creates each registry-key table verbatim from the
+first collection carrying it, so a family whose donors have no ages hands over
+an all-null `age_unit` typed float64 (pandas NaN inference) and the first real
+`'year'` string cannot cast into it. Ingestion order silently decided column
+types; the run died only when LIBD — the one family with donor ages — ingested
+last. `ensure_registry_tables` in `somics.ingest` now pre-creates the tables
+empty from the schema's own types (enum dictionaries flattened to their value
+type, matching the published atlas and dodging the all-null-enum Lance encoder
+bug), so every package is a merge into known-good types, in any order.
+
 **paperclip quirks**: `sql`-saved result sets cannot be used with `map --from`;
 `results --save` truncates titles (read `/papers/<id>/meta.json` instead); maps
 over ~1,000 papers hit a ~25 min server cap, so chunk with `-n`/`--offset` and
@@ -159,6 +336,14 @@ that `stage_hubmap_to_s3.py` collects failures in memory and prints them only
 in its closing summary — so grepping a running log for errors returns zero no
 matter how many have occurred. **Judge a run's health from manifests vs actual
 objects, not from its log.**
+
+**A successful operation is not a correct outcome.** Four instances this week,
+all the same shape: "465 datasets staged, zero failures" where each fetch pulled
+one file from a multi-file record; a HuBMAP run judged healthy from a log that
+cannot show errors until it ends; a verification reporting "0 failures" having
+performed 0 checks; and 16 staged prefixes holding a GitHub source release
+instead of data, each with a manifest and `data_downloadable = yes`. Check the
+artifact, not the exit status.
 
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
@@ -203,6 +388,8 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/classify_spatial_modality.py` | `is_spatial` flag + spatial epigenomics |
 | `scripts/bucket_inventory.py` | what is actually staged, by tissue/species/technology |
 | `scripts/staged_summary.py` | one nested table: technology > tissue > species |
+| `scripts/pipeline/` | the reconstructed staging/resolution/finalization scripts |
+| `scripts/verify_rebuild_matches_atlas.py` | three-tier diff of a rebuild against the published atlas |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |

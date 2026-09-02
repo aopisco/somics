@@ -210,8 +210,16 @@ def build_sample(sample: str, out_dir: str, *, skip_images: bool) -> dict:
     summaries, genes = expression_summaries(sample, meta)
 
     donor, section_index = DONOR_OF[sample]
+    # The leading column becomes the table's key column in staging (obs_key), and
+    # multimodal-alignment matches the two modalities on it. It therefore has to
+    # be the cell barcode, not a positional index: the skill normalises barcode
+    # strings, and an int64 key column makes its merge fail outright. source_obs_id
+    # is kept as well because it is a schema field in its own right; for CosMx the
+    # two carry the same value.
+    barcodes = [f"{sample}_F{f:03d}_{c}" for f, c in zip(meta.fov, meta.cell_ID, strict=True)]
     obs = pd.DataFrame(
         {
+            "barcode": barcodes,
             "obs_index": np.arange(len(meta), dtype=np.int64),
             "source_obs_id": [
                 f"{sample}_F{f:03d}_{c}" for f, c in zip(meta.fov, meta.cell_ID, strict=True)
@@ -271,9 +279,9 @@ def build_sample(sample: str, out_dir: str, *, skip_images: bool) -> dict:
     # Both feature spaces measure the same cells in the same order, but staging
     # wants one OBS per feature space and joins them on a shared barcode, so the
     # protein side gets its own minimal obs carrying just the join keys. Its
-    # first column is the positional index, which is what the barcode
-    # reconciliation matches on.
-    obs[["obs_index", "source_obs_id"]].to_csv(
+    # first column is the barcode, which is what the reconciliation matches on
+    # and what staging turns into obs_key.
+    obs[["barcode", "obs_index", "source_obs_id"]].to_csv(
         os.path.join(out_dir, f"{sample}_protein_obs.csv"), index=False
     )
 

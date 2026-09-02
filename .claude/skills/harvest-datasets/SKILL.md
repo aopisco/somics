@@ -208,11 +208,48 @@ passthrough. It never overwrites a non-empty `download_url`. Sites behind bot pr
 Commit the curated tables in the same push as the claim-level append (step 5), listing the
 map IDs in the commit body.
 
+## One technology per row
+
+**A row describes one measurement of one tissue on one platform.** If a paper
+reports the same tissue on several platforms, that is several datasets, and the
+row is duplicated once per platform rather than written as
+`Visium, Visium HD, Xenium, and MERFISH`.
+
+A merged row breaks everything downstream at once: platform counts under-report,
+no builder can be selected for it, and the row cannot carry more than one
+`download_url` — so at most one of the platforms is fetchable and the rest look
+staged when they are not.
+
+When extraction produces one, split it: keep the original `dataset_id` for the
+first platform, give the others `<stem>_<platform-slug>`, copy every other field
+unchanged, and note in `notes` what it was split from. Duplicate the row's
+entries in `model_dataset_usage.csv` too — a model that used the merged dataset
+used each of the split ones.
+
+`scripts/split_multiplatform_rows.py` does this, and is deliberately timid: it
+only splits when **every** part is a platform the registry already uses on its
+own, and lists the rest for a human. That matters because punctuation is not a
+reliable signal — `LC-MS/MS` is one technique, `Xenium 5K + custom panel` is a
+platform plus a qualifier, and `VisiumHD / 10X Genomics` is a platform plus its
+vendor. Splitting those would invent platforms that do not exist.
+
 ## Platform normalization
 
 `10x Visium`, `Visium`, and `Visium Spatial Gene Expression` are the same platform written three ways, and the existing table contains all three. That fragmentation makes the column useless for grouping, which is most of what anyone wants it for.
 
 The script maps known aliases to canonical forms and leaves anything unrecognized untouched rather than guessing. When it reports an unmapped platform, decide whether it's genuinely new or another spelling of something present — and if it's a new spelling, add it to `PLATFORM_ALIASES` so the next run handles it. The vocabulary is meant to grow.
+
+**Never overwrite `platform` without recording what it said.** The normalised
+value is for grouping; the source's own wording is evidence, and once it is gone
+it is gone. Write `platform recorded by the source as '<original>'; normalised
+for grouping` into `notes` in the same pass.
+
+This matters most where two spellings mean two instruments. `VisiumHD` and
+`Visium` differ by one letter and are 2 µm bins against 55 µm spots — if a row
+is normalised to `Visium` and the original is lost, nothing downstream can tell
+whether that was a transcription of `VisiumHD` or a genuine Visium run, and the
+row silently joins the wrong platform group. The same applies to `Xenium 5K`
+against `Xenium`, and to any panel or version qualifier a normalisation drops.
 
 Don't retroactively rewrite existing rows as part of a harvest run. That's a separate, reviewable change; bundling it into an append makes the diff impossible to read.
 

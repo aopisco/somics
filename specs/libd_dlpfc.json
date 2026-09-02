@@ -1,0 +1,157 @@
+{
+  "dataset_key": "libd_dlpfc",
+  "study": "LIBD",
+  "study_name": "LIBD Human DLPFC Visium pilot",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "dorsolateral prefrontal cortex",
+  "disease_state": "healthy",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "data_access_link": "http://research.libd.org/spatialLIBD/",
+  "accession_database": "Globus",
+  "counts_url": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/h5/{sample}_filtered_feature_bc_matrix.h5",
+  "image_url": "https://spatial-dlpfc.s3.us-east-2.amazonaws.com/images/{sample}_full_image.tif",
+  "spatial_url": "https://raw.githubusercontent.com/LieberInstitute/HumanPilot/master/10X/{sample}/{file}",
+  "spatial_files": [
+    "tissue_positions_list.txt",
+    "scalefactors_json.json"
+  ],
+  "donors": {
+    "LIBD_Br5292": {
+      "sex": "male",
+      "age_value": 34.56,
+      "human_development_stage": "34-year-old stage",
+      "life_stage": "young_adult",
+      "description": "Neurotypical control donor; LIBD brain number Br5292."
+    },
+    "LIBD_Br5595": {
+      "sex": "male",
+      "age_value": 46.52,
+      "human_development_stage": "46-year-old stage",
+      "life_stage": "middle_aged",
+      "description": "Neurotypical control donor; LIBD brain number Br5595."
+    },
+    "LIBD_Br8100": {
+      "sex": "female",
+      "age_value": 30.29169519,
+      "human_development_stage": "30-year-old stage",
+      "life_stage": "young_adult",
+      "description": "Neurotypical control donor; LIBD brain number Br8100."
+    }
+  },
+  "samples": {
+    "151507": {
+      "section_id": "LIBD_151507",
+      "donor_id": "LIBD_Br5292",
+      "block_id": "LIBD_Br5292_DLPFC",
+      "section_index": 0,
+      "position_um": 0,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151507"
+    },
+    "151508": {
+      "section_id": "LIBD_151508",
+      "donor_id": "LIBD_Br5292",
+      "block_id": "LIBD_Br5292_DLPFC",
+      "section_index": 1,
+      "position_um": 0,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151508"
+    },
+    "151509": {
+      "section_id": "LIBD_151509",
+      "donor_id": "LIBD_Br5292",
+      "block_id": "LIBD_Br5292_DLPFC",
+      "section_index": 2,
+      "position_um": 300,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151509"
+    },
+    "151510": {
+      "section_id": "LIBD_151510",
+      "donor_id": "LIBD_Br5292",
+      "block_id": "LIBD_Br5292_DLPFC",
+      "section_index": 3,
+      "position_um": 300,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151510"
+    },
+    "151669": {
+      "section_id": "LIBD_151669",
+      "donor_id": "LIBD_Br5595",
+      "block_id": "LIBD_Br5595_DLPFC",
+      "section_index": 0,
+      "position_um": 0,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151669"
+    },
+    "151670": {
+      "section_id": "LIBD_151670",
+      "donor_id": "LIBD_Br5595",
+      "block_id": "LIBD_Br5595_DLPFC",
+      "section_index": 1,
+      "position_um": 0,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151670"
+    },
+    "151671": {
+      "section_id": "LIBD_151671",
+      "donor_id": "LIBD_Br5595",
+      "block_id": "LIBD_Br5595_DLPFC",
+      "section_index": 2,
+      "position_um": 300,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151671"
+    },
+    "151672": {
+      "section_id": "LIBD_151672",
+      "donor_id": "LIBD_Br5595",
+      "block_id": "LIBD_Br5595_DLPFC",
+      "section_index": 3,
+      "position_um": 300,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151672"
+    },
+    "151673": {
+      "section_id": "LIBD_151673",
+      "donor_id": "LIBD_Br8100",
+      "block_id": "LIBD_Br8100_DLPFC",
+      "section_index": 0,
+      "position_um": 0,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151673"
+    },
+    "151674": {
+      "section_id": "LIBD_151674",
+      "donor_id": "LIBD_Br8100",
+      "block_id": "LIBD_Br8100_DLPFC",
+      "section_index": 1,
+      "position_um": 0,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151674"
+    },
+    "151675": {
+      "section_id": "LIBD_151675",
+      "donor_id": "LIBD_Br8100",
+      "block_id": "LIBD_Br8100_DLPFC",
+      "section_index": 2,
+      "position_um": 300,
+      "replicate": 1,
+      "accession_id": "jhpce_HumanPilot10x/151675"
+    },
+    "151676": {
+      "section_id": "LIBD_151676",
+      "donor_id": "LIBD_Br8100",
+      "block_id": "LIBD_Br8100_DLPFC",
+      "section_index": 3,
+      "position_um": 300,
+      "replicate": 2,
+      "accession_id": "jhpce_HumanPilot10x/151676"
+    }
+  }
+}
