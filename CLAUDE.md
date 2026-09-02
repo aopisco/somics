@@ -113,7 +113,8 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   Two passes; the retry recovered 40 datasets. **1,774 complete, 117 short by
   6,232 files (0.96 TB)** and those are *permanent* 404s, not transient — see
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
-- **Ingestion into the atlas is blocked** on `polycomb`/`homeobox` — see below.
+- **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
+  to pick up" below. Ingestion of new data is unblocked.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
@@ -172,7 +173,10 @@ difference from the published atlas is `has_chromatin_accessibility`, a presence
 flag the extended schema introduces.
 
 **Rebuild it with:** the five runners below in any order into a fresh atlas, then
-`scripts/verify_rebuild_matches_atlas.py --rebuilt <path>`.
+`scripts/verify_rebuild_matches_atlas.py --rebuilt <path>`. "Any order" is only
+true since `ensure_registry_tables` in `somics.ingest` — before it, whichever
+package ingested first set the registry tables' column types (see gotcha below),
+and this exact claim cost attempt 6 its final step.
 
 ```
 scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_lung_preview.json
@@ -216,40 +220,37 @@ extended schema, the specs, the rebuild script and all the docs referenced here
 git checkout atlas-rebuild && git pull
 ```
 
-`aopisco/somics#17` is the PR, deliberately still a **draft**: it should not be
-marked ready until the rebuild has landed and verified, because a green-looking
-PR would imply a result we do not yet have. AWS access expires; re-run the
-`aws-oidc configure` line under Infrastructure if a call returns a credentials
-error.
+`aopisco/somics#17` is the PR, marked **ready for review** on 2026-09-02 — the
+unattended rebuild landing and verifying was the condition it was held on. AWS
+access expires; re-run the `aws-oidc configure` line under Infrastructure if a
+call returns a credentials error.
 
-**First thing in a new session: did the rebuild land?** It runs unattended on
-EC2 (`scripts/rebuild_atlas_ec2.sh`), syncs the atlas to S3 **before** verifying,
-then terminates. So the S3 prefix is the answer, not the instance — the box is
-gone either way.
+**The rebuild has landed.** Attempt 7 built, synced and verified unattended in
+~3h20m on 2026-09-02: `s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z/`,
+with `_verify.txt` and `_rebuild.log` beside it. **236/237 checks passed**; the
+one failure is `hColon_Cancer_Add_on_FFPE` gene_expression (6417/108200 values
+differ), which is the published atlas's misaligned gene axis (`#19`) — the
+rebuild is the correct side of that diff.
 
-```bash
-P="--profile sci-data-dev-poweruser"
-aws s3 ls s3://somics-dev/rebuild/atlas/ $P                  # atlas present = success
-aws s3 ls s3://somics-dev/rebuild/ $P | grep FAILED | tail -1  # newest failure log
-```
+For any future rebuild: `scripts/rebuild_atlas_ec2.sh` as user-data (the exact
+`run-instances` call and an SSM log-tail are in
+`docs/2026-08-30_full_atlas_build_plan.md`). It fetches then builds one family
+at a time, lung preview first, so a regression fails in minutes rather than
+after the full fetch; it syncs the atlas to S3 **before** verifying, then
+terminates — so the S3 prefix is the answer, not the instance. ~3-4 hours end
+to end. Judge a run by its artifacts, and check the log's *mtime* over SSM if
+nothing is landing: attempt 5 sat four hours in a silent SYN-SENT hang that no
+FAILED log would ever report.
 
-- **Atlas present** → read `<timestamp>/_verify.txt` beside it for the diff, and
-  `_rebuild.log` for the run. Expect 59 sections and the only obs difference to
-  be `has_chromatin_accessibility`. Then start the 175 below.
-- **Only a FAILED log** → `aws s3 cp` it and read the tail; the run stops at the
-  first error and shuts the box down, so the last traceback is the cause. Fix,
-  push, relaunch with the `run-instances` call in
-  `docs/2026-08-30_full_atlas_build_plan.md`.
-- **Neither** → it is still going. It takes ~3-4 hours: ~1.5 h of fetching
-  (Monkman from Zenodo is the slow leg at ~10-19 MB/s), then the pipelines.
+Seven attempts; six failures, all scaffolding, never pipeline: a shutdown timer
+that took the atlas with it; `/tmp` a tmpfs too small for an 18 GB bundle; a
+lung spec predating the parameterized assembler; `AddColumn` rejecting
+`value=None` for a healthy section's null disease; the reference cache silently
+never syncing (the `..` gotcha below), which sent gene resolution into gget's
+Ensembl-MySQL hang; and registry tables typed by whichever package ingested
+first (the other new gotcha below).
 
-Four attempts failed before this one, all in the scaffolding rather than the
-pipeline: a shutdown timer that took the atlas with it, `/tmp` being a tmpfs too
-small for an 18 GB bundle, a lung spec predating the parameterized assembler,
-and `AddColumn` rejecting `value=None` for a healthy section's null disease.
-The pipeline itself has produced all 59 sections correctly.
-
-**Next, once the atlas has landed:**
+**Next:**
 
 1. **Ingest the 175 datasets an existing builder can read.** Coverage is by
    *source layout*, not platform: 130 10x Visium/HD, 44 10x Xenium outs, 1
@@ -293,6 +294,26 @@ entirely and need controlled access; **no transport change reaches them**.
 **ETags are not comparable across multipart boundaries.** A 65-part upload and
 a single-part server-side copy of identical bytes have different ETags. Compare
 sizes and content, not ETags.
+
+**S3 takes `..` in a key literally.** `aws s3 sync s3://bucket/a/../b/ dest`
+matches zero keys, copies nothing, and exits 0. That left the 84 GB reference
+cache silently absent on attempt 5's box — `polycomb setup` then created 11
+*empty* tables over the void and reported "Reference DB ready", and gene
+resolution fell through to gget's Ensembl MySQL and hung. Guard a sync by what
+landed on disk (`du -sm`), never by its exit status. (`polycomb setup` saying
+CREATED rather than "already existed" is itself the tell that the sync
+delivered nothing.)
+
+**The first package to ingest types the atlas's registry tables.** polycomb's
+`_copy_registry_key_tables` creates each registry-key table verbatim from the
+first collection carrying it, so a family whose donors have no ages hands over
+an all-null `age_unit` typed float64 (pandas NaN inference) and the first real
+`'year'` string cannot cast into it. Ingestion order silently decided column
+types; the run died only when LIBD — the one family with donor ages — ingested
+last. `ensure_registry_tables` in `somics.ingest` now pre-creates the tables
+empty from the schema's own types (enum dictionaries flattened to their value
+type, matching the published atlas and dodging the all-null-enum Lance encoder
+bug), so every package is a merge into known-good types, in any order.
 
 **paperclip quirks**: `sql`-saved result sets cannot be used with `map --from`;
 `results --save` truncates titles (read `/papers/<id>/meta.json` instead); maps
