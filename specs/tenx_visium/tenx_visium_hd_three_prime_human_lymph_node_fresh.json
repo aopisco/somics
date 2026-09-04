@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_three_prime_human_lymph_node_fresh",
+  "study": "visium-hd-three-prime-human-lymph-node-fresh-frozen",
+  "study_name": "Visium HD 3' Gene Expression Library, Human Lymph Node (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "lymph node",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-three-prime-human-lymph-node-fresh-frozen",
+  "source": {
+    "pipeline": "Space Ranger 4.1.0",
+    "product": "HD 3\u2019 Spatial Gene Expression",
+    "published_at": "1784046151",
+    "bytes": 8915294701
+  },
+  "donors": {
+    "Visium_HD_3prime_Human_Lymph_Node_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Reactive Follicular Hyperplasia",
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-three-prime-human-lymph-node-fresh-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_3prime_Human_Lymph_Node": {
+      "section_id": "Visium_HD_3prime_Human_Lymph_Node",
+      "donor_id": "Visium_HD_3prime_Human_Lymph_Node_donor",
+      "block_id": "Visium_HD_3prime_Human_Lymph_Node_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-three-prime-human-lymph-node-fresh-frozen",
+      "sample_name": "Visium HD 3' Gene Expression Library, Human Lymph Node (Fresh Frozen)",
+      "disease_state": "diseased",
+      "disease": "Reactive Follicular Hyperplasia",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Lymph_Node/Visium_HD_3prime_Human_Lymph_Node_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Lymph_Node/Visium_HD_3prime_Human_Lymph_Node_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

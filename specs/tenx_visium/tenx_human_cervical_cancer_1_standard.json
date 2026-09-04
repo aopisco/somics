@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_human_cervical_cancer_1_standard",
+  "study": "human-cervical-cancer-1-standard",
+  "study_name": "Human Cervical Cancer (FFPE)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "cervix",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-cervical-cancer-1-standard",
+  "source": {
+    "pipeline": "Space Ranger 1.3.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1648494731",
+    "bytes": 126452669
+  },
+  "donors": {
+    "Visium_FFPE_Human_Cervical_Cancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "cervical cancer",
+      "description": "Donor of the 10x Genomics dataset 'human-cervical-cancer-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_FFPE_Human_Cervical_Cancer": {
+      "section_id": "Visium_FFPE_Human_Cervical_Cancer",
+      "donor_id": "Visium_FFPE_Human_Cervical_Cancer_donor",
+      "block_id": "Visium_FFPE_Human_Cervical_Cancer_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "human-cervical-cancer-1-standard",
+      "sample_name": "Human Cervical Cancer (FFPE)",
+      "disease_state": "diseased",
+      "disease": "cervical cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.3.0/Visium_FFPE_Human_Cervical_Cancer/Visium_FFPE_Human_Cervical_Cancer_image.jpg",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.3.0/Visium_FFPE_Human_Cervical_Cancer/Visium_FFPE_Human_Cervical_Cancer_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.3.0/Visium_FFPE_Human_Cervical_Cancer/Visium_FFPE_Human_Cervical_Cancer_spatial.tar.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_human_ovarian_cancer_whole_transcriptome_ana",
+  "study": "human-ovarian-cancer-whole-transcriptome-analysis-stains-dapi-anti-pan-ck-anti-cd-45-1-standard-1-2-0",
+  "study_name": "Human Ovarian Cancer: Whole Transcriptome Analysis. Stains: DAPI, Anti-PanCK, Anti-CD45",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "ovary",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-ovarian-cancer-whole-transcriptome-analysis-stains-dapi-anti-pan-ck-anti-cd-45-1-standard-1-2-0",
+  "source": {
+    "pipeline": "Space Ranger 1.2.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1603782000",
+    "bytes": 4726884788
+  },
+  "donors": {
+    "Parent_Visium_Human_OvarianCancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Endometrial Adenocarcinoma",
+      "description": "Donor of the 10x Genomics dataset 'human-ovarian-cancer-whole-transcriptome-analysis-stains-dapi-anti-pan-ck-anti-cd-45-1-standard-1-2-0'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Parent_Visium_Human_OvarianCancer": {
+      "section_id": "Parent_Visium_Human_OvarianCancer",
+      "donor_id": "Parent_Visium_Human_OvarianCancer_donor",
+      "block_id": "Parent_Visium_Human_OvarianCancer_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "human-ovarian-cancer-whole-transcriptome-analysis-stains-dapi-anti-pan-ck-anti-cd-45-1-standard-1-2-0",
+      "sample_name": "Human Ovarian Cancer: Whole Transcriptome Analysis. Stains: DAPI, Anti-PanCK, Anti-CD45",
+      "disease_state": "diseased",
+      "disease": "Endometrial Adenocarcinoma",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_spatial.tar.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_adult_human_brain_1_cerebral_cortex_unknown_",
+  "study": "adult-human-brain-1-cerebral-cortex-unknown-orientation-stains-anti-gfap-anti-nfh-1-standard-1-1-0",
+  "study_name": "Adult Human Brain 1 (Cerebral Cortex, Unknown orientation). Stains: Anti-GFAP, Anti-NFH",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "brain",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/adult-human-brain-1-cerebral-cortex-unknown-orientation-stains-anti-gfap-anti-nfh-1-standard-1-1-0",
+  "source": {
+    "pipeline": "Space Ranger 1.1.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1592895600",
+    "bytes": 4731575797
+  },
+  "donors": {
+    "V1_Human_Brain_Section_1_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": "adult stage",
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'adult-human-brain-1-cerebral-cortex-unknown-orientation-stains-anti-gfap-anti-nfh-1-standard-1-1-0'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "V1_Human_Brain_Section_1": {
+      "section_id": "V1_Human_Brain_Section_1",
+      "donor_id": "V1_Human_Brain_Section_1_donor",
+      "block_id": "V1_Human_Brain_Section_1_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "adult-human-brain-1-cerebral-cortex-unknown-orientation-stains-anti-gfap-anti-nfh-1-standard-1-1-0",
+      "sample_name": "Adult Human Brain 1 (Cerebral Cortex, Unknown orientation). Stains: Anti-GFAP, Anti-NFH",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_1/V1_Human_Brain_Section_1_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_1/V1_Human_Brain_Section_1_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_1/V1_Human_Brain_Section_1_spatial.tar.gz"
+      }
+    }
+  }
+}

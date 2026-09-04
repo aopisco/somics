@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_gene_expression_librarie_14",
+  "study": "visium-hd-cytassist-gene-expression-libraries-of-mouse-embryo",
+  "study_name": "Visium HD Spatial Gene Expression Library, Mouse Embryo (FFPE)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "whole embryo",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-gene-expression-libraries-of-mouse-embryo",
+  "source": {
+    "pipeline": "Space Ranger 3.0.0",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1718122951",
+    "bytes": 11889651654
+  },
+  "donors": {
+    "Visium_HD_Mouse_Embryo_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "embryonic",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-gene-expression-libraries-of-mouse-embryo'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_Mouse_Embryo": {
+      "section_id": "Visium_HD_Mouse_Embryo",
+      "donor_id": "Visium_HD_Mouse_Embryo_donor",
+      "block_id": "Visium_HD_Mouse_Embryo_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-gene-expression-libraries-of-mouse-embryo",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Mouse Embryo (FFPE)",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.0.0/Visium_HD_Mouse_Embryo/Visium_HD_Mouse_Embryo_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.0.0/Visium_HD_Mouse_Embryo/Visium_HD_Mouse_Embryo_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

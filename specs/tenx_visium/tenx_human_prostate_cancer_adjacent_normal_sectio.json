@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_human_prostate_cancer_adjacent_normal_sectio",
+  "study": "human-prostate-cancer-adjacent-normal-section-with-if-staining-ffpe-1-standard",
+  "study_name": "Human Prostate Cancer, Adjacent Normal Section with IF Staining (FFPE)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "prostate",
+  "preservation": "ffpe",
+  "image_modality": "immunofluorescence",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-prostate-cancer-adjacent-normal-section-with-if-staining-ffpe-1-standard",
+  "source": {
+    "pipeline": "Space Ranger 2.0.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1657661555",
+    "bytes": 751668141
+  },
+  "donors": {
+    "Visium_FFPE_Human_Prostate_IF_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "prostate cancer",
+      "description": "Donor of the 10x Genomics dataset 'human-prostate-cancer-adjacent-normal-section-with-if-staining-ffpe-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_FFPE_Human_Prostate_IF": {
+      "section_id": "Visium_FFPE_Human_Prostate_IF",
+      "donor_id": "Visium_FFPE_Human_Prostate_IF_donor",
+      "block_id": "Visium_FFPE_Human_Prostate_IF_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "human-prostate-cancer-adjacent-normal-section-with-if-staining-ffpe-1-standard",
+      "sample_name": "Human Prostate Cancer, Adjacent Normal Section with IF Staining (FFPE)",
+      "disease_state": "diseased",
+      "disease": "prostate cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.0/Visium_FFPE_Human_Prostate_IF/Visium_FFPE_Human_Prostate_IF_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.0/Visium_FFPE_Human_Prostate_IF/Visium_FFPE_Human_Prostate_IF_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.0/Visium_FFPE_Human_Prostate_IF/Visium_FFPE_Human_Prostate_IF_spatial.tar.gz"
+      }
+    }
+  }
+}

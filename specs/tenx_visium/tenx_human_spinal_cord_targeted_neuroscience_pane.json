@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_human_spinal_cord_targeted_neuroscience_pane",
+  "study": "human-spinal-cord-targeted-neuroscience-panel-stains-dapi-anti-snap-25-anti-gfap-anti-myelin-cn-pase-1-standard-1-2-0",
+  "study_name": "Human Spinal Cord: Targeted, Neuroscience Panel. Stains: DAPI, Anti-SNAP25, Anti-GFAP, Anti-Myelin CNPase",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "spinal cord",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-spinal-cord-targeted-neuroscience-panel-stains-dapi-anti-snap-25-anti-gfap-anti-myelin-cn-pase-1-standard-1-2-0",
+  "source": {
+    "pipeline": "Space Ranger 1.2.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1603782000",
+    "bytes": 164888287
+  },
+  "donors": {
+    "Targeted_Visium_Human_SpinalCord_Neuroscience_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'human-spinal-cord-targeted-neuroscience-panel-stains-dapi-anti-snap-25-anti-gfap-anti-myelin-cn-pase-1-standard-1-2-0'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Targeted_Visium_Human_SpinalCord_Neuroscience": {
+      "section_id": "Targeted_Visium_Human_SpinalCord_Neuroscience",
+      "donor_id": "Targeted_Visium_Human_SpinalCord_Neuroscience_donor",
+      "block_id": "Targeted_Visium_Human_SpinalCord_Neuroscience_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "human-spinal-cord-targeted-neuroscience-panel-stains-dapi-anti-snap-25-anti-gfap-anti-myelin-cn-pase-1-standard-1-2-0",
+      "sample_name": "Human Spinal Cord: Targeted, Neuroscience Panel. Stains: DAPI, Anti-SNAP25, Anti-GFAP, Anti-Myelin CNPase",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_spatial.tar.gz"
+      }
+    }
+  }
+}

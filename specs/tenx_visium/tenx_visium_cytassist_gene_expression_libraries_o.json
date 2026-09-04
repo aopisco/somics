@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_cytassist_gene_expression_libraries_o",
+  "study": "visium-cytassist-gene-expression-libraries-of-post-xenium-human-colon-cancer-ffpe-using-the-human-whole-transcriptome-probe-set-2-standard",
+  "study_name": "Visium CytAssist Gene Expression Libraries of Post-Xenium Human Colon Cancer (FFPE)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "colon",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-cytassist-gene-expression-libraries-of-post-xenium-human-colon-cancer-ffpe-using-the-human-whole-transcriptome-probe-set-2-standard",
+  "source": {
+    "pipeline": "Space Ranger 2.1.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1696524989",
+    "bytes": 3351097117
+  },
+  "donors": {
+    "CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "cancer; adenocarcinoma stage IIA",
+      "description": "Donor of the 10x Genomics dataset 'visium-cytassist-gene-expression-libraries-of-post-xenium-human-colon-cancer-ffpe-using-the-human-whole-transcriptome-probe-set-2-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2": {
+      "section_id": "CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2",
+      "donor_id": "CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_donor",
+      "block_id": "CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_block",
+      "section_index": 0,
+      "replicate": 2,
+      "accession_id": "visium-cytassist-gene-expression-libraries-of-post-xenium-human-colon-cancer-ffpe-using-the-human-whole-transcriptome-probe-set-2-standard",
+      "sample_name": "Visium CytAssist Gene Expression Libraries of Post-Xenium Human Colon Cancer (FFPE)",
+      "disease_state": "diseased",
+      "disease": "cancer; adenocarcinoma stage IIA",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_tissue_image.btf",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2/CytAssist_FFPE_Human_Colon_Post_Xenium_Rep2_spatial.tar.gz"
+      }
+    }
+  }
+}

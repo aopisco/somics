@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_6p5mm_human_colon_cancer",
+  "study": "visium-hd-cytassist-6p5mm-human-colon-cancer",
+  "study_name": "Visium HD Spatial Gene Expression Library, Human Colon Cancer (FFPE), 6.5 mm Capture Area",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "colon",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-6p5mm-human-colon-cancer",
+  "source": {
+    "pipeline": "Space Ranger 4.1.0",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1777393351",
+    "bytes": 14854272144
+  },
+  "donors": {
+    "Visium_HD_6p5mm_Human_Colon_Cancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Colon cancer",
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-6p5mm-human-colon-cancer'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_6p5mm_Human_Colon_Cancer": {
+      "section_id": "Visium_HD_6p5mm_Human_Colon_Cancer",
+      "donor_id": "Visium_HD_6p5mm_Human_Colon_Cancer_donor",
+      "block_id": "Visium_HD_6p5mm_Human_Colon_Cancer_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-6p5mm-human-colon-cancer",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Human Colon Cancer (FFPE), 6.5 mm Capture Area",
+      "disease_state": "diseased",
+      "disease": "Colon cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Colon_Cancer/Visium_HD_6p5mm_Human_Colon_Cancer_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Colon_Cancer/Visium_HD_6p5mm_Human_Colon_Cancer_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

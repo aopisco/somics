@@ -140,29 +140,45 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
         ),
         AddColumn(
             column="tissue",
-            value=spec["tissue"],
+            value=entry.get("tissue", spec.get("tissue")),
             tool="resolve_tissues",
-            reason="UBERON label; one tissue across the study",
+            reason="UBERON label",
         ),
         AddColumn(
             column="disease_state",
-            value=spec["disease_state"],
+            value=entry.get("disease_state", spec.get("disease_state")),
             tool="schema_align",
-            reason="study-level health status",
+            reason="section-level health status",
+        ),
+        # Only a diseased section adds `disease`. A healthy one leaves the column
+        # to finalization's null-init, which is what the LIBD sections did and
+        # what the published atlas holds -- adding an explicit all-null column
+        # here would change nothing but the audit trail.
+        *(
+            [
+                AddColumn(
+                    column="disease",
+                    value=entry["disease"],
+                    tool="resolve_diseases",
+                    reason="MONDO label for this section's diagnosis",
+                )
+            ]
+            if entry.get("disease")
+            else []
         ),
         AddColumn(
             column="spatial_unit",
             value=spec["spatial_unit"],
             tool="schema_align",
-            reason="an obs row is a capture spot, not a segmented cell",
+            reason="an obs row is a capture spot or bin, not a segmented cell",
         ),
         AddColumn(
             column="segmentation_method",
             value=spec["segmentation_method"],
             tool="schema_align",
             reason=(
-                "a spot is a fixed position on the capture area, so the boundary comes from "
-                "the grid rather than from segmentation"
+                "a spot or bin is a fixed position on the capture area, so the boundary comes "
+                "from the grid rather than from segmentation"
             ),
         ),
         RenameColumn(
@@ -194,6 +210,7 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             "organism",
             "tissue",
             "disease_state",
+            "disease",
             "spatial_unit",
             "segmentation_method",
             "additional_metadata",

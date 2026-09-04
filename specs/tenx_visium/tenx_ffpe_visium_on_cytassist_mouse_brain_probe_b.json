@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_ffpe_visium_on_cytassist_mouse_brain_probe_b",
+  "study": "ffpe-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard",
+  "study_name": "Preservation Method Comparison on CytAssist: FFPE Mouse Brain (Sagittal), 11 mm Capture Area",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/ffpe-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard",
+  "source": {
+    "pipeline": "Space Ranger 2.0.1",
+    "product": "Spatial Gene Expression",
+    "published_at": "1681761121",
+    "bytes": 6734338107
+  },
+  "donors": {
+    "CytAssist_FFPE_Sagittal_Mouse_Brain_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'ffpe-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "CytAssist_FFPE_Sagittal_Mouse_Brain": {
+      "section_id": "CytAssist_FFPE_Sagittal_Mouse_Brain",
+      "donor_id": "CytAssist_FFPE_Sagittal_Mouse_Brain_donor",
+      "block_id": "CytAssist_FFPE_Sagittal_Mouse_Brain_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "ffpe-visium-on-cytassist-mouse-brain-probe-based-whole-transcriptome-profiling-2-standard",
+      "sample_name": "Preservation Method Comparison on CytAssist: FFPE Mouse Brain (Sagittal), 11 mm Capture Area",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_FFPE_Sagittal_Mouse_Brain/CytAssist_FFPE_Sagittal_Mouse_Brain_tissue_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_FFPE_Sagittal_Mouse_Brain/CytAssist_FFPE_Sagittal_Mouse_Brain_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_FFPE_Sagittal_Mouse_Brain/CytAssist_FFPE_Sagittal_Mouse_Brain_spatial.tar.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_preservation_method_comparison_on_visium_cyt",
+  "study": "preservation-method-comparison-on-visium-cytassist-fixed-frozen-mouse-brain-sagittal-11-mm-capture-area-2-standard",
+  "study_name": "Preservation Method Comparison on Visium CytAssist: Fixed Frozen Mouse Brain (Sagittal), 11 mm Capture Area",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "fixed_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/preservation-method-comparison-on-visium-cytassist-fixed-frozen-mouse-brain-sagittal-11-mm-capture-area-2-standard",
+  "source": {
+    "pipeline": "Space Ranger 2.1.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1686253027",
+    "bytes": 4946108286
+  },
+  "donors": {
+    "CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'preservation-method-comparison-on-visium-cytassist-fixed-frozen-mouse-brain-sagittal-11-mm-capture-area-2-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain": {
+      "section_id": "CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain",
+      "donor_id": "CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_donor",
+      "block_id": "CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "preservation-method-comparison-on-visium-cytassist-fixed-frozen-mouse-brain-sagittal-11-mm-capture-area-2-standard",
+      "sample_name": "Preservation Method Comparison on Visium CytAssist: Fixed Frozen Mouse Brain (Sagittal), 11 mm Capture Area",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_tissue_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/2.1.0/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain/CytAssist_Fixed_Frozen_Sagittal_Mouse_Brain_spatial.tar.gz"
+      }
+    }
+  }
+}
