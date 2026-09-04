@@ -155,6 +155,18 @@ pass; if a package changes, rebuild the atlas.
 not whether the dataset is complete, so the next run skips it and then fails
 looking for its zarr group. Wipe the atlas and re-ingest.
 
+**Image ingestion follows the DCA spec**
+(`chanzuckerberg/dynamic-cell-atlas-specs-private`, v0.2; gap analysis and
+division of labor in `docs/2026-09-02_dca_spec_alignment.md`). One rule from
+that spec that is easy to get wrong by pattern-matching: the `perturbation`
+block is conditionally required, and whether a dataset has perturbations is a
+**judgment about the experiment, not a machine-checkable property** — the spec
+says so explicitly. Every dataset in the atlas so far happens to be
+unperturbed, but spatial datasets with CRISPRi guides, drug treatments, or
+other perturbational designs exist and must carry a filled
+`PerturbationAssignment`. **Check each dataset for perturbational treatment
+before omitting the block; never omit it because previous datasets did.**
+
 ## The rebuild: done, and it found a defect in the original
 
 **58 of 59 sections reproduce exactly; the 59th differs because the published
