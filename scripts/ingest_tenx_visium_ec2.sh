@@ -46,7 +46,7 @@ BRANCH=${SOMICS_BRANCH:-tenx-visium-ingest}  # point at main once merged
 
 fail() {
   aws s3 cp /var/log/ingest.log $B/ingest-FAILED-$STAMP.log --region $REGION
-  [ -d "${ATLAS:-/nonexistent}/lance_db" ] && aws s3 sync $ATLAS $ATLAS_DEST --delete --region $REGION --only-show-errors
+  [ -d "${ATLAS:-/nonexistent}/lance_db" ] && aws s3 sync $ATLAS $ATLAS_DEST --delete --exclude "_*" --region $REGION --only-show-errors
   [ -f "$D/failed.txt" ] && aws s3 cp $D/failed.txt $ATLAS_DEST/_failed.txt --region $REGION
   aws s3 cp /var/log/ingest.log $ATLAS_DEST/_ingest.log --region $REGION
   echo "FAILED $STAMP" | aws s3 cp - $ATLAS_DEST/_FAILED --region $REGION
@@ -155,6 +155,13 @@ PY
   if ! SPEC=$SPEC bash scripts/run_visium_pipeline.sh > $D/$KEY.log 2>&1; then
     tail -40 $D/$KEY.log
     aws s3 cp $D/$KEY.log $ATLAS_DEST/_logs/$KEY.log --region $REGION
+    if grep -q "refusing to ingest" $D/$KEY.log; then
+      # somics.ingest checks section uids before it writes anything: the atlas
+      # is untouched and this dataset is a re-release of a section already in.
+      echo "$KEY	duplicate section (already in the atlas)" >> $D/failed.txt
+      rm -rf $SOMICS_DATA_HOME/datasets/$KEY $SOMICS_DATA_HOME/polycomb_data_packages/$KEY
+      continue
+    fi
     if grep -q "== 6. ingest ==" $D/$KEY.log; then
       echo "FATAL: $KEY failed inside ingest; the atlas may hold a partial dataset"
       echo "$KEY	ingest (fatal)" >> $D/failed.txt
@@ -168,7 +175,7 @@ PY
   echo "$KEY	$((T1-T0))	$((T2-T1))	$((T3-T2))" >> $D/done.txt
 
   # 4. preserve, 5. free
-  aws s3 sync $ATLAS $ATLAS_DEST --delete --region $REGION --only-show-errors || fail
+  aws s3 sync $ATLAS $ATLAS_DEST --delete --exclude "_*" --region $REGION --only-show-errors || fail
   aws s3 cp $D/done.txt $ATLAS_DEST/_done.txt --region $REGION
   [ -f $D/failed.txt ] && aws s3 cp $D/failed.txt $ATLAS_DEST/_failed.txt --region $REGION
   aws s3 cp /var/log/ingest.log $ATLAS_DEST/_ingest.log --region $REGION
@@ -177,7 +184,7 @@ PY
 done
 
 # ---- finish -----------------------------------------------------------------
-aws s3 sync $ATLAS $ATLAS_DEST --delete --region $REGION --only-show-errors || fail
+aws s3 sync $ATLAS $ATLAS_DEST --delete --exclude "_*" --region $REGION --only-show-errors || fail
 aws s3 cp $D/provenance.txt $ATLAS_DEST/_provenance.txt --region $REGION
 aws s3 cp $D/order.txt $ATLAS_DEST/_order.txt --region $REGION
 [ -f $D/done.txt ] && aws s3 cp $D/done.txt $ATLAS_DEST/_done.txt --region $REGION

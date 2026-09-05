@@ -15,11 +15,12 @@ dataset, extends the Visium builder to read every Space Ranger layout 10x has
 published, and runs the lot unattended on EC2 into the atlas the 2026-09-02
 rebuild verified.
 
-**95 datasets are buildable (52 Visium, 43 HD), 810 GB of source.** 16 are
+**78 datasets are buildable (42 Visium, 36 HD), ~690 GB of source.** 33 are
 not, each with a recorded reason in `data/tenx_visium_files.csv`:
 
 | reason | n |
 |---|---:|
+| re-release of a sample already carried by a newer Space Ranger row (see below) | 17 |
 | no verified bundle URL (Targeted-Compare per-artifact releases, pages rendering no CDN links) | 5 |
 | several tissues on one capture area (tissue microarrays, cerebellum + brain rows) | 6 |
 | Space Ranger `aggr` output, several sections in one matrix | 2 |
@@ -27,7 +28,20 @@ not, each with a recorded reason in `data/tenx_visium_files.csv`:
 | two species on one capture area (xenograft) | 1 |
 | no full-resolution image on the CDN (Alzheimer's AppNote) | 1 |
 
-None of these is blocked on code that does not exist; they need a per-row
+**The 17 re-releases are registry duplicates.** 10x reprocesses the same
+sample under newer Space Ranger versions and lists each as a dataset; the
+catalogue harvest took them at face value, so 16 samples have two or three
+rows (`V1_Adult_Mouse_Brain` at 1.0.0 and 2.1.0, `V1_Mouse_Brain_Sagittal_
+Anterior_Section_2` at 1.0.0, 1.1.0 and 2.0.0, six Visium HD samples at 3.x
+and 4.0.1, ...). They are one section each, and the atlas's stable
+`section_uid` refused the second copy in the first run — the guard doing
+exactly its job. Policy: the newest release is ingested; the older rows are
+skipped here and should be folded into the registry as re-releases of one
+dataset rather than kept as datasets in their own right. That is a
+`datasets.csv` edit for a later pass (the one-dataset-per-row rule cuts both
+ways).
+
+None of the remaining 16 is blocked on code that does not exist; they need a per-row
 decision (split by tissue, pick an organism convention for xenografts, a
 per-library split for `aggr`) and are left for a human.
 
@@ -130,6 +144,13 @@ dataset, with `_done.txt` (per-dataset timings), `_failed.txt`, `_order.txt`,
 the end. Source files are staged to `s3://somics-dev/raw/<dataset_id>/` with a
 `_manifest.json` as they are fetched, so the corpus grows whether or not the
 ingest of a given dataset succeeds.
+
+**Run history.** The first launch (`2026-09-04T23-44-58Z`) ingested ten
+datasets in twelve minutes, skipped the two spinal cord stacks (fluorescence,
+fixed above), then stopped on the eleventh: the re-release of a section it had
+just ingested, which the ingest guard refused before writing. Its prefix
+carries `_FAILED`. The second launch starts again from the verified rebuild
+with the re-releases skipped up front.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so

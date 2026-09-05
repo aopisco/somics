@@ -20,7 +20,14 @@ changed across Space Ranger releases:
   full-resolution image only as a JPEG
 
 Each candidate is HEAD-probed and recorded with its size, so what is written
-here is what exists, not what the naming convention predicts. Rows that cannot
+here is what exists, not what the naming convention predicts.
+
+10x re-releases the same sample under newer Space Ranger versions, and the
+catalogue (and so the registry) has one row per release: 16 samples appear
+two or three times. They are one section, and the atlas's stable
+``section_uid`` refuses the second copy. Only the newest release is buildable
+here; the older rows are skipped with a reason naming the row that carries
+the sample. Rows that cannot
 be built by the spec-driven builder are kept with a ``skip_reason`` rather than
 dropped, so the table is the complete accounting of the block.
 
@@ -153,6 +160,29 @@ def resolve(row: pd.Series) -> dict:
     return out
 
 
+def _version(prefix: str) -> tuple[int, ...]:
+    m = re.search(r"/spatial-exp/([\d.]+)/", prefix)
+    return tuple(int(x) for x in m.group(1).split(".")) if m else (0,)
+
+
+def dedupe_rereleases(results: list[dict]) -> None:
+    """Keep the newest Space Ranger release of each 10x sample; skip the rest."""
+    by_sample: dict[str, list[dict]] = {}
+    for r in results:
+        if not r["skip_reason"] and r["sample"]:
+            by_sample.setdefault(r["sample"], []).append(r)
+    for sample, rows in by_sample.items():
+        if len(rows) < 2:
+            continue
+        rows.sort(key=lambda r: _version(r["cdn_prefix"]), reverse=True)
+        keep = rows[0]
+        for r in rows[1:]:
+            r["skip_reason"] = (
+                f"re-release of 10x sample {sample} under an older Space Ranger; "
+                f"the section is ingested from {keep['dataset_id']}"
+            )
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--workers", type=int, default=8)
@@ -163,6 +193,7 @@ def main() -> None:
     print(f"{len(rows)} 10x Visium/HD rows")
     with cf.ThreadPoolExecutor(args.workers) as pool:
         results = list(pool.map(resolve, [r for _, r in rows.iterrows()]))
+    dedupe_rereleases(results)
     results.sort(key=lambda r: (bool(r["skip_reason"]), r["platform"], r["dataset_id"]))
     with open(OUT, "w", newline="") as handle:
         w = csv.DictWriter(handle, fieldnames=list(results[0]))
