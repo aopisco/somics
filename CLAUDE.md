@@ -8,7 +8,7 @@ cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs fin
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,585 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5,764 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -26,10 +26,13 @@ has been ported to it yet** — see its issue #1 for the plan.
 | file | grain | rows |
 |---|---|---|
 | `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,429 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,585 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,764 |
 | `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
+| `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
+| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 17 |
+| `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
 
 Key columns on `datasets.csv`: `is_spatial` (yes/no/unknown), `modality`
 (spatial transcriptomics / proteomics / epigenomics), `data_access_link`
@@ -59,6 +62,12 @@ mapping is unresolved), `first_published_by_model_paper`.
   different for each.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
+- **One sample per row, too.** 10x's catalogue lists every Space Ranger
+  reprocessing of a sample as a new dataset; 16 Visium/HD samples had two or
+  three rows until `scripts/fold_tenx_rereleases.py` kept the newest release
+  and moved the rest to `data/tenx_rereleased_rows.csv` (2026-09-05). The
+  atlas's stable `section_uid` is what caught it. Check the CDN sample name,
+  not the landing page, when a new 10x harvest lands.
 - **One technology per row.** A row is one measurement of one tissue on one
   platform. A row naming several is several datasets — split it, duplicating
   every other field and the `model_dataset_usage.csv` entries.
@@ -446,6 +455,8 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/make_tenx_visium_specs.py` | those files + the catalogue → one spec per dataset in `specs/tenx_visium/` |
 | `scripts/run_visium_pipeline.sh` | build + ingest any Visium or Visium HD spec (LIBD runner delegates to it) |
 | `scripts/ingest_tenx_visium_ec2.sh` | user-data: fetch, stage to `raw/`, build, ingest, sync — the whole 10x Visium block |
+| `scripts/verify_visium_ingest.py` | read ingested Visium/HD sections back (local or S3 atlas) and check them against spec, source and image frame |
+| `scripts/fold_tenx_rereleases.py` | fold 10x re-release rows into one per sample; write the block's `data_downloadable` verdicts and review list |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
