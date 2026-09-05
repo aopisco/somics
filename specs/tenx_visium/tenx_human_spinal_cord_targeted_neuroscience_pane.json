@@ -48,8 +48,8 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_image.tif",
-        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_filtered_feature_bc_matrix.h5",
-        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_spatial.tar.gz"
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_spatial.tar.gz",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Targeted_Visium_Human_SpinalCord_Neuroscience/Targeted_Visium_Human_SpinalCord_Neuroscience_filtered_feature_bc_matrix.h5"
       }
     }
   }

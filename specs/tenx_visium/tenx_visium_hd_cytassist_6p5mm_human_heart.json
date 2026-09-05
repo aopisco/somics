@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD Spatial Gene Expression",
     "published_at": "1777393351",
-    "bytes": 11893125757
+    "bytes": 11966817070
   },
   "donors": {
     "Visium_HD_6p5mm_Human_Heart_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Heart/Visium_HD_6p5mm_Human_Heart_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Heart/Visium_HD_6p5mm_Human_Heart_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Heart/Visium_HD_6p5mm_Human_Heart_binned_outputs.tar.gz"
       }
     }

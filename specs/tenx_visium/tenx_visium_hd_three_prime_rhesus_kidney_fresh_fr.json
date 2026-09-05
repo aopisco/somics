@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1749572551",
-    "bytes": 4197807670
+    "bytes": 4264880664
   },
   "donors": {
     "Visium_HD_3prime_Rhesus_Kidney_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Rhesus_Kidney/Visium_HD_3prime_Rhesus_Kidney_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Rhesus_Kidney/Visium_HD_3prime_Rhesus_Kidney_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Rhesus_Kidney/Visium_HD_3prime_Rhesus_Kidney_binned_outputs.tar.gz"
       }
     }

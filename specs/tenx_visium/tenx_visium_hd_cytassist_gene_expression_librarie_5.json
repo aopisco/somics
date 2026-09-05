@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1751559751",
-    "bytes": 27010583557
+    "bytes": 27073297160
   },
   "donors": {
     "Visium_HD_Human_Colon_Cancer_donor": {
@@ -43,6 +43,7 @@
       "disease": "Colorectal cancer",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Colon_Cancer/Visium_HD_Human_Colon_Cancer_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Colon_Cancer/Visium_HD_Human_Colon_Cancer_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Colon_Cancer/Visium_HD_Human_Colon_Cancer_binned_outputs.tar.gz"
       }
     }

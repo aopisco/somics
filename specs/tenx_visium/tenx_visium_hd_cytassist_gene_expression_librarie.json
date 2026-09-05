@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1753374151",
-    "bytes": 20823669817
+    "bytes": 20923899075
   },
   "donors": {
     "Visium_HD_FF_Human_Breast_Cancer_donor": {
@@ -43,6 +43,7 @@
       "disease": "cancer",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_FF_Human_Breast_Cancer/Visium_HD_FF_Human_Breast_Cancer_tissue_image.tif",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_FF_Human_Breast_Cancer/Visium_HD_FF_Human_Breast_Cancer_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_FF_Human_Breast_Cancer/Visium_HD_FF_Human_Breast_Cancer_binned_outputs.tar.gz"
       }
     }

@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 3.1.2",
     "product": "HD Spatial Gene Expression",
     "published_at": "1740068551",
-    "bytes": 20316824974
+    "bytes": 20407700422
   },
   "donors": {
     "Visium_HD_FF_Human_Tonsil_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.2/Visium_HD_FF_Human_Tonsil/Visium_HD_FF_Human_Tonsil_tissue_image.tif",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.2/Visium_HD_FF_Human_Tonsil/Visium_HD_FF_Human_Tonsil_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.2/Visium_HD_FF_Human_Tonsil/Visium_HD_FF_Human_Tonsil_binned_outputs.tar.gz"
       }
     }

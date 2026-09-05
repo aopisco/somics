@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD Spatial Gene Expression",
     "published_at": "1777393351",
-    "bytes": 32486986950
+    "bytes": 32561635346
   },
   "donors": {
     "Visium_HD_11mm_Mouse_Embryo_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Mouse_Embryo/Visium_HD_11mm_Mouse_Embryo_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Mouse_Embryo/Visium_HD_11mm_Mouse_Embryo_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Mouse_Embryo/Visium_HD_11mm_Mouse_Embryo_binned_outputs.tar.gz"
       }
     }

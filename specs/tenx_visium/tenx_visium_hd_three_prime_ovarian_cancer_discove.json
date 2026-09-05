@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1759854151",
-    "bytes": 13993939769
+    "bytes": 14080632192
   },
   "donors": {
     "Visium_HD_3prime_Human_Ovarian_Cancer_FF_donor": {
@@ -43,6 +43,7 @@
       "disease": "Papillary Serous Carcinoma",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer_FF/Visium_HD_3prime_Human_Ovarian_Cancer_FF_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer_FF/Visium_HD_3prime_Human_Ovarian_Cancer_FF_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer_FF/Visium_HD_3prime_Human_Ovarian_Cancer_FF_binned_outputs.tar.gz"
       }
     }

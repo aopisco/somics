@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1784046151",
-    "bytes": 1217374428
+    "bytes": 1276419197
   },
   "donors": {
     "Visium_HD_3prime_Mouse_Ovary_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Mouse_Ovary/Visium_HD_3prime_Mouse_Ovary_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Mouse_Ovary/Visium_HD_3prime_Mouse_Ovary_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Mouse_Ovary/Visium_HD_3prime_Mouse_Ovary_binned_outputs.tar.gz"
       }
     }

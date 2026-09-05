@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD Spatial Gene Expression",
     "published_at": "1785774151",
-    "bytes": 18627299843
+    "bytes": 18701993832
   },
   "donors": {
     "Visium_HD_6p5mm_Rat_Liver_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Rat_Liver/Visium_HD_6p5mm_Rat_Liver_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Rat_Liver/Visium_HD_6p5mm_Rat_Liver_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Rat_Liver/Visium_HD_6p5mm_Rat_Liver_binned_outputs.tar.gz"
       }
     }

@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1751559751",
-    "bytes": 10770478728
+    "bytes": 10851051325
   },
   "donors": {
     "Visium_HD_Human_Kidney_FFPE_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Kidney_FFPE/Visium_HD_Human_Kidney_FFPE_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Kidney_FFPE/Visium_HD_Human_Kidney_FFPE_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Kidney_FFPE/Visium_HD_Human_Kidney_FFPE_binned_outputs.tar.gz"
       }
     }

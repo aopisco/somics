@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 3.1.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1726590151",
-    "bytes": 21858775722
+    "bytes": 21916789212
   },
   "donors": {
     "Visium_HD_Mouse_Lung_Fresh_Frozen_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Mouse_Lung_Fresh_Frozen/Visium_HD_Mouse_Lung_Fresh_Frozen_tissue_image.tif",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Mouse_Lung_Fresh_Frozen/Visium_HD_Mouse_Lung_Fresh_Frozen_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Mouse_Lung_Fresh_Frozen/Visium_HD_Mouse_Lung_Fresh_Frozen_binned_outputs.tar.gz"
       }
     }

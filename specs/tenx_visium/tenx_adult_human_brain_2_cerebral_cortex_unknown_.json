@@ -46,8 +46,8 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_2/V1_Human_Brain_Section_2_image.tif",
-        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_2/V1_Human_Brain_Section_2_filtered_feature_bc_matrix.h5",
-        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_2/V1_Human_Brain_Section_2_spatial.tar.gz"
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_2/V1_Human_Brain_Section_2_spatial.tar.gz",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Brain_Section_2/V1_Human_Brain_Section_2_filtered_feature_bc_matrix.h5"
       }
     }
   }
