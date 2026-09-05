@@ -191,9 +191,13 @@ def extract_hd_bin(sample_dir: str, bin_um: int) -> str:
     """
     tag = f"square_{bin_um:03d}um"
     dest = os.path.join(sample_dir, tag)
-    wanted = ("filtered_feature_bc_matrix.h5", "spatial/scalefactors_json.json") + tuple(
-        f"spatial/{n}" for n in POSITION_FILES
-    )
+    # The hires PNG is what check_frame compares the image against; without it
+    # the check degrades to a bounds test that partial scans fail.
+    wanted = (
+        "filtered_feature_bc_matrix.h5",
+        "spatial/scalefactors_json.json",
+        "spatial/tissue_hires_image.png",
+    ) + tuple(f"spatial/{n}" for n in POSITION_FILES)
     if os.path.exists(os.path.join(dest, "filtered_feature_bc_matrix.h5")) and any(
         os.path.exists(os.path.join(dest, "spatial", n)) for n in POSITION_FILES
     ):

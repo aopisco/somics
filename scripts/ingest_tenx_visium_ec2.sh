@@ -96,7 +96,8 @@ import glob, json, os
 import lancedb
 only = set(os.environ.get("ONLY", "").split())
 db = lancedb.connect(os.path.join(os.environ["ATLAS"], "lance_db"))
-names = list(db.list_tables() if hasattr(db, "list_tables") else db.table_names())
+names = db.list_tables() if hasattr(db, "list_tables") else db.table_names()
+names = list(getattr(names, "tables", names))  # lancedb >= 0.25 wraps the list
 present = set()
 if "TissueSectionSchema" in names:
     present = set(db.open_table("TissueSectionSchema").to_arrow().column("section_id").to_pylist())
