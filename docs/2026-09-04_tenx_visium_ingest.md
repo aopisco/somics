@@ -173,8 +173,13 @@ skips were the frame check falling back to a bounds test because the HD
 extraction had not pulled the hires PNG, plus one padded image over 4 GB
 written as classic TIFF; and its skip-already-present step matched nothing
 (lancedb wraps the table list), so the 36 ingested datasets were re-fetched
-and refused. All three fixed; the fourth launch runs from run 3's atlas over
-the 15 that remain.
+and refused. All three fixed; the fourth launch (`2026-09-05T16-49-25Z`) ran from run 3's
+atlas over the 15 that remained: **6 in, 128 sections in the atlas**, 9
+skipped because Space Ranger 4.0.1 and 3.0.0 HD tarballs carry no hires
+image per bin, so the frame check had nothing to compare against. 10x's
+top-level `_spatial.tar.gz` for HD has the hires and lowres images (no scale
+factors); the builder now takes the frame image from there with the bin's own
+factors. The fifth launch runs from run 4's atlas over those 9.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so
