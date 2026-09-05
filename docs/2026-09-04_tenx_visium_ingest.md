@@ -160,8 +160,14 @@ ingest of a given dataset succeeds.
 datasets in twelve minutes, skipped the two spinal cord stacks (fluorescence,
 fixed above), then stopped on the eleventh: the re-release of a section it had
 just ingested, which the ingest guard refused before writing. Its prefix
-carries `_FAILED`. The second launch starts again from the verified rebuild
-with the re-releases skipped up front.
+carries `_FAILED`. The second launch (`2026-09-05T00-18-10Z`) started again
+from the verified rebuild with the re-releases skipped up front, ingested 36
+of 78 and skipped 20 -- every skip one of two causes fixed on the branch
+while it ran (fluorescence stacks failing on the harmonizer's library-db path,
+and CytAssist scans that do not cover every spot). It was stopped by hand at
+dataset 57 (marker `_STOPPED`), between syncs, because each HD skip was a
+wasted 14 GB fetch. The third launch runs the fixed code from that atlas and
+processes only what is not already in it.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so

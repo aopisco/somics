@@ -288,7 +288,9 @@ first (the other new gotcha below).
    `data/tenx_visium_files.csv` — **17 of them are registry duplicates**: 10x
    lists each Space Ranger re-release of a sample as a dataset, and the
    harvest took that at face value. Fold them into one row each.
-   Second launch 2026-09-04 as `somics-tenx-visium-2`
+   Third launch 2026-09-05 as `somics-tenx-visium-3`, continuing from run 2's
+   atlas (`ingest/tenx_visium/atlas/2026-09-05T00-18-10Z`, 36 sections in;
+   run history in the doc)
    (user-data `scripts/ingest_tenx_visium_ec2.sh`), writing to
    `s3://somics-dev/ingest/tenx_visium/atlas/<stamp>/` on top of the verified
    rebuild. Judge it by `_done.txt` / `_failed.txt` / `_DONE` there, not by the
