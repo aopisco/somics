@@ -1,0 +1,57 @@
+{
+  "dataset_key": "hubmap_hbm938_xvrs_528_unspecified_lung_right_na",
+  "hubmap_id": "HBM938.XVRS.528",
+  "uuid": "cbd3adc472cb3f43bbdebd83204af337",
+  "study": "cbd3adc472cb3f43bbdebd83204af337",
+  "study_name": "PhenoCycler [DeepCell + SPRM] data from the lung (right) of a 24-year-old black or african american female",
+  "assay": "PhenoCycler",
+  "technology": "phenocycler",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "segmentation_note": "DeepCell (Mesmer) whole-cell segmentation on the nuclear and membrane channels; the enum has no deep-learning member other than cellpose, which this is not",
+  "pipeline": "DeepCell + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "lung (right)",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM938.XVRS.528",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/cbd3adc472cb3f43bbdebd83204af337",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM938.XVRS.528",
+  "source": {
+    "dataset_type": "PhenoCycler [DeepCell + SPRM]",
+    "group_name": "University of Rochester Medical Center TMC",
+    "published_timestamp": null,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM938.XVRS.528_donor": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 24.0,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "24-year-old stage",
+      "ethnicity": "black or african american",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM565.TRST.423 (University of Rochester Medical Center TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM938.XVRS.528_reg001",
+      "donor_id": "HBM938.XVRS.528_donor",
+      "block_id": "HBM365.VQTL.758",
+      "section_index": 0,
+      "sample_name": "HBM938.XVRS.528 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip"
+      }
+    }
+  }
+}
