@@ -165,9 +165,9 @@ def write_registries(
                     spec["image_modality"], IMAGE_DESCRIPTION["he"]
                 )
                 + (
-                    f" Padded with background from {g['padded_from_hw'][1]}x{g['padded_from_hw'][0]} px "
-                    "to cover capture-area spots past the edge of the microscope scan; crops there "
-                    "are blank."
+                    f" Padded with background from {g['padded_from_hw'][1]}x"
+                    f"{g['padded_from_hw'][0]} px to cover capture-area spots past the edge of "
+                    "the microscope scan; crops there are blank."
                     if g.get("padded_from_hw")
                     else ""
                 ),

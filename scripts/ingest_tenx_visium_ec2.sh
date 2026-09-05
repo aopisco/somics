@@ -88,13 +88,26 @@ echo "base atlas: $BASE_ATLAS" > $D/provenance.txt
 
 # ---- run order: smallest first, a healthy human Visium as the smoke test ---
 cd $D/repo
-ORDER=$(ONLY="$ONLY" uv run python - <<'PY'
+# Specs whose sections the base atlas already holds are skipped here, before
+# any fetch: a follow-up pass from a previous run's atlas then processes only
+# what that run did not ingest, with no list to maintain.
+ORDER=$(ONLY="$ONLY" ATLAS="$ATLAS" uv run python - <<'PY'
 import glob, json, os
+import lancedb
 only = set(os.environ.get("ONLY", "").split())
+db = lancedb.connect(os.path.join(os.environ["ATLAS"], "lance_db"))
+names = list(db.list_tables() if hasattr(db, "list_tables") else db.table_names())
+present = set()
+if "TissueSectionSchema" in names:
+    present = set(db.open_table("TissueSectionSchema").to_arrow().column("section_id").to_pylist())
 specs = []
+skipped = []
 for p in sorted(glob.glob("specs/tenx_visium/*.json")):
     s = json.load(open(p))
     if only and s["dataset_key"] not in only:
+        continue
+    if all(e["section_id"] in present for e in s["samples"].values()):
+        skipped.append(s["dataset_key"])
         continue
     sample = next(iter(s["samples"].values()))
     smoke = not (s["technology"] == "visium" and s["organism"] == "Homo sapiens"
@@ -102,6 +115,8 @@ for p in sorted(glob.glob("specs/tenx_visium/*.json")):
     specs.append((smoke, s["technology"] == "visium_hd", s["source"]["bytes"], p))
 for _, _, _, p in sorted(specs):
     print(p)
+import sys
+print(f"{len(skipped)} spec(s) already in the base atlas: {skipped}", file=sys.stderr)
 PY
 ) || fail
 echo "$ORDER" > $D/order.txt
