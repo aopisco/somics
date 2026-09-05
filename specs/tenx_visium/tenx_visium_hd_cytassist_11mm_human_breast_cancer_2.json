@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_11mm_human_breast_cancer_2",
+  "study": "visium-hd-cytassist-11mm-human-breast-cancer-tma",
+  "study_name": "Visium HD Spatial Gene Expression Library, Human Breast Cancer Tissue Microarray (FFPE), 11 mm Capture Area",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "breast",
+  "preservation": "ffpe",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-11mm-human-breast-cancer-tma",
+  "source": {
+    "pipeline": "Space Ranger 4.1.0",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1777393351",
+    "bytes": 39841269710
+  },
+  "donors": {
+    "Visium_HD_11mm_Human_Breast_Cancer_TMA_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Breast cancer",
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-11mm-human-breast-cancer-tma'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_11mm_Human_Breast_Cancer_TMA": {
+      "section_id": "Visium_HD_11mm_Human_Breast_Cancer_TMA",
+      "donor_id": "Visium_HD_11mm_Human_Breast_Cancer_TMA_donor",
+      "block_id": "Visium_HD_11mm_Human_Breast_Cancer_TMA_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-11mm-human-breast-cancer-tma",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Human Breast Cancer Tissue Microarray (FFPE), 11 mm Capture Area",
+      "disease_state": "diseased",
+      "disease": "Breast cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Human_Breast_Cancer_TMA/Visium_HD_11mm_Human_Breast_Cancer_TMA_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_11mm_Human_Breast_Cancer_TMA/Visium_HD_11mm_Human_Breast_Cancer_TMA_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

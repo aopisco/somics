@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_gene_expression_human_to_2",
+  "study": "visium-hd-cytassist-gene-expression-human-tonsil-fresh-frozen-if",
+  "study_name": "Visium HD Spatial Gene Expression Library, Human Tonsil, IF (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "tonsil",
+  "preservation": "fresh_frozen",
+  "image_modality": "immunofluorescence",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-gene-expression-human-tonsil-fresh-frozen-if",
+  "source": {
+    "pipeline": "Space Ranger 3.1.1",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1726590151",
+    "bytes": 17498462500
+  },
+  "donors": {
+    "Visium_HD_Human_Tonsil_Fresh_Frozen_IF_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Reactive Follicular Hyperplasia",
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-gene-expression-human-tonsil-fresh-frozen-if'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_Human_Tonsil_Fresh_Frozen_IF": {
+      "section_id": "Visium_HD_Human_Tonsil_Fresh_Frozen_IF",
+      "donor_id": "Visium_HD_Human_Tonsil_Fresh_Frozen_IF_donor",
+      "block_id": "Visium_HD_Human_Tonsil_Fresh_Frozen_IF_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-gene-expression-human-tonsil-fresh-frozen-if",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Human Tonsil, IF (Fresh Frozen)",
+      "disease_state": "diseased",
+      "disease": "Reactive Follicular Hyperplasia",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Tonsil_Fresh_Frozen_IF/Visium_HD_Human_Tonsil_Fresh_Frozen_IF_tissue_image.tif",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Tonsil_Fresh_Frozen_IF/Visium_HD_Human_Tonsil_Fresh_Frozen_IF_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

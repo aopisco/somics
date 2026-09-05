@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_three_prime_mouse_embryo_fresh_fro",
+  "study": "visium-hd-three-prime-mouse-embryo-fresh-frozen",
+  "study_name": "Visium HD 3' Gene Expression Library, Mouse Embryo (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "embryo",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-embryo-fresh-frozen",
+  "source": {
+    "pipeline": "Space Ranger 4.0.1",
+    "product": "HD 3\u2019 Spatial Gene Expression",
+    "published_at": "1749572551",
+    "bytes": 14566722155
+  },
+  "donors": {
+    "Visium_HD_3prime_Mouse_Embryo_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "embryonic",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-three-prime-mouse-embryo-fresh-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_3prime_Mouse_Embryo": {
+      "section_id": "Visium_HD_3prime_Mouse_Embryo",
+      "donor_id": "Visium_HD_3prime_Mouse_Embryo_donor",
+      "block_id": "Visium_HD_3prime_Mouse_Embryo_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-three-prime-mouse-embryo-fresh-frozen",
+      "sample_name": "Visium HD 3' Gene Expression Library, Mouse Embryo (Fresh Frozen)",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Mouse_Embryo/Visium_HD_3prime_Mouse_Embryo_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Mouse_Embryo/Visium_HD_3prime_Mouse_Embryo_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

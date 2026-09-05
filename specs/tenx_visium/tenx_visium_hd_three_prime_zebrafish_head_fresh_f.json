@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_three_prime_zebrafish_head_fresh_f",
+  "study": "visium-hd-three-prime-zebrafish-head-fresh-frozen",
+  "study_name": "Visium HD 3' Gene Expression Library, Zebrafish Head (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Danio rerio",
+  "tissue": "head",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-three-prime-zebrafish-head-fresh-frozen",
+  "source": {
+    "pipeline": "Space Ranger 4.0.1",
+    "product": "HD 3\u2019 Spatial Gene Expression",
+    "published_at": "1751559751",
+    "bytes": 4066359236
+  },
+  "donors": {
+    "Visium_HD_3prime_Zebrafish_Head_donor": {
+      "organism": "Danio rerio",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-three-prime-zebrafish-head-fresh-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_3prime_Zebrafish_Head": {
+      "section_id": "Visium_HD_3prime_Zebrafish_Head",
+      "donor_id": "Visium_HD_3prime_Zebrafish_Head_donor",
+      "block_id": "Visium_HD_3prime_Zebrafish_Head_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-three-prime-zebrafish-head-fresh-frozen",
+      "sample_name": "Visium HD 3' Gene Expression Library, Zebrafish Head (Fresh Frozen)",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Zebrafish_Head/Visium_HD_3prime_Zebrafish_Head_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Zebrafish_Head/Visium_HD_3prime_Zebrafish_Head_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

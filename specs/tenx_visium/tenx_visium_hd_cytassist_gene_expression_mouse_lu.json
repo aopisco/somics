@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_gene_expression_mouse_lu",
+  "study": "visium-hd-cytassist-gene-expression-mouse-lung-fresh-frozen",
+  "study_name": "Visium HD Spatial Gene Expression Library, Mouse Lung (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "lung",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-gene-expression-mouse-lung-fresh-frozen",
+  "source": {
+    "pipeline": "Space Ranger 3.1.1",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1726590151",
+    "bytes": 21858775722
+  },
+  "donors": {
+    "Visium_HD_Mouse_Lung_Fresh_Frozen_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-gene-expression-mouse-lung-fresh-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_Mouse_Lung_Fresh_Frozen": {
+      "section_id": "Visium_HD_Mouse_Lung_Fresh_Frozen",
+      "donor_id": "Visium_HD_Mouse_Lung_Fresh_Frozen_donor",
+      "block_id": "Visium_HD_Mouse_Lung_Fresh_Frozen_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-gene-expression-mouse-lung-fresh-frozen",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Mouse Lung (Fresh Frozen)",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Mouse_Lung_Fresh_Frozen/Visium_HD_Mouse_Lung_Fresh_Frozen_tissue_image.tif",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Mouse_Lung_Fresh_Frozen/Visium_HD_Mouse_Lung_Fresh_Frozen_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

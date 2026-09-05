@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_human_colorectal_cancer_whole_transcriptome_",
+  "study": "human-colorectal-cancer-whole-transcriptome-analysis-1-standard-1-2-0",
+  "study_name": "Human Colorectal Cancer: Whole Transcriptome Analysis",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "large intestine",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-colorectal-cancer-whole-transcriptome-analysis-1-standard-1-2-0",
+  "source": {
+    "pipeline": "Space Ranger 1.2.0",
+    "product": "Spatial Gene Expression",
+    "published_at": "1603782000",
+    "bytes": 557455758
+  },
+  "donors": {
+    "Parent_Visium_Human_ColorectalCancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Invasive Adenocarcinoma",
+      "description": "Donor of the 10x Genomics dataset 'human-colorectal-cancer-whole-transcriptome-analysis-1-standard-1-2-0'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Parent_Visium_Human_ColorectalCancer": {
+      "section_id": "Parent_Visium_Human_ColorectalCancer",
+      "donor_id": "Parent_Visium_Human_ColorectalCancer_donor",
+      "block_id": "Parent_Visium_Human_ColorectalCancer_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "human-colorectal-cancer-whole-transcriptome-analysis-1-standard-1-2-0",
+      "sample_name": "Human Colorectal Cancer: Whole Transcriptome Analysis",
+      "disease_state": "diseased",
+      "disease": "Invasive Adenocarcinoma",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_ColorectalCancer/Parent_Visium_Human_ColorectalCancer_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_ColorectalCancer/Parent_Visium_Human_ColorectalCancer_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_ColorectalCancer/Parent_Visium_Human_ColorectalCancer_spatial.tar.gz"
+      }
+    }
+  }
+}

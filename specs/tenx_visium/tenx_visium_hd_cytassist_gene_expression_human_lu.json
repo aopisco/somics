@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_cytassist_gene_expression_human_lu",
+  "study": "visium-hd-cytassist-gene-expression-human-lung-cancer-fixed-frozen",
+  "study_name": "Visium HD Spatial Gene Expression Library, Human Lung Cancer (Fixed Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "lung",
+  "preservation": "fixed_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-cytassist-gene-expression-human-lung-cancer-fixed-frozen",
+  "source": {
+    "pipeline": "Space Ranger 3.1.1",
+    "product": "HD Spatial Gene Expression",
+    "published_at": "1726590151",
+    "bytes": 13821850734
+  },
+  "donors": {
+    "Visium_HD_Human_Lung_Cancer_Fixed_Frozen_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "cancer",
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-cytassist-gene-expression-human-lung-cancer-fixed-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_Human_Lung_Cancer_Fixed_Frozen": {
+      "section_id": "Visium_HD_Human_Lung_Cancer_Fixed_Frozen",
+      "donor_id": "Visium_HD_Human_Lung_Cancer_Fixed_Frozen_donor",
+      "block_id": "Visium_HD_Human_Lung_Cancer_Fixed_Frozen_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-cytassist-gene-expression-human-lung-cancer-fixed-frozen",
+      "sample_name": "Visium HD Spatial Gene Expression Library, Human Lung Cancer (Fixed Frozen)",
+      "disease_state": "diseased",
+      "disease": "cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Lung_Cancer_Fixed_Frozen/Visium_HD_Human_Lung_Cancer_Fixed_Frozen_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Lung_Cancer_Fixed_Frozen/Visium_HD_Human_Lung_Cancer_Fixed_Frozen_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

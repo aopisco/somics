@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_visium_hd_three_prime_mouse_ovary_fresh_froz",
+  "study": "visium-hd-three-prime-mouse-ovary-fresh-frozen",
+  "study_name": "Visium HD 3' Gene Expression Library, Mouse Ovary (Fresh Frozen)",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium_hd",
+  "spatial_unit": "bin",
+  "unit_size_um": 8.0,
+  "hd_bin_um": 8,
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "ovary",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-ovary-fresh-frozen",
+  "source": {
+    "pipeline": "Space Ranger 4.1.0",
+    "product": "HD 3\u2019 Spatial Gene Expression",
+    "published_at": "1784046151",
+    "bytes": 1217374428
+  },
+  "donors": {
+    "Visium_HD_3prime_Mouse_Ovary_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics dataset 'visium-hd-three-prime-mouse-ovary-fresh-frozen'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Visium_HD_3prime_Mouse_Ovary": {
+      "section_id": "Visium_HD_3prime_Mouse_Ovary",
+      "donor_id": "Visium_HD_3prime_Mouse_Ovary_donor",
+      "block_id": "Visium_HD_3prime_Mouse_Ovary_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "visium-hd-three-prime-mouse-ovary-fresh-frozen",
+      "sample_name": "Visium HD 3' Gene Expression Library, Mouse Ovary (Fresh Frozen)",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Mouse_Ovary/Visium_HD_3prime_Mouse_Ovary_tissue_image.btf",
+        "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Mouse_Ovary/Visium_HD_3prime_Mouse_Ovary_binned_outputs.tar.gz"
+      }
+    }
+  }
+}

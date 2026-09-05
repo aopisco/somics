@@ -1,14 +1,14 @@
 # somics — working notes
 
 State, decisions and hard-won gotchas for this repo. Written to be picked up
-cold. Numbers are as of 2026-08-25 and move as jobs finish — re-run
+cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs finish — re-run
 `scripts/bucket_inventory.py` rather than trusting them.
 
 ## What this project is
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,585 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5,764 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -26,10 +26,13 @@ has been ported to it yet** — see its issue #1 for the plan.
 | file | grain | rows |
 |---|---|---|
 | `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,429 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,585 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,764 |
 | `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
+| `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
+| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 17 |
+| `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
 
 Key columns on `datasets.csv`: `is_spatial` (yes/no/unknown), `modality`
 (spatial transcriptomics / proteomics / epigenomics), `data_access_link`
@@ -59,6 +62,12 @@ mapping is unresolved), `first_published_by_model_paper`.
   different for each.
 - Blank beats guessed. A wrong accession or modality is worse than an empty
   cell, and several columns are deliberately sparse for that reason.
+- **One sample per row, too.** 10x's catalogue lists every Space Ranger
+  reprocessing of a sample as a new dataset; 16 Visium/HD samples had two or
+  three rows until `scripts/fold_tenx_rereleases.py` kept the newest release
+  and moved the rest to `data/tenx_rereleased_rows.csv` (2026-09-05). The
+  atlas's stable `section_uid` is what caught it. Check the CDN sample name,
+  not the landing page, when a new 10x harvest lands.
 - **One technology per row.** A row is one measurement of one tissue on one
   platform. A row naming several is several datasets — split it, duplicating
   every other field and the `model_dataset_usage.csv` entries.
@@ -115,6 +124,16 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
+- **The 10x Xenium catalogue is already in the DCA imaging team's staging
+  bucket.** 68 of our 69 verified Xenium bundles are ingested at
+  `s3://czi-dynamic-cell-atlas-staging/spatial_transcriptomics/xenium/`; the
+  one they lack is `Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein`.
+  Visium/HD does not overlap at all. Mapping in `data/xenium_dca_overlap.csv`;
+  the brief with the five open choices (source of truth for Xenium raw, whether
+  we ingest from their stores, the missing bundle, imagery division of labor,
+  who watches new 10x releases) is `docs/2026-09-03_xenium_status_and_choices.md`.
+  **Awaiting the imaging team's answers as of 2026-09-04.** Delete nothing in
+  `raw/` until choice 1 is settled.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
@@ -195,8 +214,14 @@ scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_lung_preview.json
 scripts/run_xenium_pipeline.sh          SPEC=specs/xenium_colon_preview.json
 scripts/run_cosmx_nsclc_pipeline.sh
 scripts/run_monkman_codex_pipeline.sh
-scripts/run_libd_dlpfc_pipeline.sh
+scripts/run_libd_dlpfc_pipeline.sh      (= run_visium_pipeline.sh with specs/libd_dlpfc.json)
 ```
+
+Visium HD uses the same runner and builder as Visium: `spatial_unit` is `bin`,
+`unit_size_um` is the bin edge, and the builder pulls one bin size out of
+`binned_outputs.tar.gz`. **HD is ingested at 8 um** by decision (10x's own
+default; ~1 cell; keeps an 11 mm area under ~2M rows); `hd_bin_um` in the spec
+is where that lives.
 
 ## Rebuilding the atlas is the correctness gate
 
@@ -223,19 +248,12 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
-**The work is on the `atlas-rebuild` branch, not `main`.** `main` stops at the
-three-tier verifier; everything after it — the spec-driven builders, the
-extended schema, the specs, the rebuild script and all the docs referenced here
-— is on the branch. A fresh clone lands on `main` and misses it.
-
-```bash
-git checkout atlas-rebuild && git pull
-```
-
-`aopisco/somics#17` is the PR, marked **ready for review** on 2026-09-02 — the
-unattended rebuild landing and verifying was the condition it was held on. AWS
-access expires; re-run the `aws-oidc configure` line under Infrastructure if a
-call returns a credentials error.
+**Everything is on `main`.** `aopisco/somics#17` (the rebuild) merged
+2026-09-02 and `#20` (DCA spec alignment) merged the same day; there is no
+long-lived branch. A fresh clone of `main` has the spec-driven builders, the
+extended schema, the specs, the rebuild script and every doc referenced here.
+AWS access expires; re-run the `aws-oidc configure` line under Infrastructure
+if a call returns a credentials error.
 
 **The rebuild has landed.** Attempt 7 built, synced and verified unattended in
 ~3h20m on 2026-09-02: `s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z/`,
@@ -264,10 +282,25 @@ first (the other new gotcha below).
 
 **Next:**
 
-1. **Ingest the 175 datasets an existing builder can read.** Coverage is by
-   *source layout*, not platform: 130 10x Visium/HD, 44 10x Xenium outs, 1
-   Monkman. All have verified bundle URLs. The builders are spec-driven and
-   proven byte-identical against the published atlas.
+1. **The 10x Visium/HD block is running** — see
+   `docs/2026-09-04_tenx_visium_ingest.md`. 111 registry rows; 78 buildable
+   (41 Visium, 37 HD, ~680 GB), 33 skipped with a reason each in
+   `data/tenx_visium_files.csv` — **17 of them are registry duplicates**: 10x
+   lists each Space Ranger re-release of a sample as a dataset, and the
+   harvest took that at face value. Fold them into one row each.
+   Fourth launch 2026-09-05 as `somics-tenx-visium-4`, continuing from run 3's
+   atlas (`ingest/tenx_visium/atlas/2026-09-05T03-53-27Z`: 59 base + 63 new
+   sections) over the 15 HD datasets left; run history in the doc
+   (user-data `scripts/ingest_tenx_visium_ec2.sh`), writing to
+   `s3://somics-dev/ingest/tenx_visium/atlas/<stamp>/` on top of the verified
+   rebuild. Judge it by `_done.txt` / `_failed.txt` / `_DONE` there, not by the
+   instance. When it lands: spot-check crops per platform, count resolved
+   `disease` strings, and update the registry rows.
+   The 44 Xenium wait on the DCA brief: if we read the imaging team's built
+   stores instead of 10x bundles, the fetch step disappears and a small reader
+   against `sdata.zarr` replaces it (and must apply the `dca.he_alignment`
+   affine — their H&E lives in its own pixel grid, ours in the expression
+   frame).
 2. Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
    staged), and MIBI + PhenoCycler + Cell DIVE (~590). Both need adapters.
 3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
@@ -357,6 +390,22 @@ performed 0 checks; and 16 staged prefixes holding a GitHub source release
 instead of data, each with a manifest and `data_downloadable = yes`. Check the
 artifact, not the exit status.
 
+**On CytAssist Visium, `_image.tif` is not the coordinate frame — and the
+frame is not the spot extent either.** 10x's pages offer `_image.tif` (the
+CytAssist instrument's own capture, ~25 MB) and `_tissue_image.btf|tif` (the
+microscope scan, GBs); Space Ranger writes `pxl_*_in_fullres` in the frame of
+the microscope image whenever one was supplied, so the small file places every
+crop on the wrong pixels with no error. The reliable frame check is
+`tissue_hires_image.png` size / `tissue_hires_scalef`, which is the size of the
+image Space Ranger was given, to a few pixels. A bounds check is *not* a frame
+check: CytAssist detects tissue on its own full-capture-area image, so in-tissue
+spots can lie past the edge of a microscope scan that covers only part of the
+area (two of the first 25 datasets; up to 23% of the width). Those are real
+measurements with no pixels under them; `build_visium_package.py` pads the
+image with background to the spot extent so every row is placeable and the
+crops there are honestly blank, and records `padded_from_hw` in the geometry
+and on the section-image description.
+
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
 `aws s3 cp s3://... - | head -c 8 | xxd`.
@@ -402,6 +451,12 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/staged_summary.py` | one nested table: technology > tissue > species |
 | `scripts/pipeline/` | the reconstructed staging/resolution/finalization scripts |
 | `scripts/verify_rebuild_matches_atlas.py` | three-tier diff of a rebuild against the published atlas |
+| `scripts/resolve_tenx_visium_files.py` | 10x Visium/HD rows → the counts/spatial/image files a builder needs, HEAD-verified |
+| `scripts/make_tenx_visium_specs.py` | those files + the catalogue → one spec per dataset in `specs/tenx_visium/` |
+| `scripts/run_visium_pipeline.sh` | build + ingest any Visium or Visium HD spec (LIBD runner delegates to it) |
+| `scripts/ingest_tenx_visium_ec2.sh` | user-data: fetch, stage to `raw/`, build, ingest, sync — the whole 10x Visium block |
+| `scripts/verify_visium_ingest.py` | read ingested Visium/HD sections back (local or S3 atlas) and check them against spec, source and image frame |
+| `scripts/fold_tenx_rereleases.py` | fold 10x re-release rows into one per sample; write the block's `data_downloadable` verdicts and review list |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |

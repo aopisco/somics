@@ -1,0 +1,50 @@
+{
+  "dataset_key": "tenx_fresh_frozen_visium_on_cytassist_human_breas",
+  "study": "fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard",
+  "study_name": "Fresh Frozen Visium on CytAssist: Human Breast Cancer, Probe-Based Whole Transcriptome Profiling",
+  "assay": "Visium Spatial Gene Expression",
+  "technology": "visium",
+  "spatial_unit": "spot",
+  "unit_size_um": 55.0,
+  "segmentation_method": "grid",
+  "organism": "Homo sapiens",
+  "tissue": "breast",
+  "preservation": "fresh_frozen",
+  "image_modality": "he",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard",
+  "source": {
+    "pipeline": "Space Ranger 2.0.1",
+    "product": "Spatial Gene Expression",
+    "published_at": "1673038889",
+    "bytes": 2416076271
+  },
+  "donors": {
+    "CytAssist_Fresh_Frozen_Human_Breast_Cancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "breast cancer",
+      "description": "Donor of the 10x Genomics dataset 'fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "CytAssist_Fresh_Frozen_Human_Breast_Cancer": {
+      "section_id": "CytAssist_Fresh_Frozen_Human_Breast_Cancer",
+      "donor_id": "CytAssist_Fresh_Frozen_Human_Breast_Cancer_donor",
+      "block_id": "CytAssist_Fresh_Frozen_Human_Breast_Cancer_block",
+      "section_index": 0,
+      "replicate": 1,
+      "accession_id": "fresh-frozen-visium-on-cytassist-human-breast-cancer-probe-based-whole-transcriptome-profiling-2-standard",
+      "sample_name": "Fresh Frozen Visium on CytAssist: Human Breast Cancer, Probe-Based Whole Transcriptome Profiling",
+      "disease_state": "diseased",
+      "disease": "breast cancer",
+      "files": {
+        "image": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_Fresh_Frozen_Human_Breast_Cancer/CytAssist_Fresh_Frozen_Human_Breast_Cancer_tissue_image.tif",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_Fresh_Frozen_Human_Breast_Cancer/CytAssist_Fresh_Frozen_Human_Breast_Cancer_filtered_feature_bc_matrix.h5",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/2.0.1/CytAssist_Fresh_Frozen_Human_Breast_Cancer/CytAssist_Fresh_Frozen_Human_Breast_Cancer_spatial.tar.gz"
+      }
+    }
+  }
+}
