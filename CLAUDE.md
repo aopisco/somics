@@ -33,6 +33,8 @@ has been ported to it yet** — see its issue #1 for the plan.
 | `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
 | `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 17 |
 | `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
+| `data/sprm_datasets.csv` | per staged HuBMAP CODEX/PhenoCycler row: SPRM layout verdict, regions, or why not buildable | 131 |
+| `data/mibi_datasets.csv` | per staged HuBMAP MIBI row: which of three layouts, buildable or skip reason | 429 |
 
 Key columns on `datasets.csv`: `is_spatial` (yes/no/unknown), `modality`
 (spatial transcriptomics / proteomics / epigenomics), `data_access_link`
@@ -299,8 +301,19 @@ first (the other new gotcha below).
    against `sdata.zarr` replaces it (and must apply the `dca.he_alignment`
    affine — their H&E lives in its own pixel grid, ours in the expression
    frame).
-2. Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
-   staged), and MIBI + PhenoCycler + Cell DIVE (~590). Both need adapters.
+2. **HuBMAP proteomics imaging: two adapters built 2026-09-05, not yet run on
+   EC2** — `docs/2026-09-05_sprm_adapter.md` (CODEX/PhenoCycler pipeline
+   output: 128 of 131 staged qualify, 121 CODEX + 7 PhenoCycler) and
+   `docs/2026-09-05_mibi_adapter.md` (MIBI lab submissions: 211 of 429; 172
+   more are HuBMAP's DeepCell+SPRM re-processing of the *same* uterus fields
+   and must not be ingested alongside them; 46 bone marrow rows are image-only).
+   Builders verified locally against the source AnnData / mask + stack; the
+   polycomb stages and `somics.ingest` are unverified until an EC2 run. **Ingest
+   must be serial into one atlas**: run them after the Visium block from its
+   output prefix, the way the Visium follow-up pass works. Cell DIVE (8 staged,
+   3 TB, 26 regions each) is parked pending a region-to-section decision.
+   Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
+   staged) needs an imagery-only adapter.
 3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
    staged, 120 from GEO, and GEO deposits are flat per-GSM files rather than a
    Space Ranger directory — `filtered_feature_bc_matrix.h5` next to `.cloupe`
@@ -455,6 +468,12 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/ingest_tenx_visium_ec2.sh` | user-data: fetch, stage to `raw/`, build, ingest, sync — the whole 10x Visium block |
 | `scripts/verify_visium_ingest.py` | read ingested Visium/HD sections back (local or S3 atlas) and check them against spec, source and image frame |
 | `scripts/fold_tenx_rereleases.py` | fold 10x re-release rows into one per sample; write the block's `data_downloadable` verdicts and review list |
+| `scripts/make_sprm_specs.py` | staged HuBMAP CODEX/PhenoCycler rows → one spec per dataset in `specs/sprm/`, verdicts in `data/sprm_datasets.csv` |
+| `scripts/build_sprm_package.py` | one SPRM spec → obs, var, uint32 totals matrix, (Y, X, C) expression image (assembler and harmonizer alongside) |
+| `scripts/run_sprm_pipeline.sh` | build + ingest any SPRM spec (single-obs shape, four library tables) |
+| `scripts/make_mibi_specs.py` | HuBMAP MIBI rows → layout classification, `specs/mibi/`, `data/mibi_datasets.csv` |
+| `scripts/build_mibi_package.py` | one MIBI lab submission → per-cell ion counts from mask + stack, (Y, X, C) image |
+| `scripts/run_mibi_pipeline.sh` | build + ingest any MIBI spec (single-obs shape) |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
