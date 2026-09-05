@@ -1,0 +1,57 @@
+{
+  "dataset_key": "hubmap_hbm293_rmcl_695_unspecified_bone_marrow_na",
+  "hubmap_id": "HBM293.RMCL.695",
+  "uuid": "0e0384ccb86ccbadc178c2b484807122",
+  "study": "0e0384ccb86ccbadc178c2b484807122",
+  "study_name": "PhenoCycler [DeepCell + SPRM] data from the bone marrow of a 64-year-old unknown male",
+  "assay": "PhenoCycler",
+  "technology": "phenocycler",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "segmentation_note": "DeepCell (Mesmer) whole-cell segmentation on the nuclear and membrane channels; the enum has no deep-learning member other than cellpose, which this is not",
+  "pipeline": "DeepCell + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "bone marrow",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM293.RMCL.695",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/0e0384ccb86ccbadc178c2b484807122",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM293.RMCL.695",
+  "source": {
+    "dataset_type": "PhenoCycler [DeepCell + SPRM]",
+    "group_name": "TMC - Children's Hospital of Philadelphia",
+    "published_timestamp": 1774289962279,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM293.RMCL.695_donor": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": 64.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "64-year-old stage",
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM897.CMGC.655 (TMC - Children's Hospital of Philadelphia). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM293.RMCL.695_reg001",
+      "donor_id": "HBM293.RMCL.695_donor",
+      "block_id": "HBM976.MBWL.622",
+      "section_index": 0,
+      "sample_name": "HBM293.RMCL.695 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip"
+      }
+    }
+  }
+}
