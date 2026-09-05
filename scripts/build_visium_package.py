@@ -296,7 +296,12 @@ def ensure_tiff(path: str) -> str:
     with Image.open(path) as im:
         arr = np.asarray(im.convert("RGB"))
     tifffile.imwrite(
-        tif_path + ".part", arr, tile=(1024, 1024), compression="zlib", photometric="rgb"
+        tif_path + ".part",
+        arr,
+        tile=(1024, 1024),
+        bigtiff=True,
+        compression="zlib",
+        photometric="rgb",
     )
     os.replace(tif_path + ".part", tif_path)
     return tif_path
@@ -320,6 +325,7 @@ def ensure_channels_last(path: str) -> str:
             out + ".part",
             arr,
             tile=(1024, 1024),
+            bigtiff=True,
             compression="zlib",
             photometric="minisblack",
             planarconfig="contig",
@@ -383,6 +389,7 @@ def pad_image(path: str, height: int, width: int, modality: str) -> str:
         out + ".part",
         canvas,
         tile=(1024, 1024),
+        bigtiff=True,
         compression="zlib",
         photometric="rgb" if (canvas.ndim == 3 and canvas.shape[2] == 3) else "minisblack",
         planarconfig="contig" if canvas.ndim == 3 else None,
