@@ -166,8 +166,15 @@ of 78 and skipped 20 -- every skip one of two causes fixed on the branch
 while it ran (fluorescence stacks failing on the harmonizer's library-db path,
 and CytAssist scans that do not cover every spot). It was stopped by hand at
 dataset 57 (marker `_STOPPED`), between syncs, because each HD skip was a
-wasted 14 GB fetch. The third launch runs the fixed code from that atlas and
-processes only what is not already in it.
+wasted 14 GB fetch. The third launch (`2026-09-05T03-53-27Z`) ran the fixed
+code from that atlas: **27 more in, 122 sections in the atlas**, every
+fluorescence and partial-scan Visium dataset included. Its 14 remaining HD
+skips were the frame check falling back to a bounds test because the HD
+extraction had not pulled the hires PNG, plus one padded image over 4 GB
+written as classic TIFF; and its skip-already-present step matched nothing
+(lancedb wraps the table list), so the 36 ingested datasets were re-fetched
+and refused. All three fixed; the fourth launch runs from run 3's atlas over
+the 15 that remain.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so
