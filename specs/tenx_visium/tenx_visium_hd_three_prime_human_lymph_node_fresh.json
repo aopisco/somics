@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1784046151",
-    "bytes": 8915294701
+    "bytes": 8984706505
   },
   "donors": {
     "Visium_HD_3prime_Human_Lymph_Node_donor": {
@@ -43,6 +43,7 @@
       "disease": "Reactive Follicular Hyperplasia",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Lymph_Node/Visium_HD_3prime_Human_Lymph_Node_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Lymph_Node/Visium_HD_3prime_Human_Lymph_Node_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Lymph_Node/Visium_HD_3prime_Human_Lymph_Node_binned_outputs.tar.gz"
       }
     }

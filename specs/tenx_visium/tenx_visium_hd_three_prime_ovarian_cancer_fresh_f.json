@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1749572551",
-    "bytes": 24730174518
+    "bytes": 24799809085
   },
   "donors": {
     "Visium_HD_3prime_Human_Ovarian_Cancer_donor": {
@@ -43,6 +43,7 @@
       "disease": "Clear Cell Adenocarcinoma",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer/Visium_HD_3prime_Human_Ovarian_Cancer_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer/Visium_HD_3prime_Human_Ovarian_Cancer_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_3prime_Human_Ovarian_Cancer/Visium_HD_3prime_Human_Ovarian_Cancer_binned_outputs.tar.gz"
       }
     }

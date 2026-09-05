@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.0.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1753374151",
-    "bytes": 16073166781
+    "bytes": 16145131493
   },
   "donors": {
     "Visium_HD_Human_Pancreas_donor": {
@@ -43,6 +43,7 @@
       "disease": null,
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Pancreas/Visium_HD_Human_Pancreas_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Pancreas/Visium_HD_Human_Pancreas_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.0.1/Visium_HD_Human_Pancreas/Visium_HD_Human_Pancreas_binned_outputs.tar.gz"
       }
     }

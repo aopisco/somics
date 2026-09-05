@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 3.1.1",
     "product": "HD Spatial Gene Expression",
     "published_at": "1726590151",
-    "bytes": 17498462500
+    "bytes": 17565471751
   },
   "donors": {
     "Visium_HD_Human_Tonsil_Fresh_Frozen_IF_donor": {
@@ -43,6 +43,7 @@
       "disease": "Reactive Follicular Hyperplasia",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Tonsil_Fresh_Frozen_IF/Visium_HD_Human_Tonsil_Fresh_Frozen_IF_tissue_image.tif",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Tonsil_Fresh_Frozen_IF/Visium_HD_Human_Tonsil_Fresh_Frozen_IF_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/3.1.1/Visium_HD_Human_Tonsil_Fresh_Frozen_IF/Visium_HD_Human_Tonsil_Fresh_Frozen_IF_binned_outputs.tar.gz"
       }
     }

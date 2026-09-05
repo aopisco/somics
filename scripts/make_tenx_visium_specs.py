@@ -115,12 +115,11 @@ def spec_for(f: pd.Series, row: pd.Series, record: dict) -> dict:
     donor_id = f"{sample}_donor"
     rep = re.search(r"[Rr]ep(?:licate)?[_ ]?(\d)", sample)
 
-    files = {"image": f["image_url"]}
+    files = {"image": f["image_url"], "spatial": f["spatial_url"]}
     if hd:
         files["binned_outputs"] = f["binned_url"]
     else:
         files["counts"] = f["counts_url"]
-        files["spatial"] = f["spatial_url"]
 
     return {
         "dataset_key": f["dataset_id"],

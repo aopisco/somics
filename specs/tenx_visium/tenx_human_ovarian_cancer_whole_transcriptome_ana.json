@@ -47,8 +47,8 @@
       "disease": "Endometrial Adenocarcinoma",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_image.tif",
-        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_filtered_feature_bc_matrix.h5",
-        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_spatial.tar.gz"
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_spatial.tar.gz",
+        "counts": "https://cf.10xgenomics.com/samples/spatial-exp/1.2.0/Parent_Visium_Human_OvarianCancer/Parent_Visium_Human_OvarianCancer_filtered_feature_bc_matrix.h5"
       }
     }
   }

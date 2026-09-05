@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD Spatial Gene Expression",
     "published_at": "1784046151",
-    "bytes": 10162510562
+    "bytes": 10252621343
   },
   "donors": {
     "Visium_HD_6p5mm_Human_Brain_Cancer_donor": {
@@ -43,6 +43,7 @@
       "disease": "Brain cancer",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Brain_Cancer/Visium_HD_6p5mm_Human_Brain_Cancer_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Brain_Cancer/Visium_HD_6p5mm_Human_Brain_Cancer_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_6p5mm_Human_Brain_Cancer/Visium_HD_6p5mm_Human_Brain_Cancer_binned_outputs.tar.gz"
       }
     }

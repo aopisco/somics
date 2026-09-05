@@ -160,8 +160,26 @@ ingest of a given dataset succeeds.
 datasets in twelve minutes, skipped the two spinal cord stacks (fluorescence,
 fixed above), then stopped on the eleventh: the re-release of a section it had
 just ingested, which the ingest guard refused before writing. Its prefix
-carries `_FAILED`. The second launch starts again from the verified rebuild
-with the re-releases skipped up front.
+carries `_FAILED`. The second launch (`2026-09-05T00-18-10Z`) started again
+from the verified rebuild with the re-releases skipped up front, ingested 36
+of 78 and skipped 20 -- every skip one of two causes fixed on the branch
+while it ran (fluorescence stacks failing on the harmonizer's library-db path,
+and CytAssist scans that do not cover every spot). It was stopped by hand at
+dataset 57 (marker `_STOPPED`), between syncs, because each HD skip was a
+wasted 14 GB fetch. The third launch (`2026-09-05T03-53-27Z`) ran the fixed
+code from that atlas: **27 more in, 122 sections in the atlas**, every
+fluorescence and partial-scan Visium dataset included. Its 14 remaining HD
+skips were the frame check falling back to a bounds test because the HD
+extraction had not pulled the hires PNG, plus one padded image over 4 GB
+written as classic TIFF; and its skip-already-present step matched nothing
+(lancedb wraps the table list), so the 36 ingested datasets were re-fetched
+and refused. All three fixed; the fourth launch (`2026-09-05T16-49-25Z`) ran from run 3's
+atlas over the 15 that remained: **6 in, 128 sections in the atlas**, 9
+skipped because Space Ranger 4.0.1 and 3.0.0 HD tarballs carry no hires
+image per bin, so the frame check had nothing to compare against. 10x's
+top-level `_spatial.tar.gz` for HD has the hires and lowres images (no scale
+factors); the builder now takes the frame image from there with the bin's own
+factors. The fifth launch runs from run 4's atlas over those 9.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so

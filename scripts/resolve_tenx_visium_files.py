@@ -132,6 +132,10 @@ def resolve(row: pd.Series) -> dict:
     if row["platform"] == "Visium HD":
         out["binned_url"] = prefix + "_binned_outputs.tar.gz"
         out["binned_bytes"] = head(out["binned_url"])
+        # The top-level spatial/ carries the hires image the frame check needs;
+        # Space Ranger 4.0.1 and 3.0.0 HD tarballs do not include one per bin.
+        out["spatial_url"] = prefix + "_spatial.tar.gz"
+        out["spatial_bytes"] = head(out["spatial_url"])
     else:
         out["counts_url"] = prefix + "_filtered_feature_bc_matrix.h5"
         out["counts_bytes"] = head(out["counts_url"])
@@ -148,6 +152,8 @@ def resolve(row: pd.Series) -> dict:
     if row["platform"] == "Visium HD":
         if not out["binned_bytes"]:
             missing.append("binned_outputs")
+        if not out["spatial_bytes"]:
+            missing.append("spatial.tar.gz")
     else:
         if not out["counts_bytes"]:
             missing.append("filtered h5")

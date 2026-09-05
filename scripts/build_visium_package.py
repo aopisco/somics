@@ -191,9 +191,13 @@ def extract_hd_bin(sample_dir: str, bin_um: int) -> str:
     """
     tag = f"square_{bin_um:03d}um"
     dest = os.path.join(sample_dir, tag)
-    wanted = ("filtered_feature_bc_matrix.h5", "spatial/scalefactors_json.json") + tuple(
-        f"spatial/{n}" for n in POSITION_FILES
-    )
+    # The hires PNG is what check_frame compares the image against; without it
+    # the check degrades to a bounds test that partial scans fail.
+    wanted = (
+        "filtered_feature_bc_matrix.h5",
+        "spatial/scalefactors_json.json",
+        "spatial/tissue_hires_image.png",
+    ) + tuple(f"spatial/{n}" for n in POSITION_FILES)
     if os.path.exists(os.path.join(dest, "filtered_feature_bc_matrix.h5")) and any(
         os.path.exists(os.path.join(dest, "spatial", n)) for n in POSITION_FILES
     ):
@@ -292,7 +296,12 @@ def ensure_tiff(path: str) -> str:
     with Image.open(path) as im:
         arr = np.asarray(im.convert("RGB"))
     tifffile.imwrite(
-        tif_path + ".part", arr, tile=(1024, 1024), compression="zlib", photometric="rgb"
+        tif_path + ".part",
+        arr,
+        tile=(1024, 1024),
+        bigtiff=True,
+        compression="zlib",
+        photometric="rgb",
     )
     os.replace(tif_path + ".part", tif_path)
     return tif_path
@@ -316,6 +325,7 @@ def ensure_channels_last(path: str) -> str:
             out + ".part",
             arr,
             tile=(1024, 1024),
+            bigtiff=True,
             compression="zlib",
             photometric="minisblack",
             planarconfig="contig",
@@ -329,32 +339,40 @@ def ensure_channels_last(path: str) -> str:
 def check_frame(sample, spatial_dir, scale, height, width, x_px, y_px) -> None:
     """Refuse an image that is not the frame the positions were written in.
 
-    Space Ranger writes ``tissue_hires_image.png`` by scaling the full-resolution
-    image it was given by ``tissue_hires_scalef``, so the hires size divided by
-    that factor is the size of the frame the positions live in. An image of a
+    Space Ranger writes ``tissue_hires_image.png`` (and the lowres one) by
+    scaling the full-resolution image it was given by ``tissue_hires_scalef``
+    (``tissue_lowres_scalef``), so a downsampled image's size divided by its
+    factor is the size of the frame the positions live in. An image of a
     different size is a different image -- on CytAssist runs, typically the
-    instrument's own capture instead of the microscope scan. Where no hires
-    image was staged (LIBD), fall back to requiring the spots to fit.
+    instrument's own capture instead of the microscope scan. Where neither
+    downsampled image was staged (LIBD), fall back to requiring the spots to fit.
     """
-    hires = os.path.join(spatial_dir, "tissue_hires_image.png")
-    if os.path.exists(hires) and "tissue_hires_scalef" in scale:
-        from PIL import Image
+    from PIL import Image
 
-        with Image.open(hires) as im:
-            hw, hh = im.size
-        implied_w, implied_h = hw / scale["tissue_hires_scalef"], hh / scale["tissue_hires_scalef"]
-        tol_w, tol_h = max(4, 0.01 * implied_w), max(4, 0.01 * implied_h)
-        if abs(implied_w - width) > tol_w or abs(implied_h - height) > tol_h:
+    for png, key in (
+        ("tissue_hires_image.png", "tissue_hires_scalef"),
+        ("tissue_lowres_image.png", "tissue_lowres_scalef"),
+    ):
+        path = os.path.join(spatial_dir, png)
+        if not (os.path.exists(path) and key in scale):
+            continue
+        with Image.open(path) as im:
+            pw, ph = im.size
+        implied_w, implied_h = pw / scale[key], ph / scale[key]
+        # A downsampled pixel is 1/scalef full-res pixels; allow one of those
+        # each way, plus 1%, for rounding at the downsampling step.
+        tol = 1.0 / scale[key] + 0.01 * max(implied_w, implied_h)
+        if abs(implied_w - width) > tol or abs(implied_h - height) > tol:
             raise ValueError(
                 f"{sample}: the positions' frame is {implied_w:.0f}x{implied_h:.0f} px (from "
-                f"tissue_hires_image.png / tissue_hires_scalef) but the image is {width}x{height}; "
-                f"it is not the image Space Ranger was given"
+                f"{png} / {key}) but the image is {width}x{height}; it is not the image "
+                f"Space Ranger was given"
             )
         return
     if x_px.max() > width or y_px.max() > height:
         raise ValueError(
             f"{sample}: positions extend to ({x_px.max():.0f}, {y_px.max():.0f}) px but the image "
-            f"is {width}x{height} and no hires image is available to check the frame"
+            f"is {width}x{height} and no downsampled image is available to check the frame"
         )
 
 
@@ -379,6 +397,7 @@ def pad_image(path: str, height: int, width: int, modality: str) -> str:
         out + ".part",
         canvas,
         tile=(1024, 1024),
+        bigtiff=True,
         compression="zlib",
         photometric="rgb" if (canvas.ndim == 3 and canvas.shape[2] == 3) else "minisblack",
         planarconfig="contig" if canvas.ndim == 3 else None,
@@ -401,9 +420,17 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
         data_dir = extract_hd_bin(sample_dir, bin_um)
         counts = os.path.join(data_dir, "filtered_feature_bc_matrix.h5")
         spatial_dir = os.path.join(data_dir, "spatial")
+        # The frame check wants the hires image; 4.1.0 tarballs carry one per
+        # bin, 4.0.1 and 3.0.0 only in the top-level spatial/ published beside.
+        frame_dir = (
+            spatial_dir
+            if os.path.exists(os.path.join(spatial_dir, "tissue_hires_image.png"))
+            else extract_spatial(sample_dir)
+        )
     else:
         counts = os.path.join(sample_dir, "filtered_feature_bc_matrix.h5")
         spatial_dir = extract_spatial(sample_dir)
+        frame_dir = spatial_dir
     image = next(
         os.path.join(sample_dir, f)
         for f in sorted(os.listdir(sample_dir))
@@ -436,7 +463,9 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
 
     with tifffile.TiffFile(image) as tif:
         height, width = (int(d) for d in tif.series[0].levels[0].shape[:2])
-    check_frame(sample, spatial_dir, scale, height, width, x_px, y_px)
+    # The top-level HD spatial/ ships the images without a scalefactors file; the
+    # bin's factors describe the same full-resolution image, so they apply.
+    check_frame(sample, frame_dir, scale, height, width, x_px, y_px)
     # CytAssist detects tissue on its own instrument image, which covers the
     # whole capture area; the microscope scan Space Ranger was given may not.
     # Spots past the scan's edge are real measurements with no pixels under

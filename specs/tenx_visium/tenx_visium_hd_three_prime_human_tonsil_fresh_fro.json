@@ -18,7 +18,7 @@
     "pipeline": "Space Ranger 4.1.0",
     "product": "HD 3\u2019 Spatial Gene Expression",
     "published_at": "1784046151",
-    "bytes": 10667247166
+    "bytes": 10738700883
   },
   "donors": {
     "Visium_HD_3prime_Human_Tonsil_donor": {
@@ -43,6 +43,7 @@
       "disease": "Hyperplasia Lymphofollicular",
       "files": {
         "image": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Tonsil/Visium_HD_3prime_Human_Tonsil_tissue_image.btf",
+        "spatial": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Tonsil/Visium_HD_3prime_Human_Tonsil_spatial.tar.gz",
         "binned_outputs": "https://cf.10xgenomics.com/samples/spatial-exp/4.1.0/Visium_HD_3prime_Human_Tonsil/Visium_HD_3prime_Human_Tonsil_binned_outputs.tar.gz"
       }
     }
