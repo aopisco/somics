@@ -1,0 +1,106 @@
+{
+  "dataset_key": "hubmap_hbm393_tmdx_795_unspecified_large_intestine_na",
+  "hubmap_id": "HBM393.TMDX.795",
+  "uuid": "f2e3357fec56d65731ebd76ccf8758d0",
+  "study": "f2e3357fec56d65731ebd76ccf8758d0",
+  "study_name": "CODEX [Cytokit + SPRM] data from the large intestine of a 67-year-old white female",
+  "assay": "PhenoCycler",
+  "technology": "codex",
+  "spatial_unit": "cell",
+  "segmentation_method": "watershed",
+  "segmentation_note": "Cytokit detects nuclei with a U-Net on the nuclear channel and grows cell boundaries by marker-controlled watershed on the membrane channel",
+  "pipeline": "Cytokit + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "large intestine",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM393.TMDX.795",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/f2e3357fec56d65731ebd76ccf8758d0",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM393.TMDX.795",
+  "source": {
+    "dataset_type": "CODEX [Cytokit + SPRM]",
+    "group_name": "Stanford TMC",
+    "published_timestamp": 1691434987582,
+    "n_regions": 4
+  },
+  "donors": {
+    "HBM393.TMDX.795_donor": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 67.0,
+      "age_unit": "year",
+      "life_stage": "late_adult",
+      "human_development_stage": "67-year-old stage",
+      "ethnicity": "white",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM279.WPZP.978 (Stanford TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM393.TMDX.795_reg001",
+      "donor_id": "HBM393.TMDX.795_donor",
+      "block_id": null,
+      "section_index": 0,
+      "sample_name": "HBM393.TMDX.795 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    },
+    "reg002": {
+      "section_id": "HBM393.TMDX.795_reg002",
+      "donor_id": "HBM393.TMDX.795_donor",
+      "block_id": null,
+      "section_index": 1,
+      "sample_name": "HBM393.TMDX.795 region reg002",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg002_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg002_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg002_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg002_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    },
+    "reg003": {
+      "section_id": "HBM393.TMDX.795_reg003",
+      "donor_id": "HBM393.TMDX.795_donor",
+      "block_id": null,
+      "section_index": 2,
+      "sample_name": "HBM393.TMDX.795 region reg003",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg003_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg003_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg003_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg003_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    },
+    "reg004": {
+      "section_id": "HBM393.TMDX.795_reg004",
+      "donor_id": "HBM393.TMDX.795_donor",
+      "block_id": null,
+      "section_index": 3,
+      "sample_name": "HBM393.TMDX.795 region reg004",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg004_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg004_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg004_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg004_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    }
+  }
+}
