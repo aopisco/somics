@@ -114,7 +114,8 @@ def main() -> None:
         )
 
     print(
-        f"fold {len(folded_rows)} re-release rows; {n_verdict} downloadable verdicts; {len(review)} rows to review"
+        f"fold {len(folded_rows)} re-release rows; {n_verdict} downloadable verdicts; "
+        f"{len(review)} rows to review"
     )
     print(f"registry {len(by_id)} -> {len(d)} rows")
     if not args.apply:
