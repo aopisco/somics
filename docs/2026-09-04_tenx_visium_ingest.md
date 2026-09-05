@@ -15,7 +15,7 @@ dataset, extends the Visium builder to read every Space Ranger layout 10x has
 published, and runs the lot unattended on EC2 into the atlas the 2026-09-02
 rebuild verified.
 
-**78 datasets are buildable (42 Visium, 36 HD), ~690 GB of source.** 33 are
+**78 datasets are buildable (41 Visium, 37 HD), ~680 GB of source.** 33 are
 not, each with a recorded reason in `data/tenx_visium_files.csv`:
 
 | reason | n |

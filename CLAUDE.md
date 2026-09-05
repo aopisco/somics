@@ -275,7 +275,7 @@ first (the other new gotcha below).
 
 1. **The 10x Visium/HD block is running** — see
    `docs/2026-09-04_tenx_visium_ingest.md`. 111 registry rows; 78 buildable
-   (42 Visium, 36 HD, ~690 GB), 33 skipped with a reason each in
+   (41 Visium, 37 HD, ~680 GB), 33 skipped with a reason each in
    `data/tenx_visium_files.csv` — **17 of them are registry duplicates**: 10x
    lists each Space Ranger re-release of a sample as a dataset, and the
    harvest took that at face value. Fold them into one row each.
