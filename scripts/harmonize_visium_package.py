@@ -264,8 +264,10 @@ def harmonize_images(spec: dict, package: str, sample: str, dry_run: bool) -> No
             reason="the stains 10x names for this fluorescence image, one per trailing channel",
         )
     ]
+    # Library tables (donors, sections, images) live in the package-root Lance
+    # db, not the per-sample one the obs and feature tables use.
     apply(
-        lance_db(package, sample),
+        os.path.join(package, "lance_db"),
         sample,
         CurationTransaction(table_name="SectionImageSchema", changes=ops),
         {"channel_names"},
@@ -284,9 +286,11 @@ def main(argv: list[str] | None = None) -> None:
     spec = json.load(open(args.spec))
     key = spec.get("dataset_key") or os.path.splitext(os.path.basename(args.spec))[0]
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
-    for sample in args.samples or list(spec["samples"]):
+    samples = args.samples or list(spec["samples"])
+    for sample in samples:
         harmonize_sample(spec, package, sample, args.dry_run)
-        harmonize_images(spec, package, sample, args.dry_run)
+    # One library table for the package, so one transaction, not one per sample.
+    harmonize_images(spec, package, samples[0], args.dry_run)
 
 
 if __name__ == "__main__":
