@@ -386,6 +386,14 @@ crop on the wrong pixels with no error. Pre-CytAssist releases have only
 prefers `_tissue_image.*`, and `build_visium_package.py` refuses a sample whose
 coordinates fall outside the image it was given — keep that check.
 
+**10x's 1.2.0 immunofluorescence Visium releases say so only in the title.**
+No `Image type` line, no "IF" in the slug — just `Stains: DAPI, Anti-…` in the
+title, and the image is a one-page-per-stain TIFF that tifffile reads as
+`(I, Y, X)`. `make_tenx_visium_specs.py` reads the stains as `channel_names`
+and `build_visium_package.py` rewrites the stack `(Y, X, C)`; before that,
+seven datasets were labelled H&E and the frame check was the only thing that
+stopped them being ingested that way.
+
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:
 `aws s3 cp s3://... - | head -c 8 | xxd`.

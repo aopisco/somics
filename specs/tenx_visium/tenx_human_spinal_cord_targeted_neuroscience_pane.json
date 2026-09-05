@@ -10,7 +10,13 @@
   "organism": "Homo sapiens",
   "tissue": "spinal cord",
   "preservation": "fresh_frozen",
-  "image_modality": "he",
+  "image_modality": "immunofluorescence",
+  "channel_names": [
+    "DAPI",
+    "Anti-SNAP25",
+    "Anti-GFAP",
+    "Anti-Myelin CNPase"
+  ],
   "accession_database": "10x Genomics Datasets",
   "data_access_link": "https://www.10xgenomics.com/datasets/human-spinal-cord-targeted-neuroscience-panel-stains-dapi-anti-snap-25-anti-gfap-anti-myelin-cn-pase-1-standard-1-2-0",
   "source": {

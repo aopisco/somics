@@ -272,9 +272,16 @@ def pixel_size_of(scale: dict, unit_um: float) -> float:
 
 
 def ensure_tiff(path: str) -> str:
-    """The atlas's image loader streams TIFF slabs; convert a JPEG once, in place."""
+    """The atlas's image loader streams TIFF slabs of a (Y, X[, C]) image.
+
+    Two source shapes need a one-time rewrite: a JPEG (three 1.3.0 FFPE
+    releases), and a channels-first fluorescence stack -- 10x's 1.2.0
+    immunofluorescence releases are one TIFF page per stain, which tifffile
+    reads as (I, Y, X). Both are written once as a tiled (Y, X, C) TIFF beside
+    the original; the original is what gets staged to raw/.
+    """
     if not path.lower().endswith((".jpg", ".jpeg")):
-        return path
+        return ensure_channels_last(path)
     tif_path = os.path.splitext(path)[0] + ".tif"
     if os.path.exists(tif_path):
         return tif_path
@@ -289,6 +296,34 @@ def ensure_tiff(path: str) -> str:
     )
     os.replace(tif_path + ".part", tif_path)
     return tif_path
+
+
+def ensure_channels_last(path: str) -> str:
+    """Rewrite a (C, Y, X) stack as (Y, X, C); pass anything already (Y, X[, C]) through."""
+    with tifffile.TiffFile(path) as tif:
+        series = tif.series[0]
+        axes, shape = series.axes, series.shape
+    if axes in ("YX", "YXS", "YXC"):
+        return path
+    if len(shape) == 3 and axes[1:] == "YX" and shape[0] <= 16:
+        out = os.path.splitext(path)[0] + "_yxc.tif"
+        if os.path.exists(out):
+            return out
+        print(f"  rewriting {os.path.basename(path)} {axes}{shape} as (Y, X, C)")
+        stack = tifffile.imread(path)
+        arr = np.ascontiguousarray(np.moveaxis(stack, 0, -1))
+        tifffile.imwrite(
+            out + ".part",
+            arr,
+            tile=(1024, 1024),
+            compression="zlib",
+            photometric="minisblack",
+            planarconfig="contig",
+            metadata={"axes": "YXC"},
+        )
+        os.replace(out + ".part", out)
+        return out
+    raise NotImplementedError(f"{path}: image axes {axes!r} with shape {shape} are not (Y, X[, C])")
 
 
 def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
@@ -398,10 +433,13 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
         except OSError:
             shutil.copy2(src, dest)
 
+    with tifffile.TiffFile(image) as tif:
+        shape = tif.series[0].shape
     return {
         "sample": sample,
         "image_file": image_file,
         "image_source": image_source_url(spec, sample),
+        "n_channels": int(shape[2]) if len(shape) == 3 else 1,
         "n_spots": int(len(obs)),
         "n_features": int(len(var)),
         "pixel_size_um": pixel_size,

@@ -79,8 +79,15 @@ across releases. Each candidate is HEAD-probed, and only what exists is written.
   neither the registry nor the catalogue says. The text goes to the MONDO
   resolution pass verbatim; some of it ("inflamed") is a state rather than a
   diagnosis and may not resolve. That is recorded, not guessed around.
-- Image modality is H&E unless 10x's methods section (`Image type:`) or the
-  slug says immunofluorescence: 6 of 95.
+- Image modality is H&E unless 10x's methods section (`Image type:`), the
+  slug, or a `Stains:` clause in the title says immunofluorescence: 13 of 95.
+  The `Stains:` clause is the only signal on the 1.2.0 Targeted / Whole
+  Transcriptome releases, and it also supplies `channel_names` verbatim
+  (e.g. DAPI, Anti-SNAP25, Anti-GFAP, Anti-Myelin CNPase). The first run
+  launched with seven of these labelled H&E; their images are channels-first
+  stacks, so the builder's frame check rejected them rather than ingesting
+  them under the wrong label, and they are in that run's `_failed.txt` for the
+  follow-up pass below.
 - No dataset in this block is perturbational (the CLAUDE.md rule was applied
   per dataset: these are 10x's untreated demonstration tissues), so no
   `perturbation` block is written. The one candidate, the Alzheimer's
@@ -95,7 +102,10 @@ Pixel size from `microns_per_pixel` where the scale factors carry it (HD,
 3.x), derived as 55 um / `spot_diameter_fullres` where they do not — the same
 relation the published LIBD sections use — and cross-checked where both exist.
 HD extraction streams the ~14 GB tarball once and writes only the requested
-bin's h5 and `spatial/`.
+bin's h5 and `spatial/`. A channels-first fluorescence TIFF (one page per
+stain, which tifffile reads as `(I, Y, X)`) is rewritten once as a tiled
+`(Y, X, C)` TIFF, because the atlas's image loader boxes the leading spatial
+axes and reads channels in full; the original is what is staged to `raw/`.
 
 ## Running it
 
@@ -135,6 +145,23 @@ aws ssm send-command --instance-ids <id> --document-name AWS-RunShellScript \
   --parameters 'commands=["tail -30 /var/log/ingest.log; cat /mnt/work/done.txt"]' \
   --profile sci-data-dev-poweruser --region us-east-1
 ```
+
+## Follow-up pass
+
+Datasets a run skipped are listed in its `_failed.txt` with the step that
+failed. After fixing the cause, run only those on top of that run's atlas,
+with a wrapper as user-data:
+
+```bash
+#!/bin/bash
+export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/tenx_visium/atlas/<first run stamp>
+export SOMICS_ONLY="tenx_a tenx_b"
+export SOMICS_BRANCH=main
+curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/ingest_tenx_visium_ec2.sh | bash
+```
+
+`somics.ingest` refuses a section the atlas already holds, so listing an
+already-ingested dataset fails loudly rather than doubling its rows.
 
 ## What to check when it lands
 

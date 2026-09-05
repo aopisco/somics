@@ -54,14 +54,29 @@ def preservation_of(notes: str) -> str:
     return PRESERVATION.get(m.group(1).strip(), "unknown") if m else "unknown"
 
 
+def stains_of(record: dict) -> list[str] | None:
+    """Channel names from a title of the form '... Stains: DAPI, Anti-SNAP25, Anti-GFAP'.
+
+    10x's 1.2.0 Targeted / Whole Transcriptome releases were imaged by
+    immunofluorescence and say so only here -- there is no 'Image type' line
+    and the slug says 'stains', not 'IF'. The names are 10x's own, verbatim.
+    """
+    m = re.search(r"Stains?:\s*([^.\n]+)", record.get("title") or "")
+    if not m:
+        return None
+    return [c.strip() for c in m.group(1).split(",") if c.strip()]
+
+
 def image_modality_of(record: dict, slug: str) -> str:
-    """H&E unless 10x's own methods section says the image is fluorescence."""
+    """H&E unless 10x's own text says the image is fluorescence."""
     body = record.get("body") or ""
     m = re.search(r"Image type:\s*([^\n]+)", body)
     label = (m.group(1) if m else "").lower()
     if any(k in label for k in ("fluoresc", "dapi", " if", "if ", "immuno")):
         return "immunofluorescence"
     if re.search(r"(^|[-_])if([-_]|$)|if_stained|immunofluorescence", slug):
+        return "immunofluorescence"
+    if stains_of(record):
         return "immunofluorescence"
     return "he"
 
@@ -121,6 +136,7 @@ def spec_for(f: pd.Series, row: pd.Series, record: dict) -> dict:
         "tissue": tissue,
         "preservation": preservation_of(row["notes"]),
         "image_modality": image_modality_of(record, slug),
+        **({"channel_names": stains_of(record)} if stains_of(record) else {}),
         "accession_database": "10x Genomics Datasets",
         "data_access_link": row["data_access_link"],
         "source": {

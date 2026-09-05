@@ -10,7 +10,11 @@
   "organism": "Homo sapiens",
   "tissue": "brain",
   "preservation": "fresh_frozen",
-  "image_modality": "he",
+  "image_modality": "immunofluorescence",
+  "channel_names": [
+    "Anti-GFAP",
+    "Anti-NFH"
+  ],
   "accession_database": "10x Genomics Datasets",
   "data_access_link": "https://www.10xgenomics.com/datasets/adult-human-brain-1-cerebral-cortex-unknown-orientation-stains-anti-gfap-anti-nfh-1-standard-1-1-0",
   "source": {

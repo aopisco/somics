@@ -10,7 +10,12 @@
   "organism": "Homo sapiens",
   "tissue": "ovary",
   "preservation": "fresh_frozen",
-  "image_modality": "he",
+  "image_modality": "immunofluorescence",
+  "channel_names": [
+    "DAPI",
+    "Anti-PanCK",
+    "Anti-CD45"
+  ],
   "accession_database": "10x Genomics Datasets",
   "data_access_link": "https://www.10xgenomics.com/datasets/human-ovarian-cancer-targeted-pan-cancer-panel-stains-dapi-anti-pan-ck-anti-cd-45-1-standard-1-2-0",
   "source": {

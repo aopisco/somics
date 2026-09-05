@@ -246,6 +246,33 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
     )
 
 
+def harmonize_images(spec: dict, package: str, sample: str, dry_run: bool) -> None:
+    """Name the image channels where the spec knows them (fluorescence stacks).
+
+    H&E sections are left as the LIBD ones were -- channel_names null -- so the
+    published atlas still reproduces; a stack of stains gets 10x's own names, in
+    stored order, which after the builder's rewrite is the source page order.
+    """
+    names = spec.get("channel_names")
+    if not names:
+        return
+    ops = [
+        AddColumn(
+            column="channel_names",
+            value=list(names),
+            tool="schema_align",
+            reason="the stains 10x names for this fluorescence image, one per trailing channel",
+        )
+    ]
+    apply(
+        lance_db(package, sample),
+        sample,
+        CurationTransaction(table_name="SectionImageSchema", changes=ops),
+        {"channel_names"},
+        dry_run,
+    )
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--spec", required=True)
@@ -259,6 +286,7 @@ def main(argv: list[str] | None = None) -> None:
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
     for sample in args.samples or list(spec["samples"]):
         harmonize_sample(spec, package, sample, args.dry_run)
+        harmonize_images(spec, package, sample, args.dry_run)
 
 
 if __name__ == "__main__":

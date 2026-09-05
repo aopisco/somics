@@ -21,11 +21,24 @@
 # what it has under a FAILED marker, and shuts down for a human to look at.
 #
 # Run as EC2 user-data. Progress and logs land in s3://somics-dev/ingest/tenx_visium/.
+#
+# Follow-up pass (e.g. the datasets a first run skipped, after a fix): use a
+# wrapper as user-data that sets the overrides and runs this script --
+#
+#   #!/bin/bash
+#   export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/tenx_visium/atlas/<first run stamp>
+#   export SOMICS_ONLY="tenx_a tenx_b"          # dataset_keys, space-separated
+#   export SOMICS_BRANCH=main
+#   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/ingest_tenx_visium_ec2.sh | bash
+#
+# The base atlas already holds the first run's sections; somics.ingest refuses
+# an overlapping section, so a dataset listed twice fails rather than doubling.
 set -x
 exec > /var/log/ingest.log 2>&1
 
 B=s3://somics-dev/ingest/tenx_visium
-BASE_ATLAS=s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z
+BASE_ATLAS=${SOMICS_BASE_ATLAS:-s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z}
+ONLY=${SOMICS_ONLY:-}
 STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
 ATLAS_DEST=$B/atlas/$STAMP
 REGION=us-east-1
@@ -75,11 +88,14 @@ echo "base atlas: $BASE_ATLAS" > $D/provenance.txt
 
 # ---- run order: smallest first, a healthy human Visium as the smoke test ---
 cd $D/repo
-ORDER=$(uv run python - <<'PY'
-import glob, json
+ORDER=$(ONLY="$ONLY" uv run python - <<'PY'
+import glob, json, os
+only = set(os.environ.get("ONLY", "").split())
 specs = []
 for p in sorted(glob.glob("specs/tenx_visium/*.json")):
     s = json.load(open(p))
+    if only and s["dataset_key"] not in only:
+        continue
     sample = next(iter(s["samples"].values()))
     smoke = not (s["technology"] == "visium" and s["organism"] == "Homo sapiens"
                  and sample["disease_state"] == "healthy")
