@@ -326,6 +326,67 @@ def ensure_channels_last(path: str) -> str:
     raise NotImplementedError(f"{path}: image axes {axes!r} with shape {shape} are not (Y, X[, C])")
 
 
+def check_frame(sample, spatial_dir, scale, height, width, x_px, y_px) -> None:
+    """Refuse an image that is not the frame the positions were written in.
+
+    Space Ranger writes ``tissue_hires_image.png`` by scaling the full-resolution
+    image it was given by ``tissue_hires_scalef``, so the hires size divided by
+    that factor is the size of the frame the positions live in. An image of a
+    different size is a different image -- on CytAssist runs, typically the
+    instrument's own capture instead of the microscope scan. Where no hires
+    image was staged (LIBD), fall back to requiring the spots to fit.
+    """
+    hires = os.path.join(spatial_dir, "tissue_hires_image.png")
+    if os.path.exists(hires) and "tissue_hires_scalef" in scale:
+        from PIL import Image
+
+        with Image.open(hires) as im:
+            hw, hh = im.size
+        implied_w, implied_h = hw / scale["tissue_hires_scalef"], hh / scale["tissue_hires_scalef"]
+        tol_w, tol_h = max(4, 0.01 * implied_w), max(4, 0.01 * implied_h)
+        if abs(implied_w - width) > tol_w or abs(implied_h - height) > tol_h:
+            raise ValueError(
+                f"{sample}: the positions' frame is {implied_w:.0f}x{implied_h:.0f} px (from "
+                f"tissue_hires_image.png / tissue_hires_scalef) but the image is {width}x{height}; "
+                f"it is not the image Space Ranger was given"
+            )
+        return
+    if x_px.max() > width or y_px.max() > height:
+        raise ValueError(
+            f"{sample}: positions extend to ({x_px.max():.0f}, {y_px.max():.0f}) px but the image "
+            f"is {width}x{height} and no hires image is available to check the frame"
+        )
+
+
+def pad_image(path: str, height: int, width: int, modality: str) -> str:
+    """Write a copy of the image padded (bottom/right) with background to ``height x width``.
+
+    White for brightfield, black for fluorescence -- the value a crop with no
+    tissue under it would carry anyway. Written once beside the original.
+    """
+    out = os.path.splitext(path)[0] + "_padded.tif"
+    if os.path.exists(out):
+        return out
+    arr = tifffile.imread(path)
+    if arr.ndim == 3 and arr.shape[0] <= 16 and arr.shape[1] > 16:
+        arr = np.moveaxis(arr, 0, -1)
+    fill = np.iinfo(arr.dtype).max if (modality == "he" and arr.dtype.kind == "u") else 0
+    shape = (height, width) + arr.shape[2:]
+    canvas = np.full(shape, fill, dtype=arr.dtype)
+    canvas[: arr.shape[0], : arr.shape[1]] = arr
+    del arr
+    tifffile.imwrite(
+        out + ".part",
+        canvas,
+        tile=(1024, 1024),
+        compression="zlib",
+        photometric="rgb" if (canvas.ndim == 3 and canvas.shape[2] == 3) else "minisblack",
+        planarconfig="contig" if canvas.ndim == 3 else None,
+    )
+    os.replace(out + ".part", out)
+    return out
+
+
 def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
     print(f"{sample}:")
     os.makedirs(out_dir, exist_ok=True)
@@ -375,14 +436,27 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
 
     with tifffile.TiffFile(image) as tif:
         height, width = (int(d) for d in tif.series[0].levels[0].shape[:2])
-    # The positions are written in the full-resolution frame of whichever image
-    # Space Ranger was given. Coordinates past the edge mean this is a different
-    # image -- typically the CytAssist capture instead of the microscope scan.
-    if x_px.max() > width or y_px.max() > height:
-        raise ValueError(
-            f"{sample}: positions extend to ({x_px.max():.0f}, {y_px.max():.0f}) px but the image "
-            f"is {width}x{height}; it is not the frame the coordinates were written in"
+    check_frame(sample, spatial_dir, scale, height, width, x_px, y_px)
+    # CytAssist detects tissue on its own instrument image, which covers the
+    # whole capture area; the microscope scan Space Ranger was given may not.
+    # Spots past the scan's edge are real measurements with no pixels under
+    # them. Every obs row must be placeable in the image (the loader refuses
+    # otherwise), so the image is padded with background to the spot extent
+    # and the crops there are honestly blank. Recorded in the geometry.
+    padded_from = None
+    need_h = int(np.ceil(y_px.max())) + 64 + 1
+    need_w = int(np.ceil(x_px.max())) + 64 + 1
+    if need_h > height or need_w > width:
+        image = pad_image(
+            image, max(need_h, height), max(need_w, width), spec.get("image_modality", "he")
         )
+        padded_from = (height, width)
+        with tifffile.TiffFile(image) as tif:
+            height, width = (int(d) for d in tif.series[0].levels[0].shape[:2])
+        print(
+            f"  padded image {padded_from} -> ({height}, {width}) to cover spots past the scan edge"
+        )
+
     obs = pd.DataFrame(
         {
             "obs_index": np.arange(len(barcodes), dtype=np.int64),
@@ -440,6 +514,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
         "image_file": image_file,
         "image_source": image_source_url(spec, sample),
         "n_channels": int(shape[2]) if len(shape) == 3 else 1,
+        "padded_from_hw": list(padded_from) if padded_from else None,
         "n_spots": int(len(obs)),
         "n_features": int(len(var)),
         "pixel_size_um": pixel_size,

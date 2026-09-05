@@ -388,23 +388,21 @@ performed 0 checks; and 16 staged prefixes holding a GitHub source release
 instead of data, each with a manifest and `data_downloadable = yes`. Check the
 artifact, not the exit status.
 
-**On CytAssist Visium, `_image.tif` is not the coordinate frame.** 10x's
-dataset pages offer both `_image.tif` (the CytAssist instrument's own
-low-resolution capture, ~25 MB) and `_tissue_image.btf|tif` (the microscope
-scan, GBs). Space Ranger writes `pxl_*_in_fullres` in the frame of the
-microscope image whenever one was supplied, so the small file places every
-crop on the wrong pixels with no error. Pre-CytAssist releases have only
-`_image.tif` and there it *is* the frame. `resolve_tenx_visium_files.py`
-prefers `_tissue_image.*`, and `build_visium_package.py` refuses a sample whose
-coordinates fall outside the image it was given — keep that check.
-
-**10x's 1.2.0 immunofluorescence Visium releases say so only in the title.**
-No `Image type` line, no "IF" in the slug — just `Stains: DAPI, Anti-…` in the
-title, and the image is a one-page-per-stain TIFF that tifffile reads as
-`(I, Y, X)`. `make_tenx_visium_specs.py` reads the stains as `channel_names`
-and `build_visium_package.py` rewrites the stack `(Y, X, C)`; before that,
-seven datasets were labelled H&E and the frame check was the only thing that
-stopped them being ingested that way.
+**On CytAssist Visium, `_image.tif` is not the coordinate frame — and the
+frame is not the spot extent either.** 10x's pages offer `_image.tif` (the
+CytAssist instrument's own capture, ~25 MB) and `_tissue_image.btf|tif` (the
+microscope scan, GBs); Space Ranger writes `pxl_*_in_fullres` in the frame of
+the microscope image whenever one was supplied, so the small file places every
+crop on the wrong pixels with no error. The reliable frame check is
+`tissue_hires_image.png` size / `tissue_hires_scalef`, which is the size of the
+image Space Ranger was given, to a few pixels. A bounds check is *not* a frame
+check: CytAssist detects tissue on its own full-capture-area image, so in-tissue
+spots can lie past the edge of a microscope scan that covers only part of the
+area (two of the first 25 datasets; up to 23% of the width). Those are real
+measurements with no pixels under them; `build_visium_package.py` pads the
+image with background to the spot extent so every row is placeable and the
+crops there are honestly blank, and records `padded_from_hw` in the geometry
+and on the section-image description.
 
 **Verify by content, not by size.** The Dropbox incident stored a 192 KB HTML
 page as an `.h5ad` and recorded it as success. Magic bytes are cheap:

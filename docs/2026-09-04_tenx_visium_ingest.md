@@ -77,6 +77,17 @@ across releases. Each candidate is HEAD-probed, and only what exists is written.
   coordinates fall outside the image it was given. Three 1.3.0 FFPE releases
   publish the full-resolution image only as a JPEG; the builder converts it
   to a tiled TIFF because the atlas's image loader streams TIFF slabs.
+- **The frame check is the hires image, not the spot extent.** Space Ranger's
+  `tissue_hires_image.png` is the given image scaled by `tissue_hires_scalef`,
+  so hires size / scale factor is the frame's size to a few pixels, and an
+  image of another size is refused. Spots *can* lie outside the true frame:
+  CytAssist detects tissue on its own full-capture-area image while the
+  microscope scan may cover only part of it (two of the first 25 datasets, one
+  with spots 23% past the scan's right edge). Every obs row must be placeable
+  in the image, so the builder pads the image with background (white for
+  brightfield, black for fluorescence) to the spot extent, records the original
+  size as `padded_from_hw`, and says so on the section-image description. The
+  padded copy is a derived file and is not staged to `raw/`.
 
 ### What the spec generator decided
 

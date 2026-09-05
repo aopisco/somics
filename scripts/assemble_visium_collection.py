@@ -163,6 +163,13 @@ def write_registries(
                 "source_path": image_source(spec, g),
                 "description": IMAGE_DESCRIPTION.get(
                     spec["image_modality"], IMAGE_DESCRIPTION["he"]
+                )
+                + (
+                    f" Padded with background from {g['padded_from_hw'][1]}x{g['padded_from_hw'][0]} px "
+                    "to cover capture-area spots past the edge of the microscope scan; crops there "
+                    "are blank."
+                    if g.get("padded_from_hw")
+                    else ""
                 ),
             }
             for g in geometry

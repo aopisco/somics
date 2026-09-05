@@ -148,7 +148,8 @@ PY
   aws s3 sync $EXTRACTED s3://somics-dev/raw/$KEY/ --region $REGION --only-show-errors \
       --exclude "*" --include "*/filtered_feature_bc_matrix.h5" --include "*/spatial.tar.gz" \
       --include "*/binned_outputs.tar.gz" --include "*/full_image.*" --include "_manifest.json" \
-      --exclude "*.part" || echo "WARN: raw staging sync failed for $KEY"
+      --exclude "*.part" --exclude "*_padded.tif" --exclude "*_yxc.tif" \
+      || echo "WARN: raw staging sync failed for $KEY"
   T2=$(date +%s); echo "  raw staging took $((T2-T1)) s"
 
   # 3. build + ingest
