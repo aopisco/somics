@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 
 import lancedb
@@ -72,13 +73,26 @@ def snapshot(atlas_path: str, schema_path: str) -> int:
     from polycomb.ingestion import _resolve_schema
 
     schema = _resolve_schema(os.path.abspath(schema_path))
-    atlas = create_or_open_atlas(
-        atlas_path,
-        obs_schemas={schema.obs_class: schema.obs_cls},
-        dataset_table_name=schema.dataset_class,
-        dataset_schema=schema.dataset_cls,
-        registry_schemas=schema.feature_space_registry(),
-    )
+    registries = dict(schema.feature_space_registry())
+    # The schema declares feature spaces no package has carried yet (chromatin
+    # accessibility), and create_or_open_atlas refuses an atlas with no registry
+    # table for a declared space. Open with the registries the atlas has.
+    for _ in range(len(registries) + 1):
+        try:
+            atlas = create_or_open_atlas(
+                atlas_path,
+                obs_schemas={schema.obs_class: schema.obs_cls},
+                dataset_table_name=schema.dataset_class,
+                dataset_schema=schema.dataset_cls,
+                registry_schemas=registries,
+            )
+            break
+        except ValueError as exc:
+            m = re.search(r"no registry table for feature space '([^']+)'", str(exc))
+            if not m or m.group(1) not in registries:
+                raise
+            print(f"  opening without the '{m.group(1)}' registry (no table in this atlas)")
+            registries.pop(m.group(1))
     return atlas.snapshot()
 
 

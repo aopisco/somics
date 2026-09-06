@@ -156,7 +156,8 @@ for SPEC in $ORDER; do
         "*/metrics_summary.csv" "*/gene_panel.json" -d "$SDIR" \
       || unzip -o -q -j "$ZIP" cells.parquet cell_feature_matrix.h5 experiment.xenium metrics_summary.csv gene_panel.json -d "$SDIR" \
       || EXTRACT_OK=0
-    if ! unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null; then
+    if ! unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null \
+       && ! unzip -o -q -j "$ZIP" "morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null; then
       rm -rf "$TMP/mf" && mkdir -p "$TMP/mf"
       unzip -o -q "$ZIP" "*/morphology_focus/*" -d "$TMP/mf" 2>/dev/null || unzip -o -q "$ZIP" "morphology_focus/*" -d "$TMP/mf" || EXTRACT_OK=0
       MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1)

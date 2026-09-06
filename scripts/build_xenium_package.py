@@ -111,6 +111,44 @@ def find_json_key(obj, key: str):
     return None
 
 
+STACK_TILE = 1024
+
+
+def stream_stack(paths: list[str], out: str, height: int, width: int, dtype) -> None:
+    """Write channel files as one tiled (Y, X, C) BigTIFF without holding them in memory.
+
+    A 3.0 bundle's four full-resolution channels are several GB each; stacking
+    them with ``np.stack`` needs two copies and killed the first build silently
+    (OOM). Reading one tile-row slab per channel at a time keeps the peak at a
+    slab: 1024 rows x width x channels x 2 bytes.
+    """
+    n = len(paths)
+    shape = (height, width, n) if n > 1 else (height, width)
+
+    def tiles():
+        for y0 in range(0, height, STACK_TILE):
+            y1 = min(y0 + STACK_TILE, height)
+            planes = [
+                tifffile.imread(p, level=0, selection=(slice(y0, y1), slice(None))) for p in paths
+            ]
+            slab = np.stack(planes, axis=-1) if n > 1 else planes[0]
+            for x0 in range(0, width, STACK_TILE):
+                yield np.ascontiguousarray(slab[:, x0 : x0 + STACK_TILE])
+
+    with tifffile.TiffWriter(out + ".part", bigtiff=True) as writer:
+        writer.write(
+            tiles(),
+            shape=shape,
+            dtype=dtype,
+            tile=(STACK_TILE, STACK_TILE),
+            compression="zlib",
+            photometric="minisblack",
+            planarconfig="contig" if n > 1 else None,
+            metadata={"axes": "YXC" if n > 1 else "YX"},
+        )
+    os.replace(out + ".part", out)
+
+
 def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     """The section image as one (Y, X[, C]) TIFF, plus channel names if stacked.
 
@@ -139,23 +177,19 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
             names.append(os.path.splitext(f)[0])
     stacked = os.path.join(out_dir, "morphology_focus.ome.tif")
     if not os.path.exists(stacked):
-        planes = []
-        for f in files:
-            with tifffile.TiffFile(os.path.join(folder, f)) as tif:
-                planes.append(np.asarray(tif.series[0].levels[0].asarray()))
-        arr = np.stack(planes, axis=-1) if len(planes) > 1 else planes[0]
-        print(f"  stacking {len(planes)} focus channel(s) {names} -> {arr.shape} {arr.dtype}")
-        tifffile.imwrite(
-            stacked + ".part",
-            arr,
-            tile=(1024, 1024),
-            compression="zlib",
-            bigtiff=True,
-            photometric="minisblack",
-            planarconfig="contig" if arr.ndim == 3 else None,
-            metadata={"axes": "YXC" if arr.ndim == 3 else "YX"},
+        paths = [os.path.join(folder, f) for f in files]
+        with tifffile.TiffFile(paths[0]) as tif:
+            level = tif.series[0].levels[0]
+            height, width = (int(d) for d in level.shape[:2])
+            dtype = level.dtype
+        for pth in paths[1:]:
+            with tifffile.TiffFile(pth) as tif:
+                if tuple(tif.series[0].levels[0].shape[:2]) != (height, width):
+                    raise ValueError(f"{pth}: channel shape differs from {paths[0]}")
+        print(
+            f"  stacking {len(paths)} focus channel(s) {names} -> ({height}, {width}, {len(paths)}) {dtype}"
         )
-        os.replace(stacked + ".part", stacked)
+        stream_stack(paths, stacked, height, width, dtype)
     return stacked, names
 
 
@@ -228,11 +262,24 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         level = tif.series[0].levels[0]
         height, width = (int(d) for d in level.shape[:2])
 
+    # gene_panel.json describes one panel design: payload.panel.identity.name,
+    # with type.descriptor 'predesigned' or 'add_on'. On an add-on run it is the
+    # add-on that is described (100 targets of a 480-gene axis), so it names the
+    # bundle's panel only partially and the catalogue name stays primary.
     gene_panel_path = os.path.join(src, "gene_panel.json")
     bundle_panel_name = None
     if os.path.exists(gene_panel_path):
         with open(gene_panel_path) as handle:
-            bundle_panel_name = find_json_key(json.load(handle), "panel_name")
+            gp = json.load(handle)
+        identity = find_json_key(gp, "identity") or {}
+        descriptor = (
+            (find_json_key(gp, "type") or {}).get("descriptor")
+            if isinstance(find_json_key(gp, "type"), dict)
+            else None
+        )
+        name = identity.get("name") if isinstance(identity, dict) else None
+        if name:
+            bundle_panel_name = f"{name} ({descriptor})" if descriptor else name
     panel = panel or bundle_panel_name
 
     x_px = cells.x_centroid.to_numpy() / pixel_size
