@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_mouse_bone_data_with_custom_add_on_panel_1_s",
+  "study": "mouse-bone-data-with-custom-add-on-panel-1-standard",
+  "study_name": "Mouse Bone Data with Custom Add-on Panel",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Mus musculus",
+  "tissue": "bone",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/mouse-bone-data-with-custom-add-on-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.9.0/Xenium_V1_mFemur_EDTA_3daydecal_section/Xenium_V1_mFemur_EDTA_3daydecal_section_outs.zip",
+  "source": {
+    "xoa": "1.9.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 17401952190,
+    "published_at": "1712177002"
+  },
+  "panel": {
+    "panel_name": "Xenium Mouse Tissue Atlassing Panel with custom add-on",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_mFemur_EDTA_3daydecal_section_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'mouse-bone-data-with-custom-add-on-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_mFemur_EDTA_3daydecal_section": {
+      "section_id": "Xenium_V1_mFemur_EDTA_3daydecal_section",
+      "donor_id": "Xenium_V1_mFemur_EDTA_3daydecal_section_donor",
+      "sample_name": "Mouse Bone Data with Custom Add-on Panel",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}
