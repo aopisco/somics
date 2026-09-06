@@ -503,7 +503,9 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/build_mibi_package.py` | one MIBI lab submission → per-cell ion counts from mask + stack, (Y, X, C) image |
 | `scripts/run_mibi_pipeline.sh` | build + ingest any MIBI spec (single-obs shape) |
 | `scripts/resolve_tenx_xenium_files.py` / `make_tenx_xenium_specs.py` | 10x Xenium outs rows → verified bundles + one spec per dataset in `specs/tenx_xenium/` |
-| `scripts/ingest_tenx_xenium_ec2.sh` | user-data: fetch the outs zip, extract the six members, stage, build, ingest, repair, sync |
+| `scripts/ingest_tenx_xenium_ec2.sh` | user-data: fetch the outs zip (or copy S3 files), extract, stage, build, ingest, repair, sync; `SOMICS_SPEC_DIRS` picks specs/tenx_xenium, specs/hubmap_xenium or specs/atera |
+| `scripts/make_hubmap_xenium_specs.py` | HuBMAP's 20 Xenium submissions → specs with real donor/block ids and S3 sources |
+| `scripts/verify_atlas_ec2.sh` | run the verifier on EC2 under the instance role (a laptop's SSO token expires mid-run) |
 | `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
 | `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
 | `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |

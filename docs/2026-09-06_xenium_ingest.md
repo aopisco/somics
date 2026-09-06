@@ -56,6 +56,30 @@ preview sections were ingested under hand-written ids, so the lung preview is
 excluded by name; the lung-cancer and colon previews have no CDN-URL registry
 row and are not in the 43.
 
+## Three more layouts, found by running it
+
+- **Explorer bundles.** Some catalogue pages link `_xe_outs.zip` rather than
+  `_outs.zip`; those carry cells and the count matrix only as
+  `cells.zarr.zip` and `cell_feature_matrix.zarr.zip` (no parquet, no h5).
+  Four of the 39 failed extraction on this in the first run. The builder now
+  rewrites the zarr pair into the parquet + h5 it reads -- the shifted-hex cell
+  id encoding (`(27196, 1)` -> `aaaagkdm-1`), `cell_summary`'s columns, control
+  counts per feature type from the matrix, the h5 in 10x's CSC layout, and the
+  zarr-only `aggregate_gene` feature dropped. On the prostate bundle, which
+  ships both forms, every column and matrix value reproduces exactly.
+- **HuBMAP's 20 small-intestine sections** (Stanford TMC, Onboard Analysis 3.3,
+  5K panel, ~380-450k cells each, ~7.5M in all) keep the bundle's parquet, h5
+  and experiment file under `lab_processed/xenium_bundle/`, `gene_panel.json`
+  under `raw/`, and the 14-plane DAPI z-stack instead of a focus image. The
+  builder max-projects the stack slab by slab; specs come from
+  `scripts/make_hubmap_xenium_specs.py` (real HuBMAP donor ids with age, sex
+  and race, block ids, FFPE, the multi-tissue segmentation stain) with S3 URIs
+  the runner copies directly; `SOMICS_SPEC_DIRS=specs/hubmap_xenium` selects
+  them. One dataset smoke-tested end to end: 445,593 cells, clean repair check.
+- **Atera** (`specs/atera/`) is the Explorer layout plus a whole-transcriptome
+  "panel" of 18,028 targets and a development software version; `technology`
+  is `atera` (enum member added) so preproduction data can be filtered out.
+
 ## Running it
 
 ```bash
