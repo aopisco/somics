@@ -127,10 +127,11 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
 - **The 10x Visium/HD block is in (2026-09-05): 137 sections, 22.9M obs rows.**
-  Its obs table needed the compacted-fragment repair (see gotchas); **the
-  current atlas is the repaired copy,
-  `s3://somics-dev/ingest/repair/atlas/2026-09-06T17-46-36Z`** (snapshot v83,
-  every section's pointer reads verified). The newest `ingest/*/atlas/<stamp>/`
+  Its obs table needed the compacted-fragment repair (see gotchas). Lineage
+  since: repaired copy `ingest/repair/atlas/2026-09-06T17-46-36Z` (v83) →
+  protein trial `ingest/protein/atlas/2026-09-06T19-06-13Z` (+1 MIBI section;
+  the SPRM one failed on integer cell ids, fixed) → **the Xenium block
+  (39 datasets) is running on that, 2026-09-06, as `somics-tenx-xenium-1`**. The newest `ingest/*/atlas/<stamp>/`
   prefix with a `_DONE` marker is always the current atlas; each run stacks on
   the previous one, and every run now ends with the repair check.
 - **The 10x Xenium catalogue is already in the DCA imaging team's staging
