@@ -70,6 +70,8 @@ PASSTHROUGH = (
 BUNDLE_MEMBERS = (
     "cells.parquet",
     "cell_feature_matrix.h5",
+    "cells.zarr.zip",
+    "cell_feature_matrix.zarr.zip",
     "experiment.xenium",
     "metrics_summary.csv",
     "gene_panel.json",
@@ -92,6 +94,8 @@ FOCUS_CHANNEL_NAMES = {
 FILE_DESTS = {
     "cells": "cells.parquet",
     "matrix": "cell_feature_matrix.h5",
+    "cells_zarr": "cells.zarr.zip",
+    "matrix_zarr": "cell_feature_matrix.zarr.zip",
     "experiment": "experiment.xenium",
     "gene_panel": "gene_panel.json",
     "metrics": "metrics_summary.csv",
@@ -132,6 +136,117 @@ def find_json_key(obj, key: str):
 
 
 STACK_TILE = 1024
+
+
+# 10x's "Explorer" bundles (the _xe_outs.zip on some catalogue pages) and Atera's
+# preproduction bundle ship cells and the count matrix only as zarr archives.
+# They are rewritten into the cells.parquet / cell_feature_matrix.h5 pair the
+# rest of this builder reads, so nothing downstream learns a second layout.
+ZARR_FEATURE_TYPES = {
+    "gene": "Gene Expression",
+    "negative_control_probe": "Negative Control Probe",
+    "negative_control_codeword": "Negative Control Codeword",
+    "unassigned_codeword": "Unassigned Codeword",
+    "deprecated_codeword": "Deprecated Codeword",
+    "genomic_control": "Genomic Control",
+}
+# 10x's cell_id string is the uint32 id in shifted hex (a=0 .. p=15) plus the
+# dataset suffix: (27196, 1) -> "aaaagkdm-1". Checked against cells.parquet.
+_SHIFTED_HEX = "abcdefghijklmnop"
+
+
+def encode_cell_id(number: int, suffix: int) -> str:
+    return "".join(_SHIFTED_HEX[int(ch, 16)] for ch in f"{number:08x}") + f"-{suffix}"
+
+
+def materialize_zarr_bundle(src: str) -> None:
+    """Write cells.parquet and cell_feature_matrix.h5 from the zarr archives if absent."""
+    import scipy.sparse as sp
+    import zarr
+
+    parquet = os.path.join(src, "cells.parquet")
+    h5 = os.path.join(src, "cell_feature_matrix.h5")
+    cells_zip = os.path.join(src, "cells.zarr.zip")
+    matrix_zip = os.path.join(src, "cell_feature_matrix.zarr.zip")
+    if (os.path.exists(parquet) and os.path.exists(h5)) or not (
+        os.path.exists(cells_zip) and os.path.exists(matrix_zip)
+    ):
+        return
+    print("  materializing cells.parquet and cell_feature_matrix.h5 from the zarr archives")
+    cells = zarr.open(zarr.storage.ZipStore(cells_zip, mode="r"), mode="r")
+    matrix = zarr.open(zarr.storage.ZipStore(matrix_zip, mode="r"), mode="r")
+    feats = matrix["cell_features"]
+    ids = np.asarray(cells["cell_id"][:])
+    if not np.array_equal(ids, np.asarray(feats["cell_id"][:])):
+        raise ValueError(
+            f"{src}: cells.zarr and cell_feature_matrix.zarr list cells in different orders"
+        )
+    barcodes = np.array([encode_cell_id(int(n), int(x)) for n, x in ids])
+
+    types = np.array(feats.attrs["feature_types"])
+    keep = np.array([t in ZARR_FEATURE_TYPES for t in types])  # drops 'aggregate_gene'
+    n_feat, n_cell = len(types), len(ids)
+    # cell_features is feature-major (indptr over features); 10x's h5 is CSC
+    # over (features x cells) with indptr over cells.
+    by_feature = sp.csr_matrix(
+        (
+            np.asarray(feats["data"][:]),
+            np.asarray(feats["indices"][:]),
+            np.asarray(feats["indptr"][:]),
+        ),
+        shape=(n_feat, n_cell),
+    )[keep]
+    csc = by_feature.tocsc()
+    csc.sort_indices()
+    feature_ids = np.array(feats.attrs["feature_ids"])[keep]
+    feature_keys = np.array(feats.attrs["feature_keys"])[keep]
+    feature_types = np.array([ZARR_FEATURE_TYPES[t] for t in types[keep]])
+
+    with h5py.File(h5 + ".part", "w") as f:
+        g = f.create_group("matrix")
+        g.create_dataset("data", data=csc.data.astype(np.int32), compression="gzip")
+        g.create_dataset("indices", data=csc.indices.astype(np.int64), compression="gzip")
+        g.create_dataset("indptr", data=csc.indptr.astype(np.int64), compression="gzip")
+        g.create_dataset("shape", data=np.array(csc.shape, dtype=np.int32))
+        g.create_dataset("barcodes", data=barcodes.astype("S"), compression="gzip")
+        fg = g.create_group("features")
+        fg.create_dataset("id", data=feature_ids.astype("S"))
+        fg.create_dataset("name", data=feature_keys.astype("S"))
+        fg.create_dataset("feature_type", data=feature_types.astype("S"))
+        fg.create_dataset("genome", data=np.array([""] * len(feature_ids)).astype("S"))
+        fg.create_dataset("_all_tag_keys", data=np.array(["genome"]).astype("S"))
+    os.replace(h5 + ".part", h5)
+
+    summary = np.asarray(cells["cell_summary"][:])
+    columns = list(cells["cell_summary"].attrs["column_names"])
+    summary = pd.DataFrame(summary, columns=columns)
+    per_type = {
+        t: np.asarray(csc[feature_types == label].sum(axis=0)).ravel()
+        for t, label in ZARR_FEATURE_TYPES.items()
+    }
+    table = pd.DataFrame(
+        {
+            "cell_id": barcodes,
+            "x_centroid": summary["cell_centroid_x"].to_numpy(),
+            "y_centroid": summary["cell_centroid_y"].to_numpy(),
+            "transcript_counts": per_type["gene"],
+            "control_probe_counts": per_type["negative_control_probe"],
+            "genomic_control_counts": per_type["genomic_control"],
+            "control_codeword_counts": per_type["negative_control_codeword"],
+            "unassigned_codeword_counts": per_type["unassigned_codeword"],
+            "deprecated_codeword_counts": per_type["deprecated_codeword"],
+            "total_counts": np.asarray(csc.sum(axis=0)).ravel(),
+            "cell_area": summary["cell_area"].to_numpy(),
+            "nucleus_area": summary["nucleus_area"].to_numpy()
+            if "nucleus_area" in summary
+            else np.nan,
+        }
+    )
+    for extra in ("nucleus_count", "z_level"):
+        if extra in summary:
+            table[extra] = summary[extra].to_numpy()
+    table.to_parquet(parquet + ".part")
+    os.replace(parquet + ".part", parquet)
 
 
 def plane_view(path: str):
@@ -325,6 +440,7 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     print(f"{sample}:")
     os.makedirs(out_dir, exist_ok=True)
 
+    materialize_zarr_bundle(src)
     with open(os.path.join(src, "experiment.xenium")) as handle:
         experiment = json.load(handle)
     pixel_size = float(experiment["pixel_size"])

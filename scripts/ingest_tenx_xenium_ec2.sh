@@ -159,10 +159,11 @@ for SPEC in $ORDER; do
   shopt -s nullglob
   for ZIP in $SOMICS_DATA_HOME/datasets/$KEY/extracted/*/*_outs.zip; do
     SDIR=$(dirname "$ZIP")
-    unzip -o -q -j "$ZIP" "*/cells.parquet" "*/cell_feature_matrix.h5" "*/experiment.xenium" \
-        "*/metrics_summary.csv" "*/gene_panel.json" -d "$SDIR" \
-      || unzip -o -q -j "$ZIP" cells.parquet cell_feature_matrix.h5 experiment.xenium metrics_summary.csv gene_panel.json -d "$SDIR" \
-      || EXTRACT_OK=0
+    # members vary by bundle: parquet + h5 (outs), or cells/matrix zarr archives
+    # (Explorer and Atera bundles), with or without a top-level folder
+    for M in cells.parquet cell_feature_matrix.h5 cells.zarr.zip cell_feature_matrix.zarr.zip experiment.xenium metrics_summary.csv gene_panel.json; do
+      unzip -o -q -j "$ZIP" "*/$M" -d "$SDIR" 2>/dev/null || unzip -o -q -j "$ZIP" "$M" -d "$SDIR" 2>/dev/null || true
+    done
     if ! unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null \
        && ! unzip -o -q -j "$ZIP" "morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null; then
       rm -rf "$TMP/mf" && mkdir -p "$TMP/mf"
@@ -170,7 +171,9 @@ for SPEC in $ORDER; do
       MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1)
       [ -n "$MFDIR" ] && rm -rf "$SDIR/morphology_focus" && mv "$MFDIR" "$SDIR/morphology_focus" || EXTRACT_OK=0
     fi
-    [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ] || EXTRACT_OK=0
+    [ -f "$SDIR/experiment.xenium" ] || EXTRACT_OK=0
+    { [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ]; } \
+      || { [ -f "$SDIR/cells.zarr.zip" ] && [ -f "$SDIR/cell_feature_matrix.zarr.zip" ]; } || EXTRACT_OK=0
   done
   shopt -u nullglob
   if [ $EXTRACT_OK -eq 0 ]; then echo "$KEY	extract" >> $D/failed.txt; rm -rf $SOMICS_DATA_HOME/datasets/$KEY; continue; fi

@@ -41,6 +41,7 @@ enums:
       VISIUM: visium
       VISIUM_HD: visium_hd
       XENIUM: xenium
+      ATERA: atera
       MERFISH: merfish
       COSMX: cosmx
       CARTANA: cartana
