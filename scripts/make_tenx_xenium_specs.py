@@ -218,7 +218,8 @@ def main() -> None:
         .to_dict()
     )
     print(
-        f"panel_name from the catalogue text for {len(df) - len(no_panel)}; from gene_panel.json at build time for {len(no_panel)}: {no_panel}"
+        f"panel_name from the catalogue text for {len(df) - len(no_panel)}; "
+        f"from gene_panel.json at build time for {len(no_panel)}: {no_panel}"
     )
 
 
