@@ -360,6 +360,26 @@ landed on disk (`du -sm`), never by its exit status. (`polycomb setup` saying
 CREATED rather than "already existed" is itself the tell that the sync
 delivered nothing.)
 
+**`optimize()` can leave the obs table unreadable under a filter.** Every
+ingest compacts obs into ~1M-row fragments, and a compacted fragment has twice
+come out with a struct null buffer Lance rejects on a *filtered* read of a
+pointer column (`Incorrect number of nulls for StructArray`): after the CosMx
+ingest, and again at the end of the Visium block (22.9M rows), where the
+verifier hit it on its first section. Unfiltered scans are fine, so nothing is
+lost, but every `where()` on obs fails. `scripts/repair_atlas.py` checks each
+struct column under a filter, rewrites the table from a whole read if one
+fails, and snapshots; both EC2 ingest scripts run it before their final sync,
+and `scripts/repair_atlas_ec2.sh` runs it standalone on a 128 GB box. A run
+whose `_repair.txt` is missing has not been checked.
+
+**An enum column that is null on every row cannot be compacted.** Lance writes
+it and `optimize()` then fails with `Value at position 0 out of bounds ... [0,
+-1]` (an empty dictionary) — *after* the rows are in the atlas. The first MIBI
+package did this through a null `segmentation_method`, following the schema's
+own "null when unreported" advice. The enum now carries `UNKNOWN`, the schema
+doc says to use it, and `somics.ingest` refuses a package with an all-null enum
+obs column before writing anything.
+
 **The first package to ingest types the atlas's registry tables.** polycomb's
 `_copy_registry_key_tables` creates each registry-key table verbatim from the
 first collection carrying it, so a family whose donors have no ages hands over

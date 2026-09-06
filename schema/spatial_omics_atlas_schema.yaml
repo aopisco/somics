@@ -127,10 +127,14 @@ enums:
     doc: |
       How the boundary of an obs row was defined. GRID for assays whose units
       are defined by the capture grid (Visium spots, Visium HD bins, Slide-seq
-      beads) rather than by segmentation; null only when the method is
-      unreported, so "laid out by the grid" stays distinguishable from
-      "not annotated".
+      beads) rather than by segmentation; UNKNOWN when the source ships a mask
+      but does not say how it was made, so "laid out by the grid" stays
+      distinguishable from "not annotated". Use UNKNOWN rather than null: an
+      enum column that is null on every row of a package cannot be compacted
+      by Lance (the atlas's optimize() step), which is how the first MIBI
+      ingest died after its rows were written.
     values:
+      UNKNOWN: unknown
       NUCLEUS_EXPANSION: nucleus_expansion
       CELL_BOUNDARY_STAIN: cell_boundary_stain
       WATERSHED: watershed

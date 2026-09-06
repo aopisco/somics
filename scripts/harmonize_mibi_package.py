@@ -185,11 +185,12 @@ def harmonize_obs(spec: dict, path: str, sample: str, dry_run: bool) -> None:
         ),
         AddColumn(
             column="segmentation_method",
-            data_type="string",
+            value="unknown",
             tool="schema_align",
             reason=(
                 "the submission ships a label mask and does not say how it was made; "
-                "null, not 'other', so 'unreported' stays distinguishable"
+                "'unknown' rather than null because an all-null enum column cannot be "
+                "compacted by Lance, and rather than 'other' so unreported stays distinct"
             ),
         ),
         AddColumn(
