@@ -41,6 +41,9 @@ FEATURE_TYPES = {
     "Negative Control Codeword": "negative_control_codeword",
     "Unassigned Codeword": "blank_codeword",
     "Deprecated Codeword": "blank_codeword",
+    # Xenium Prime 5K panels carry genomic DNA control probes (21 on the 5K
+    # human panel); the schema has a member for exactly this.
+    "Genomic Control": "genomic_control",
 }
 
 
