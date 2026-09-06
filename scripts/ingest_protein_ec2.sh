@@ -69,6 +69,8 @@ export SOMICS_DATA_HOME=$D/data
 export POLYCOMB_SKILLS=/root/.agents/skills
 export SOMICS_SCHEMA=$D/repo/schema/spatial_omics_atlas_schema.yaml
 export PYTHON="uv run python"
+# A SIGKILL (OOM) loses a block-buffered stdout; keep the last print in the log.
+export PYTHONUNBUFFERED=1
 mkdir -p $SOMICS_DATA_HOME
 
 ATLAS=$SOMICS_DATA_HOME/polycomb_atlases/somics_spatial_atlas
@@ -118,6 +120,7 @@ for SPEC in $ORDER; do
   T0=$(date +%s)
   if ! SPEC=$SPEC bash scripts/run_${FAM}_pipeline.sh > $D/$KEY.log 2>&1; then
     tail -40 $D/$KEY.log
+    dmesg 2>/dev/null | grep -iE "killed process|out of memory" | tail -3 | tee -a $D/$KEY.log
     aws s3 cp $D/$KEY.log $ATLAS_DEST/_logs/$KEY.log --region $REGION
     if grep -q "refusing to ingest" $D/$KEY.log; then
       echo "$KEY	duplicate section (already in the atlas)" >> $D/failed.txt

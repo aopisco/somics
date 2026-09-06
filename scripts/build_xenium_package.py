@@ -187,7 +187,8 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
                 if tuple(tif.series[0].levels[0].shape[:2]) != (height, width):
                     raise ValueError(f"{pth}: channel shape differs from {paths[0]}")
         print(
-            f"  stacking {len(paths)} focus channel(s) {names} -> ({height}, {width}, {len(paths)}) {dtype}"
+            f"  stacking {len(paths)} focus channel(s) {names} -> "
+            f"({height}, {width}, {len(paths)}) {dtype}"
         )
         stream_stack(paths, stacked, height, width, dtype)
     return stacked, names
