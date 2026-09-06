@@ -276,6 +276,9 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     return stacked, names
 
 
+# Informational members a submission may leave out without the package suffering.
+OPTIONAL_PASSTHROUGH = {"metrics_summary.csv"}
+
 # The feature axis is one panel plus its controls; only these are real genes.
 GENE_FEATURE_TYPE = "Gene Expression"
 
@@ -449,6 +452,10 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         if os.path.exists(dest):
             continue
         source_path = image if name == "morphology_focus.ome.tif" else os.path.join(src, name)
+        if not os.path.exists(source_path):
+            if name in OPTIONAL_PASSTHROUGH:
+                continue  # HuBMAP submissions omit metrics_summary.csv
+            raise FileNotFoundError(source_path)
         if os.path.abspath(source_path) == os.path.abspath(dest):
             continue
         try:
