@@ -33,10 +33,11 @@ DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
 def dataset_files(sample: str, staging: str) -> list[tuple[str, FileTypeTag, str | None]]:
     d = os.path.join(staging, sample)
     # HuBMAP submissions carry no metrics_summary.csv; it is provenance, not data.
-    return [f for f in _dataset_files(d) if f[1] != FileTypeTag.OTHER or os.path.exists(f[0])]
+    files = _dataset_files(d, sample)
+    return [f for f in files if f[1] != FileTypeTag.OTHER or os.path.exists(f[0])]
 
 
-def _dataset_files(d: str) -> list[tuple[str, FileTypeTag, str | None]]:
+def _dataset_files(d: str, sample: str) -> list[tuple[str, FileTypeTag, str | None]]:
     return [
         (os.path.join(d, "cell_feature_matrix.h5"), FileTypeTag.DATA, "gene_expression"),
         (os.path.join(d, f"{sample}_obs.csv"), FileTypeTag.OBS, "gene_expression"),
