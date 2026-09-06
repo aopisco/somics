@@ -126,10 +126,13 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
-- **The 10x Visium/HD block is in (2026-09-05): 137 sections, 22.9M obs rows**
-  at `s3://somics-dev/ingest/tenx_visium/atlas/2026-09-05T19-14-47Z`. The
-  newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is always the
-  current atlas; each run stacks on the previous one.
+- **The 10x Visium/HD block is in (2026-09-05): 137 sections, 22.9M obs rows.**
+  Its obs table needed the compacted-fragment repair (see gotchas); **the
+  current atlas is the repaired copy,
+  `s3://somics-dev/ingest/repair/atlas/2026-09-06T17-46-36Z`** (snapshot v83,
+  every section's pointer reads verified). The newest `ingest/*/atlas/<stamp>/`
+  prefix with a `_DONE` marker is always the current atlas; each run stacks on
+  the previous one, and every run now ends with the repair check.
 - **The 10x Xenium catalogue is already in the DCA imaging team's staging
   bucket.** 68 of our 69 verified Xenium bundles are ingested at
   `s3://czi-dynamic-cell-atlas-staging/spatial_transcriptomics/xenium/`; the

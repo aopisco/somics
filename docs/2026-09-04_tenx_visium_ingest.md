@@ -186,8 +186,11 @@ those 9: all in, none skipped.
 `s3://somics-dev/ingest/tenx_visium/atlas/2026-09-05T19-14-47Z` holds 137
 sections and 22,907,115 obs rows: 20,262,680 Visium HD bins (8 um), 219,000
 Visium spots, and the base's 2,425,435 cells. Five organisms (human, mouse,
-macaque, rat, zebrafish). Verification over all 78 specs with the source check
-is in `reports/visium_verify_2026-09-05T19-14-47Z.md`.
+macaque, rat, zebrafish). **That prefix's obs table failed every filtered read of `he_crop`** (Lance's
+compacted-fragment defect; see CLAUDE.md gotchas); the repaired copy at
+`s3://somics-dev/ingest/repair/atlas/2026-09-06T17-46-36Z` is the atlas to
+build on. Verification over all 78 specs with the source check runs against
+it: `reports/visium_verify_repaired_2026-09-06.md`.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so
