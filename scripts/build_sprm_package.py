@@ -272,7 +272,10 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
             "obs_index": np.arange(len(ids), dtype=np.int64),
             # SPRM cell ids are integers unique within the region; the atlas
             # selects by dataset_uid, so they need not be unique beyond it.
-            "source_obs_id": ids.astype(str),
+            # SPRM cell ids are integers; a bare "200" round-trips through the CSV
+            # staging as an int and fails the obs schema's string field. Namespace
+            # them with the region name, as the MIBI builder does with mask labels.
+            "source_obs_id": [f"{sample}:{i}" for i in ids],
             "x_um": x_px * info["pixel_size_um"],
             "y_um": y_px * info["pixel_size_um"],
             "x_px": x_px,
