@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check ingested Visium / Visium HD sections against their specs and sources.
+"""Check ingested sections (Visium, Visium HD, Xenium) against their specs and sources.
 
 An ingest can succeed and still be wrong in ways nothing downstream notices: a
 section attached to the wrong image frame, an obs row whose expression vector
@@ -103,6 +103,32 @@ def source_counts(key: str, sample: str, tmp: str) -> tuple[int, int, dict]:
     return n_bc, n_ft, scale
 
 
+def expected_rows(atlas_root: str, dataset_key: str, sample: str) -> int | None:
+    """The builder's own row count for this sample, if the run kept its geometry.
+
+    The Xenium EC2 runner uploads each dataset's ``sample_geometry.json`` to
+    ``<prefix>/_geometry/<dataset_key>.json``; the count there is what the
+    package was built with, which is what the atlas must hold.
+    """
+    path = f"{atlas_root.rstrip('/')}/_geometry/{dataset_key}.json"
+    try:
+        if path.startswith("s3://"):
+            raw = subprocess.run(
+                ["aws", "s3", "cp", path, "-", "--only-show-errors"],
+                capture_output=True,
+                check=True,
+            ).stdout
+            geometry = json.loads(raw)
+        else:
+            geometry = json.load(open(path))
+    except Exception:  # noqa: BLE001 - runs before this convention have no geometry
+        return None
+    for g in geometry:
+        if g.get("sample") == sample:
+            return int(g.get("n_cells") or g.get("n_spots") or 0) or None
+    return None
+
+
 def crop_stats(crops: np.ndarray, modality: str) -> float:
     """One number per crop set: mean intensity (H&E darker = tissue; IF brighter = tissue)."""
     return float(np.asarray(crops, dtype="float64").mean())
@@ -192,6 +218,9 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     obs = q.to_polars()
     n = obs.height
     report.add(sid, "obs rows", n > 0, f"{n}")
+    expected = expected_rows(args.atlas, spec["dataset_key"], sample)
+    if expected is not None:
+        report.add(sid, "obs rows == builder geometry", n == expected, f"{n} vs {expected}")
     for col, expected in (
         ("technology", spec["technology"]),
         ("spatial_unit", spec["spatial_unit"]),

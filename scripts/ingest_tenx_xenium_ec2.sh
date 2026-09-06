@@ -11,12 +11,12 @@
 # Starts from the atlas the 2026-09-02 rebuild produced and verified (236/237
 # checks; the one miss is the published colon section's own defect, #19), so
 # every section added here lands on a known-good base. For each spec in
-# specs/tenx_visium/, smallest first:
+# specs/tenx_xenium/, smallest first:
 #
 #   1. fetch the source files 10x's CDN serves (curl, browser UA, resumable)
 #   2. stage them to s3://somics-dev/raw/<dataset_id>/ with a _manifest.json,
 #      so the corpus grows by the same rule as everything else in raw/
-#   3. build the package and ingest it (scripts/run_visium_pipeline.sh)
+#   3. build the package and ingest it (scripts/run_xenium_pipeline.sh)
 #   4. sync the atlas to S3 -- the artifact survives the machine after every
 #      dataset, not only at the end
 #   5. free the scratch
@@ -26,7 +26,7 @@
 # half-ingested dataset cannot be resumed (CLAUDE.md), so the run stops, syncs
 # what it has under a FAILED marker, and shuts down for a human to look at.
 #
-# Run as EC2 user-data. Progress and logs land in s3://somics-dev/ingest/tenx_visium/.
+# Run as EC2 user-data. Progress and logs land in s3://somics-dev/ingest/tenx_xenium/.
 #
 # Follow-up pass (e.g. the datasets a first run skipped, after a fix): use a
 # wrapper as user-data that sets the overrides and runs this script --

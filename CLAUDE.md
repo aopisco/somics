@@ -296,11 +296,15 @@ first (the other new gotcha below).
    base for the next ingest; the protein trial runs from it. 111 registry rows
    → 78 built, 17 folded as re-releases, 16 in
    `data/tenx_visium_rows_needing_review.csv`.
-   The 44 Xenium wait on the DCA brief: if we read the imaging team's built
-   stores instead of 10x bundles, the fetch step disappears and a small reader
-   against `sdata.zarr` replaces it (and must apply the `dca.he_alignment`
-   affine — their H&E lives in its own pixel grid, ours in the expression
-   frame).
+   **Xenium is next, by decision (2026-09-06), without waiting on the DCA
+   brief** — `docs/2026-09-06_xenium_ingest.md`: 39 first-pass specs in
+   `specs/tenx_xenium/` (2 protein co-detection deferred), 514 GB, builder
+   generalised to every Onboard Analysis layout, `scripts/ingest_tenx_xenium_
+   ec2.sh` ready; runs after the protein trial, stacked on the newest prefix.
+   **Atera** (10x's newest platform, 2 preproduction datasets): the breast
+   bundle + H&E + artifacts are staged in `raw/`; cervical has no outs bundle
+   and its H&E link is the breast image (10x mislink, recorded in the
+   registry). Ingesting it is a one-dataset spike off the Xenium builder.
 2. **HuBMAP proteomics imaging: two adapters built 2026-09-05, not yet run on
    EC2** — `docs/2026-09-05_sprm_adapter.md` (CODEX/PhenoCycler pipeline
    output: 128 of 131 staged qualify, 121 CODEX + 7 PhenoCycler) and
@@ -494,6 +498,11 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/make_mibi_specs.py` | HuBMAP MIBI rows → layout classification, `specs/mibi/`, `data/mibi_datasets.csv` |
 | `scripts/build_mibi_package.py` | one MIBI lab submission → per-cell ion counts from mask + stack, (Y, X, C) image |
 | `scripts/run_mibi_pipeline.sh` | build + ingest any MIBI spec (single-obs shape) |
+| `scripts/resolve_tenx_xenium_files.py` / `make_tenx_xenium_specs.py` | 10x Xenium outs rows → verified bundles + one spec per dataset in `specs/tenx_xenium/` |
+| `scripts/ingest_tenx_xenium_ec2.sh` | user-data: fetch the outs zip, extract the six members, stage, build, ingest, repair, sync |
+| `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
+| `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
+| `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
