@@ -203,12 +203,11 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     uid = row["uid"][0]
     hd = spec["technology"] == "visium_hd"
 
-    report.add(
-        sid,
-        "tissue",
-        row["tissue"][0] == entry.get("tissue", spec.get("tissue")),
-        f"{row['tissue'][0]!r}",
-    )
+    # The resolution pass maps the spec's label onto UBERON's (cervix -> uterine
+    # cervix); either containing the other is the same tissue.
+    want = str(entry.get("tissue", spec.get("tissue"))).lower()
+    got = str(row["tissue"][0]).lower()
+    report.add(sid, "tissue", want in got or got in want, f"{row['tissue'][0]!r} (spec {want!r})")
     exp_state = entry.get("disease_state", spec.get("disease_state"))
     report.add(
         sid, "disease_state", row["disease_state"][0] == exp_state, f"{row['disease_state'][0]!r}"
@@ -230,9 +229,10 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
         report.add(sid, f"obs.{col}", vals == [expected], f"{vals}")
     unit = obs["unit_size_um"].unique().to_list()
     report.add(sid, "obs.unit_size_um", unit == [float(spec["unit_size_um"])], f"{unit}")
-    report.add(
-        sid, "n_counts > 0", bool((obs["n_counts"] > 0).all()), f"min {obs['n_counts'].min()}"
-    )
+    # A spot under tissue can have zero counts; a section where none do would
+    # mean a misaligned or empty matrix.
+    positive = float((obs["n_counts"] > 0).mean())
+    report.add(sid, "n_counts > 0 (fraction)", positive > 0.5, f"{positive:.3f}")
     if exp_state == "diseased":
         resolved = int(obs["disease"].is_not_null().sum())
         report.add(
@@ -249,7 +249,14 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     qs = atlas.query().where(f"section_uid == '{uid}' AND source_obs_id IN ({quoted})")
     sub = qs.to_polars()
     try:
-        adata = qs.select_fields("gene_expression").to_anndata()
+        adata = None
+        for attempt in range(3):  # S3 GETs fail transiently under load
+            try:
+                adata = qs.select_fields("gene_expression").to_anndata()
+                break
+            except Exception as exc:  # noqa: BLE001
+                if attempt == 2 or "S3 error" not in str(exc):
+                    raise
         x = adata.X
         sums = np.asarray(x.sum(axis=1)).ravel()
         order_ok = len(sums) == sub.height
