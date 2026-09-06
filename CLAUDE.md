@@ -126,6 +126,10 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
+- **The 10x Visium/HD block is in (2026-09-05): 137 sections, 22.9M obs rows**
+  at `s3://somics-dev/ingest/tenx_visium/atlas/2026-09-05T19-14-47Z`. The
+  newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is always the
+  current atlas; each run stacks on the previous one.
 - **The 10x Xenium catalogue is already in the DCA imaging team's staging
   bucket.** 68 of our 69 verified Xenium bundles are ingested at
   `s3://czi-dynamic-cell-atlas-staging/spatial_transcriptomics/xenium/`; the
@@ -284,20 +288,14 @@ first (the other new gotcha below).
 
 **Next:**
 
-1. **The 10x Visium/HD block is running** — see
-   `docs/2026-09-04_tenx_visium_ingest.md`. 111 registry rows; 78 buildable
-   (41 Visium, 37 HD, ~680 GB), 33 skipped with a reason each in
-   `data/tenx_visium_files.csv` — **17 of them are registry duplicates**: 10x
-   lists each Space Ranger re-release of a sample as a dataset, and the
-   harvest took that at face value. Fold them into one row each.
-   Fifth launch 2026-09-05 as `somics-tenx-visium-5`, continuing from run 4's
-   atlas (`ingest/tenx_visium/atlas/2026-09-05T16-49-25Z`: 59 base + 69 new
-   sections) over the 9 HD datasets left; run history in the doc
-   (user-data `scripts/ingest_tenx_visium_ec2.sh`), writing to
-   `s3://somics-dev/ingest/tenx_visium/atlas/<stamp>/` on top of the verified
-   rebuild. Judge it by `_done.txt` / `_failed.txt` / `_DONE` there, not by the
-   instance. When it lands: spot-check crops per platform, count resolved
-   `disease` strings, and update the registry rows.
+1. **The 10x Visium/HD block is done (2026-09-05)** — see
+   `docs/2026-09-04_tenx_visium_ingest.md`. 78 of 78 buildable datasets in,
+   over five launches; the atlas at
+   `s3://somics-dev/ingest/tenx_visium/atlas/2026-09-05T19-14-47Z` holds **137
+   sections, 22.9M obs rows** (20.3M of them 8 um HD bins). That prefix is the
+   base for the next ingest; the protein trial runs from it. 111 registry rows
+   → 78 built, 17 folded as re-releases, 16 in
+   `data/tenx_visium_rows_needing_review.csv`.
    The 44 Xenium wait on the DCA brief: if we read the imaging team's built
    stores instead of 10x bundles, the fetch step disappears and a small reader
    against `sdata.zarr` replaces it (and must apply the `dca.he_alignment`
