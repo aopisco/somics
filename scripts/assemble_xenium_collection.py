@@ -63,6 +63,7 @@ def write_registries(
                 "age_value": donor.get("age_value"),
                 "age_unit": donor.get("age_unit"),
                 "clinical_diagnosis": donor.get("clinical_diagnosis"),
+                "ethnicity": donor.get("ethnicity"),
                 "description": donor.get("description"),
             }
             for donor_id, donor in spec["donors"].items()
@@ -76,6 +77,7 @@ def write_registries(
                 "TissueSectionSchema_join": entry["section_id"],
                 "donor_id": entry["donor_id"],
                 "donor_uid_DonorSchema_join": entry["donor_id"],
+                "block_id": entry.get("block_id"),
                 "tissue": spec["tissue"],
                 "disease_state": entry["disease_state"],
                 "disease": entry.get("disease"),

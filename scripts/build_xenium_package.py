@@ -88,8 +88,28 @@ FOCUS_CHANNEL_NAMES = {
 }
 
 
+# Per-sample ``files`` keys -> the names the builder reads them under.
+FILE_DESTS = {
+    "cells": "cells.parquet",
+    "matrix": "cell_feature_matrix.h5",
+    "experiment": "experiment.xenium",
+    "gene_panel": "gene_panel.json",
+    "metrics": "metrics_summary.csv",
+    "zstack": "morphology.ome.tiff",
+    "focus": "morphology_focus.ome.tif",
+}
+
+
 def sources_for(spec: dict, sample: str) -> list[tuple[str, str]]:
-    """``(url, relative destination)`` for the sample's outs bundle."""
+    """``(url, relative destination)`` pairs for the sample.
+
+    A 10x bundle is one outs zip (the runner extracts the members). A HuBMAP
+    submission lists the bundle's files individually under ``files`` -- S3 URIs
+    the runner copies straight to the names in ``FILE_DESTS``.
+    """
+    files = spec["samples"][sample].get("files")
+    if files:
+        return [(uri, FILE_DESTS[k]) for k, uri in files.items() if k in FILE_DESTS]
     url = spec["download_url"].format(sample=sample)
     return [(url, f"{sample}_outs.zip")]
 
@@ -172,7 +192,10 @@ def stream_max_projection(path: str, out: str) -> None:
         dtype = tif.pages[0].dtype
     views = [zarr.open(tifffile.imread(path, key=z, aszarr=True), mode="r") for z in range(n_pages)]
     print(
-        f"  max-projecting {n_pages} z planes ({height}, {width}) {dtype} -> morphology_focus.ome.tif"
+        print(
+            f"  max-projecting {n_pages} z planes ({height}, {width}) {dtype} "
+            "-> morphology_focus.ome.tif"
+        )
     )
 
     def tiles():

@@ -45,6 +45,7 @@ exec > /var/log/ingest.log 2>&1
 B=s3://somics-dev/ingest/tenx_xenium
 BASE_ATLAS=${SOMICS_BASE_ATLAS:?set SOMICS_BASE_ATLAS to the newest ingest prefix}
 ONLY=${SOMICS_ONLY:-}
+SPEC_DIRS=${SOMICS_SPEC_DIRS:-specs/tenx_xenium}   # e.g. specs/hubmap_xenium
 STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
 ATLAS_DEST=$B/atlas/$STAMP
 REGION=us-east-1
@@ -99,10 +100,11 @@ cd $D/repo
 # Specs whose sections the base atlas already holds are skipped here, before
 # any fetch: a follow-up pass from a previous run's atlas then processes only
 # what that run did not ingest, with no list to maintain.
-ORDER=$(ONLY="$ONLY" ATLAS="$ATLAS" uv run python - <<'PY'
+ORDER=$(ONLY="$ONLY" SPEC_DIRS="$SPEC_DIRS" ATLAS="$ATLAS" uv run python - <<'PY'
 import glob, json, os
 import lancedb
 only = set(os.environ.get("ONLY", "").split())
+spec_dirs = os.environ.get("SPEC_DIRS", "specs/tenx_xenium").split()
 db = lancedb.connect(os.path.join(os.environ["ATLAS"], "lance_db"))
 names = db.list_tables() if hasattr(db, "list_tables") else db.table_names()
 names = list(getattr(names, "tables", names))  # lancedb >= 0.25 wraps the list
@@ -111,7 +113,7 @@ if "TissueSectionSchema" in names:
     present = set(db.open_table("TissueSectionSchema").to_arrow().column("section_id").to_pylist())
 specs = []
 skipped = []
-for p in sorted(glob.glob("specs/tenx_xenium/*.json")):
+for p in sorted(p for d_ in spec_dirs for p in glob.glob(f"{d_}/*.json")):
     s = json.load(open(p))
     if only and s["dataset_key"] not in only:
         continue
@@ -140,7 +142,9 @@ for SPEC in $ORDER; do
   FETCH_OK=1
   while IFS=$'\t' read -r URL DEST; do
     mkdir -p "$(dirname "$DEST")"
-    if ! curl -sSL -A "$UA" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL"; then
+    if [[ "$URL" == s3://* ]]; then
+      aws s3 cp "$URL" "$DEST" --region $REGION --only-show-errors || { echo "FETCH FAILED: $URL"; FETCH_OK=0; break; }
+    elif ! curl -sSL -A "$UA" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL"; then
       echo "FETCH FAILED: $URL"; FETCH_OK=0; break
     fi
     B0=$(stat -c %s "$DEST"); echo "  fetched $(basename $DEST) $((B0/1000000)) MB"
@@ -152,6 +156,7 @@ for SPEC in $ORDER; do
   # extract only what the builder reads; the zip keeps a top-level folder, so
   # -j flattens the loose members and the channel directory is moved whole
   EXTRACT_OK=1
+  shopt -s nullglob
   for ZIP in $SOMICS_DATA_HOME/datasets/$KEY/extracted/*/*_outs.zip; do
     SDIR=$(dirname "$ZIP")
     unzip -o -q -j "$ZIP" "*/cells.parquet" "*/cell_feature_matrix.h5" "*/experiment.xenium" \
@@ -167,10 +172,15 @@ for SPEC in $ORDER; do
     fi
     [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ] || EXTRACT_OK=0
   done
+  shopt -u nullglob
   if [ $EXTRACT_OK -eq 0 ]; then echo "$KEY	extract" >> $D/failed.txt; rm -rf $SOMICS_DATA_HOME/datasets/$KEY; continue; fi
 
-  # 2. stage raw to S3 with a manifest (source url, bytes, md5, fetch time)
+  # 2. stage raw to S3 with a manifest (source url, bytes, md5, fetch time) --
+  #    unless every source is already an object in the bucket (HuBMAP)
   EXTRACTED=$SOMICS_DATA_HOME/datasets/$KEY/extracted
+  if ! uv run python scripts/build_xenium_package.py --spec $SPEC --list-sources | cut -f1 | grep -qv '^s3://'; then
+    echo "  sources are in the bucket already; no raw staging"; T2=$(date +%s)
+  else
   uv run python - "$SPEC" "$EXTRACTED" > $EXTRACTED/_manifest.json <<'PY' || fail
 import hashlib, json, os, sys, datetime
 spec, root = json.load(open(sys.argv[1])), sys.argv[2]
@@ -190,6 +200,7 @@ PY
       --exclude "*" --include "*/*_outs.zip" --include "_manifest.json" --exclude "*.part" \
       || echo "WARN: raw staging sync failed for $KEY"
   T2=$(date +%s); echo "  raw staging took $((T2-T1)) s"
+  fi
 
   # 3. build + ingest
   if ! SPEC=$SPEC bash scripts/run_xenium_pipeline.sh > $D/$KEY.log 2>&1; then
