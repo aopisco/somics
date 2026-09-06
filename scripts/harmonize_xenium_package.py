@@ -315,6 +315,36 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
     )
 
 
+def harmonize_images(spec: dict, package: str, geometry: list[dict], dry_run: bool) -> None:
+    """Name the image channels where the builder stacked several.
+
+    A single DAPI focus image is left as the preview sections were (null
+    channel_names); a 2.0+ channel directory gets the names the builder derived
+    from the file names, in stored order. Library tables live in the
+    package-root Lance db, not the per-sample ones.
+    """
+    names = next((g.get("channel_names") for g in geometry if g.get("channel_names")), None)
+    if not names:
+        return
+    apply(
+        os.path.join(package, "lance_db"),
+        "package",
+        CurationTransaction(
+            table_name="SectionImageSchema",
+            changes=[
+                AddColumn(
+                    column="channel_names",
+                    value=list(names),
+                    tool="schema_align",
+                    reason="morphology focus channels as the bundle names them, stored order",
+                )
+            ],
+        ),
+        {"channel_names"},
+        dry_run,
+    )
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--spec", required=True)
@@ -328,6 +358,10 @@ def main(argv: list[str] | None = None) -> None:
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
     for sample in args.samples or list(spec["samples"]):
         harmonize_sample(spec, package, sample, args.dry_run)
+    geometry_path = os.path.join(DATA_HOME, "datasets", key, "staging", "sample_geometry.json")
+    if os.path.exists(geometry_path):
+        with open(geometry_path) as handle:
+            harmonize_images(spec, package, json.load(handle), args.dry_run)
 
 
 if __name__ == "__main__":

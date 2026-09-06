@@ -46,6 +46,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 
 import h5py
@@ -63,6 +64,100 @@ PASSTHROUGH = (
     "experiment.xenium",
     "metrics_summary.csv",
 )
+
+# The members a builder needs out of an outs bundle; everything else (transcripts,
+# boundaries, the zarr copies, the full morphology z-stack) is unused.
+BUNDLE_MEMBERS = (
+    "cells.parquet",
+    "cell_feature_matrix.h5",
+    "experiment.xenium",
+    "metrics_summary.csv",
+    "gene_panel.json",
+    "morphology_focus.ome.tif",
+    "morphology_focus/*",
+)
+
+# Xenium Onboard Analysis 2.0+ writes the focus image as one file per channel.
+# Indices 0-3 are fixed by the multimodal segmentation kit; 4.0 protein bundles
+# name the channel in the file (ch0008_cd4.ome.tif) and those names are used.
+FOCUS_CHANNEL_NAMES = {
+    0: "DAPI",
+    1: "ATP1A1/CD45/E-Cadherin",
+    2: "18S",
+    3: "alphaSMA/Vimentin",
+}
+
+
+def sources_for(spec: dict, sample: str) -> list[tuple[str, str]]:
+    """``(url, relative destination)`` for the sample's outs bundle."""
+    url = spec["download_url"].format(sample=sample)
+    return [(url, f"{sample}_outs.zip")]
+
+
+def find_json_key(obj, key: str):
+    """First value of ``key`` anywhere in a nested JSON document, or None."""
+    if isinstance(obj, dict):
+        if key in obj:
+            return obj[key]
+        for v in obj.values():
+            found = find_json_key(v, key)
+            if found is not None:
+                return found
+    elif isinstance(obj, list):
+        for v in obj:
+            found = find_json_key(v, key)
+            if found is not None:
+                return found
+    return None
+
+
+def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
+    """The section image as one (Y, X[, C]) TIFF, plus channel names if stacked.
+
+    Before 2.0 the bundle carries ``morphology_focus.ome.tif`` and that is used
+    as-is (single DAPI channel). From 2.0 the focus image is a directory of one
+    OME-TIFF per channel; those are read at full resolution and written once as
+    a tiled (Y, X, C) BigTIFF, which is the layout the atlas's slab loader boxes.
+    """
+    single = os.path.join(src, "morphology_focus.ome.tif")
+    if os.path.exists(single):
+        return single, None
+    folder = os.path.join(src, "morphology_focus")
+    files = sorted(f for f in os.listdir(folder) if f.endswith((".ome.tif", ".ome.tiff", ".tif")))
+    if not files:
+        raise FileNotFoundError(
+            f"{src}: neither morphology_focus.ome.tif nor a morphology_focus/ directory"
+        )
+    names = []
+    for f in files:
+        m = re.match(r"(?:morphology_focus_|ch)(\d{4})(?:_(.+?))?\.ome\.tiff?$", f)
+        if m and m.group(2):
+            names.append(m.group(2).replace("_", "/"))
+        elif m:
+            names.append(FOCUS_CHANNEL_NAMES.get(int(m.group(1)), f"channel_{int(m.group(1))}"))
+        else:
+            names.append(os.path.splitext(f)[0])
+    stacked = os.path.join(out_dir, "morphology_focus.ome.tif")
+    if not os.path.exists(stacked):
+        planes = []
+        for f in files:
+            with tifffile.TiffFile(os.path.join(folder, f)) as tif:
+                planes.append(np.asarray(tif.series[0].levels[0].asarray()))
+        arr = np.stack(planes, axis=-1) if len(planes) > 1 else planes[0]
+        print(f"  stacking {len(planes)} focus channel(s) {names} -> {arr.shape} {arr.dtype}")
+        tifffile.imwrite(
+            stacked + ".part",
+            arr,
+            tile=(1024, 1024),
+            compression="zlib",
+            bigtiff=True,
+            photometric="minisblack",
+            planarconfig="contig" if arr.ndim == 3 else None,
+            metadata={"axes": "YXC" if arr.ndim == 3 else "YX"},
+        )
+        os.replace(stacked + ".part", stacked)
+    return stacked, names
+
 
 # The feature axis is one panel plus its controls; only these are real genes.
 GENE_FEATURE_TYPE = "Gene Expression"
@@ -128,9 +223,17 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     is_gene = (var.feature_type == GENE_FEATURE_TYPE).to_numpy()
     n_genes = genes_per_cell(h5_path, is_gene, len(cells))
 
-    with tifffile.TiffFile(os.path.join(src, "morphology_focus.ome.tif")) as tif:
+    image, channel_names = focus_image(src, out_dir)
+    with tifffile.TiffFile(image) as tif:
         level = tif.series[0].levels[0]
         height, width = (int(d) for d in level.shape[:2])
+
+    gene_panel_path = os.path.join(src, "gene_panel.json")
+    bundle_panel_name = None
+    if os.path.exists(gene_panel_path):
+        with open(gene_panel_path) as handle:
+            bundle_panel_name = find_json_key(json.load(handle), "panel_name")
+    panel = panel or bundle_panel_name
 
     x_px = cells.x_centroid.to_numpy() / pixel_size
     y_px = cells.y_centroid.to_numpy() / pixel_size
@@ -166,7 +269,9 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
             "negative_control_counts": negative_control,
             "unassigned_counts": unassigned,
             "cell_area_um2": cells.cell_area.to_numpy(),
-            "nucleus_area_um2": cells.nucleus_area.to_numpy(),
+            "nucleus_area_um2": (
+                cells.nucleus_area.to_numpy() if "nucleus_area" in cells.columns else np.nan
+            ),
             "total_counts": cells.total_counts.to_numpy(),
             # Verbatim when the spec states them. A published section's uid is
             # a content hash of exactly this string, so a rebuild only reproduces
@@ -185,6 +290,12 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         "control_codeword_counts",
         "unassigned_codeword_counts",
         "total_counts",
+        # 2.0+ records how each cell was segmented (nucleus expansion vs a
+        # boundary or interior stain); kept verbatim beside the study-level
+        # segmentation_method the spec states.
+        "segmentation_method",
+        "nucleus_count",
+        "z_level",
     ]
     extras = [c for c in extras if c in cells.columns]
     obs["source_extras_json"] = [
@@ -202,11 +313,23 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
 
     for name in PASSTHROUGH:
         dest = os.path.join(out_dir, name)
-        if not os.path.exists(dest):
-            shutil.copy2(os.path.join(src, name), dest)
+        if os.path.exists(dest):
+            continue
+        source_path = image if name == "morphology_focus.ome.tif" else os.path.join(src, name)
+        if os.path.abspath(source_path) == os.path.abspath(dest):
+            continue
+        try:
+            os.link(source_path, dest)
+        except OSError:
+            shutil.copy2(source_path, dest)
 
     return {
         "sample": sample,
+        "image_file": "morphology_focus.ome.tif",
+        "channel_names": channel_names,
+        "n_channels": len(channel_names) if channel_names else 1,
+        "panel_name": panel,
+        "panel_name_from_bundle": bundle_panel_name,
         "n_cells": int(len(cells)),
         "n_genes_panel": int(is_gene.sum()),
         "n_features": int(len(var)),
@@ -230,6 +353,11 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--samples", nargs="*", help="subset of the spec's samples")
     parser.add_argument("--source", help="override the extracted-bundles directory")
     parser.add_argument("--out", help="override the staging directory")
+    parser.add_argument(
+        "--list-sources",
+        action="store_true",
+        help="print '<url>\\t<destination>' for each sample's outs bundle and exit",
+    )
     args = parser.parse_args(argv)
 
     with open(args.spec) as handle:
@@ -242,6 +370,11 @@ def main(argv: list[str] | None = None) -> None:
     unknown = [s for s in samples if s not in spec["samples"]]
     if unknown:
         raise SystemExit(f"not in {args.spec}: {unknown}")
+    if args.list_sources:
+        for sample in samples:
+            for url, rel in sources_for(spec, sample):
+                print(f"{url}\t{os.path.join(source, sample, rel)}")
+        return
 
     os.makedirs(out, exist_ok=True)
     summary = [

@@ -86,6 +86,18 @@ def write_registries(
     ).to_csv(os.path.join(staging, "tissuesection_registry.csv"), index=False)
 
     panel = dict(spec["panel"])
+    # The spec may leave the name and size to the bundle: gene_panel.json names
+    # the panel and experiment.xenium counts its targets.
+    g0 = geometry[0]
+    panel["panel_name"] = panel.get("panel_name") or g0.get("panel_name")
+    if not panel["panel_name"]:
+        raise ValueError("no panel name in the spec or in the bundle's gene_panel.json")
+    if panel.get("n_targets") is None:
+        panel["n_targets"] = int(g0["panel_num_targets_predesigned"]) + int(
+            g0["panel_num_targets_custom"]
+        )
+    if panel.get("description") is None and g0.get("panel_name_from_bundle"):
+        panel["description"] = f"gene_panel.json names the panel '{g0['panel_name_from_bundle']}'."
     panel["PanelSchema_join"] = panel["panel_name"]
     pd.DataFrame([panel]).to_csv(os.path.join(staging, "panel_registry.csv"), index=False)
 
@@ -110,6 +122,12 @@ def write_registries(
                 "description": (
                     "Single-channel autofocus projection of the nuclear stain, in the same "
                     "pixel frame as the cell centroids."
+                    if not g.get("channel_names")
+                    else (
+                        f"Autofocus projections of the {len(g['channel_names'])} morphology "
+                        f"channels ({', '.join(g['channel_names'])}), stacked channels-last, "
+                        "in the same pixel frame as the cell centroids."
+                    )
                 ),
             }
             for g in geometry
@@ -127,7 +145,7 @@ def write_dataset_registry(spec: dict, geometry: list[dict], staging: str) -> No
                 "accession_database": spec["accession_database"],
                 "data_access_link": spec["data_access_link"],
                 "download_url": spec["download_url"].format(sample=g["sample"]),
-                "panel_name": spec["panel"]["panel_name"],
+                "panel_name": spec["panel"].get("panel_name") or g.get("panel_name"),
                 "dataset_description": (
                     f"{spec['tissue']} section, {spec['preservation'].upper()}. "
                     f"{g['n_cells']} cells, {g['n_genes_panel']} panel genes of "

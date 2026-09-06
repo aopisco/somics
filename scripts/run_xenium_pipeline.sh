@@ -29,6 +29,8 @@ PREP="$SKILLS/prepare-package-for-resolution/scripts"
 HARM="$SKILLS/schema-harmonization/scripts"
 FIN="$SKILLS/finalize-tables/scripts"
 PY="${PYTHON:-python}"
+ATLAS_ARGS=()
+[ -n "${SOMICS_ATLAS:-}" ] && ATLAS_ARGS=(--atlas "$SOMICS_ATLAS")
 
 echo "== 1. derive obs/var from the outs bundle =="
 $PY "$REPO/scripts/build_xenium_package.py" --spec "$SPEC"
@@ -60,7 +62,7 @@ $PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
 $PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase artifact
 
 echo "== 6. ingest =="
-PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT"
+PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT" "${ATLAS_ARGS[@]}"
 
 echo
 echo "Done. Diff against the published atlas with:"
