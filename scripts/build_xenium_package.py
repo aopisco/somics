@@ -114,23 +114,36 @@ def find_json_key(obj, key: str):
 STACK_TILE = 1024
 
 
+def plane_view(path: str):
+    """The file's own full-resolution plane as a lazily sliceable zarr array.
+
+    2.0+ channel files are OME companions: each file's OME-XML references its
+    siblings, so ``TiffFile.series[0]`` presents the whole (C, Y, X) stack and
+    reading through it pulls every file. Page 0 of each file is that channel's
+    plane (tiled, JPEG 2000; the pyramid lives in SubIFDs), so that is what is
+    read, one tile row at a time.
+    """
+    import zarr
+
+    return zarr.open(tifffile.imread(path, key=0, aszarr=True), mode="r")
+
+
 def stream_stack(paths: list[str], out: str, height: int, width: int, dtype) -> None:
     """Write channel files as one tiled (Y, X, C) BigTIFF without holding them in memory.
 
-    A 3.0 bundle's four full-resolution channels are several GB each; stacking
-    them with ``np.stack`` needs two copies and killed the first build silently
-    (OOM). Reading one tile-row slab per channel at a time keeps the peak at a
-    slab: 1024 rows x width x channels x 2 bytes.
+    A 3.0 bundle's four full-resolution channels are 3.3 GB each decoded;
+    stacking them with ``np.stack`` needs two copies and killed the first build
+    silently (OOM). Reading one tile-row slab per channel at a time keeps the
+    peak at a slab: 1024 rows x width x channels x 2 bytes (~440 MB here).
     """
     n = len(paths)
     shape = (height, width, n) if n > 1 else (height, width)
+    views = [plane_view(p) for p in paths]
 
     def tiles():
         for y0 in range(0, height, STACK_TILE):
             y1 = min(y0 + STACK_TILE, height)
-            planes = [
-                tifffile.imread(p, level=0, selection=(slice(y0, y1), slice(None))) for p in paths
-            ]
+            planes = [np.asarray(v[y0:y1, :]) for v in views]
             slab = np.stack(planes, axis=-1) if n > 1 else planes[0]
             for x0 in range(0, width, STACK_TILE):
                 yield np.ascontiguousarray(slab[:, x0 : x0 + STACK_TILE])
@@ -179,12 +192,12 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     if not os.path.exists(stacked):
         paths = [os.path.join(folder, f) for f in files]
         with tifffile.TiffFile(paths[0]) as tif:
-            level = tif.series[0].levels[0]
-            height, width = (int(d) for d in level.shape[:2])
-            dtype = level.dtype
+            page = tif.pages[0]
+            height, width = (int(d) for d in page.shape[:2])
+            dtype = page.dtype
         for pth in paths[1:]:
             with tifffile.TiffFile(pth) as tif:
-                if tuple(tif.series[0].levels[0].shape[:2]) != (height, width):
+                if tuple(tif.pages[0].shape[:2]) != (height, width):
                     raise ValueError(f"{pth}: channel shape differs from {paths[0]}")
         print(
             f"  stacking {len(paths)} focus channel(s) {names} -> "
