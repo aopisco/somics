@@ -141,6 +141,12 @@ for SPEC in $ORDER; do
   df -h $D | tail -1
 done
 
+# ---- repair: optimize() can leave a compacted obs fragment that fails filtered
+# reads of the pointer structs; check, rewrite and snapshot if so ----------
+PYTHONPATH=$D/repo/src uv run python scripts/repair_atlas.py --atlas $ATLAS --schema $SOMICS_SCHEMA > $D/repair.txt 2>&1; REPAIR_RC=$?
+cat $D/repair.txt; aws s3 cp $D/repair.txt $ATLAS_DEST/_repair.txt --region $REGION
+[ $REPAIR_RC -eq 0 ] || { echo "REPAIR FAILED (rc $REPAIR_RC)"; fail; }
+
 aws s3 sync $ATLAS $ATLAS_DEST --delete --exclude "_*" --region $REGION --only-show-errors || fail
 aws s3 cp $D/provenance.txt $ATLAS_DEST/_provenance.txt --region $REGION
 aws s3 cp $D/order.txt $ATLAS_DEST/_order.txt --region $REGION
