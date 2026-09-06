@@ -359,12 +359,20 @@ def main(argv: list[str] | None = None) -> None:
     spec = json.load(open(args.spec))
     key = spec.get("dataset_key") or os.path.splitext(os.path.basename(args.spec))[0]
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
+    geometry_path = os.path.join(DATA_HOME, "datasets", key, "staging", "sample_geometry.json")
+    geometry = json.load(open(geometry_path)) if os.path.exists(geometry_path) else []
+    # A spec may leave the panel name to the bundle's gene_panel.json; the
+    # builder resolved it into the geometry and the assembler registered it
+    # under that name, so the obs join key must use the same string.
+    if spec.get("panel") and not spec["panel"].get("panel_name"):
+        names = [g.get("panel_name") for g in geometry if g.get("panel_name")]
+        if not names:
+            raise ValueError("no panel name in the spec or the builder's geometry")
+        spec["panel"]["panel_name"] = names[0]
     for sample in args.samples or list(spec["samples"]):
         harmonize_sample(spec, package, sample, args.dry_run)
-    geometry_path = os.path.join(DATA_HOME, "datasets", key, "staging", "sample_geometry.json")
-    if os.path.exists(geometry_path):
-        with open(geometry_path) as handle:
-            harmonize_images(spec, package, json.load(handle), args.dry_run)
+    if geometry:
+        harmonize_images(spec, package, geometry, args.dry_run)
 
 
 if __name__ == "__main__":

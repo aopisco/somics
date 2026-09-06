@@ -381,14 +381,19 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     # 10x splits non-gene signal three ways. Negative controls report probe and
     # codeword failure; unassigned codewords are transcripts decoded into panel
     # space that were never assigned a target. The atlas keeps that split.
+    # The control columns vary by Onboard Analysis version (1.0 has no
+    # unassigned/deprecated codewords, 3.x adds genomic controls); a column a
+    # version does not write counts as zero, and the columns present are kept
+    # verbatim in additional_metadata.
+    def col(name: str) -> np.ndarray:
+        if name in cells.columns:
+            return cells[name].to_numpy()
+        return np.zeros(len(cells), dtype=np.int64)
+
     negative_control = (
-        cells.control_probe_counts.to_numpy() + cells.control_codeword_counts.to_numpy()
+        col("control_probe_counts") + col("control_codeword_counts") + col("genomic_control_counts")
     )
-    if "genomic_control_counts" in cells.columns:  # Onboard Analysis 3.x+ / 5K panels
-        negative_control = negative_control + cells.genomic_control_counts.to_numpy()
-    unassigned = cells.unassigned_codeword_counts.to_numpy()
-    if "deprecated_codeword_counts" in cells.columns:
-        unassigned = unassigned + cells.deprecated_codeword_counts.to_numpy()
+    unassigned = col("unassigned_codeword_counts") + col("deprecated_codeword_counts")
 
     obs = pd.DataFrame(
         {
