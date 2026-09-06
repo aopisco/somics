@@ -162,6 +162,41 @@ def stream_stack(paths: list[str], out: str, height: int, width: int, dtype) -> 
     os.replace(out + ".part", out)
 
 
+def stream_max_projection(path: str, out: str) -> None:
+    """Max-project a (Z, Y, X) multi-page TIFF into a tiled (Y, X) BigTIFF, slab by slab."""
+    import zarr
+
+    with tifffile.TiffFile(path) as tif:
+        n_pages = len(tif.pages)
+        height, width = (int(d) for d in tif.pages[0].shape[:2])
+        dtype = tif.pages[0].dtype
+    views = [zarr.open(tifffile.imread(path, key=z, aszarr=True), mode="r") for z in range(n_pages)]
+    print(
+        f"  max-projecting {n_pages} z planes ({height}, {width}) {dtype} -> morphology_focus.ome.tif"
+    )
+
+    def tiles():
+        for y0 in range(0, height, STACK_TILE):
+            y1 = min(y0 + STACK_TILE, height)
+            slab = np.asarray(views[0][y0:y1, :])
+            for v in views[1:]:
+                np.maximum(slab, np.asarray(v[y0:y1, :]), out=slab)
+            for x0 in range(0, width, STACK_TILE):
+                yield np.ascontiguousarray(slab[:, x0 : x0 + STACK_TILE])
+
+    with tifffile.TiffWriter(out + ".part", bigtiff=True) as writer:
+        writer.write(
+            tiles(),
+            shape=(height, width),
+            dtype=dtype,
+            tile=(STACK_TILE, STACK_TILE),
+            compression="zlib",
+            photometric="minisblack",
+            metadata={"axes": "YX"},
+        )
+    os.replace(out + ".part", out)
+
+
 def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     """The section image as one (Y, X[, C]) TIFF, plus channel names if stacked.
 
@@ -174,6 +209,17 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     if os.path.exists(single):
         return single, None
     folder = os.path.join(src, "morphology_focus")
+    zstack = os.path.join(src, "morphology.ome.tiff")
+    if not os.path.isdir(folder) and not os.path.exists(zstack):
+        zstack = os.path.join(src, "morphology.ome.tif")
+    if not os.path.isdir(folder) and os.path.exists(zstack):
+        # HuBMAP's Xenium submissions ship the DAPI z-stack (Z, Y, X) and no
+        # focus projection; a max projection over Z is the closest equivalent,
+        # streamed slab by slab (14 planes of 51k x 54k would be 77 GB decoded).
+        out = os.path.join(out_dir, "morphology_focus.ome.tif")
+        if not os.path.exists(out):
+            stream_max_projection(zstack, out)
+        return out, None
     files = sorted(f for f in os.listdir(folder) if f.endswith((".ome.tif", ".ome.tiff", ".tif")))
     if not files:
         raise FileNotFoundError(
@@ -312,6 +358,8 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     negative_control = (
         cells.control_probe_counts.to_numpy() + cells.control_codeword_counts.to_numpy()
     )
+    if "genomic_control_counts" in cells.columns:  # Onboard Analysis 3.x+ / 5K panels
+        negative_control = negative_control + cells.genomic_control_counts.to_numpy()
     unassigned = cells.unassigned_codeword_counts.to_numpy()
     if "deprecated_codeword_counts" in cells.columns:
         unassigned = unassigned + cells.deprecated_codeword_counts.to_numpy()
@@ -357,6 +405,7 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         "segmentation_method",
         "nucleus_count",
         "z_level",
+        "genomic_control_counts",
     ]
     extras = [c for c in extras if c in cells.columns]
     obs["source_extras_json"] = [
