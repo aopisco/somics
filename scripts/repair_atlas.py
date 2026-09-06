@@ -12,8 +12,8 @@ on the first section it read.
 This is the end-of-run step both EC2 ingest scripts call, and what
 ``repair_atlas_ec2.sh`` runs on a large box against a finished prefix:
 
-1. read every struct column of the obs table under a filter (the failing
-   shape); exit 0 if all read;
+1. read every struct column of the obs table under a per-section filter, for
+   every section (the shape every query uses); exit 0 if all read;
 2. otherwise rewrite the table from a whole read -- the remedy
    ``rewrite_obs_fragments.py`` established -- which needs memory for the
    whole table (tens of GB at 22.9M rows; use a 128 GB box);
@@ -38,7 +38,30 @@ import lancedb
 import pyarrow as pa
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rewrite_obs_fragments import filtered_read_problems, struct_columns  # noqa: E402
+from rewrite_obs_fragments import struct_columns  # noqa: E402
+
+
+def per_section_read_problems(db, table, columns: list[str]) -> list[str]:
+    """Read each struct column under a per-section filter, for every section.
+
+    ``rewrite_obs_fragments.py`` checked ``uid IS NOT NULL`` with a 2M-row limit,
+    which reaches only the first fragments; the Visium-block defect sat in a
+    later one and the check passed while the verifier's first
+    ``section_uid == ...`` read failed. Reading every section the way the atlas
+    is actually queried is the check that means something.
+    """
+    sections = db.open_table("TissueSectionSchema").to_arrow().column("uid").to_pylist()
+    problems = []
+    for uid in sections:
+        for column in columns:
+            try:
+                table.search().where(f"section_uid = '{uid}'").limit(50_000_000).select(
+                    ["uid", column]
+                ).to_arrow()
+            except Exception as exc:  # noqa: BLE001
+                problems.append(f"{uid}.{column}: {str(exc)[:120]}")
+    return problems
+
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_SCHEMA = os.path.join(REPO_ROOT, "schema", "spatial_omics_atlas_schema.yaml")
@@ -70,8 +93,8 @@ def main() -> int:
     db = lancedb.connect(os.path.join(args.atlas, "lance_db"))
     table = db.open_table(args.table)
     columns = struct_columns(table.schema)
-    print(f"{args.table}: {table.count_rows()} rows; checking {columns} under a filter")
-    problems = filtered_read_problems(table, columns)
+    print(f"{args.table}: {table.count_rows()} rows; reading {columns} per section")
+    problems = per_section_read_problems(db, table, columns)
     if not problems:
         print("  every struct column reads under a filter; nothing to repair")
         return 0
@@ -88,7 +111,7 @@ def main() -> int:
     rewritten = db.open_table(args.table)
     if rewritten.count_rows() != n or rewritten.schema != schema:
         raise RuntimeError("rewritten table differs in rows or schema")
-    after = filtered_read_problems(rewritten, columns)
+    after = per_section_read_problems(db, rewritten, columns)
     if after:
         for p in after:
             print(f"  STILL FAILING: {p[:200]}", file=sys.stderr)
