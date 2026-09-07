@@ -24,8 +24,16 @@ FAILED=0
 while IFS=$'\t' read -r HBM UUID REL EXPECT; do
   [ -z "$HBM" ] && continue
   URL="https://assets.hubmapconsortium.org/$UUID/$REL"; OUT="$D/$HBM/$REL"; mkdir -p "$(dirname "$OUT")"
-  curl -sSL --retry 8 --retry-all-errors --retry-delay 20 -C - -o "$OUT" "$URL" || { echo "FETCH FAILED $URL"; FAILED=1; continue; }
-  GOT=$(stat -c %s "$OUT")
+  # assets.hubmapconsortium.org answers some requests with a small error page
+  # and status 500 for minutes at a time; only a byte-exact result counts.
+  GOT=0
+  for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+    curl -sSL -A "Mozilla/5.0 (X11; Linux x86_64) somics-restage" --retry 3 --retry-all-errors --retry-delay 20 -C - -o "$OUT" "$URL" || true
+    GOT=$(stat -c %s "$OUT" 2>/dev/null || echo 0)
+    if [ -z "$EXPECT" ] || [ "$GOT" = "$EXPECT" ]; then break; fi
+    if [ "$GOT" -lt 100000 ]; then rm -f "$OUT"; fi   # an error page, not a partial file
+    echo "attempt $attempt: $GOT of $EXPECT bytes; waiting"; sleep 120
+  done
   if [ -n "$EXPECT" ] && [ "$GOT" != "$EXPECT" ]; then echo "SHORT $HBM/$REL: $GOT of $EXPECT"; FAILED=1; continue; fi
   aws s3 cp "$OUT" "s3://somics-dev/hubmap/$HBM/$REL" --region $REGION --only-show-errors || { echo "UPLOAD FAILED"; FAILED=1; continue; }
   echo "RESTAGED $HBM/$REL $GOT bytes"; rm -f "$OUT"
