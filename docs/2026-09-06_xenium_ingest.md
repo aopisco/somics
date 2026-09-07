@@ -95,6 +95,18 @@ it stacks on the newest atlas prefix and the repair step runs at the end.
 Verify with `scripts/verify_visium_ingest.py --specs 'specs/tenx_xenium/*.json'`
 against the output prefix; the row-count check uses the kept geometry.
 
+## Run history
+
+- **Run 1** (`2026-09-06T20-30-28Z`, on the protein-trial atlas): 23 of 39 in,
+  16 skipped -- 10 Explorer bundles (zarr-only cells/matrix), 4 Onboard
+  Analysis 1.0 cell tables without the unassigned-codeword column, 2 null panel
+  names. All three causes were fixed while it ran; the repair check at its end
+  found nothing to repair. The block's ingests took 60-190 s each after fetch.
+- **Run 2** (`somics-tenx-xenium-2`, launched 2026-09-07 00:25Z from run 1's
+  atlas) covers the 16 skipped plus the 20 HuBMAP sections and Atera in one
+  pass: `SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"`,
+  skipping sections already present.
+
 ## Not verified yet
 
 The generalised builder was unit-tested on synthetic channel directories and
