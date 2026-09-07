@@ -508,9 +508,17 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
 
     cells = pq.read_table(os.path.join(src, "cells.parquet")).to_pandas()
     cells["cell_id"] = cells["cell_id"].astype(str)
+    # Onboard Analysis 1.0 numbered cells 1..N; a bare "10" round-trips through
+    # the CSV staging as an int and fails the obs schema's string field, so
+    # numeric ids are namespaced with the sample (as SPRM and MIBI ids are).
+    numeric_ids = cells["cell_id"].str.fullmatch(r"\d+").all()
+    if numeric_ids:
+        cells["cell_id"] = sample + ":" + cells["cell_id"]
 
     h5_path = os.path.join(src, "cell_feature_matrix.h5")
     var, barcodes = read_h5_features(h5_path)
+    if numeric_ids:
+        barcodes = np.array([f"{sample}:{b}" for b in barcodes])
     if not np.array_equal(barcodes, cells["cell_id"].to_numpy()):
         raise ValueError(
             f"{sample}: cell_feature_matrix.h5 barcode order does not match cells.parquet row "
@@ -578,6 +586,9 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
 
     obs = pd.DataFrame(
         {
+            # On a co-detection bundle both feature spaces' obs tables must share
+            # a first-column key of the same type; CosMx uses the barcode string.
+            **({"barcode": cells.cell_id.to_numpy()} if protein_files else {}),
             "obs_index": np.arange(len(cells), dtype=np.int64),
             "source_obs_id": cells.cell_id.to_numpy(),
             "x_um": cells.x_centroid.to_numpy(),
