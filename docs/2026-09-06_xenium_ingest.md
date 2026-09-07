@@ -129,8 +129,15 @@ against the output prefix; the row-count check uses the kept geometry.
   were the 1.0 "Blank Codeword" label (3), unzip exit codes on two 1.x
   bundles (fixed while it ran) and the two truncated HuBMAP images. Clean
   repair check.
-- **Run 3** (`somics-tenx-xenium-3`, 2026-09-07 08:13Z, from run 2's atlas):
-  the five fixable skips plus the two protein co-detection datasets.
+- **Run 3** (`2026-09-07T08-13-13Z`, from run 2's atlas): the five fixable
+  skips plus the two protein co-detection datasets -- **0 in, 7 skipped**, all
+  on causes the run itself surfaced: Onboard Analysis 1.0 numbers its cells
+  1..N, and a bare "10" comes back from the CSV staging as an int (namespaced
+  now, as SPRM ids are); the co-detection packages keyed the gene obs by the
+  integer obs_index and the protein obs by the barcode string (both start with
+  the barcode now, as CosMx does); and two 1.x bundles still fail to extract
+  a focus image (member list pending). Run 4 covers all seven after the
+  protein block, which starts on run 3's atlas.
 
 ## Not verified yet
 
