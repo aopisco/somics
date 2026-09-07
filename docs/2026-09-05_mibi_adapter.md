@@ -170,3 +170,18 @@ And a gotcha: **HuBMAP MIBI `cells.csv` is the cohort's table, not the
 dataset's.** 495k cells over 211 fields, and nothing in a dataset names its
 field; per-cell values must be computed from the mask and the stack. The
 `cluster_labels_image.tif` is the segmentation mask despite its name.
+
+
+## Run notes (2026-09-07)
+
+The block ran 210 lab-submission specs on the Xenium atlas. Two skipped at
+build: `HBM383.LXSQ.768` and `HBM448.FXRB.555` have a `3D_image_stack.ome.tiff`
+truncated in staging (394 MB like their siblings, but the OME tag offset points
+past the end of the file and tifffile sees one (Y, X) page instead of 47).
+Re-stage with `scripts/restage_hubmap_files_ec2.sh` against the files-index
+size, then run them through a follow-up pass:
+
+```
+HBM383.LXSQ.768	baade4bd6be576dad881a5ceeca08b5d	3D_image_stack.ome.tiff	394277369	# staged 394015225
+HBM448.FXRB.555	bd844c985f0cbd06accf57c034d3db15	3D_image_stack.ome.tiff	394277369	# staged 393753081
+```
