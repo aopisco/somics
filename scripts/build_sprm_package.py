@@ -257,7 +257,8 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
             )
         if gap > CENTER_TOLERANCE_PX:
             print(
-                f"  note: cell_centers and AnnData centroids disagree by {gap:.1f} px (AnnData used)"
+                f"  note: cell_centers and AnnData centroids disagree by {gap:.1f} px "
+                "(AnnData used)"
             )
     else:
         gap = None
