@@ -164,13 +164,18 @@ for SPEC in $ORDER; do
     for M in cells.parquet cell_feature_matrix.h5 cells.zarr.zip cell_feature_matrix.zarr.zip experiment.xenium metrics_summary.csv gene_panel.json; do
       unzip -o -q -j "$ZIP" "*/$M" -d "$SDIR" 2>/dev/null || unzip -o -q -j "$ZIP" "$M" -d "$SDIR" 2>/dev/null || true
     done
-    if ! unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null \
-       && ! unzip -o -q -j "$ZIP" "morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null; then
+    # unzip exits 1 on warnings (zip64 extra bytes on large archives) even when
+    # it extracted, so judge by what landed, never by its exit code
+    unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null || true
+    [ -f "$SDIR/morphology_focus.ome.tif" ] || unzip -o -q -j "$ZIP" "morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null || true
+    if [ ! -f "$SDIR/morphology_focus.ome.tif" ]; then
       rm -rf "$TMP/mf" && mkdir -p "$TMP/mf"
-      unzip -o -q "$ZIP" "*/morphology_focus/*" -d "$TMP/mf" 2>/dev/null || unzip -o -q "$ZIP" "morphology_focus/*" -d "$TMP/mf" || EXTRACT_OK=0
+      unzip -o -q "$ZIP" "*/morphology_focus/*" -d "$TMP/mf" 2>/dev/null || true
       MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1)
-      [ -n "$MFDIR" ] && rm -rf "$SDIR/morphology_focus" && mv "$MFDIR" "$SDIR/morphology_focus" || EXTRACT_OK=0
+      [ -z "$MFDIR" ] && { unzip -o -q "$ZIP" "morphology_focus/*" -d "$TMP/mf" 2>/dev/null || true; MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1); }
+      if [ -n "$MFDIR" ] && [ -n "$(ls -A "$MFDIR")" ]; then rm -rf "$SDIR/morphology_focus" && mv "$MFDIR" "$SDIR/morphology_focus"; fi
     fi
+    { [ -f "$SDIR/morphology_focus.ome.tif" ] || [ -n "$(ls -A "$SDIR/morphology_focus" 2>/dev/null)" ]; } || EXTRACT_OK=0
     [ -f "$SDIR/experiment.xenium" ] || EXTRACT_OK=0
     { [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ]; } \
       || { [ -f "$SDIR/cells.zarr.zip" ] && [ -f "$SDIR/cell_feature_matrix.zarr.zip" ]; } || EXTRACT_OK=0

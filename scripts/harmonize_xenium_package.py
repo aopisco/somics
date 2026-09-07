@@ -40,6 +40,7 @@ FEATURE_TYPES = {
     "Negative Control Probe": "negative_control_probe",
     "Negative Control Codeword": "negative_control_codeword",
     "Unassigned Codeword": "blank_codeword",
+    "Blank Codeword": "blank_codeword",  # Onboard Analysis 1.0's name for the same thing
     "Deprecated Codeword": "blank_codeword",
     # Xenium Prime 5K panels carry genomic DNA control probes (21 on the 5K
     # human panel); the schema has a member for exactly this.
