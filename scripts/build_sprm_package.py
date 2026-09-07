@@ -132,8 +132,14 @@ def read_ome(path: str) -> dict:
     size = float(attrs["PhysicalSizeX"])
     unit = attrs.get("PhysicalSizeXUnit", "µm")
     pixel_size_um = size / 1000.0 if unit == "nm" else size
-    if len(channels) != int(attrs["SizeC"]):
-        raise ValueError(f"{path}: {len(channels)} channel names for SizeC={attrs['SizeC']}")
+    size_c = int(attrs["SizeC"])
+    if len(channels) < size_c:
+        # One HuBMAP large-intestine region names 43 channels for 44 planes; the
+        # extra plane is not in SPRM's tables either. Name it so the image keeps
+        # every plane and the antigen axis comes from SPRM's columns below.
+        channels = channels + [f"unnamed_{i}" for i in range(len(channels), size_c)]
+    elif len(channels) > size_c:
+        raise ValueError(f"{path}: {len(channels)} channel names for SizeC={size_c}")
     if axes not in ("CYX", "IYX", "ZYX", "QYX") or shape[0] != len(channels):
         raise NotImplementedError(f"{path}: expected a channels-first stack, got {axes} {shape}")
     return {
@@ -229,13 +235,16 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
             )
 
     totals = pd.read_csv(os.path.join(sample_dir, DEST_NAMES["cell_channel_total"])).set_index("ID")
-    if set(totals.columns) != set(info["channel_names"]):
+    if not set(totals.columns) <= set(info["channel_names"]):
         raise ValueError(
-            f"{sample}: SPRM channels {sorted(totals.columns)} are not the image's "
-            f"{sorted(info['channel_names'])}"
+            f"{sample}: SPRM channels {sorted(set(totals.columns) - set(info['channel_names']))} "
+            f"are not in the image's {sorted(info['channel_names'])}"
         )
     # Matrix columns in image channel order, so var.channel_index is the plane.
-    totals = totals[info["channel_names"]]
+    # The antigen axis is what SPRM measured; an image plane SPRM did not
+    # tabulate stays in the image (and its channel_names) only.
+    measured = [c for c in info["channel_names"] if c in set(totals.columns)]
+    totals = totals[measured]
     if totals.isna().any().any():
         raise ValueError(f"{sample}: null intensities in cell_channel_total")
     ids = totals.index.to_numpy()
@@ -305,9 +314,9 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
 
     pd.DataFrame(
         {
-            "var_index": info["channel_names"],
-            "target_name": info["channel_names"],
-            "is_control": [c.startswith(CONTROL_PREFIXES) for c in info["channel_names"]],
+            "var_index": measured,
+            "target_name": measured,
+            "is_control": [c.startswith(CONTROL_PREFIXES) for c in measured],
             "channel_index": np.arange(info["n_channels"], dtype=np.int64),
         }
     ).to_csv(os.path.join(out_dir, f"{sample}_var.csv"), index=False)
@@ -316,7 +325,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
     rounded = np.rint(values)
     fraction_fractional = float(np.mean(values != rounded))
     max_rounding_loss = float(np.abs(values - rounded).max())
-    pd.DataFrame(rounded.astype(np.uint32), columns=info["channel_names"]).to_csv(
+    pd.DataFrame(rounded.astype(np.uint32), columns=measured).to_csv(
         os.path.join(out_dir, f"{sample}_protein_intensity.csv"), index=False
     )
     print(
@@ -338,7 +347,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
         "image_built": os.path.exists(dest),
         "n_channels": info["n_channels"],
         "channel_names": info["channel_names"],
-        "n_targets": int(sum(not c.startswith(CONTROL_PREFIXES) for c in info["channel_names"])),
+        "n_targets": int(sum(not c.startswith(CONTROL_PREFIXES) for c in measured)),
         "image_dtype": info["dtype"],
         "pixel_size_um": info["pixel_size_um"],
         "height_px": info["height_px"],

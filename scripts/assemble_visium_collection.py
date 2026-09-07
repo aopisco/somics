@@ -222,6 +222,11 @@ def main(argv: list[str] | None = None) -> None:
     for g in geometry:
         sample = g["sample"]
         dataset = Dataset(sample)
+        # A uid that is all digits comes back from the CSV staging as an int and
+        # fails the string field on SectionImageSchema.dataset_uid; uids are random
+        # per build, so redraw rather than carry the trap into the package.
+        while dataset.uid.isdigit():
+            dataset = Dataset(sample)
         for path, tag, space in dataset_files(g, staging):
             dataset.add_file(path, tag, space)
         collection.add_dataset(dataset)
