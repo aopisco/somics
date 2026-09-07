@@ -8,7 +8,7 @@ cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs fin
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,764 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5,763 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -26,12 +26,12 @@ has been ported to it yet** — see its issue #1 for the plan.
 | file | grain | rows |
 |---|---|---|
 | `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,429 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,764 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,763 |
 | `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
 | `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
-| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 17 |
+| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 18 |
 | `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
 | `data/sprm_datasets.csv` | per staged HuBMAP CODEX/PhenoCycler row: SPRM layout verdict, regions, or why not buildable | 131 |
 | `data/mibi_datasets.csv` | per staged HuBMAP MIBI row: which of three layouts, buildable or skip reason | 429 |
