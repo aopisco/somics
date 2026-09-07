@@ -76,6 +76,13 @@ row and are not in the 43.
   and race, block ids, FFPE, the multi-tissue segmentation stain) with S3 URIs
   the runner copies directly; `SOMICS_SPEC_DIRS=specs/hubmap_xenium` selects
   them. One dataset smoke-tested end to end: 445,593 cells, clean repair check.
+  Two of the 20 staged z-stacks turned out truncated (0.94 GB of 16.6; 512 KB
+  short of 14.8 GB) -- HuBMAP staging incompleteness the builder surfaced as a
+  JPEG 2000 decode error. `scripts/restage_hubmap_files_ec2.sh` re-fetches a
+  file from `assets.hubmapconsortium.org` and accepts it only byte-exact
+  against the files-index size (the server answers HEAD with 500 and hands out
+  small error pages intermittently). HBM843.TXKG.335 is unserved for every
+  file at the moment and drops out; the cohort is 19 until it comes back.
 - **Atera** (`specs/atera/`) is the Explorer layout plus a whole-transcriptome
   "panel" of 18,028 targets and a development software version; `technology`
   is `atera` (enum member added) so preproduction data can be filtered out.

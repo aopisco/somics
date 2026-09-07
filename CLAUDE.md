@@ -412,6 +412,14 @@ recover with `map --resume <id> --retry-failed`; `.xlsx` supplements are indexed
 as *summaries only* (row/column counts, no cell values), so spreadsheet SI is
 invisible to grep.
 
+**Some staged HuBMAP files are truncated, not just missing.** Two of the 20
+Xenium z-stacks were short (one 0.94 GB of 16.6, one 512 KB short of 14.8 GB)
+with no error recorded at staging time; the builder found them as JPEG 2000
+decode errors. Check a staged file's size against the files index before
+trusting it, and re-fetch with `scripts/restage_hubmap_files_ec2.sh`, which
+accepts only a byte-exact result -- the assets server answers HEAD with 500 and
+serves 153-byte error pages intermittently.
+
 **Some HuBMAP files are indexed but not served.** The files index lists them,
 `assets.hubmapconsortium.org` returns 404 for every one, on any UA, at any
 concurrency. 117 datasets are affected and 9 of them fail *wholesale* (743/743
