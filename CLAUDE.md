@@ -131,9 +131,12 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   since: repaired copy `ingest/repair/atlas/2026-09-06T17-46-36Z` (v83) →
   protein trial `ingest/protein/atlas/2026-09-06T19-06-13Z` (+1 MIBI section;
   the SPRM one failed on integer cell ids, fixed) → Xenium run 1
-  `ingest/tenx_xenium/atlas/2026-09-06T20-30-28Z` (+23 sections) → **Xenium
-  run 2 running 2026-09-07 as `somics-tenx-xenium-2`** (the 16 run-1 skips +
-  20 HuBMAP Xenium + Atera). Then the SPRM re-trial, then EC2 verification. The newest `ingest/*/atlas/<stamp>/`
+  `ingest/tenx_xenium/atlas/2026-09-06T20-30-28Z` (+23 sections) → Xenium
+  run 2 `ingest/tenx_xenium/atlas/2026-09-07T00-25-11Z` (+30: 9 skips, 18
+  HuBMAP, Atera, 2 Explorer) → **Xenium run 3 running 2026-09-07 as
+  `somics-tenx-xenium-3`** (5 fixable skips + the 2 protein co-detection).
+  Then the SPRM + MIBI block (`ingest_protein_ec2.sh`), then EC2 verification
+  (`verify_atlas_ec2.sh`). The newest `ingest/*/atlas/<stamp>/`
   prefix with a `_DONE` marker is always the current atlas; each run stacks on
   the previous one, and every run now ends with the repair check.
 - **The 10x Xenium catalogue is already in the DCA imaging team's staging

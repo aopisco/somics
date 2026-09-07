@@ -124,7 +124,13 @@ against the output prefix; the row-count check uses the kept geometry.
 - **Run 2** (`somics-tenx-xenium-2`, launched 2026-09-07 00:25Z from run 1's
   atlas) covers the 16 skipped plus the 20 HuBMAP sections and Atera in one
   pass: `SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"`,
-  skipping sections already present.
+  skipping sections already present. **30 in, 7 skipped**: 9 former run-1
+  skips, 18 HuBMAP sections, Atera, and two more Explorer bundles; the skips
+  were the 1.0 "Blank Codeword" label (3), unzip exit codes on two 1.x
+  bundles (fixed while it ran) and the two truncated HuBMAP images. Clean
+  repair check.
+- **Run 3** (`somics-tenx-xenium-3`, 2026-09-07 08:13Z, from run 2's atlas):
+  the five fixable skips plus the two protein co-detection datasets.
 
 ## Not verified yet
 
