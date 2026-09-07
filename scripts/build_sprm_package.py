@@ -84,7 +84,12 @@ SLAB_ROWS = 1024
 CONTROL_PREFIXES = ("DAPI", "Blank", "Empty", "HOECHST", "Hoechst")
 # How far (px) SPRM's integer cell_centers may sit from the AnnData centroid
 # before the two are treated as describing different cells.
-CENTER_TOLERANCE_PX = 8.0
+CENTER_TOLERANCE_PX = 8
+# Above the tolerance the gap is recorded rather than refused, up to a cell
+# diameter: two HuBMAP small-intestine regions disagree by 12-13 px (~5 um at
+# 0.38 um/px) between SPRM's cell_centers.csv and its own AnnData centroids,
+# and the AnnData is what the package uses either way.
+CENTER_REFUSE_PX = 40.0
 DEST_NAMES = {
     "cell_channel_total": "cell_channel_total.csv",
     "cell_centers": "cell_centers.csv",
@@ -244,12 +249,18 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
         raise ValueError(f"{sample}: AnnData cells differ from cell_channel_total rows")
     if xy is not None and centers is not None:
         both = centers.reindex(ids)
-        gap = np.nanmax(np.abs(both.to_numpy() - xy.reindex(ids).to_numpy()))
-        if gap > CENTER_TOLERANCE_PX:
+        gap = float(np.nanmax(np.abs(both.to_numpy() - xy.reindex(ids).to_numpy())))
+        if gap > CENTER_REFUSE_PX:
             raise ValueError(
                 f"{sample}: cell_centers and the AnnData centroids disagree by {gap:.1f} px; "
                 f"the row/col convention assumed for cell_centers does not hold here"
             )
+        if gap > CENTER_TOLERANCE_PX:
+            print(
+                f"  note: cell_centers and AnnData centroids disagree by {gap:.1f} px (AnnData used)"
+            )
+    else:
+        gap = None
     if xy is not None:
         coords, coordinate_source = xy.reindex(ids), "anndata obsm['xy']"
     elif centers is not None:
@@ -333,6 +344,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
         "width_px": info["width_px"],
         "n_cells": int(len(ids)),
         "coordinate_source": coordinate_source,
+        "centroid_gap_px": gap,
         "fraction_values_rounded": fraction_fractional,
         "max_rounding_loss": max_rounding_loss,
         "section_id": entry["section_id"],
