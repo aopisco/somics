@@ -317,7 +317,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
             "var_index": measured,
             "target_name": measured,
             "is_control": [c.startswith(CONTROL_PREFIXES) for c in measured],
-            "channel_index": np.arange(info["n_channels"], dtype=np.int64),
+            "channel_index": [info["channel_names"].index(c) for c in measured],
         }
     ).to_csv(os.path.join(out_dir, f"{sample}_var.csv"), index=False)
 
@@ -329,7 +329,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
         os.path.join(out_dir, f"{sample}_protein_intensity.csv"), index=False
     )
     print(
-        f"  wrote {sample}_protein_intensity.csv: {len(ids)} x {info['n_channels']} "
+        f"  wrote {sample}_protein_intensity.csv: {len(ids)} x {len(measured)} "
         f"(fraction of values rounded: {fraction_fractional:.3f})"
     )
 
