@@ -296,7 +296,9 @@ never syncing (the `..` gotcha below), which sent gene resolution into gget's
 Ensembl-MySQL hang; and registry tables typed by whichever package ingested
 first (the other new gotcha below).
 
-**Next:**
+**Next:** the ordered plan is `docs/2026-09-07_next_plan.md` (land and
+publish, HuBMAP imagery as tile-grid sections, the literature tail behind
+#18, small blocks). The list below is the state of each block.
 
 1. **The 10x Visium/HD block is done (2026-09-05)** — see
    `docs/2026-09-04_tenx_visium_ingest.md`. 78 of 78 buildable datasets in,
