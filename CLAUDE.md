@@ -323,7 +323,11 @@ first (the other new gotcha below).
    output prefix, the way the Visium follow-up pass works. Cell DIVE (8 staged,
    3 TB, 26 regions each) is parked pending a region-to-section decision.
    Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
-   staged) needs an imagery-only adapter.
+   staged) needs an imagery-only adapter. **Literature IMC is not an adapter
+   job** (checked 2026-09-07): the five staged Zenodo deposits are five layouts
+   -- raw acquisition TIFFs + txt, a single vendor `.mcd`, OME-TIFF + CSV, R
+   `SingleCellExperiment` objects, thousands of loose TIFFs -- so it is
+   per-deposit curation like the rest of the literature tail.
 3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
    staged, 120 from GEO, and GEO deposits are flat per-GSM files rather than a
    Space Ranger directory — `filtered_feature_bc_matrix.h5` next to `.cloupe`
