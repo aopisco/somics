@@ -80,6 +80,16 @@ row and are not in the 43.
   "panel" of 18,028 targets and a development software version; `technology`
   is `atera` (enum member added) so preproduction data can be filtered out.
 
+- **Protein co-detection** (2 datasets, 27 antibody targets typed `protein`
+  beside the gene panel). The builder carves the protein rows into a
+  `protein_abundance` space the way the CosMx package is laid out: a dense
+  per-cell table, a minimal protein obs carrying the join key, a protein var;
+  the gene-only h5 keeps everything else. The runner switches to the
+  multimodal shape (reconcile barcodes, finalize alone) when a package has
+  the protein table, and the antigen names go through the SPRM harmonizer's
+  verified UniProt resolution. Specs for the two are in `specs/tenx_xenium/`
+  (generated with `--include-protein`); the next follow-up run picks them up.
+
 ## Running it
 
 ```bash

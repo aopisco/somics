@@ -149,7 +149,9 @@ ZARR_FEATURE_TYPES = {
     "unassigned_codeword": "Unassigned Codeword",
     "deprecated_codeword": "Deprecated Codeword",
     "genomic_control": "Genomic Control",
+    "protein": "Protein Expression",  # In Situ Gene and Protein Expression bundles
 }
+PROTEIN_FEATURE_TYPE = "Protein Expression"
 # 10x's cell_id string is the uint32 id in shifted hex (a=0 .. p=15) plus the
 # dataset suffix: (27196, 1) -> "aaaagkdm-1". Checked against cells.parquet.
 _SHIFTED_HEX = "abcdefghijklmnop"
@@ -247,6 +249,65 @@ def materialize_zarr_bundle(src: str) -> None:
             table[extra] = summary[extra].to_numpy()
     table.to_parquet(parquet + ".part")
     os.replace(parquet + ".part", parquet)
+
+
+def split_protein_features(sample: str, h5_path: str, var: pd.DataFrame, out_dir: str):
+    """On a co-detection bundle, carve the protein rows out into a second feature space.
+
+    The feature axis of an "In Situ Gene and Protein Expression" bundle mixes
+    the gene panel (and its controls) with ~27 antibody targets typed "Protein
+    Expression". The atlas keeps proteins in ``protein_abundance``, so the
+    package gets a gene-only ``cell_feature_matrix.h5`` plus, as CosMx does, a
+    dense per-cell protein table, a minimal protein obs carrying the join key,
+    and a protein var. Returns None when the bundle has no protein features.
+    """
+    import scipy.sparse as sp
+
+    is_protein = (var.feature_type == PROTEIN_FEATURE_TYPE).to_numpy()
+    if not is_protein.any():
+        return None
+    with h5py.File(h5_path, "r") as f:
+        g = f["matrix"]
+        m = sp.csc_matrix(
+            (g["data"][:], g["indices"][:], g["indptr"][:]), shape=tuple(g["shape"][:])
+        )
+        barcodes = g["barcodes"][:].astype(str)
+        feats = {k: g["features"][k][:] for k in g["features"] if k != "_all_tag_keys"}
+    print(f"  {int(is_protein.sum())} protein targets split into protein_abundance")
+    dense = np.asarray(m[is_protein].todense()).T  # cells x proteins
+    targets = var.gene_name[is_protein].tolist()
+    pd.DataFrame(dense, columns=targets).to_csv(
+        os.path.join(out_dir, f"{sample}_protein_intensity.csv"), index=False
+    )
+    pd.DataFrame(
+        {"barcode": barcodes, "obs_index": np.arange(len(barcodes)), "source_obs_id": barcodes}
+    ).to_csv(os.path.join(out_dir, f"{sample}_protein_obs.csv"), index=False)
+    pd.DataFrame(
+        {
+            "var_index": targets,
+            "target_name": targets,
+            "feature_id": var.gene_id[is_protein].tolist(),
+            "is_stain": False,
+        }
+    ).to_csv(os.path.join(out_dir, f"{sample}_protein_var.csv"), index=False)
+
+    keep = ~is_protein
+    gene_only = m[keep]
+    gene_only.sort_indices()
+    out = os.path.join(out_dir, "cell_feature_matrix.h5")
+    with h5py.File(out + ".part", "w") as f:
+        g = f.create_group("matrix")
+        g.create_dataset("data", data=gene_only.data, compression="gzip")
+        g.create_dataset("indices", data=gene_only.indices.astype(np.int64), compression="gzip")
+        g.create_dataset("indptr", data=gene_only.indptr.astype(np.int64), compression="gzip")
+        g.create_dataset("shape", data=np.array(gene_only.shape, dtype=np.int32))
+        g.create_dataset("barcodes", data=barcodes.astype("S"), compression="gzip")
+        fg = g.create_group("features")
+        for k, v in feats.items():
+            fg.create_dataset(k, data=v[keep] if len(v) == len(keep) else v)
+        fg.create_dataset("_all_tag_keys", data=np.array(["genome"]).astype("S"))
+    os.replace(out + ".part", out)
+    return {"targets": targets}
 
 
 def plane_view(path: str):
@@ -456,6 +517,10 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
             f"for row; ingestion hands the matrix to the writer positionally, so the obs table "
             f"and the matrix would be misaligned"
         )
+    protein_files = split_protein_features(sample, h5_path, var, out_dir)
+    if protein_files:
+        h5_path = os.path.join(out_dir, "cell_feature_matrix.h5")  # gene-only copy
+        var, barcodes = read_h5_features(h5_path)
     is_gene = (var.feature_type == GENE_FEATURE_TYPE).to_numpy()
     n_genes = genes_per_cell(h5_path, is_gene, len(cells))
 
@@ -573,6 +638,8 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         if os.path.exists(dest):
             continue
         source_path = image if name == "morphology_focus.ome.tif" else os.path.join(src, name)
+        if name == "cell_feature_matrix.h5":
+            source_path = h5_path  # the gene-only copy on a co-detection bundle
         if not os.path.exists(source_path):
             if name in OPTIONAL_PASSTHROUGH:
                 continue  # HuBMAP submissions omit metrics_summary.csv
@@ -589,6 +656,7 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         "image_file": "morphology_focus.ome.tif",
         "channel_names": channel_names,
         "n_channels": len(channel_names) if channel_names else 1,
+        "protein_targets": protein_files["targets"] if protein_files else None,
         "panel_name": panel,
         "panel_name_from_bundle": bundle_panel_name,
         "n_cells": int(len(cells)),

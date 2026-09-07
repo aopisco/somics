@@ -20,6 +20,7 @@ import argparse
 import csv
 import json
 import os
+import sys
 
 import lancedb
 from polycomb import (
@@ -372,6 +373,13 @@ def main(argv: list[str] | None = None) -> None:
         spec["panel"]["panel_name"] = names[0]
     for sample in args.samples or list(spec["samples"]):
         harmonize_sample(spec, package, sample, args.dry_run)
+        if any(g.get("protein_targets") for g in geometry if g.get("sample") == sample):
+            # Same antigen axis and the same verified UniProt table as the HuBMAP
+            # SPRM packages; the SPRM harmonizer owns that logic.
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            from harmonize_sprm_package import harmonize_proteins
+
+            harmonize_proteins(spec, package, sample, args.dry_run)
     if geometry:
         harmonize_images(spec, package, geometry, args.dry_run)
 

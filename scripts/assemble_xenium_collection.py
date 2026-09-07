@@ -34,7 +34,19 @@ def dataset_files(sample: str, staging: str) -> list[tuple[str, FileTypeTag, str
     d = os.path.join(staging, sample)
     # HuBMAP submissions carry no metrics_summary.csv; it is provenance, not data.
     files = _dataset_files(d, sample)
-    return [f for f in files if f[1] != FileTypeTag.OTHER or os.path.exists(f[0])]
+    files = [f for f in files if f[1] != FileTypeTag.OTHER or os.path.exists(f[0])]
+    # A co-detection bundle adds a protein_abundance space (see the builder's split).
+    if os.path.exists(os.path.join(d, f"{sample}_protein_intensity.csv")):
+        files += [
+            (
+                os.path.join(d, f"{sample}_protein_intensity.csv"),
+                FileTypeTag.DATA,
+                "protein_abundance",
+            ),
+            (os.path.join(d, f"{sample}_protein_obs.csv"), FileTypeTag.OBS, "protein_abundance"),
+            (os.path.join(d, f"{sample}_protein_var.csv"), FileTypeTag.VAR, "protein_abundance"),
+        ]
+    return files
 
 
 def _dataset_files(d: str, sample: str) -> list[tuple[str, FileTypeTag, str | None]]:
