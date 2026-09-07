@@ -35,6 +35,7 @@ has been ported to it yet** — see its issue #1 for the plan.
 | `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
 | `data/sprm_datasets.csv` | per staged HuBMAP CODEX/PhenoCycler row: SPRM layout verdict, regions, or why not buildable | 131 |
 | `data/mibi_datasets.csv` | per staged HuBMAP MIBI row: which of three layouts, buildable or skip reason | 429 |
+| `data/hubmap_truncated_files_2026-09-07.tsv` | the 108 staged HuBMAP files found short against the files index (44 datasets), re-staged 2026-09-07 | 108 |
 
 Key columns on `datasets.csv`: `is_spatial` (yes/no/unknown), `modality`
 (spatial transcriptomics / proteomics / epigenomics), `data_access_link`
