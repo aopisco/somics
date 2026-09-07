@@ -423,12 +423,9 @@ decode errors. Check a staged file's size against the files index before
 trusting it, and re-fetch with `scripts/restage_hubmap_files_ec2.sh`, which
 accepts only a byte-exact result -- the assets server answers HEAD with 500,
 403s curl-like user agents, and served both files as error pages for hours on
-2026-09-07. **Pending re-stage** (retry, then run through the follow-up passes):
-HBM843.TXKG.335 (Xenium, whole dataset unserved), HBM327.KCPH.962 (Xenium
-image), HBM383.LXSQ.768 and HBM448.FXRB.555 (MIBI `3D_image_stack.ome.tiff`,
-each a few hundred KB short -- the builder saw a 1-page (Y, X) file where its
-siblings have 47 pages). uuids and index sizes in the re-stage LIST format:
-see `docs/2026-09-05_mibi_adapter.md` / the Xenium note.
+2026-09-07. All four truncated files (two Xenium z-stacks, two MIBI stacks) were
+re-staged byte-exact on 2026-09-07 once the server recovered; they go through
+the next follow-up passes (Xenium run 4, a protein follow-up).
 
 **Some HuBMAP files are indexed but not served.** The files index lists them,
 `assets.hubmapconsortium.org` returns 404 for every one, on any UA, at any

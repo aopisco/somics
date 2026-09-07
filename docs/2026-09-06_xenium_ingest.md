@@ -83,8 +83,8 @@ row and are not in the 43.
   against the files-index size (the server answers HEAD with 500 and hands out
   small error pages intermittently). On 2026-09-07 both images answered 500
   for hours (HBM843.TXKG.335 for every file, HBM327.KCPH.962 for the image),
-  so both drop out for now and the cohort runs with 18; retry the re-stage
-  later and run the two through the follow-up pass when it succeeds.
+  so both dropped out of run 2 (18 of 20 in). Both re-staged byte-exact later
+  the same day and go in run 4.
 - **Atera** (`specs/atera/`) is the Explorer layout plus a whole-transcriptome
   "panel" of 18,028 targets and a development software version; `technology`
   is `atera` (enum member added) so preproduction data can be filtered out.
