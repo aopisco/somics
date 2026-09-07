@@ -168,14 +168,18 @@ for SPEC in $ORDER; do
     # it extracted, so judge by what landed, never by its exit code
     unzip -o -q -j "$ZIP" "*/morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null || true
     [ -f "$SDIR/morphology_focus.ome.tif" ] || unzip -o -q -j "$ZIP" "morphology_focus.ome.tif" -d "$SDIR" 2>/dev/null || true
-    if [ ! -f "$SDIR/morphology_focus.ome.tif" ]; then
+    # 1.x Explorer bundles carry the DAPI max projection instead of a focus image
+    for M in "*/morphology_mip.ome.tif" "morphology_mip.ome.tif"; do
+      [ -f "$SDIR/morphology_focus.ome.tif" ] || [ -f "$SDIR/morphology_mip.ome.tif" ] || unzip -o -q -j "$ZIP" "$M" -d "$SDIR" 2>/dev/null || true
+    done
+    if [ ! -f "$SDIR/morphology_focus.ome.tif" ] && [ ! -f "$SDIR/morphology_mip.ome.tif" ]; then
       rm -rf "$TMP/mf" && mkdir -p "$TMP/mf"
       unzip -o -q "$ZIP" "*/morphology_focus/*" -d "$TMP/mf" 2>/dev/null || true
       MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1)
       [ -z "$MFDIR" ] && { unzip -o -q "$ZIP" "morphology_focus/*" -d "$TMP/mf" 2>/dev/null || true; MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1); }
       if [ -n "$MFDIR" ] && [ -n "$(ls -A "$MFDIR")" ]; then rm -rf "$SDIR/morphology_focus" && mv "$MFDIR" "$SDIR/morphology_focus"; fi
     fi
-    { [ -f "$SDIR/morphology_focus.ome.tif" ] || [ -n "$(ls -A "$SDIR/morphology_focus" 2>/dev/null)" ]; } || EXTRACT_OK=0
+    { [ -f "$SDIR/morphology_focus.ome.tif" ] || [ -f "$SDIR/morphology_mip.ome.tif" ] || [ -n "$(ls -A "$SDIR/morphology_focus" 2>/dev/null)" ]; } || EXTRACT_OK=0
     [ -f "$SDIR/experiment.xenium" ] || EXTRACT_OK=0
     { [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ]; } \
       || { [ -f "$SDIR/cells.zarr.zip" ] && [ -f "$SDIR/cell_feature_matrix.zarr.zip" ]; } || EXTRACT_OK=0

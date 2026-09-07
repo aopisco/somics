@@ -135,8 +135,9 @@ against the output prefix; the row-count check uses the kept geometry.
   1..N, and a bare "10" comes back from the CSV staging as an int (namespaced
   now, as SPRM ids are); the co-detection packages keyed the gene obs by the
   integer obs_index and the protein obs by the barcode string (both start with
-  the barcode now, as CosMx does); and two 1.x bundles still fail to extract
-  a focus image (member list pending). Run 4 covers all seven after the
+  the barcode now, as CosMx does); and two 1.x Explorer bundles carry the DAPI max
+  projection as `morphology_mip.ome.tif` with no focus image (accepted now;
+  one of them also has no `gene_panel.json`). Run 4 covers all seven after the
   protein block, which starts on run 3's atlas.
 
 ## Not verified yet

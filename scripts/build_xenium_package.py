@@ -76,6 +76,7 @@ BUNDLE_MEMBERS = (
     "metrics_summary.csv",
     "gene_panel.json",
     "morphology_focus.ome.tif",
+    "morphology_mip.ome.tif",
     "morphology_focus/*",
 )
 
@@ -407,6 +408,11 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
     single = os.path.join(src, "morphology_focus.ome.tif")
     if os.path.exists(single):
         return single, None
+    # 1.x Explorer bundles ship the DAPI max-intensity projection under this
+    # name and no focus image; it is the same kind of single-channel projection.
+    mip = os.path.join(src, "morphology_mip.ome.tif")
+    if os.path.exists(mip):
+        return mip, None
     folder = os.path.join(src, "morphology_focus")
     zstack = os.path.join(src, "morphology.ome.tiff")
     if not os.path.isdir(folder) and not os.path.exists(zstack):
