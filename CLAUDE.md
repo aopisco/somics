@@ -417,8 +417,10 @@ Xenium z-stacks were short (one 0.94 GB of 16.6, one 512 KB short of 14.8 GB)
 with no error recorded at staging time; the builder found them as JPEG 2000
 decode errors. Check a staged file's size against the files index before
 trusting it, and re-fetch with `scripts/restage_hubmap_files_ec2.sh`, which
-accepts only a byte-exact result -- the assets server answers HEAD with 500 and
-serves 153-byte error pages intermittently.
+accepts only a byte-exact result -- the assets server answers HEAD with 500,
+403s curl-like user agents, and served both files as error pages for hours on
+2026-09-07. **Pending re-stage: HBM843.TXKG.335 (whole dataset) and
+HBM327.KCPH.962 (image); retry, then run them through the Xenium follow-up.**
 
 **Some HuBMAP files are indexed but not served.** The files index lists them,
 `assets.hubmapconsortium.org` returns 404 for every one, on any UA, at any

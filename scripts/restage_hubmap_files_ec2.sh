@@ -7,6 +7,9 @@
 # file is fetched from assets.hubmapconsortium.org/<uuid>/<rel_path> (no auth)
 # and is complete when its size equals the size the files index records (the
 # assets server answers HEAD with 500, so the expected size travels in LIST).
+# nginx there returns 403 to curl-like user agents; use a browser one. On
+# 2026-09-07 both truncated Xenium images answered 500 for hours under every
+# request shape -- when that happens, wait a day and retry rather than loop.
 #
 # Wrapper user-data:
 #   #!/bin/bash
@@ -28,7 +31,7 @@ while IFS=$'\t' read -r HBM UUID REL EXPECT; do
   # and status 500 for minutes at a time; only a byte-exact result counts.
   GOT=0
   for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
-    curl -sSL -A "Mozilla/5.0 (X11; Linux x86_64) somics-restage" --retry 3 --retry-all-errors --retry-delay 20 -C - -o "$OUT" "$URL" || true
+    curl -sSL -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" --retry 3 --retry-all-errors --retry-delay 20 -C - -o "$OUT" "$URL" || true
     GOT=$(stat -c %s "$OUT" 2>/dev/null || echo 0)
     if [ -z "$EXPECT" ] || [ "$GOT" = "$EXPECT" ]; then break; fi
     if [ "$GOT" -lt 100000 ]; then rm -f "$OUT"; fi   # an error page, not a partial file
