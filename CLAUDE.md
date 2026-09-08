@@ -265,7 +265,8 @@ git checkout protein-adapters && git pull
 | Xenium run 1 | `ingest/tenx_xenium/atlas/2026-09-06T20-30-28Z` | +23 |
 | Xenium run 2 | `ingest/tenx_xenium/atlas/2026-09-07T00-25-11Z` | +30 (18 HuBMAP Xenium, Atera, Explorer bundles) |
 | Xenium run 3 | `ingest/tenx_xenium/atlas/2026-09-07T08-13-13Z` | +0 (7 skips, all fixed since) |
-| **protein block (running 2026-09-07, `somics-protein-block-1`)** | `ingest/protein/atlas/2026-09-07T12-58-44Z` | MIBI 210 + SPRM 128; 282 in / 15 skipped at last check |
+| protein block (finished 2026-09-08 05:30Z) | `ingest/protein/atlas/2026-09-07T12-58-44Z` | +320 (MIBI 205, SPRM 115); 18 skipped, all causes fixed |
+| **protein follow-up (running 2026-09-08, `somics-protein-followup-1`)** | `ingest/protein/atlas/2026-09-08T05-*` | the 18 skips |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -293,9 +294,9 @@ curl -sL https://raw.githubusercontent.com/aopisco/somics/protein-adapters/scrip
 caches ~5 min; after a push, either wait or embed the script in the user-data
 (`sed '1d' scripts/x.sh` appended after the exports).
 
-1. **Protein follow-up** -- `ingest_protein_ec2.sh` from the protein block's
-   prefix, no `SOMICS_ONLY`: skip-if-present makes it process only the
-   block's skips. Their causes are all fixed on the branch: truncated staged
+1. **Protein follow-up** -- LAUNCHED 2026-09-08 05:32Z (`i-0750ad358511d3558`)
+   from the protein block's prefix, no `SOMICS_ONLY`: skip-if-present makes it
+   process only the block's 18 skips. Their causes are all fixed on the branch: truncated staged
    files (108 re-staged byte-exact 2026-09-07, list in
    `data/hubmap_truncated_files_2026-09-07.tsv`), the 8 px centroid tolerance
    (now records up to 40 px), an OME header naming 43 of 44 planes, an
