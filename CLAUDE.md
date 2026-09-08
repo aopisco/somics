@@ -266,7 +266,8 @@ git checkout protein-adapters && git pull
 | Xenium run 2 | `ingest/tenx_xenium/atlas/2026-09-07T00-25-11Z` | +30 (18 HuBMAP Xenium, Atera, Explorer bundles) |
 | Xenium run 3 | `ingest/tenx_xenium/atlas/2026-09-07T08-13-13Z` | +0 (7 skips, all fixed since) |
 | protein block (finished 2026-09-08 05:30Z) | `ingest/protein/atlas/2026-09-07T12-58-44Z` | +320 (MIBI 205, SPRM 115); 18 skipped, all causes fixed |
-| **protein follow-up (running 2026-09-08, `somics-protein-followup-1`)** | `ingest/protein/atlas/2026-09-08T05-*` | the 18 skips |
+| protein follow-up (finished 2026-09-08 12:30Z) | `ingest/protein/atlas/2026-09-08T05-32-55Z` | +17 of the 18 skips (the 44-plane one needs a final pass) |
+| **Xenium run 4 (running 2026-09-08, `somics-tenx-xenium-4`, `i-09578ddad7d6d3be1`)** | `ingest/tenx_xenium/atlas/2026-09-08T12-*` | the 9: 3 OA-1.0 bundles, 2 mip-image bundles, 2 protein co-detection, 2 re-staged HuBMAP |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -305,7 +306,10 @@ caches ~5 min; after a push, either wait or embed the script in the user-data
    `data/hubmap_truncated_files_2026-09-07.tsv`), the 8 px centroid tolerance
    (now records up to 40 px), an OME header naming 43 of 44 planes, an
    all-digit dataset uid (assemblers redraw).
-2. **Xenium run 4** -- `ingest_tenx_xenium_ec2.sh` from the follow-up's prefix,
+2. **Xenium run 4** -- LAUNCHED 2026-09-08 12:32Z from the follow-up's prefix;
+   when it lands, the **final protein pass** (step 1's leftover) goes from run
+   4's prefix, then verification. Original notes:
+   `ingest_tenx_xenium_ec2.sh` from the follow-up's prefix,
    `SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"`,
    `SOMICS_ONLY` = the 9 in `/tmp/somics_smoke/xenium_run4_userdata.sh` on the
    laptop, or simply no ONLY (skip-if-present drops everything already in):
