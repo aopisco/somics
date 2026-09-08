@@ -171,3 +171,23 @@ duplicate section as a skip, and stop on a failure inside ingest. Two of the
 | `scripts/build_sprm_package.py` | one SPRM spec -> obs, var, uint32 totals matrix, (Y, X, C) expression image |
 | `scripts/run_sprm_pipeline.sh` | build + ingest any SPRM spec (assembler and harmonizer alongside) |
 ```
+
+
+## Run notes (2026-09-07)
+
+The block (210 MIBI first, then 128 SPRM) ran on the Xenium run-3 atlas as
+`ingest/protein/atlas/2026-09-07T12-58-44Z`. SPRM datasets ingested at 2-3
+minutes each. Skips and their fixes, all on the branch for the follow-up pass:
+
+- **Truncated staged files** (36 SPRM datasets): expression images and
+  covariance CSVs short by multiples of 256 KB. Found by comparing every staged
+  file against the HuBMAP files index; 108 files across 44 datasets re-staged
+  byte-exact (`data/hubmap_truncated_files_2026-09-07.tsv`).
+- **Centroid cross-check too tight**: `cell_centers.csv` vs the AnnData
+  centroids disagree by 9-15 px on ~8 small/large-intestine regions; the
+  AnnData is used either way. Now recorded (`centroid_gap_px`) up to 40 px.
+- **43 channel names for 44 planes** (one large-intestine region): the extra
+  plane is kept on the image as `unnamed_43`; the antigen axis is what SPRM
+  tabulated; `var.channel_index` maps onto image planes.
+- **All-digit dataset uid** (one dataset): read back as an int by the CSV
+  staging; every assembler now redraws such a uid.
