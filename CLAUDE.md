@@ -8,7 +8,7 @@ cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs fin
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,763 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5959 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -25,8 +25,8 @@ has been ported to it yet** — see its issue #1 for the plan.
 
 | file | grain | rows |
 |---|---|---|
-| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,429 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,763 |
+| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,708 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5959 |
 | `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
@@ -326,9 +326,16 @@ Done and pushed on `protein-adapters`: miR-Space (bioRxiv
 10.64898/2026.08.12.744364, not in paperclip; 2 datasets by hand, controlled
 access) and a sweep -- searches `s_17a07eb8` (200 papers; 75 new by DOI/id),
 extraction map `m_93d14edc` -> 277 claim rows appended to
-`data/literature_datasets.csv` (2431 -> 2708). **Steps 6-8 of the skill are
-not done**: the original-publication trace map was started as `m_fb3317d6` over
-`s_17a07eb8`. To finish:
+`data/literature_datasets.csv` (2431 -> 2708). Steps 6-8 are done too: trace
+map `m_fb3317d6` -> `trace_originals.py` added 194 registry rows and 636 usage
+rows (the trace covered all 197 mapped papers, not only the 70 new; existing
+rows untouched), `classify_spatial_modality.py --apply` set `is_spatial` on
+them ({'yes': 104, 'unknown': 67, 'no': 23}), `resolve_download_urls.py` ran after. Registry is
+5959 rows. **Review items**: the added rows flagged `is_spatial: no`
+(scRNA-seq / small-RNA references) belong in
+`data/dissociated_reference_datasets.csv`; 45 added rows carry an
+unresolved-original note; platform strings left as written. The recipe, for
+the next sweep:
 
 ```bash
 paperclip results m_fb3317d6 --save /tmp/trace_0.txt          # per-paper answers
