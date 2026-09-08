@@ -145,3 +145,13 @@ against the output prefix; the row-count check uses the kept geometry.
 The generalised builder was unit-tested on synthetic channel directories and
 the panel lookup; it has not run on a real 2.0+ bundle. The first EC2 run is
 the test, and a 3.0 bundle should be in its first three.
+
+## Run 4 (2026-09-08, `ingest/tenx_xenium/atlas/2026-09-08T12-32-24Z`)
+
+The two protein co-detection bundles (renal carcinoma, ccRCC) skipped at
+`build`: `finalize_collection` refused the package because `ProteinSchema`
+requires `is_control` (non-nullable) and the Xenium `_protein_var.csv` did not
+carry it -- the SPRM and MIBI builders write it, the Xenium split did not.
+Fixed on the branch: the builder flags isotype/blank/control targets and
+writes the column. **They need a run 5** from run 4's prefix (skip-if-present,
+no `SOMICS_ONLY`, `SOMICS_SPEC_DIRS="specs/tenx_xenium"`).

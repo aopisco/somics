@@ -252,6 +252,9 @@ def materialize_zarr_bundle(src: str) -> None:
     os.replace(parquet + ".part", parquet)
 
 
+CONTROL_TARGET_RE = re.compile(r"isotype|control|blank|unassigned", re.IGNORECASE)
+
+
 def split_protein_features(sample: str, h5_path: str, var: pd.DataFrame, out_dir: str):
     """On a co-detection bundle, carve the protein rows out into a second feature space.
 
@@ -289,8 +292,14 @@ def split_protein_features(sample: str, h5_path: str, var: pd.DataFrame, out_dir
             "target_name": targets,
             "feature_id": var.gene_id[is_protein].tolist(),
             "is_stain": False,
+            # ProteinSchema requires is_control (non-nullable; run 4 skipped both
+            # co-detection bundles without it). Antibody targets are measurements;
+            # isotype / blank entries, if a panel carries them, are controls.
+            "is_control": [bool(CONTROL_TARGET_RE.search(t)) for t in targets],
         }
     ).to_csv(os.path.join(out_dir, f"{sample}_protein_var.csv"), index=False)
+    n_ctrl = sum(bool(CONTROL_TARGET_RE.search(t)) for t in targets)
+    print(f"  protein var: {len(targets)} targets, {n_ctrl} flagged is_control")
 
     keep = ~is_protein
     gene_only = m[keep]

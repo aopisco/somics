@@ -267,7 +267,7 @@ git checkout protein-adapters && git pull
 | Xenium run 3 | `ingest/tenx_xenium/atlas/2026-09-07T08-13-13Z` | +0 (7 skips, all fixed since) |
 | protein block (finished 2026-09-08 05:30Z) | `ingest/protein/atlas/2026-09-07T12-58-44Z` | +320 (MIBI 205, SPRM 115); 18 skipped, all causes fixed |
 | protein follow-up (finished 2026-09-08 12:30Z) | `ingest/protein/atlas/2026-09-08T05-32-55Z` | +17 of the 18 skips (the 44-plane one needs a final pass) |
-| **Xenium run 4 (running 2026-09-08, `somics-tenx-xenium-4`, `i-09578ddad7d6d3be1`)** | `ingest/tenx_xenium/atlas/2026-09-08T12-*` | the 9: 3 OA-1.0 bundles, 2 mip-image bundles, 2 protein co-detection, 2 re-staged HuBMAP |
+| **Xenium run 4 (running 2026-09-08, `somics-tenx-xenium-4`, `i-09578ddad7d6d3be1`)** | `ingest/tenx_xenium/atlas/2026-09-08T12-*` | the 9: 3 OA-1.0 bundles, 2 mip-image bundles, 2 re-staged HuBMAP; **the 2 protein co-detection skipped** (`ProteinSchema.is_control` missing; builder fixed 2026-09-08) -> run 5 from run 4's prefix |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
