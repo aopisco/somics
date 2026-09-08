@@ -296,7 +296,11 @@ caches ~5 min; after a push, either wait or embed the script in the user-data
 
 1. **Protein follow-up** -- LAUNCHED 2026-09-08 05:32Z (`i-0750ad358511d3558`)
    from the protein block's prefix, no `SOMICS_ONLY`: skip-if-present makes it
-   process only the block's 18 skips. Their causes are all fixed on the branch: truncated staged
+   process only the block's 18 skips. One of them
+   (`hubmap_hbm393_tmdx_795`, the 44-plane image) failed again: SPRM names the
+   unnamed plane "Channel:0:43"; the builder now adopts that name (fixed
+   2026-09-08). **It needs one more protein pass** -- run `ingest_protein_ec2.sh`
+   again from the newest prefix; skip-if-present leaves only it. Their causes are all fixed on the branch: truncated staged
    files (108 re-staged byte-exact 2026-09-07, list in
    `data/hubmap_truncated_files_2026-09-07.tsv`), the 8 px centroid tolerance
    (now records up to 40 px), an OME header naming 43 of 44 planes, an

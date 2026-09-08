@@ -235,6 +235,15 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str, *, skip_ima
             )
 
     totals = pd.read_csv(os.path.join(sample_dir, DEST_NAMES["cell_channel_total"])).set_index("ID")
+    # A plane the OME header leaves unnamed is one SPRM still measured, under its
+    # own placeholder ("Channel:0:43"); give the image plane that name so the
+    # two axes agree, then the antigen axis below is exactly SPRM's columns.
+    unnamed = [c for c in info["channel_names"] if c.startswith("unnamed_")]
+    extra = sorted(set(totals.columns) - set(info["channel_names"]))
+    if unnamed and len(unnamed) == len(extra):
+        renames = dict(zip(unnamed, extra, strict=True))
+        info["channel_names"] = [renames.get(c, c) for c in info["channel_names"]]
+        print(f"  unnamed image plane(s) named from SPRM's tables: {renames}")
     if not set(totals.columns) <= set(info["channel_names"]):
         raise ValueError(
             f"{sample}: SPRM channels {sorted(set(totals.columns) - set(info['channel_names']))} "
