@@ -320,6 +320,37 @@ caches ~5 min; after a push, either wait or embed the script in the user-data
    literature tail behind #18; seqFISH/Cell DIVE/MALDI decisions; file the
    Lance compaction bug upstream.
 
+### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
+
+Done and pushed on `protein-adapters`: miR-Space (bioRxiv
+10.64898/2026.08.12.744364, not in paperclip; 2 datasets by hand, controlled
+access) and a sweep -- searches `s_17a07eb8` (200 papers; 75 new by DOI/id),
+extraction map `m_93d14edc` -> 277 claim rows appended to
+`data/literature_datasets.csv` (2431 -> 2708). **Steps 6-8 of the skill are
+not done**: the original-publication trace map was started as `m_fb3317d6` over
+`s_17a07eb8`. To finish:
+
+```bash
+paperclip results m_fb3317d6 --save /tmp/trace_0.txt          # per-paper answers
+paperclip results s_17a07eb8 --export-bundle /tmp/bundle  # cohort.csv: document_id, title, doi
+# new papers = cohort rows whose doi/document_id are not in literature_datasets.csv (75)
+# meta.jsonl: one line per new paper {"id": document_id, "title", "doi", "year"} from cohort.csv
+python3 scripts/trace_originals.py --trace /tmp/trace_0.txt --meta /tmp/meta.jsonl --cache /tmp/crossref_cache.json
+python3 scripts/resolve_download_urls.py
+# commit data/datasets.csv + data/model_dataset_usage.csv with the s_/m_ ids in the body
+```
+
+paperclip changed under us (0.7.38 -> 0.7.48): `search` needs `-s papers`;
+result ids are now document ids (`PMC12611760`, bioRxiv DOIs), not
+`bio_`/`pmc_` hashes, so dedup against the sheet by **DOI and document_id**;
+`results <s_id> --save x.csv` writes only a summary for accumulated
+`searches` sets -- use `--export-bundle DIR` and read `cohort.csv`; the skill's
+`append_datasets.py` lives at `.claude/skills/harvest-datasets/scripts/`. The
+map output is `--- [N] [success] Title ---` blocks followed by JSON; match to
+the cohort by exact title. 13 of the 70 new papers reported no datasets;
+non-spatial reused datasets (scRNA-seq references) were kept at the claim
+level for the curated step's `is_spatial` decision.
+
 ### How the runs were watched
 
 A persistent Monitor per box polling S3 every 4-5 min: the newest prefix,
