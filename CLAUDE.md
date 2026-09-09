@@ -345,12 +345,11 @@ export SOMICS_FAMILY=merfish SOMICS_BUILDER=scripts/build_merfish_package.py
 export SOMICS_RUNNER=scripts/run_merfish_pipeline.sh SOMICS_SPEC_DIRS="specs/merfish" SOMICS_RAW_INCLUDE="*"
 ```
 
-Smoke (638850 alone, throwaway atlas from the rebuild base) launched
-2026-09-09 03:48Z as `somics-merfish-smoke` / `i-0537c5b983eeb8298`, prefix
-`ingest/merfish/atlas/2026-09-09T03-*`. If its `_DONE` lands with 1 in and
-`_repair.txt` clean, run production from the newest `_DONE` prefix **after**
-Xenium run 5 and the final protein pass (serial rule), then delete the smoke
-prefix. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
+Smoke (638850 alone, throwaway atlas from the rebuild base) **passed
+2026-09-09 04:30Z**: 59 sections / 3.94M cells in 835 s of build+ingest, repair
+check clean on the expression-only sections (prefix deleted). **Run production
+from the newest `_DONE` prefix after Xenium run 5 and the final protein pass**
+(serial rule): the six specs, ~13M cells, no `SOMICS_ONLY`. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
 resolution is unverified against the reference cache and a miss hangs on
 gget. seqFISH comes after MERFISH (6 buildable HuBMAP datasets, FOV-local
 coordinates; assessment in the same doc).

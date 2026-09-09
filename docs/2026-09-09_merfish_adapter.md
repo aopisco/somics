@@ -68,8 +68,13 @@ Decisions:
 
 - **Smoke, 2026-09-09 03:48Z** (`somics-merfish-smoke`, `i-0537c5b983eeb8298`):
   638850 alone into a throwaway atlas from the rebuild base, prefix under
-  `s3://somics-dev/ingest/merfish/atlas/2026-09-09T03-*`. Delete the prefix
-  after reading it.
+  `s3://somics-dev/ingest/merfish/atlas/2026-09-09T03-48-10Z`. **Passed**:
+  fetch 207 s, raw staging 31 s, build + ingest 835 s for the whole release;
+  59 sections, 3,938,808 cells, 500 genes + 50 blanks, x 0.46–10.6 mm,
+  y 1.4–9.3 mm; the repair check read every pointer column of every section
+  under a filter (6,411,924 obs rows = 2.47M base + 3.94M MERFISH) with
+  nothing to repair, i.e. the expression-only sections with null crop pointers
+  are queryable. Prefix deleted afterwards.
 - **Production**: `ingest_tenx_xenium_ec2.sh` with the MERFISH exports from
   the newest `_DONE` prefix once Xenium run 5 and the final protein pass land;
   `SOMICS_SPEC_DIRS=specs/merfish`, no `SOMICS_ONLY`. Expect ~13M cells over
