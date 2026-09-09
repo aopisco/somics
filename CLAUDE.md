@@ -330,6 +330,31 @@ caches ~5 min; after a push, either wait or embed the script in the user-data
    literature tail behind #18; seqFISH/Cell DIVE/MALDI decisions; file the
    Lance compaction bug upstream.
 
+### MERFISH block (2026-09-09) -- smoke running, then production
+
+Vizgen's showcase buckets are gated (403 anonymous; needs their data-release
+form + a Google account), so the MERFISH family is the **Allen Brain Cell
+Atlas** public releases: 638850 (MERSCOPE, 59 sections, ~4M cells, 500 genes),
+Zhuang ABCA-1..4 (~9M cells, 1,122 genes), HMBA human basal ganglia MERSCOPE.
+No per-section imagery exists, so these are the atlas's first expression-only
+sections. Everything is in `docs/2026-09-09_merfish_adapter.md`. The EC2
+script is the Xenium one with a family switch:
+
+```bash
+export SOMICS_FAMILY=merfish SOMICS_BUILDER=scripts/build_merfish_package.py
+export SOMICS_RUNNER=scripts/run_merfish_pipeline.sh SOMICS_SPEC_DIRS="specs/merfish" SOMICS_RAW_INCLUDE="*"
+```
+
+Smoke (638850 alone, throwaway atlas from the rebuild base) launched
+2026-09-09 03:48Z as `somics-merfish-smoke` / `i-0537c5b983eeb8298`, prefix
+`ingest/merfish/atlas/2026-09-09T03-*`. If its `_DONE` lands with 1 in and
+`_repair.txt` clean, run production from the newest `_DONE` prefix **after**
+Xenium run 5 and the final protein pass (serial rule), then delete the smoke
+prefix. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
+resolution is unverified against the reference cache and a miss hangs on
+gget. seqFISH comes after MERFISH (6 buildable HuBMAP datasets, FOV-local
+coordinates; assessment in the same doc).
+
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
 Done and pushed on `protein-adapters`: miR-Space (bioRxiv
@@ -583,6 +608,7 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
 | `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
 | `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |
+| `scripts/build_merfish_package.py` / `assemble_merfish_collection.py` / `harmonize_merfish_package.py` / `run_merfish_pipeline.sh` | MERFISH: an Allen Brain Cell Atlas release (or a staged MERSCOPE bundle) -> per-section 10x-format h5 + obs, no image; `specs/merfish/`; notes in `docs/2026-09-09_merfish_adapter.md` |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
