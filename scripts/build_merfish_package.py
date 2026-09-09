@@ -83,11 +83,14 @@ def gene_table(var: pd.DataFrame, src: str) -> pd.DataFrame:
         genes = pd.read_csv(gene_csv, dtype=str)
         if {"gene_identifier", "gene_symbol"} <= set(genes.columns):
             symbol_by_id = dict(zip(genes.gene_identifier, genes.gene_symbol, strict=True))
-    ids = var.index.astype(str)
-    if "gene_symbol" in var.columns:
-        names = var.gene_symbol.astype(str).to_numpy()
-    else:
-        names = np.array([symbol_by_id.get(i, i) for i in ids])
+    ids = np.array([str(i) for i in var.index])
+    raw_names = var.gene_symbol.tolist() if "gene_symbol" in var.columns else [symbol_by_id.get(i) for i in ids]
+    # A symbol can be missing (NaN on the HMBA releases, where the blanks and
+    # some probes carry no symbol); the feature then keeps its own id as name.
+    names = np.array(
+        [n if isinstance(n, str) and n and n.lower() != "nan" else i for i, n in zip(ids, raw_names, strict=True)],
+        dtype=object,
+    )
     is_blank = np.array([bool(BLANK_RE.match(n)) or bool(BLANK_RE.match(i)) for i, n in zip(ids, names, strict=True)])
     return pd.DataFrame(
         {
