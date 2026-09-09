@@ -283,10 +283,15 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             reason="natural key finalization resolves to the panel uid",
         ),
     ]
+    # A single-feature-space dataset (MERFISH, no image) is staged with a bare
+    # obs table; the two-space Xenium shape suffixes it.
+    tables = lancedb.connect(path).list_tables()
+    tables = list(getattr(tables, "tables", tables))
+    obs_table = "SpatialObs_gene_expression" if "SpatialObs_gene_expression" in tables else "SpatialObs"
     apply(
         path,
         sample,
-        CurationTransaction(table_name="SpatialObs_gene_expression", changes=obs),
+        CurationTransaction(table_name=obs_table, changes=obs),
         {c.column for c in obs} | {"additional_metadata"},
         dry_run,
     )

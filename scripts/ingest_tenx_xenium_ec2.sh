@@ -42,7 +42,13 @@
 set -x
 exec > /var/log/ingest.log 2>&1
 
-B=s3://somics-dev/ingest/tenx_xenium
+# Family switch: the same fetch/stage/build/ingest loop serves any builder that
+# implements --list-sources and any runner that takes SPEC (MERFISH reuses it).
+FAMILY=${SOMICS_FAMILY:-tenx_xenium}
+BUILDER=${SOMICS_BUILDER:-scripts/build_xenium_package.py}
+RUNNER=${SOMICS_RUNNER:-scripts/run_xenium_pipeline.sh}
+RAW_INCLUDE=${SOMICS_RAW_INCLUDE:-*/*_outs.zip}
+B=s3://somics-dev/ingest/$FAMILY
 BASE_ATLAS=${SOMICS_BASE_ATLAS:?set SOMICS_BASE_ATLAS to the newest ingest prefix}
 ONLY=${SOMICS_ONLY:-}
 SPEC_DIRS=${SOMICS_SPEC_DIRS:-specs/tenx_xenium}   # e.g. specs/hubmap_xenium
@@ -117,7 +123,13 @@ for p in sorted(p for d_ in spec_dirs for p in glob.glob(f"{d_}/*.json")):
     s = json.load(open(p))
     if only and s["dataset_key"] not in only:
         continue
-    if all(e["section_id"] in present for e in s["samples"].values()):
+    if s.get("samples"):
+        done = all(e["section_id"] in present for e in s["samples"].values())
+    else:
+        # MERFISH specs list no samples: the release's sections are derived at
+        # build time and named '<study>.<n>', so the release is in when any is.
+        done = any(sid.startswith(s["study"] + ".") or sid == s["study"] for sid in present)
+    if done:
         skipped.append(s["dataset_key"])
         continue
     specs.append((s["source"]["bytes"], p))
@@ -148,7 +160,7 @@ for SPEC in $ORDER; do
       echo "FETCH FAILED: $URL"; FETCH_OK=0; break
     fi
     B0=$(stat -c %s "$DEST"); echo "  fetched $(basename $DEST) $((B0/1000000)) MB"
-  done < <(uv run python scripts/build_xenium_package.py --spec $SPEC --list-sources)
+  done < <(uv run python $BUILDER --spec $SPEC --list-sources)
   T1=$(date +%s)
   if [ $FETCH_OK -eq 0 ]; then echo "$KEY	fetch" >> $D/failed.txt; continue; fi
   echo "  fetch took $((T1-T0)) s"
@@ -190,32 +202,35 @@ for SPEC in $ORDER; do
   # 2. stage raw to S3 with a manifest (source url, bytes, md5, fetch time) --
   #    unless every source is already an object in the bucket (HuBMAP)
   EXTRACTED=$SOMICS_DATA_HOME/datasets/$KEY/extracted
-  if ! uv run python scripts/build_xenium_package.py --spec $SPEC --list-sources | cut -f1 | grep -qv '^s3://'; then
+  if ! uv run python $BUILDER --spec $SPEC --list-sources | cut -f1 | grep -qv '^s3://somics-dev/'; then
     echo "  sources are in the bucket already; no raw staging"; T2=$(date +%s)
   else
-  uv run python - "$SPEC" "$EXTRACTED" > $EXTRACTED/_manifest.json <<'PY' || fail
-import hashlib, json, os, sys, datetime
+  uv run python - "$SPEC" "$EXTRACTED" "$BUILDER" > $EXTRACTED/_manifest.json <<'PY' || fail
+import hashlib, json, os, sys, datetime, importlib
 spec, root = json.load(open(sys.argv[1])), sys.argv[2]
-sys.path.insert(0, "scripts"); import build_xenium_package as b
+sys.path.insert(0, "scripts"); b = importlib.import_module(os.path.splitext(os.path.basename(sys.argv[3]))[0])
 files = []
-for sample in spec["samples"]:
-    for url, rel in b.sources_for(spec, sample):
-        p = os.path.join(root, sample, rel); h = hashlib.md5()
+if spec.get("samples"):
+    pairs = [(s, url, rel) for s in spec["samples"] for url, rel in b.sources_for(spec, s)]
+else:
+    pairs = [(None, url, rel) for url, rel in b.sources_for(spec)]
+for sample, url, rel in pairs:
+        p = os.path.join(root, sample, rel) if sample else os.path.join(root, rel); h = hashlib.md5()
         with open(p, "rb") as f:
             for chunk in iter(lambda: f.read(1 << 24), b""): h.update(chunk)
-        files.append({"key": f"{sample}/{rel}", "source_url": url, "bytes": os.path.getsize(p),
+        files.append({"key": f"{sample}/{rel}" if sample else rel, "source_url": url, "bytes": os.path.getsize(p),
                       "md5": h.hexdigest(), "fetched_at": datetime.datetime.fromtimestamp(os.path.getmtime(p), datetime.UTC).isoformat()})
 json.dump({"dataset_id": spec["dataset_key"], "data_access_link": spec["data_access_link"],
            "staged_by": "scripts/ingest_tenx_xenium_ec2.sh", "files": files}, sys.stdout, indent=2)
 PY
   aws s3 sync $EXTRACTED s3://somics-dev/raw/$KEY/ --region $REGION --only-show-errors \
-      --exclude "*" --include "*/*_outs.zip" --include "_manifest.json" --exclude "*.part" \
+      --exclude "*" --include "$RAW_INCLUDE" --include "_manifest.json" --exclude "*.part" \
       || echo "WARN: raw staging sync failed for $KEY"
   T2=$(date +%s); echo "  raw staging took $((T2-T1)) s"
   fi
 
   # 3. build + ingest
-  if ! SPEC=$SPEC bash scripts/run_xenium_pipeline.sh > $D/$KEY.log 2>&1; then
+  if ! SPEC=$SPEC bash $RUNNER > $D/$KEY.log 2>&1; then
     tail -40 $D/$KEY.log
     dmesg 2>/dev/null | grep -iE "killed process|out of memory" | tail -3 | tee -a $D/$KEY.log
     aws s3 cp $D/$KEY.log $ATLAS_DEST/_logs/$KEY.log --region $REGION
