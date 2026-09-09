@@ -268,7 +268,8 @@ git checkout protein-adapters && git pull
 | protein block (finished 2026-09-08 05:30Z) | `ingest/protein/atlas/2026-09-07T12-58-44Z` | +320 (MIBI 205, SPRM 115); 18 skipped, all causes fixed |
 | protein follow-up (finished 2026-09-08 12:30Z) | `ingest/protein/atlas/2026-09-08T05-32-55Z` | +17 of the 18 skips (the 44-plane one needs a final pass) |
 | Xenium run 4 (finished 2026-09-08 13:41Z; 56.4M obs rows) | `ingest/tenx_xenium/atlas/2026-09-08T12-32-24Z` | the 9: 3 OA-1.0 bundles, 2 mip-image bundles, 2 re-staged HuBMAP; **the 2 protein co-detection skipped** (`ProteinSchema.is_control` missing; builder fixed 2026-09-08) -> run 5 from run 4's prefix |
-| **Xenium run 5 (launched 2026-09-08 21:28Z, `somics-tenx-xenium-5`, `i-03cd1e50fa493f802`)** | `ingest/tenx_xenium/atlas/2026-09-08T21-*` | the 2 protein co-detection; then the final protein pass from its prefix, then verification |
+| Xenium run 5 (finished 2026-09-09 05:20Z; 57.59M obs rows) | `ingest/tenx_xenium/atlas/2026-09-08T21-28-41Z` | +2 protein co-detection (first Xenium sections with a protein feature space) |
+| **final protein pass (launched 2026-09-09 05:31Z, `somics-protein-final`, `i-081a823f20927feab`)** | `ingest/protein/atlas/2026-09-09T05-*` | the 44-plane SPRM dataset hbm393; then MERFISH production from its prefix, then verification |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
