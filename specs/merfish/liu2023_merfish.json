@@ -20,45 +20,8 @@
   "source": {
     "layout": "liu2022_figshare",
     "genome": "mm10",
-    "bin_um": 10.0,
     "bytes": 1429361979,
     "runs": {
-      "Msliver_VZG116_021121": {
-        "zip": "Msliver_VZG116_021121.zip",
-        "donor_id": "liu2022_liver_liver1",
-        "boundary_stain": "n/a",
-        "date": "2/11/2021",
-        "rin": "4.4",
-        "sample_notes": "liver #1, sectioned in wang lab. no A1. vanessa.",
-        "segmentation_method": "cell_boundary_stain"
-      },
-      "Msliver_VZG116_021221": {
-        "zip": "Msliver_VZG116_021221.zip",
-        "donor_id": "liu2022_liver_liver1",
-        "boundary_stain": "n/a",
-        "date": "2/12/2021",
-        "rin": "4.4",
-        "sample_notes": "liver #1, sectioned in wang lab. no A1. vanessa.",
-        "segmentation_method": "cell_boundary_stain"
-      },
-      "Msliver_VZG116_021621": {
-        "zip": "Msliver_VZG116_021621.zip",
-        "donor_id": "liu2022_liver_liver1",
-        "boundary_stain": "n/a",
-        "date": "2/16/2021",
-        "rin": "4.4",
-        "sample_notes": "liver #1, sectioned in wang lab. no A1. vanessa.",
-        "segmentation_method": "cell_boundary_stain"
-      },
-      "Msliver_VZG116_021721": {
-        "zip": "Msliver_VZG116_021721.zip",
-        "donor_id": "liu2022_liver_liver1",
-        "boundary_stain": "n/a",
-        "date": "2/17/2021",
-        "rin": "4.4",
-        "sample_notes": "liver #1, sectioned in wang lab. no A1. vanessa.",
-        "segmentation_method": "cell_boundary_stain"
-      },
       "MsLiver_Cellbound_VZG116_V1_JH_09-18-2021": {
         "zip": "MsLiver_Cellbound_VZG116_V1_JH_09-18-2021.zip",
         "donor_id": "liu2022_liver_donor",
@@ -75,27 +38,17 @@
         "dest": "codebook.csv"
       },
       {
-        "url": "https://ndownloader.figshare.com/files/34297553",
-        "dest": "Msliver_VZG116_021121.zip"
-      },
-      {
-        "url": "https://ndownloader.figshare.com/files/34297556",
-        "dest": "Msliver_VZG116_021221.zip"
-      },
-      {
-        "url": "https://ndownloader.figshare.com/files/34297559",
-        "dest": "Msliver_VZG116_021621.zip"
-      },
-      {
-        "url": "https://ndownloader.figshare.com/files/34297532",
-        "dest": "Msliver_VZG116_021721.zip"
-      },
-      {
         "url": "https://ndownloader.figshare.com/files/37019053",
         "dest": "MsLiver_Cellbound_VZG116_V1_JH_09-18-2021.zip"
       }
     ],
-    "notes": "Each Vizgen run is one section (author's decision, 2026-09-10). Runs with Vizgen cell outputs (cell_by_gene.csv + cell_metadata.csv) are ingested as cells; runs that shipped only decoded transcripts (barcodes.csv, no cell assignment) are binned on a 10 um grid (spatial_unit bin, segmentation grid). Codebook VZG116: 307 genes + 78 blanks; barcode_id indexes codebook rows. Raw images are on the AWS Open Data bucket s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/ (not used). No per-section image here."
+    "notes": "Only runs with Vizgen cell outputs (cell_by_gene.csv + cell_metadata.csv) are ingested, as cells. The release's transcript-only runs (barcodes.csv, no cell assignment) are excluded by the author's decision (2026-09-10) and listed in excluded_runs. Codebook VZG116: 307 genes + 78 blanks; barcode_id indexes codebook rows. Raw images are on the AWS Open Data bucket s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/ (not used). No per-section image.",
+    "excluded_runs": [
+      "Msliver_VZG116_021121",
+      "Msliver_VZG116_021221",
+      "Msliver_VZG116_021621",
+      "Msliver_VZG116_021721"
+    ]
   },
   "panel": {
     "panel_name": "Vizgen VZG116 mouse 307-gene MERFISH panel (Liu et al. 2022)",
@@ -111,11 +64,6 @@
       "sex": "unknown",
       "life_stage": "unknown",
       "description": "Mouse 'donor' of the Liu et al. 2022 liver runs, as DataStatus.csv labels it; sex and age not in the release."
-    },
-    "liu2022_liver_liver1": {
-      "sex": "unknown",
-      "life_stage": "unknown",
-      "description": "Mouse 'liver1' of the Liu et al. 2022 liver runs, as DataStatus.csv labels it; sex and age not in the release."
     }
   }
 }

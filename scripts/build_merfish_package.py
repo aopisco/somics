@@ -337,8 +337,8 @@ def build_merscope_outs(spec: dict, src: str, out: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Liu et al. 2022 (Life Science Alliance) figshare release: one zip per Vizgen
 # run. Two runs carry Vizgen's cell outputs (cell_by_gene.csv with barcode-id
-# columns, cell_metadata.csv); the other twelve carry only barcodes.csv, the
-# decoded transcripts with no cell assignment. Those become grid bins.
+# columns, cell_metadata.csv) and are ingested as cells; the other twelve carry
+# only barcodes.csv (decoded transcripts, no cell assignment) and are excluded.
 # ---------------------------------------------------------------------------
 
 
@@ -404,38 +404,12 @@ def build_liu2022_run(run: str, run_dir: str, codebook: pd.DataFrame, spec: dict
         )
         unit = {"spatial_unit": "cell", "segmentation_method": spec["source"]["runs"][run].get("segmentation_method", "cell_boundary_stain"), "unit_size_um": None}
     else:
-        # Unsegmented run: decoded transcripts binned on a square grid.
-        edge = float(spec["source"].get("bin_um", 10.0))
-        tx = pd.read_csv(os.path.join(run_dir, "barcodes.csv"), usecols=["barcode_id", "global_x", "global_y"])
-        tx = tx[tx.barcode_id.isin(name_by_id)]
-        bx = np.floor(tx.global_x.to_numpy() / edge).astype(np.int64)
-        by = np.floor(tx.global_y.to_numpy() / edge).astype(np.int64)
-        bins, inverse = np.unique(np.stack([bx, by], axis=1), axis=0, return_inverse=True)
-        matrix = sp.csr_matrix(
-            (np.ones(len(tx), dtype=np.int64), (inverse.ravel(), tx.barcode_id.to_numpy())),
-            shape=(len(bins), len(var)),
-        )
-        matrix.sum_duplicates()
-        ids = np.array([f"{run}:bin_{x}_{y}" for x, y in bins], dtype=object)
-        n_counts = np.asarray(matrix.sum(axis=1)).ravel()
-        obs = pd.DataFrame(
-            {
-                "obs_index": np.arange(len(bins), dtype=np.int64),
-                "source_obs_id": ids,
-                "x_um": (bins[:, 0] + 0.5) * edge,
-                "y_um": (bins[:, 1] + 0.5) * edge,
-                "unit_size_um": edge,
-                "n_counts": n_counts,
-                "n_genes": np.asarray((matrix[:, is_gene] > 0).sum(axis=1)).ravel(),
-                "negative_control_counts": np.asarray(matrix[:, ~is_gene].sum(axis=1)).ravel(),
-                "unassigned_counts": 0,
-                "section_id": run,
-                "donor_id": spec["source"]["runs"][run]["donor_id"],
-                "panel_name": spec["panel"]["panel_name"],
-                "source_extras_json": json.dumps({"bin_um": edge, "n_transcripts": int(len(tx))}),
-            }
-        )
-        unit = {"spatial_unit": "bin", "segmentation_method": "grid", "unit_size_um": edge}
+        # Transcript-only run (barcodes.csv, no cell assignment). Grid-binning
+        # these was built and tested (10 um bins, counts preserved) and then
+        # excluded from the atlas by the author's decision on 2026-09-10: a bin
+        # of unassigned transcripts is not a measurement of a cell. The spec
+        # lists such runs under source.excluded_runs; reaching here is an error.
+        raise ValueError(f"{run}: no cell_by_gene.csv -- transcript-only runs are excluded from the atlas")
 
     sample = section_key(run)
     obs.to_csv(os.path.join(out_dir, f"{sample}_obs.csv"), index=False)

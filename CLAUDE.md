@@ -273,7 +273,7 @@ git checkout protein-adapters && git pull
 | MERFISH production (finished 2026-09-10 03:00Z; 67.50M obs rows) | `ingest/merfish/atlas/2026-09-09T13-32-48Z` | +5 releases (638850 + Zhuang ABCA-1..4, ~9.8M cells, ~210 expression-only sections); HMBA human skipped on null gene symbols (builder fixed) |
 | MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
 | **verification (relaunched 2026-09-10 12:08Z, `somics-verify-final-2`, `i-014a5b10e2b38b0e6`; the first attempt's report covered one section -- glob bug, fixed)** | report under `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/` | Visium/Xenium/HuBMAP-Xenium/Atera specs; read-only |
-| **Liu 2022 MERFISH block (launched 2026-09-10 12:01Z, `somics-merfish-liu`, `i-0759b68b7940463c8`)** | `ingest/merfish/atlas/2026-09-10T12-*` | 14 Vizgen runs as sections: 2 as cells, 12 as 10 um grid bins (kidney 4, liver 5, pancreas 5) |
+| **Liu 2022 MERFISH block (launched 2026-09-10 12:01Z, `somics-merfish-liu`, `i-0759b68b7940463c8`)** | `ingest/merfish/atlas/2026-09-10T12-*` | relaunched ~13:20Z with only the 2 segmented runs (kidney 111921, liver JH 09-18-2021) as cells; the 12 transcript-only runs are excluded |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -357,10 +357,11 @@ from the newest `_DONE` prefix after Xenium run 5 and the final protein pass**
 (serial rule): the six specs, ~13M cells, no `SOMICS_ONLY`. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
 resolution is unverified against the reference cache and a miss hangs on
 gget. **Liu et al. 2022 (LSA; @aopisco's own MERFISH kidney/liver/pancreas)**
-is a third MERFISH layout, `liu2022_figshare`: figshare zips per Vizgen run;
-the two runs with Vizgen cell outputs become cells, the twelve transcript-only
-runs become **10 um grid bins** (`spatial_unit bin`, `segmentation_method
-grid`, `unit_size_um 10`) -- the author's call was every run is a section.
+is a third MERFISH layout, `liu2022_figshare`: figshare zips per Vizgen run.
+**Only the two runs with Vizgen cell outputs go in, as cells**; the twelve
+transcript-only runs (decoded barcodes, no cell assignment) are excluded by
+the author's decision (2026-09-10; a grid-binned version was built and tested,
+then dropped -- the builder now refuses such runs).
 figshare's `ndownloader` needs curl's own UA (gotcha below). seqFISH comes
 after MERFISH (6 buildable HuBMAP datasets, FOV-local coordinates; assessment
 in the same doc).

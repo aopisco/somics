@@ -20,41 +20,13 @@
   "source": {
     "layout": "liu2022_figshare",
     "genome": "mm10",
-    "bin_um": 10.0,
     "bytes": 2283834210,
     "runs": {
-      "Mskidney_CellBoundary_VZG116_022221": {
-        "zip": "Mskidney_CellBoundary_VZG116_022221.zip",
-        "donor_id": "liu2022_kidney_kidney1",
-        "boundary_stain": "CellBound3",
-        "date": "2/22/2021",
-        "rin": "3.5",
-        "sample_notes": "kidney #1, sectioned in wang lab. ashley.",
-        "segmentation_method": "cell_boundary_stain"
-      },
-      "Mskidney_CellBoundary_VZG116_022321": {
-        "zip": "Mskidney_CellBoundary_VZG116_022321.zip",
-        "donor_id": "liu2022_kidney_kidney1",
-        "boundary_stain": "CellBound3",
-        "date": "2/23/2021",
-        "rin": "3.5",
-        "sample_notes": "kidney #1, sectioned in wang lab. ashley.",
-        "segmentation_method": "cell_boundary_stain"
-      },
       "MsKidney_CellBoundary_VZG116_111921": {
         "zip": "MsKidney_CellBoundary_VZG116_111921.zip",
         "donor_id": "liu2022_kidney_kidney3",
         "boundary_stain": "CellBound3",
         "date": "11/19/21",
-        "rin": "7.9",
-        "sample_notes": "kidney #3, sectioned at biohub. vanessa.",
-        "segmentation_method": "cell_boundary_stain"
-      },
-      "MsKidney_CellBoundary_VZG116_121021": {
-        "zip": "MsKidney_CellBoundary_VZG116_121021.zip",
-        "donor_id": "liu2022_kidney_kidney3",
-        "boundary_stain": "CellBound3",
-        "date": "12/10/21",
         "rin": "7.9",
         "sample_notes": "kidney #3, sectioned at biohub. vanessa.",
         "segmentation_method": "cell_boundary_stain"
@@ -66,23 +38,16 @@
         "dest": "codebook.csv"
       },
       {
-        "url": "https://ndownloader.figshare.com/files/37019029",
-        "dest": "Mskidney_CellBoundary_VZG116_022221.zip"
-      },
-      {
-        "url": "https://ndownloader.figshare.com/files/37019032",
-        "dest": "Mskidney_CellBoundary_VZG116_022321.zip"
-      },
-      {
         "url": "https://ndownloader.figshare.com/files/37020589",
         "dest": "MsKidney_CellBoundary_VZG116_111921.zip"
-      },
-      {
-        "url": "https://ndownloader.figshare.com/files/36880983",
-        "dest": "MsKidney_CellBoundary_VZG116_121021.zip"
       }
     ],
-    "notes": "Each Vizgen run is one section (author's decision, 2026-09-10). Runs with Vizgen cell outputs (cell_by_gene.csv + cell_metadata.csv) are ingested as cells; runs that shipped only decoded transcripts (barcodes.csv, no cell assignment) are binned on a 10 um grid (spatial_unit bin, segmentation grid). Codebook VZG116: 307 genes + 78 blanks; barcode_id indexes codebook rows. Raw images are on the AWS Open Data bucket s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/ (not used). No per-section image here."
+    "notes": "Only runs with Vizgen cell outputs (cell_by_gene.csv + cell_metadata.csv) are ingested, as cells. The release's transcript-only runs (barcodes.csv, no cell assignment) are excluded by the author's decision (2026-09-10) and listed in excluded_runs. Codebook VZG116: 307 genes + 78 blanks; barcode_id indexes codebook rows. Raw images are on the AWS Open Data bucket s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/ (not used). No per-section image.",
+    "excluded_runs": [
+      "Mskidney_CellBoundary_VZG116_022221",
+      "Mskidney_CellBoundary_VZG116_022321",
+      "MsKidney_CellBoundary_VZG116_121021"
+    ]
   },
   "panel": {
     "panel_name": "Vizgen VZG116 mouse 307-gene MERFISH panel (Liu et al. 2022)",
@@ -94,11 +59,6 @@
     "description": "The codebook on figshare (10.6084/m9.figshare.19311017): 307 genes and 78 blank barcodes."
   },
   "donors": {
-    "liu2022_kidney_kidney1": {
-      "sex": "unknown",
-      "life_stage": "unknown",
-      "description": "Mouse 'kidney1' of the Liu et al. 2022 kidney runs, as DataStatus.csv labels it; sex and age not in the release."
-    },
     "liu2022_kidney_kidney3": {
       "sex": "unknown",
       "life_stage": "unknown",

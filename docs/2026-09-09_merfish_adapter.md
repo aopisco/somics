@@ -112,13 +112,15 @@ empty, volume, center_x/y, barcodeCount), `cell_boundaries.geojson`,
 `micron_to_mosaic_pixel_transform.csv`, `barcodes.csv` with a `gene` column.
 The other twelve carry only `barcodes.csv`: decoded transcripts
 (barcode_id, global_x/y/z, x, y, fov) with **no cell assignment**, and blanks
-already filtered out. Decisions (author, 2026-09-10): **every run is a
-section**, and the source is figshare. So the segmented runs are ingested as
-cells and the transcript-only runs as **10 um grid bins** (`spatial_unit bin`,
-`segmentation_method grid`, `unit_size_um 10`, bin centre as x/y), with the
-full 385-entry codebook as the shared feature axis. Verified locally on the
-February 2021 kidney run: 373k transcripts -> 34,921 bins, total counts equal
-the transcript count, median 7 per bin, GPX3/ATP1B1/PCK1 on top.
+already filtered out. Decisions (author, 2026-09-10): the source is figshare, and **only the two
+segmented runs go into the atlas, as cells**, with the full 385-entry codebook
+as the feature axis. A grid-binned form of the transcript-only runs (10 um
+bins; verified on the February 2021 kidney run: 373k transcripts -> 34,921
+bins, counts preserved) was built and tested first, then excluded on the
+author's call -- a bin of unassigned transcripts is not a cell measurement.
+The builder now refuses a run without `cell_by_gene.csv`; the specs list the
+excluded runs under `source.excluded_runs`, and the pancreas row (all five runs
+transcript-only) stays in the registry with that reason and no spec.
 
 Registry: `liu2022_merfish` (kidney, 4 runs), `liu2023_merfish` (liver, 5
 runs), `liu2022_merfish_pancreas` (added 2026-09-10; 5 runs, RIN 1.2). Donor
