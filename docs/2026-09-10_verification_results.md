@@ -10,7 +10,8 @@ each fixing what the previous one taught. Reports live under
 | 2 | 12-08-53Z | Visium 1408/1416 over 78 sections; the verifier crashed on cell-unit specs (`unit_size_um` absent). Fixed. |
 | 3 | 13-31-33Z | Visium 1403/1416 (min px now checked); Xenium 641/684; HuBMAP Xenium 296/320; Atera 16/17. Two failure patterns explained below. |
 | 4 | 15-41-03Z | Row sums pass on all 62 cell-unit sections once only gene columns are summed. Atera **18/18**. First registration check (16 cells) too noisy. |
-| 5 | 17-3*Z | 200-cell registration check on Xenium + HuBMAP Xenium. |
+| 5 | 17-36-18Z | 200-cell registration check: median 0.72, dense tissues lowest; grids viewed -> registered. |
+| 6 | 18-38-29Z | Same check against a random-window null: Xenium 714/725, 39/41 sections clear the margin. |
 
 ## Findings
 
@@ -54,8 +55,10 @@ sections (GBM, reactive lymph node) and the highest (mouse brain coronal),
 show every 128 px crop centred on a cell with its nucleus at the centre. The
 images are registered; the statistic is a density-confounded heuristic. Run 6
 adds a random-window null to the same statistic (pass = cells beat random
-placement by 0.15) and is kept as a machine-readable backstop, not as the
-verdict.
+placement by 0.15): **39 of 41 Xenium sections pass**; the two under the margin
+are the densest tissues (mouse colon 0.50 vs 0.39 random, reactive lymph node
+0.43 vs 0.33), both positive and the lymph node visually confirmed above. Kept
+as a machine-readable backstop; the grids are the verdict.
 
 **Tissue label (1).** `Xenium_Prime_Mouse_Pup_FFPE`: spec says "whole
 organism", the resolution pass wrote UBERON's "multicellular organism". Same
