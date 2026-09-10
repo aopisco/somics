@@ -228,7 +228,10 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
         vals = obs[col].unique().to_list()
         report.add(sid, f"obs.{col}", vals == [expected], f"{vals}")
     unit = obs["unit_size_um"].unique().to_list()
-    report.add(sid, "obs.unit_size_um", unit == [float(spec["unit_size_um"])], f"{unit}")
+    if "unit_size_um" in spec:  # spots and bins have a size; cells (Xenium, Atera) do not
+        report.add(sid, "obs.unit_size_um", unit == [float(spec["unit_size_um"])], f"{unit}")
+    else:
+        report.add(sid, "obs.unit_size_um null (cells)", unit == [None], f"{unit}")
     # A spot under tissue can have zero counts; a section where none do would
     # mean a misaligned or empty matrix.
     positive = float((obs["n_counts"] > 0).mean())
@@ -319,7 +322,7 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
         except Exception as e:  # noqa: BLE001
             report.add(sid, f"{pointer} readable", False, str(e)[:160])
 
-    if args.source_check and "files" in entry and not hd:
+    if args.source_check and "files" in entry and not hd and "unit_size_um" in spec:
         try:
             n_bc, n_ft, scale = source_counts(spec["dataset_key"], sample, tmp)
             report.add(sid, "source barcodes == obs rows", n_bc == n, f"{n_bc} vs {n}")
