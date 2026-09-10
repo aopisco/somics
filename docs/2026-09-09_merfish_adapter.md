@@ -75,10 +75,20 @@ Decisions:
   under a filter (6,411,924 obs rows = 2.47M base + 3.94M MERFISH) with
   nothing to repair, i.e. the expression-only sections with null crop pointers
   are queryable. Prefix deleted afterwards.
-- **Production**: `ingest_tenx_xenium_ec2.sh` with the MERFISH exports from
-  the newest `_DONE` prefix once Xenium run 5 and the final protein pass land;
-  `SOMICS_SPEC_DIRS=specs/merfish`, no `SOMICS_ONLY`. Expect ~13M cells over
-  ~250 sections, which roughly doubles the atlas's Xenium-class cell count.
+- **Production, 2026-09-09 13:32Z -> 2026-09-10 03:00Z** (`somics-merfish-1`,
+  prefix `ingest/merfish/atlas/2026-09-09T13-32-48Z`): five of six releases in,
+  atlas at 67,504,567 obs rows (from 57.74M), repair check clean.
+  - `zhang2023_whole_mouse_brain_merfish__abca1`: 147 sections, 2,846,908 cells, 1122 genes
+  - `zhang2023_whole_mouse_brain_merfish__abca2`: 66 sections, 1,227,408 cells, 1122 genes
+  - `zhang2023_whole_mouse_brain_merfish__abca3`: 23 sections, 1,585,843 cells, 1122 genes
+  - `zhang2023_whole_mouse_brain_merfish__abca4`: 3 sections, 162,578 cells, 1122 genes
+  - `yao2023_merfish`: 59 sections, 3,938,808 cells, 500 genes
+  The HMBA human release skipped at build: its feature table has null gene
+  symbols (blanks and some probes) and the blank detector regex-matched a
+  float. Builder fixed (a feature without a symbol keeps its id as name);
+  follow-up `somics-merfish-2` launched 2026-09-10 03:01Z from this prefix.
+  Timing: base atlas down ~2h45m, first full sync up ~2h15m (see the next-plan
+  addendum on seeding the prefix server-side), builds 2-45 min per release.
 
 ## Registry follow-ups
 
