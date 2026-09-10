@@ -261,6 +261,17 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
                 if attempt == 2 or "S3 error" not in str(exc):
                     raise
         x = adata.X
+        # n_counts is the builder's gene-transcript count (Xenium's
+        # transcript_counts); the stored matrix also carries the control and
+        # blank codeword columns, so the comparison sums the gene columns only
+        # where the feature registry flags controls. Visium matrices are all genes.
+        var = adata.var
+        if "is_control" in var.columns and var["is_control"].notna().any():
+            keep = ~var["is_control"].fillna(False).astype(bool).to_numpy()
+            x = x[:, keep]
+            which = f"{int(keep.sum())} gene columns of {adata.n_vars}"
+        else:
+            which = f"{adata.n_vars} features"
         sums = np.asarray(x.sum(axis=1)).ravel()
         order_ok = len(sums) == sub.height
         match = order_ok and np.allclose(sums, sub["n_counts"].to_numpy())
@@ -268,7 +279,7 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
             sid,
             "expression row sums == n_counts",
             match,
-            f"{len(sums)} rows sampled, {adata.n_vars} features",
+            f"{len(sums)} rows sampled, {which}",
         )
         n_features = int(adata.n_vars)
     except Exception as e:  # noqa: BLE001
