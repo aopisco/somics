@@ -86,7 +86,11 @@ Decisions:
   The HMBA human release skipped at build: its feature table has null gene
   symbols (blanks and some probes) and the blank detector regex-matched a
   float. Builder fixed (a feature without a symbol keeps its id as name);
-  follow-up `somics-merfish-2` launched 2026-09-10 03:01Z from this prefix.
+  follow-up `somics-merfish-2` launched 2026-09-10 03:01Z from this prefix and
+  landed ~11:30Z: 95 sections, 5,431,560 cells, 299 genes + 15 blanks; atlas at
+  72,936,127 obs rows, repair clean. (It also re-fetched 638850 because the
+  skip check matched on `study`, not `feature_matrix_label`; `somics.ingest`
+  refused it as a duplicate section and the atlas was untouched. Fixed.)
   Timing: base atlas down ~2h45m, first full sync up ~2h15m (see the next-plan
   addendum on seeding the prefix server-side), builds 2-45 min per release.
 
