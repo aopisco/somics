@@ -48,7 +48,12 @@ def main(argv: list[str] | None = None) -> None:
         for g in geometry
     }
     for g in geometry:
-        harmonize_sample(spec, package, g["sample"], args.dry_run)
+        # A family can mix units (Liu 2022: segmented runs are cells, the
+        # unsegmented ones grid bins); the builder records each run's unit.
+        per = dict(spec)
+        per["spatial_unit"] = g.get("spatial_unit", spec["spatial_unit"])
+        per["segmentation_method"] = g.get("segmentation_method", spec["segmentation_method"])
+        harmonize_sample(per, package, g["sample"], args.dry_run)
 
 
 if __name__ == "__main__":

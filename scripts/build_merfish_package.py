@@ -54,6 +54,27 @@ def sources_for(spec: dict) -> list[tuple[str, str]]:
     return [(f["url"], f["dest"]) for f in spec["source"]["files"]]
 
 
+def unzip_flat(zip_path: str, out_dir: str) -> None:
+    """Extract a zip's regular members into ``out_dir``, dropping the top-level
+    folder and macOS resource forks."""
+    import zipfile
+
+    with zipfile.ZipFile(zip_path) as z:
+        for info in z.infolist():
+            if info.is_dir() or "__MACOSX" in info.filename or os.path.basename(info.filename).startswith("."):
+                continue
+            target = os.path.join(out_dir, os.path.basename(info.filename))
+            if os.path.exists(target) and os.path.getsize(target) == info.file_size:
+                continue
+            with z.open(info) as src, open(target + ".part", "wb") as dst:
+                while True:
+                    chunk = src.read(1 << 24)
+                    if not chunk:
+                        break
+                    dst.write(chunk)
+            os.replace(target + ".part", target)
+
+
 def section_key(label: str) -> str:
     """Directory-safe sample name for a section label."""
     return re.sub(r"[^A-Za-z0-9._-]+", "_", str(label))
@@ -313,7 +334,142 @@ def build_merscope_outs(spec: dict, src: str, out: str) -> list[dict]:
     ]
 
 
-BUILDERS = {"allen_abc": build_allen, "merscope_outs": build_merscope_outs}
+# ---------------------------------------------------------------------------
+# Liu et al. 2022 (Life Science Alliance) figshare release: one zip per Vizgen
+# run. Two runs carry Vizgen's cell outputs (cell_by_gene.csv with barcode-id
+# columns, cell_metadata.csv); the other twelve carry only barcodes.csv, the
+# decoded transcripts with no cell assignment. Those become grid bins.
+# ---------------------------------------------------------------------------
+
+
+def read_codebook(path: str) -> pd.DataFrame:
+    """MERlin codebook: row i is barcode_id i; ``name`` is the gene or Blank-N."""
+    cb = pd.read_csv(path)
+    names = cb["name"].astype(str).to_numpy()
+    return pd.DataFrame(
+        {
+            "barcode_id": np.arange(len(cb)),
+            "gene_id": names,  # the release publishes symbols only
+            "gene_name": names,
+            "feature_type": np.where([bool(BLANK_RE.match(n)) for n in names], BLANK_FEATURE_TYPE, GENE_FEATURE_TYPE),
+        }
+    )
+
+
+def build_liu2022_run(run: str, run_dir: str, codebook: pd.DataFrame, spec: dict, out_dir: str) -> dict:
+    os.makedirs(out_dir, exist_ok=True)
+    genome = spec["source"].get("genome", "unknown")
+    var = codebook.drop(columns=["barcode_id"]).copy()
+    var["genome"] = genome
+    is_gene = (var.feature_type == GENE_FEATURE_TYPE).to_numpy()
+    name_by_id = dict(zip(codebook.barcode_id, codebook.gene_name, strict=True))
+
+    cbg_path = os.path.join(run_dir, "cell_by_gene.csv")
+    if os.path.exists(cbg_path):
+        # Segmented run: cells. Columns are barcode ids (strings of ints).
+        cbg = pd.read_csv(cbg_path, index_col=0)
+        meta = pd.read_csv(os.path.join(run_dir, "cell_metadata.csv"), index_col=0)
+        meta.index = meta.index.astype(str)
+        cbg.index = cbg.index.astype(str)
+        meta = meta.loc[cbg.index]
+        col_ids = [int(c) for c in cbg.columns]
+        unknown = [c for c in col_ids if c not in name_by_id]
+        if unknown:
+            raise ValueError(f"{run}: cell_by_gene columns not in the codebook: {unknown[:5]}")
+        # Fill the full codebook axis so every run in the family shares one var.
+        full = np.zeros((len(cbg), len(var)), dtype=np.int64)
+        full[:, col_ids] = np.round(cbg.to_numpy()).astype(np.int64)
+        matrix = sp.csr_matrix(full)
+        ids = np.array([f"{run}:{c}" for c in cbg.index], dtype=object)
+        n_counts = np.asarray(matrix.sum(axis=1)).ravel()
+        obs = pd.DataFrame(
+            {
+                "obs_index": np.arange(len(meta), dtype=np.int64),
+                "source_obs_id": ids,
+                "x_um": meta.center_x.to_numpy(),
+                "y_um": meta.center_y.to_numpy(),
+                "n_counts": n_counts,
+                "n_genes": np.asarray((matrix[:, is_gene] > 0).sum(axis=1)).ravel(),
+                "negative_control_counts": np.asarray(matrix[:, ~is_gene].sum(axis=1)).ravel(),
+                "unassigned_counts": 0,
+                "cell_area_um2": meta.volume.to_numpy() if "volume" in meta.columns else np.nan,
+                "section_id": run,
+                "donor_id": spec["source"]["runs"][run]["donor_id"],
+                "panel_name": spec["panel"]["panel_name"],
+                "source_extras_json": [
+                    json.dumps({k: (None if pd.isna(v) else v) for k, v in r.items()})
+                    for r in meta[[c for c in ("fov", "volume", "barcodeCount") if c in meta.columns]].to_dict(orient="records")
+                ],
+            }
+        )
+        unit = {"spatial_unit": "cell", "segmentation_method": spec["source"]["runs"][run].get("segmentation_method", "cell_boundary_stain"), "unit_size_um": None}
+    else:
+        # Unsegmented run: decoded transcripts binned on a square grid.
+        edge = float(spec["source"].get("bin_um", 10.0))
+        tx = pd.read_csv(os.path.join(run_dir, "barcodes.csv"), usecols=["barcode_id", "global_x", "global_y"])
+        tx = tx[tx.barcode_id.isin(name_by_id)]
+        bx = np.floor(tx.global_x.to_numpy() / edge).astype(np.int64)
+        by = np.floor(tx.global_y.to_numpy() / edge).astype(np.int64)
+        bins, inverse = np.unique(np.stack([bx, by], axis=1), axis=0, return_inverse=True)
+        matrix = sp.csr_matrix(
+            (np.ones(len(tx), dtype=np.int64), (inverse.ravel(), tx.barcode_id.to_numpy())),
+            shape=(len(bins), len(var)),
+        )
+        matrix.sum_duplicates()
+        ids = np.array([f"{run}:bin_{x}_{y}" for x, y in bins], dtype=object)
+        n_counts = np.asarray(matrix.sum(axis=1)).ravel()
+        obs = pd.DataFrame(
+            {
+                "obs_index": np.arange(len(bins), dtype=np.int64),
+                "source_obs_id": ids,
+                "x_um": (bins[:, 0] + 0.5) * edge,
+                "y_um": (bins[:, 1] + 0.5) * edge,
+                "unit_size_um": edge,
+                "n_counts": n_counts,
+                "n_genes": np.asarray((matrix[:, is_gene] > 0).sum(axis=1)).ravel(),
+                "negative_control_counts": np.asarray(matrix[:, ~is_gene].sum(axis=1)).ravel(),
+                "unassigned_counts": 0,
+                "section_id": run,
+                "donor_id": spec["source"]["runs"][run]["donor_id"],
+                "panel_name": spec["panel"]["panel_name"],
+                "source_extras_json": json.dumps({"bin_um": edge, "n_transcripts": int(len(tx))}),
+            }
+        )
+        unit = {"spatial_unit": "bin", "segmentation_method": "grid", "unit_size_um": edge}
+
+    sample = section_key(run)
+    obs.to_csv(os.path.join(out_dir, f"{sample}_obs.csv"), index=False)
+    write_10x_h5(os.path.join(out_dir, "cell_feature_matrix.h5"), matrix, ids, var, genome)
+    var.to_csv(os.path.join(out_dir, "cell_feature_matrix_var.csv"), index=False)
+    print(f"  {run}: {len(obs)} {unit['spatial_unit']}s, median {np.median(n_counts):.0f} counts")
+    return {
+        "sample": sample,
+        "section_id": run,
+        "donor_id": spec["source"]["runs"][run]["donor_id"],
+        "donor": {"donor_id": spec["source"]["runs"][run]["donor_id"], "sex": spec["source"]["runs"][run].get("sex", "unknown"), "genotype": None},
+        "image_file": None,
+        "n_cells": int(len(obs)),
+        "n_genes_panel": int(is_gene.sum()),
+        "n_features": int(len(var)),
+        "median_transcripts_per_cell": float(np.median(n_counts)),
+        **unit,
+    }
+
+
+def build_liu2022(spec: dict, src: str, out: str) -> list[dict]:
+    codebook = read_codebook(os.path.join(src, "codebook.csv"))
+    print(f"{spec['dataset_key']}: codebook {len(codebook)} entries, "
+          f"{int((codebook.feature_type == GENE_FEATURE_TYPE).sum())} genes")
+    geometry = []
+    for run in spec["source"]["runs"]:
+        run_dir = os.path.join(src, run)
+        os.makedirs(run_dir, exist_ok=True)
+        unzip_flat(os.path.join(src, f"{run}.zip"), run_dir)
+        geometry.append(build_liu2022_run(run, run_dir, codebook, spec, os.path.join(out, section_key(run))))
+    return geometry
+
+
+BUILDERS = {"allen_abc": build_allen, "merscope_outs": build_merscope_outs, "liu2022_figshare": build_liu2022}
 
 
 def main(argv: list[str] | None = None) -> None:

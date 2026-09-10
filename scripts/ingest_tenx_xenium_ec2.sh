@@ -125,6 +125,8 @@ for p in sorted(p for d_ in spec_dirs for p in glob.glob(f"{d_}/*.json")):
         continue
     if s.get("samples"):
         done = all(e["section_id"] in present for e in s["samples"].values())
+    elif s.get("source", {}).get("runs"):
+        done = all(run in present for run in s["source"]["runs"])
     else:
         # MERFISH specs list no samples: the release's sections are derived at
         # build time and named '<study>.<n>', so the release is in when any is.
