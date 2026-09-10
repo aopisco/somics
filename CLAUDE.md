@@ -271,7 +271,9 @@ git checkout protein-adapters && git pull
 | Xenium run 5 (finished 2026-09-09 05:20Z; 57.59M obs rows) | `ingest/tenx_xenium/atlas/2026-09-08T21-28-41Z` | +2 protein co-detection (first Xenium sections with a protein feature space) |
 | final protein pass (finished 2026-09-09 ~10:00Z) | `ingest/protein/atlas/2026-09-09T05-31-42Z` | +1 (hbm393, the 44-plane SPRM dataset); every protein skip resolved |
 | MERFISH production (finished 2026-09-10 03:00Z; 67.50M obs rows) | `ingest/merfish/atlas/2026-09-09T13-32-48Z` | +5 releases (638850 + Zhuang ABCA-1..4, ~9.8M cells, ~210 expression-only sections); HMBA human skipped on null gene symbols (builder fixed) |
-| **MERFISH follow-up (launched 2026-09-10 03:01Z, `somics-merfish-2`, `i-0b52bf94e8f9fd8e8`)** | `ingest/merfish/atlas/2026-09-10T03-*` | the HMBA human basal ganglia release; then verification |
+| MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 46 sections / 5.4M cells); 638850 re-fetched and refused as duplicate (skip check fixed since) |
+| **verification (launched 2026-09-10 12:01Z, `somics-verify-final`, `i-062f5fef37c29d3a8`)** | report under `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/` | Visium/Xenium/HuBMAP-Xenium/Atera specs; read-only |
+| **Liu 2022 MERFISH block (launched 2026-09-10 12:01Z, `somics-merfish-liu`, `i-0759b68b7940463c8`)** | `ingest/merfish/atlas/2026-09-10T12-*` | 14 Vizgen runs as sections: 2 as cells, 12 as 10 um grid bins (kidney 4, liver 5, pancreas 5) |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -354,8 +356,14 @@ check clean on the expression-only sections (prefix deleted). **Run production
 from the newest `_DONE` prefix after Xenium run 5 and the final protein pass**
 (serial rule): the six specs, ~13M cells, no `SOMICS_ONLY`. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
 resolution is unverified against the reference cache and a miss hangs on
-gget. seqFISH comes after MERFISH (6 buildable HuBMAP datasets, FOV-local
-coordinates; assessment in the same doc).
+gget. **Liu et al. 2022 (LSA; @aopisco's own MERFISH kidney/liver/pancreas)**
+is a third MERFISH layout, `liu2022_figshare`: figshare zips per Vizgen run;
+the two runs with Vizgen cell outputs become cells, the twelve transcript-only
+runs become **10 um grid bins** (`spatial_unit bin`, `segmentation_method
+grid`, `unit_size_um 10`) -- the author's call was every run is a section.
+figshare's `ndownloader` needs curl's own UA (gotcha below). seqFISH comes
+after MERFISH (6 buildable HuBMAP datasets, FOV-local coordinates; assessment
+in the same doc).
 
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 

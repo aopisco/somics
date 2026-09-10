@@ -90,6 +90,42 @@ Decisions:
   Timing: base atlas down ~2h45m, first full sync up ~2h15m (see the next-plan
   addendum on seeding the prefix server-side), builds 2-45 min per release.
 
+## Liu et al. 2022 (Life Science Alliance) -- the third layout
+
+The author's own MERFISH kidney/liver/pancreas comparison study (doi
+10.26508/lsa.202201701). Data availability: raw images on the AWS Open Data
+bucket `s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/`
+(8 runs, ~7 TB, not used) and processed outputs on figshare project 134213:
+a `RawData` article (10.6084/m9.figshare.19310711) with one zip per Vizgen run,
+a `codebook` (VZG116: 307 genes + 78 blanks; `barcode_id` indexes rows) and a
+`DataStatus.csv` listing 14 runs with dates, tissue, boundary stain, RIN and
+sample notes.
+
+Two runs (`MsKidney_CellBoundary_VZG116_111921`,
+`MsLiver_Cellbound_VZG116_V1_JH_09-18-2021`) carry Vizgen's cell outputs --
+`cell_by_gene.csv` with **barcode-id columns**, `cell_metadata.csv` (fov
+empty, volume, center_x/y, barcodeCount), `cell_boundaries.geojson`,
+`micron_to_mosaic_pixel_transform.csv`, `barcodes.csv` with a `gene` column.
+The other twelve carry only `barcodes.csv`: decoded transcripts
+(barcode_id, global_x/y/z, x, y, fov) with **no cell assignment**, and blanks
+already filtered out. Decisions (author, 2026-09-10): **every run is a
+section**, and the source is figshare. So the segmented runs are ingested as
+cells and the transcript-only runs as **10 um grid bins** (`spatial_unit bin`,
+`segmentation_method grid`, `unit_size_um 10`, bin centre as x/y), with the
+full 385-entry codebook as the shared feature axis. Verified locally on the
+February 2021 kidney run: 373k transcripts -> 34,921 bins, total counts equal
+the transcript count, median 7 per bin, GPX3/ATP1B1/PCK1 on top.
+
+Registry: `liu2022_merfish` (kidney, 4 runs), `liu2023_merfish` (liver, 5
+runs), `liu2022_merfish_pancreas` (added 2026-09-10; 5 runs, RIN 1.2). Donor
+ids follow DataStatus's sample notes (`kidney #1`, `kidney #3`, `liver #1`,
+the Vizgen-run liver, `pancreas #1`); sex and age are not in the release.
+
+**figshare gotcha**: `ndownloader.figshare.com` answers a browser UA with
+`202` and an empty body; curl's own UA gets the `302` to a signed S3 URL that
+expires in 10 s. The EC2 fetch loop drops `-A` for that host and refuses an
+empty body.
+
 ## Registry follow-ups
 
 Six registry rows describe the one Allen 638850 dataset (`yao2023_merfish`,
