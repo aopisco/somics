@@ -41,11 +41,21 @@ with passing ones. Not a registration signal on morphology images; the check is
 kept for H&E, where it is meaningful, and superseded by the registration check
 for morphology.
 
-**Registration check (run 4 -> run 5).** Run 4 compared the crop centre with
-the crop's own outer ring on 16 uniformly sampled cells: 48 pass, 14 fail with
-fractions 0.31-0.56 -- indistinguishable from noise at n = 16 and confounded by
-neighbouring nuclei in the ring. Run 5 compares the centre 9x9 with four 9x9
-windows 48 px away on 200 cells (registered ~0.85, misregistered ~0.5).
+**Registration (runs 4-6, and the crop grids).** Run 4 compared the crop
+centre with the crop's own outer ring on 16 cells: too few. Run 5 compared the
+centre 9x9 with four 9x9 windows 48 px away on 200 cells: median 0.72, range
+0.43-0.94, 19 of 41 Xenium sections under the 0.70 line -- but the low scores
+are the dense tissues (reactive lymph node 0.43, GBM 0.49, colon 0.50), where
+a 48 px offset lands on a neighbouring nucleus as often as not, and the crops
+are 3-4-channel morphology stacks whose boundary/interior channels dilute the
+nuclear contrast. **The crop grids settle it**: `crops_tenx_xenium/<section>_
+morphology_crop.png` under the run-5 prefix, viewed for the two lowest-scoring
+sections (GBM, reactive lymph node) and the highest (mouse brain coronal),
+show every 128 px crop centred on a cell with its nucleus at the centre. The
+images are registered; the statistic is a density-confounded heuristic. Run 6
+adds a random-window null to the same statistic (pass = cells beat random
+placement by 0.15) and is kept as a machine-readable backstop, not as the
+verdict.
 
 **Tissue label (1).** `Xenium_Prime_Mouse_Pup_FFPE`: spec says "whole
 organism", the resolution pass wrote UBERON's "multicellular organism". Same
