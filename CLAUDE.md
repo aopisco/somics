@@ -426,8 +426,11 @@ SPRM cells, 2.4M base, 0.6M MIBI, 219k Visium spots. Five organisms.
 **Hosts disagree about user agents, in opposite directions.** Dropbox serves an
 HTML preview to a browser UA and the real file to a bare one; Zenodo's API
 returns 403 to a browser UA and 200 to a bare one; 10x's Cloudflare rejects bare
-agents. Any fetcher needs per-host UA policy and a retry that flips it. A
-200-with-HTML is the dangerous case — sniff the body, don't trust the status.
+agents; **figshare's `ndownloader` answers a browser UA with `202` and an
+empty body** and redirects only curl's own UA, to a signed S3 URL that expires
+in 10 s (so no HEAD-then-GET). Any fetcher needs per-host UA policy and a
+retry that flips it. A 200-with-HTML is the dangerous case — sniff the body,
+don't trust the status — and so is a 202 with nothing in it.
 
 **GEO's bulk endpoint lies.** `download/?acc=X&format=file` 404s for any series
 without a RAW bundle. The FTP supplementary directory

@@ -156,8 +156,15 @@ for SPEC in $ORDER; do
     mkdir -p "$(dirname "$DEST")"
     if [[ "$URL" == s3://* ]]; then
       aws s3 cp "$URL" "$DEST" --region $REGION --only-show-errors || { echo "FETCH FAILED: $URL"; FETCH_OK=0; break; }
-    elif ! curl -sSL -A "$UA" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL"; then
-      echo "FETCH FAILED: $URL"; FETCH_OK=0; break
+    else
+      # figshare's ndownloader answers a browser UA with 202 and an empty body
+      # and only redirects curl's own UA (to a signed S3 URL that expires in
+      # 10 s, so no HEAD-then-GET); every other host here wants the browser UA.
+      FUA=(-A "$UA"); [[ "$URL" == *ndownloader.figshare.com* ]] && FUA=()
+      if ! curl -sSL "${FUA[@]}" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL"; then
+        echo "FETCH FAILED: $URL"; FETCH_OK=0; break
+      fi
+      [ -s "$DEST" ] || { echo "FETCH FAILED (empty body): $URL"; FETCH_OK=0; break; }
     fi
     B0=$(stat -c %s "$DEST"); echo "  fetched $(basename $DEST) $((B0/1000000)) MB"
   done < <(uv run python $BUILDER --spec $SPEC --list-sources)
