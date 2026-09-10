@@ -272,7 +272,7 @@ git checkout protein-adapters && git pull
 | final protein pass (finished 2026-09-09 ~10:00Z) | `ingest/protein/atlas/2026-09-09T05-31-42Z` | +1 (hbm393, the 44-plane SPRM dataset); every protein skip resolved |
 | MERFISH production (finished 2026-09-10 03:00Z; 67.50M obs rows) | `ingest/merfish/atlas/2026-09-09T13-32-48Z` | +5 releases (638850 + Zhuang ABCA-1..4, ~9.8M cells, ~210 expression-only sections); HMBA human skipped on null gene symbols (builder fixed) |
 | MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
-| **verification (launched 2026-09-10 12:01Z, `somics-verify-final`, `i-062f5fef37c29d3a8`)** | report under `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/` | Visium/Xenium/HuBMAP-Xenium/Atera specs; read-only |
+| **verification (relaunched 2026-09-10 ~13:00Z, `somics-verify-final-2`, `i-014a5b10e2b38b0e6`; the first attempt's report covered one section -- glob bug, fixed)** | report under `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/` | Visium/Xenium/HuBMAP-Xenium/Atera specs; read-only |
 | **Liu 2022 MERFISH block (launched 2026-09-10 12:01Z, `somics-merfish-liu`, `i-0759b68b7940463c8`)** | `ingest/merfish/atlas/2026-09-10T12-*` | 14 Vizgen runs as sections: 2 as cells, 12 as 10 um grid bins (kidney 4, liver 5, pancreas 5) |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
