@@ -287,13 +287,16 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
             report.add(sid, "channel_names", got == spec["channel_names"], f"{got}")
         h, w = int(im["height_px"][0]), int(im["width_px"][0])
         inside = bool(
-            (obs["x_px"] < w).all() and (obs["y_px"] < h).all() and (obs["x_px"] >= 0).all()
+            (obs["x_px"] < w).all() and (obs["y_px"] < h).all()
+            and (obs["x_px"] >= 0).all() and (obs["y_px"] >= 0).all()
         )
+        n_neg = int(((obs["x_px"] < 0) | (obs["y_px"] < 0)).sum())
         report.add(
             sid,
             "obs inside image",
             inside,
-            f"max x {obs['x_px'].max():.0f}/{w}, max y {obs['y_px'].max():.0f}/{h}",
+            f"x {obs['x_px'].min():.0f}..{obs['x_px'].max():.0f}/{w}, "
+            f"y {obs['y_px'].min():.0f}..{obs['y_px'].max():.0f}/{h}, {n_neg} rows at negative px",
         )
         ps = float(im["pixel_size_um"][0])
         report.add(
