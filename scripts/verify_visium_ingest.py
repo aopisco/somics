@@ -53,6 +53,7 @@ import polars as pl
 RAW = "s3://somics-dev/raw"
 SAMPLE_ROWS = 64
 CROP_ROWS = 16
+REG_ROWS = 200
 
 
 class Report:
@@ -334,28 +335,30 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
             )
             save_grid(crops, os.path.join(args.crops_dir, f"{sid}_{pointer}.png"), sid)
             if modality != "he":
-                # Registration check that needs no background model: a crop is
-                # centred on a cell centroid, so on a nuclear/morphology image
-                # the centre 9x9 should outshine the crop's own outer ring for
-                # most cells. Uniformly sampled cells, not the top-count ones.
-                sample_ids = obs.sample(n=min(CROP_ROWS, n), seed=0)["source_obs_id"].to_list()
+                # Registration check that needs no background model. On a
+                # nuclear/morphology image a crop is centred on a cell centroid,
+                # so its centre 9x9 should outshine 9x9 windows 48 px away in
+                # the same crop for most cells: ~0.85 when registered, ~0.5 when
+                # not, at any tissue density. 200 uniformly sampled cells (the
+                # top-count cells and 16 samples were both too noisy).
+                sample_ids = obs.sample(n=min(REG_ROWS, n), seed=0)["source_obs_id"].to_list()
                 qu = atlas.query().where(
                     f"section_uid == '{uid}' AND source_obs_id IN "
                     f"({', '.join(chr(39) + i + chr(39) for i in sample_ids)})"
                 )
                 cu = np.asarray(qu.to_spatial_batch(pointer).layers["raw"], dtype="float64")
+                if cu.ndim == 4:
+                    cu = cu.mean(axis=-1)
                 c0 = cu.shape[1] // 2
-                centre = cu[:, c0 - 4 : c0 + 5, c0 - 4 : c0 + 5].mean(axis=(1, 2) if cu.ndim == 3 else (1, 2, 3))
-                ring = np.concatenate(
-                    [cu[:, :16].reshape(len(cu), -1), cu[:, -16:].reshape(len(cu), -1),
-                     cu[:, :, :16].reshape(len(cu), -1), cu[:, :, -16:].reshape(len(cu), -1)], axis=1
-                ).mean(axis=1)
-                frac = float((centre > ring).mean())
+                win = lambda dy, dx: cu[:, c0 + dy - 4 : c0 + dy + 5, c0 + dx - 4 : c0 + dx + 5].mean(axis=(1, 2))
+                centre = win(0, 0)
+                offsets = np.mean([win(-48, 0), win(48, 0), win(0, -48), win(0, 48)], axis=0)
+                frac = float((centre > offsets).mean())
                 report.add(
                     sid,
                     "centroids sit on nuclear signal",
-                    frac > 0.6,
-                    f"centre 9x9 brighter than the crop ring for {frac:.2f} of {len(cu)} sampled cells",
+                    frac > 0.7,
+                    f"centre 9x9 brighter than the mean of four 48 px-offset windows for {frac:.2f} of {len(cu)} sampled cells",
                 )
         except Exception as e:  # noqa: BLE001
             report.add(sid, f"{pointer} readable", False, str(e)[:160])
