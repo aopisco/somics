@@ -31,6 +31,11 @@ git clone -b $BRANCH https://github.com/aopisco/somics.git repo || finish
 cd repo && uv sync || finish
 
 RC=0
+# $SPECS holds globs the verifier expands itself. Without set -f the shell
+# expands them here, the loop runs once per spec file, and each run overwrites
+# the family's report -- the first EC2 verification (2026-09-10) reported
+# "19/19 checks passed" for one Visium section instead of 78.
+set -f
 for G in $SPECS; do
   NAME=$(basename "$(dirname "$G")")
   uv run --with s3fs python scripts/verify_visium_ingest.py --atlas "$PREFIX" --specs "$G" --source-check \
@@ -40,5 +45,6 @@ for G in $SPECS; do
   aws s3 cp "$D/verify_$NAME.log" $DEST/verify_$NAME.log --region $REGION
   aws s3 sync "$D/crops_$NAME" $DEST/crops_$NAME --region $REGION --only-show-errors
 done
+set +f
 echo "$([ $RC -eq 0 ] && echo PASSED || echo HAS_FAILURES) $STAMP" | aws s3 cp - $DEST/_RESULT --region $REGION
 finish
