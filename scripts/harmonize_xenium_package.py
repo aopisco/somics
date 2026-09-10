@@ -20,6 +20,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 
 import lancedb
@@ -34,6 +35,7 @@ from polycomb import (
 )
 
 DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+ENSEMBL_RE = re.compile(r"^ENS[A-Z]*G\d{6,}")
 
 # 10x's own feature labels -> the schema's FeatureType members.
 FEATURE_TYPES = {
@@ -87,11 +89,15 @@ def gene_rows(path: str, var_key: str) -> list[dict]:
     rows = []
     for feature_id, gene_name, raw in zip(ids, names, types, strict=True):
         is_gene = FEATURE_TYPES[raw] == "gene"
+        # 10x and Allen publish Ensembl ids; Vizgen's Liu 2022 codebook and
+        # seqFISH gene lists publish symbols only, and a symbol is not an
+        # Ensembl id (left null; resolvable against the reference cache later).
+        is_ensembl = bool(ENSEMBL_RE.match(str(feature_id)))
         rows.append(
             {
                 "feature_id": feature_id,
                 "gene_name": gene_name if is_gene else None,
-                "ensembl_gene_id": feature_id if is_gene else None,
+                "ensembl_gene_id": feature_id if (is_gene and is_ensembl) else None,
                 "is_control": not is_gene,
             }
         )
