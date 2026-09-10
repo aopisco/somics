@@ -333,6 +333,30 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
                 f"mean intensity at top spots {at:.1f} vs random {away:.1f}",
             )
             save_grid(crops, os.path.join(args.crops_dir, f"{sid}_{pointer}.png"), sid)
+            if modality != "he":
+                # Registration check that needs no background model: a crop is
+                # centred on a cell centroid, so on a nuclear/morphology image
+                # the centre 9x9 should outshine the crop's own outer ring for
+                # most cells. Uniformly sampled cells, not the top-count ones.
+                sample_ids = obs.sample(n=min(CROP_ROWS, n), seed=0)["source_obs_id"].to_list()
+                qu = atlas.query().where(
+                    f"section_uid == '{uid}' AND source_obs_id IN "
+                    f"({', '.join(chr(39) + i + chr(39) for i in sample_ids)})"
+                )
+                cu = np.asarray(qu.to_spatial_batch(pointer).layers["raw"], dtype="float64")
+                c0 = cu.shape[1] // 2
+                centre = cu[:, c0 - 4 : c0 + 5, c0 - 4 : c0 + 5].mean(axis=(1, 2) if cu.ndim == 3 else (1, 2, 3))
+                ring = np.concatenate(
+                    [cu[:, :16].reshape(len(cu), -1), cu[:, -16:].reshape(len(cu), -1),
+                     cu[:, :, :16].reshape(len(cu), -1), cu[:, :, -16:].reshape(len(cu), -1)], axis=1
+                ).mean(axis=1)
+                frac = float((centre > ring).mean())
+                report.add(
+                    sid,
+                    "centroids sit on nuclear signal",
+                    frac > 0.6,
+                    f"centre 9x9 brighter than the crop ring for {frac:.2f} of {len(cu)} sampled cells",
+                )
         except Exception as e:  # noqa: BLE001
             report.add(sid, f"{pointer} readable", False, str(e)[:160])
 
