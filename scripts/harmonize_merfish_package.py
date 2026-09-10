@@ -38,7 +38,7 @@ def main(argv: list[str] | None = None) -> None:
     key = spec["dataset_key"]
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
     geometry = json.load(open(os.path.join(DATA_HOME, "datasets", key, "staging", "sample_geometry.json")))
-    spec["samples"] = {
+    spec["samples"] = spec.get("samples") or {
         g["sample"]: {
             "section_id": g["section_id"],
             "donor_id": g["donor_id"],

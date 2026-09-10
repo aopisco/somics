@@ -73,11 +73,11 @@ def write_registries(spec: dict, uid_by_sample: dict[str, str], geometry: list[d
                 "TissueSectionSchema_join": g["section_id"],
                 "donor_id": g["donor_id"],
                 "donor_uid_DonorSchema_join": g["donor_id"],
-                "block_id": spec.get("block_id"),
+                "block_id": (spec.get("samples") or {}).get(g["sample"], {}).get("block_id", spec.get("block_id")),
                 "section_index": i,
                 "tissue": spec["tissue"],
-                "disease_state": spec["disease_state"],
-                "disease": spec.get("disease"),
+                "disease_state": (spec.get("samples") or {}).get(g["sample"], {}).get("disease_state", spec.get("disease_state", "unknown")),
+                "disease": (spec.get("samples") or {}).get(g["sample"], {}).get("disease", spec.get("disease")),
                 "preservation": spec["preservation"],
             }
             for i, g in enumerate(geometry)
@@ -118,7 +118,7 @@ def write_dataset_registry(spec: dict, geometry: list[dict], staging: str) -> No
             {
                 "folder_name": g["sample"],
                 "study_name": spec["study_name"],
-                "sample_name": g["section_id"],
+                "sample_name": (spec.get("samples") or {}).get(g["sample"], {}).get("sample_name", g["section_id"]),
                 "accession_database": spec["accession_database"],
                 "data_access_link": spec["data_access_link"],
                 "download_url": spec["download_url"],
@@ -128,7 +128,7 @@ def write_dataset_registry(spec: dict, geometry: list[dict], staging: str) -> No
                     f"{g['n_cells']} cells, {g['n_genes_panel']} panel genes of {g['n_features']} "
                     f"feature-axis entries, median {g['median_transcripts_per_cell']:.0f} transcripts per cell. "
                     + (f"Section at z = {g['z_mm']} mm in the release's coordinate frame. " if g.get("z_mm") is not None else "")
-                    + "Expression only: the release publishes no per-section image."
+                    + ("Expression only: the release publishes no per-section image." if not g.get("image_file") else "With the section's DAPI image.")
                 ),
             }
             for g in geometry

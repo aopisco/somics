@@ -26,8 +26,9 @@ PY="${PYTHON:-python}"
 ATLAS_ARGS=()
 [ -n "${SOMICS_ATLAS:-}" ] && ATLAS_ARGS=(--atlas "$SOMICS_ATLAS")
 
-echo "== 1. derive per-section obs/var/matrix from the release =="
-$PY "$REPO/scripts/build_merfish_package.py" --spec "$SPEC"
+BUILD="${SOMICS_BUILD_SCRIPT:-$REPO/scripts/build_merfish_package.py}"   # seqFISH sets build_seqfish_package.py
+echo "== 1. derive per-section obs/var/matrix from the release ($BUILD) =="
+$PY "$BUILD" --spec "$SPEC"
 
 echo "== 2. registries + collection.json =="
 $PY "$REPO/scripts/assemble_merfish_collection.py" --spec "$SPEC"

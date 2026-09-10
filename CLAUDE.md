@@ -362,9 +362,12 @@ is a third MERFISH layout, `liu2022_figshare`: figshare zips per Vizgen run.
 transcript-only runs (decoded barcodes, no cell assignment) are excluded by
 the author's decision (2026-09-10; a grid-binned version was built and tested,
 then dropped -- the builder now refuses such runs).
-figshare's `ndownloader` needs curl's own UA (gotcha below). seqFISH comes
-after MERFISH (6 buildable HuBMAP datasets, FOV-local coordinates; assessment
-in the same doc).
+figshare's `ndownloader` needs curl's own UA (gotcha below). **seqFISH is
+prepped** (`docs/2026-09-10_seqfish_adapter.md`): 6 HuBMAP datasets, 43 FOV
+sections, one section per field of view because stage positions are not
+recoverable; specs in `specs/seqfish/`, builder verified locally. Launch it
+after the Liu block lands, with the MERFISH runner and
+`SOMICS_BUILD_SCRIPT=scripts/build_seqfish_package.py`.
 
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
@@ -622,6 +625,7 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
 | `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
 | `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |
+| `scripts/make_seqfish_specs.py` / `build_seqfish_package.py` | HuBMAP seqFISH (Cai lab): one section per field of view with its DAPI; reuses the MERFISH assembler/harmonizer/runner via `SOMICS_BUILD_SCRIPT`; `specs/seqfish/` (6 datasets, 43 FOVs); `docs/2026-09-10_seqfish_adapter.md` |
 | `scripts/build_merfish_package.py` / `assemble_merfish_collection.py` / `harmonize_merfish_package.py` / `run_merfish_pipeline.sh` | MERFISH: an Allen Brain Cell Atlas release (or a staged MERSCOPE bundle) -> per-section 10x-format h5 + obs, no image; `specs/merfish/`; notes in `docs/2026-09-09_merfish_adapter.md` |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
