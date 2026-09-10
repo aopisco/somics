@@ -130,7 +130,10 @@ for p in sorted(p for d_ in spec_dirs for p in glob.glob(f"{d_}/*.json")):
     else:
         # MERFISH specs list no samples: the release's sections are derived at
         # build time and named '<study>.<n>', so the release is in when any is.
-        done = any(sid.startswith(s["study"] + ".") or sid == s["study"] for sid in present)
+        # Allen section labels start with the release's feature_matrix_label
+        # (C57BL6J-638850.37), which is not always the study name.
+        stems = {s["study"], s.get("source", {}).get("feature_matrix_label") or s["study"]}
+        done = any(sid == st or sid.startswith(st + ".") for sid in present for st in stems)
     if done:
         skipped.append(s["dataset_key"])
         continue
