@@ -351,14 +351,26 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
                     cu = cu.mean(axis=-1)
                 c0 = cu.shape[1] // 2
                 win = lambda dy, dx: cu[:, c0 + dy - 4 : c0 + dy + 5, c0 + dx - 4 : c0 + dx + 5].mean(axis=(1, 2))
-                centre = win(0, 0)
-                offsets = np.mean([win(-48, 0), win(48, 0), win(0, -48), win(0, 48)], axis=0)
-                frac = float((centre > offsets).mean())
+                def centre_frac(stack: np.ndarray) -> float:
+                    c = stack.shape[1] // 2
+                    w = lambda dy, dx: stack[:, c + dy - 4 : c + dy + 5, c + dx - 4 : c + dx + 5].mean(axis=(1, 2))
+                    return float((w(0, 0) > np.mean([w(-48, 0), w(48, 0), w(0, -48), w(0, 48)], axis=0)).mean())
+
+                frac = centre_frac(cu)
+                # The null: the same statistic on windows at random positions.
+                # Dense tissue puts nuclei under the offset windows too, so the
+                # absolute fraction varies by tissue; registered centroids must
+                # beat random placement by a clear margin, misregistered ones
+                # cannot.
+                rw = random_windows(atlas_root, group, len(cu), cu.shape[1], (h, w), rng).astype("float64")
+                if rw.ndim == 4:
+                    rw = rw.mean(axis=-1)
+                null = centre_frac(rw)
                 report.add(
                     sid,
                     "centroids sit on nuclear signal",
-                    frac > 0.7,
-                    f"centre 9x9 brighter than the mean of four 48 px-offset windows for {frac:.2f} of {len(cu)} sampled cells",
+                    frac - null > 0.15,
+                    f"centre beats 48 px offsets for {frac:.2f} of {len(cu)} cells vs {null:.2f} of random windows",
                 )
         except Exception as e:  # noqa: BLE001
             report.add(sid, f"{pointer} readable", False, str(e)[:160])
