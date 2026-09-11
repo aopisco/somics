@@ -38,6 +38,18 @@ registry). Verified locally on HBM782 fov0: 838 cells, 47 genes + 4 blanks,
 matrix total equals the source total, registries carry the donor's age/sex/race,
 block id and region.
 
+**The DAPI stacks are malformed ImageJ files.** One valid IFD describes the
+first plane; the other planes follow as contiguous raw pixels and the next-IFD
+pointer is bogus, so tifffile yields (0, 0) pages after the first and its ImageJ
+series parser raises "incompatible keyframe" (seqFISH runs 1 and 2 skipped all
+six datasets on exactly these two errors). The builder reads the planes
+directly: from the first plane's data offset, as many whole planes as the file
+holds (11 on HBM782 fov0, two of them empty), **in the file's byte order** --
+ImageJ writes big-endian, and the native-order read produced means of ~33,000
+on a stack whose maximum is ~12,000. Validated on the real stack:
+`docs/figures/seqfish_hbm782_fov0_dapi_centroids.png` is the max projection
+with the 838 centroids of the field overlaid; every one sits on a nucleus.
+
 **Launch** (after the Liu 2022 block; from the newest `_DONE` prefix):
 
 ```bash
