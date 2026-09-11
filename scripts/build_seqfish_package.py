@@ -61,13 +61,15 @@ def read_counts(path: str) -> tuple[sp.csr_matrix, np.ndarray, pd.DataFrame]:
 
 def max_projection(path: str, out: str) -> tuple[int, int]:
     """Collapse the DAPI z-stack to one plane; returns (height, width)."""
+    # The Cai lab stacks are ImageJ hyperstacks: one IFD describes the first
+    # plane and the remaining planes follow as contiguous pixels, so iterating
+    # pages yields empty (0, 0) frames after the first. tifffile's series view
+    # reassembles the (Z, Y, X) stack from the ImageJ metadata.
     with tifffile.TiffFile(path) as tif:
-        proj = None
-        for page in tif.pages:
-            plane = page.asarray()
-            proj = plane if proj is None else np.maximum(proj, plane)
-    if proj.ndim == 3:  # a single page holding the whole stack
-        proj = proj.max(axis=0)
+        stack = tif.series[0].asarray()
+    proj = stack.max(axis=0) if stack.ndim == 3 else stack
+    if proj.ndim != 2 or min(proj.shape) == 0:
+        raise ValueError(f"{path}: unexpected DAPI stack shape {stack.shape}")
     tifffile.imwrite(out + ".part", proj, tile=(512, 512), compression="zlib")
     os.replace(out + ".part", out)
     return int(proj.shape[0]), int(proj.shape[1])
