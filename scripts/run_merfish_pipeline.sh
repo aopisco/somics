@@ -36,8 +36,11 @@ $PY "$REPO/scripts/assemble_merfish_collection.py" --spec "$SPEC"
 echo "== 3. stage raw tables into Lance =="
 $PY "$PREP/stage_lance_tables.py" "$ROOT" --schema "$SCHEMA"
 LIBS=("donor_registry.csv:DonorSchema" "tissuesection_registry.csv:TissueSectionSchema" "panel_registry.csv:PanelSchema")
+# The assembler's coalesce(copy=False) MOVES the registries from staging into
+# the package root, so look there (seqFISH run 5 checked staging, found
+# nothing, skipped the bracket, and ingest found no finalized 'SpatialObs').
 HAS_IMAGES=0
-if [ -f "$STAGING/sectionimage_registry.csv" ]; then
+if [ -f "$ROOT/sectionimage_registry.csv" ] || [ -f "$STAGING/sectionimage_registry.csv" ]; then
   LIBS+=("sectionimage_registry.csv:SectionImageSchema"); HAS_IMAGES=1
 fi
 for pair in "${LIBS[@]}"; do
