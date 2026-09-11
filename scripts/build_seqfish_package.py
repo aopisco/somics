@@ -70,7 +70,9 @@ def max_projection(path: str, out: str) -> tuple[int, int]:
     with tifffile.TiffFile(path) as tif:
         page = tif.pages[0]
         height, width = (int(d) for d in page.shape[:2])
-        dtype = np.dtype(page.dtype)
+        # ImageJ writes big-endian; honour the file's byte order or every
+        # value is byte-swapped (means ~33000 on a stack whose max is 6270).
+        dtype = np.dtype(page.dtype).newbyteorder(tif.byteorder)
         offset = int(page.dataoffsets[0])
         contiguous = len(page.dataoffsets) == 1 and page.compression == 1
     plane_bytes = height * width * dtype.itemsize
