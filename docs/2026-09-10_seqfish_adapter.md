@@ -56,6 +56,14 @@ unique keys, so the builder drops verbatim-duplicated gene rows (a repeated
 name with different counts would be kept, suffixed `__2`) and keeps every
 blank barcode row. Run 3 skipped all six datasets on exactly this.
 
+**The runner must find the image registry in the package root.** The MERFISH
+assembler's `coalesce(copy=False)` moves the registries out of staging, so a
+check on `$STAGING/sectionimage_registry.csv` finds nothing, the runner skips
+the `materialize_bare_obs` bracket, finalization leaves the obs table as
+`SpatialObs_gene_expression`, and ingest dies with "no finalized obs table
+'SpatialObs'" -- a fatal that aborts the run (run 5; the base prefix was
+untouched). The runner now checks `$ROOT/` as well.
+
 **Launch** (after the Liu 2022 block; from the newest `_DONE` prefix):
 
 ```bash
