@@ -46,7 +46,8 @@ def read_counts(path: str) -> tuple[sp.csr_matrix, np.ndarray, pd.DataFrame]:
     # The export repeats a gene row verbatim now and then (EEF2 on the small
     # bowel matrices, identical counts): one feature, not two. A repeated name
     # with *different* counts would be two probes and is kept, suffixed.
-    cm = cm.drop_duplicates()
+    blank_rows = cm.iloc[:, 0].str.lower() == "blank"
+    cm = pd.concat([cm[~blank_rows].drop_duplicates(), cm[blank_rows]])  # the blank barcodes stay, all of them
     names = cm.iloc[:, 0].to_numpy().astype(str)
     seen: dict[str, int] = {}
     genes = []
