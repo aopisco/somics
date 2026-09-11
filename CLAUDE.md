@@ -273,7 +273,8 @@ git checkout protein-adapters && git pull
 | MERFISH production (finished 2026-09-10 03:00Z; 67.50M obs rows) | `ingest/merfish/atlas/2026-09-09T13-32-48Z` | +5 releases (638850 + Zhuang ABCA-1..4, ~9.8M cells, ~210 expression-only sections); HMBA human skipped on null gene symbols (builder fixed) |
 | MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
 | verification runs 1-5 (2026-09-10) | `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/`; **`docs/2026-09-10_verification_results.md`** | Visium 1403/1416 (12 sections have ~7k rows at negative px: crops slid to the edge; builder fixed, sections wait for the next rebuild); all 62 cell-unit sections pass row sums once gene columns only are summed; Atera 18/18; run 5 = 200-cell registration check on Xenium |
-| **Liu 2022 MERFISH block (relaunched 2026-09-10 13:05Z, `somics-merfish-liu-2`, `i-015628b70f93f6504`; the first box was terminated before it wrote anything)** | `ingest/merfish/atlas/2026-09-10T13-*` | the 2 segmented runs (kidney 111921, liver JH 09-18-2021) as cells; the 12 transcript-only runs are excluded |
+| Liu 2022 MERFISH (finished 2026-09-11 02:00Z; **73.23M obs rows**) | `ingest/merfish/atlas/2026-09-10T14-01-51Z` | +2 sections as cells: kidney 111921 (212,090 cells) and liver JH 09-18-2021 (83,410), 307 genes + 78 blanks; the 12 transcript-only runs excluded |
+| **seqFISH (launched 2026-09-11 02:15Z, `somics-seqfish-1`, `i-046f909ba99b93111`)** | `ingest/seqfish/atlas/2026-09-11T02-*` | 6 HuBMAP Cai-lab datasets as 43 FOV sections with DAPI |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
