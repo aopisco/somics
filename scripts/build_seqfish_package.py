@@ -42,7 +42,22 @@ def sources_for(spec: dict) -> list[tuple[str, str]]:
 def read_counts(path: str) -> tuple[sp.csr_matrix, np.ndarray, pd.DataFrame]:
     """(cells x features) counts, cell ids, and a var table in the 10x vocabulary."""
     cm = pd.read_csv(path)
-    genes = cm.iloc[:, 0].astype(str).str.strip().to_numpy()
+    cm.iloc[:, 0] = cm.iloc[:, 0].astype(str).str.strip()
+    # The export repeats a gene row verbatim now and then (EEF2 on the small
+    # bowel matrices, identical counts): one feature, not two. A repeated name
+    # with *different* counts would be two probes and is kept, suffixed.
+    cm = cm.drop_duplicates()
+    names = cm.iloc[:, 0].to_numpy().astype(str)
+    seen: dict[str, int] = {}
+    genes = []
+    for g in names:
+        if g.lower() != "blank" and g in seen:
+            seen[g] += 1
+            genes.append(f"{g}__{seen[g]}")
+        else:
+            seen[g] = 1
+            genes.append(g)
+    genes = np.array(genes)
     cells = np.array([c.replace("cell_", "") for c in cm.columns[1:]])
     counts = np.round(cm.iloc[:, 1:].to_numpy(dtype=float)).astype(np.int64).T
     is_blank = np.array([g.lower() == "blank" for g in genes])
