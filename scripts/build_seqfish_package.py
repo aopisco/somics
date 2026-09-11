@@ -61,15 +61,28 @@ def read_counts(path: str) -> tuple[sp.csr_matrix, np.ndarray, pd.DataFrame]:
 
 def max_projection(path: str, out: str) -> tuple[int, int]:
     """Collapse the DAPI z-stack to one plane; returns (height, width)."""
-    # The Cai lab stacks are ImageJ hyperstacks: one IFD describes the first
-    # plane and the remaining planes follow as contiguous pixels, so iterating
-    # pages yields empty (0, 0) frames after the first. tifffile's series view
-    # reassembles the (Z, Y, X) stack from the ImageJ metadata.
+    # The Cai lab stacks are ImageJ-style: one valid IFD describes the first
+    # plane, the remaining planes follow as contiguous raw pixels, and the
+    # next-IFD pointer is bogus ("invalid page offset"). tifffile's page
+    # iteration yields (0, 0) frames after the first and its ImageJ series
+    # parser raises "incompatible keyframe", so the planes are read directly:
+    # from the first plane's data offset, as many whole planes as the file holds.
     with tifffile.TiffFile(path) as tif:
-        stack = tif.series[0].asarray()
-    proj = stack.max(axis=0) if stack.ndim == 3 else stack
+        page = tif.pages[0]
+        height, width = (int(d) for d in page.shape[:2])
+        dtype = np.dtype(page.dtype)
+        offset = int(page.dataoffsets[0])
+        contiguous = len(page.dataoffsets) == 1 and page.compression == 1
+    plane_bytes = height * width * dtype.itemsize
+    n_planes = (os.path.getsize(path) - offset) // plane_bytes
+    if not contiguous or n_planes < 1:
+        raise ValueError(f"{path}: not a contiguous uncompressed stack (offsets {len(page.dataoffsets)}, compression {page.compression})")
+    stack = np.memmap(path, dtype=dtype, mode="r", offset=offset, shape=(int(n_planes), height, width))
+    proj = np.asarray(stack.max(axis=0))
+    del stack
     if proj.ndim != 2 or min(proj.shape) == 0:
-        raise ValueError(f"{path}: unexpected DAPI stack shape {stack.shape}")
+        raise ValueError(f"{path}: unexpected DAPI plane shape {proj.shape}")
+    print(f"    DAPI stack: {n_planes} planes of {height}x{width} {dtype} read contiguously from byte {offset}")
     tifffile.imwrite(out + ".part", proj, tile=(512, 512), compression="zlib")
     os.replace(out + ".part", out)
     return int(proj.shape[0]), int(proj.shape[1])
