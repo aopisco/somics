@@ -50,6 +50,12 @@ on a stack whose maximum is ~12,000. Validated on the real stack:
 `docs/figures/seqfish_hbm782_fov0_dapi_centroids.png` is the max projection
 with the 838 centroids of the field overlaid; every one sits on a nucleus.
 
+**Duplicated gene rows.** The small-bowel count matrices repeat the `EEF2`
+row verbatim (identical counts); polycomb's keyed merge on `feature_id` needs
+unique keys, so the builder drops verbatim-duplicated gene rows (a repeated
+name with different counts would be kept, suffixed `__2`) and keeps every
+blank barcode row. Run 3 skipped all six datasets on exactly this.
+
 **Launch** (after the Liu 2022 block; from the newest `_DONE` prefix):
 
 ```bash
