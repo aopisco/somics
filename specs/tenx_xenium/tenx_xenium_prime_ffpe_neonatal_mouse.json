@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_xenium_prime_ffpe_neonatal_mouse",
+  "study": "xenium-prime-ffpe-neonatal-mouse",
+  "study_name": "Whole Mouse Pup (FFPE) with 5K Mouse Pan Tissue and Pathways Panel and Snap25a/Snap25b Add-on",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Mus musculus",
+  "tissue": "whole organism",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-prime-ffpe-neonatal-mouse",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/3.0.0/Xenium_Prime_Mouse_Pup_FFPE/Xenium_Prime_Mouse_Pup_FFPE_xe_outs.zip",
+  "source": {
+    "xoa": "3.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 30910928431,
+    "published_at": "1727473438"
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Mouse Pan Tissue and Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_Prime_Mouse_Pup_FFPE_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-prime-ffpe-neonatal-mouse'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_Prime_Mouse_Pup_FFPE": {
+      "section_id": "Xenium_Prime_Mouse_Pup_FFPE",
+      "donor_id": "Xenium_Prime_Mouse_Pup_FFPE_donor",
+      "sample_name": "Whole Mouse Pup (FFPE) with 5K Mouse Pan Tissue and Pathways Panel and Snap25a/Snap25b Add-on",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

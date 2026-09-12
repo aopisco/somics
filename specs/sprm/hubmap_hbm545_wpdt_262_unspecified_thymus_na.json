@@ -1,0 +1,58 @@
+{
+  "dataset_key": "hubmap_hbm545_wpdt_262_unspecified_thymus_na",
+  "hubmap_id": "HBM545.WPDT.262",
+  "uuid": "6f74609152fe7fd81974b7452112d2e2",
+  "study": "6f74609152fe7fd81974b7452112d2e2",
+  "study_name": "CODEX [Cytokit + SPRM] data from the thymus of a 1-year-old white male",
+  "assay": "PhenoCycler",
+  "technology": "codex",
+  "spatial_unit": "cell",
+  "segmentation_method": "watershed",
+  "segmentation_note": "Cytokit detects nuclei with a U-Net on the nuclear channel and grows cell boundaries by marker-controlled watershed on the membrane channel",
+  "pipeline": "Cytokit + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "thymus",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM545.WPDT.262",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/6f74609152fe7fd81974b7452112d2e2",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM545.WPDT.262",
+  "source": {
+    "dataset_type": "CODEX [Cytokit + SPRM]",
+    "group_name": "University of Florida TMC",
+    "published_timestamp": 1642038908473,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM545.WPDT.262_donor": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": 1.0,
+      "age_unit": "year",
+      "life_stage": "juvenile",
+      "human_development_stage": "1-year-old stage",
+      "ethnicity": "white",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM638.SMWG.276 (University of Florida TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg1": {
+      "section_id": "HBM545.WPDT.262_reg1",
+      "donor_id": "HBM545.WPDT.262_donor",
+      "block_id": "HBM628.KVPD.267",
+      "section_index": 0,
+      "sample_name": "HBM545.WPDT.262 region reg1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/stitched/expressions/reg1_stitched_expressions.ome.tif",
+        "cell_centers": "sprm_outputs/reg1_stitched_expressions.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg1_stitched_expressions.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg1_stitched_expressions-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    }
+  }
+}

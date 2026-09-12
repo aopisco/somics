@@ -8,7 +8,7 @@ cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs fin
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,764 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5959 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -25,14 +25,17 @@ has been ported to it yet** — see its issue #1 for the plan.
 
 | file | grain | rows |
 |---|---|---|
-| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,429 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,764 |
+| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,708 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5959 |
 | `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
 | `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
-| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 17 |
+| `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 18 |
 | `data/tenx_visium_rows_needing_review.csv` | 10x Visium/HD rows the spec-driven builder cannot take, with the reason | 16 |
+| `data/sprm_datasets.csv` | per staged HuBMAP CODEX/PhenoCycler row: SPRM layout verdict, regions, or why not buildable | 131 |
+| `data/mibi_datasets.csv` | per staged HuBMAP MIBI row: which of three layouts, buildable or skip reason | 429 |
+| `data/hubmap_truncated_files_2026-09-07.tsv` | the 108 staged HuBMAP files found short against the files index (44 datasets), re-staged 2026-09-07 | 108 |
 
 Key columns on `datasets.csv`: `is_spatial` (yes/no/unknown), `modality`
 (spatial transcriptomics / proteomics / epigenomics), `data_access_link`
@@ -124,16 +127,12 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
-- **The 10x Xenium catalogue is already in the DCA imaging team's staging
-  bucket.** 68 of our 69 verified Xenium bundles are ingested at
-  `s3://czi-dynamic-cell-atlas-staging/spatial_transcriptomics/xenium/`; the
-  one they lack is `Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein`.
-  Visium/HD does not overlap at all. Mapping in `data/xenium_dca_overlap.csv`;
-  the brief with the five open choices (source of truth for Xenium raw, whether
-  we ingest from their stores, the missing bundle, imagery division of labor,
-  who watches new 10x releases) is `docs/2026-09-03_xenium_status_and_choices.md`.
-  **Awaiting the imaging team's answers as of 2026-09-04.** Delete nothing in
-  `raw/` until choice 1 is settled.
+- **Since 2026-09-05 the atlas has grown from 59 to ~890 sections / 73.26M obs rows**
+  (10x Visium/HD, 10x + HuBMAP Xenium, Atera, HuBMAP MIBI and SPRM, Allen
+  MERFISH/MERSCOPE, Liu 2022 MERFISH, HuBMAP seqFISH); the lineage
+  of prefixes, what is running, and exactly what to launch next are under
+  "Where to pick up". The newest `ingest/*/atlas/<stamp>/` prefix with a
+  `_DONE` marker is always the current atlas.
 - 556 registry datasets have an access link but nothing fetchable; the clusters
   are CNGB, GSA-Human, HuBMAP portal links, and GitHub repos without releases.
 
@@ -248,81 +247,204 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
-**Everything is on `main`.** `aopisco/somics#17` (the rebuild) merged
-2026-09-02 and `#20` (DCA spec alignment) merged the same day; there is no
-long-lived branch. A fresh clone of `main` has the spec-driven builders, the
-extended schema, the specs, the rebuild script and every doc referenced here.
-AWS access expires; re-run the `aws-oidc configure` line under Infrastructure
-if a call returns a credentials error.
+**Everything is on the `protein-adapters` branch** (PR #22, stacked on
+`tenx-visium-ingest`, PR #21). `main` stops at the DCA brief. Every EC2
+script clones the branch by name; point them at `main` once both PRs merge.
 
-**The rebuild has landed.** Attempt 7 built, synced and verified unattended in
-~3h20m on 2026-09-02: `s3://somics-dev/rebuild/atlas/2026-09-02T00-43-52Z/`,
-with `_verify.txt` and `_rebuild.log` beside it. **236/237 checks passed**; the
-one failure is `hColon_Cancer_Add_on_FFPE` gene_expression (6417/108200 values
-differ), which is the published atlas's misaligned gene axis (`#19`) — the
-rebuild is the correct side of that diff.
+```bash
+git checkout protein-adapters && git pull
+```
 
-For any future rebuild: `scripts/rebuild_atlas_ec2.sh` as user-data (the exact
-`run-instances` call and an SSM log-tail are in
-`docs/2026-08-30_full_atlas_build_plan.md`). It fetches then builds one family
-at a time, lung preview first, so a regression fails in minutes rather than
-after the full fetch; it syncs the atlas to S3 **before** verifying, then
-terminates — so the S3 prefix is the answer, not the instance. ~3-4 hours end
-to end. Judge a run by its artifacts, and check the log's *mtime* over SSM if
-nothing is landing: attempt 5 sat four hours in a silent SYN-SENT hang that no
-FAILED log would ever report.
+### The atlas lineage (each run stacks on the previous prefix)
 
-Seven attempts; six failures, all scaffolding, never pipeline: a shutdown timer
-that took the atlas with it; `/tmp` a tmpfs too small for an 18 GB bundle; a
-lung spec predating the parameterized assembler; `AddColumn` rejecting
-`value=None` for a healthy section's null disease; the reference cache silently
-never syncing (the `..` gotcha below), which sent gene resolution into gget's
-Ensembl-MySQL hang; and registry tables typed by whichever package ingested
-first (the other new gotcha below).
+| step | prefix under `s3://somics-dev/` | adds |
+|---|---|---|
+| verified rebuild (base) | `rebuild/atlas/2026-09-02T00-43-52Z` | 59 sections, 2.4M rows |
+| Visium block, 5 runs | `ingest/tenx_visium/atlas/2026-09-05T19-14-47Z` | +78 (20.3M HD bins, 219k spots) |
+| obs-table repair | `ingest/repair/atlas/2026-09-06T17-46-36Z` | same rows, readable under a filter, snapshot v83 |
+| protein trial | `ingest/protein/atlas/2026-09-06T19-06-13Z` | +1 MIBI |
+| Xenium run 1 | `ingest/tenx_xenium/atlas/2026-09-06T20-30-28Z` | +23 |
+| Xenium run 2 | `ingest/tenx_xenium/atlas/2026-09-07T00-25-11Z` | +30 (18 HuBMAP Xenium, Atera, Explorer bundles) |
+| Xenium run 3 | `ingest/tenx_xenium/atlas/2026-09-07T08-13-13Z` | +0 (7 skips, all fixed since) |
+| protein block (finished 2026-09-08 05:30Z) | `ingest/protein/atlas/2026-09-07T12-58-44Z` | +320 (MIBI 205, SPRM 115); 18 skipped, all causes fixed |
+| protein follow-up (finished 2026-09-08 12:30Z) | `ingest/protein/atlas/2026-09-08T05-32-55Z` | +17 of the 18 skips (the 44-plane one needs a final pass) |
+| Xenium run 4 (finished 2026-09-08 13:41Z; 56.4M obs rows) | `ingest/tenx_xenium/atlas/2026-09-08T12-32-24Z` | the 9: 3 OA-1.0 bundles, 2 mip-image bundles, 2 re-staged HuBMAP; **the 2 protein co-detection skipped** (`ProteinSchema.is_control` missing; builder fixed 2026-09-08) -> run 5 from run 4's prefix |
+| Xenium run 5 (finished 2026-09-09 05:20Z; 57.59M obs rows) | `ingest/tenx_xenium/atlas/2026-09-08T21-28-41Z` | +2 protein co-detection (first Xenium sections with a protein feature space) |
+| final protein pass (finished 2026-09-09 ~10:00Z) | `ingest/protein/atlas/2026-09-09T05-31-42Z` | +1 (hbm393, the 44-plane SPRM dataset); every protein skip resolved |
+| MERFISH production (finished 2026-09-10 03:00Z; 67.50M obs rows) | `ingest/merfish/atlas/2026-09-09T13-32-48Z` | +5 releases (638850 + Zhuang ABCA-1..4, ~9.8M cells, ~210 expression-only sections); HMBA human skipped on null gene symbols (builder fixed) |
+| MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
+| verification runs 1-5 (2026-09-10) | `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/`; **`docs/2026-09-10_verification_results.md`** | Visium 1403/1416 (12 sections have ~7k rows at negative px: crops slid to the edge; builder fixed, sections wait for the next rebuild); all 62 cell-unit sections pass row sums once gene columns only are summed; Atera 18/18; run 5 = 200-cell registration check on Xenium |
+| Liu 2022 MERFISH (finished 2026-09-11 02:00Z; **73.23M obs rows**) | `ingest/merfish/atlas/2026-09-10T14-01-51Z` | +2 sections as cells: kidney 111921 (212,090 cells) and liver JH 09-18-2021 (83,410), 307 genes + 78 blanks; the 12 transcript-only runs excluded |
+| **seqFISH (finished 2026-09-12 ~03:30Z; 73.26M obs rows) -- CURRENT ATLAS** | `ingest/seqfish/atlas/2026-09-11T22-08-59Z` | +43 FOV sections / 31,531 cells from 6 HuBMAP Cai-lab datasets (small intestine 13 FOVs, spleen 30), 46 genes, DAPI per FOV; repair clean. Runs 1-5 added nothing (three causes, all fixed; see `docs/2026-09-10_seqfish_adapter.md`). The run-5 prefix `2026-09-11T18-02-35Z` may still need deleting (laptop link flaky) |
 
-**Next:**
+**The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
+current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
+step), `_logs/<dataset>.log` for failures, `_geometry/<dataset>.json` (Xenium
+runs; the builder's counts, for the verifier), `_repair.txt` (the end-of-run
+pointer-read check) and `_order.txt`/`_provenance.txt`. Judge a run by these,
+never by the instance.
 
-1. **The 10x Visium/HD block is running** — see
-   `docs/2026-09-04_tenx_visium_ingest.md`. 111 registry rows; 78 buildable
-   (41 Visium, 37 HD, ~680 GB), 33 skipped with a reason each in
-   `data/tenx_visium_files.csv` — **17 of them are registry duplicates**: 10x
-   lists each Space Ranger re-release of a sample as a dataset, and the
-   harvest took that at face value. Fold them into one row each.
-   Fifth launch 2026-09-05 as `somics-tenx-visium-5`, continuing from run 4's
-   atlas (`ingest/tenx_visium/atlas/2026-09-05T16-49-25Z`: 59 base + 69 new
-   sections) over the 9 HD datasets left; run history in the doc
-   (user-data `scripts/ingest_tenx_visium_ec2.sh`), writing to
-   `s3://somics-dev/ingest/tenx_visium/atlas/<stamp>/` on top of the verified
-   rebuild. Judge it by `_done.txt` / `_failed.txt` / `_DONE` there, not by the
-   instance. When it lands: spot-check crops per platform, count resolved
-   `disease` strings, and update the registry rows.
-   The 44 Xenium wait on the DCA brief: if we read the imaging team's built
-   stores instead of 10x bundles, the fetch step disappears and a small reader
-   against `sdata.zarr` replaces it (and must apply the `dca.he_alignment`
-   affine — their H&E lives in its own pixel grid, ours in the expression
-   frame).
-2. Held by decision, not blocked: HuBMAP Histology + Auto-fluorescence (1,119
-   staged), and MIBI + PhenoCycler + Cell DIVE (~590). Both need adapters.
-3. **The 144 unknown-layout Visium/Xenium rows are not spec-work.** 141 are
-   staged, 120 from GEO, and GEO deposits are flat per-GSM files rather than a
-   Space Ranger directory — `filtered_feature_bc_matrix.h5` next to `.cloupe`
-   and loose TIFFs, named differently in every deposit. Per-deposit agent
-   curation, not a spec.
-4. GeoMx is **blocked on access**, not code: all 1,362 HuBMAP GeoMx datasets are
-   `data_access_level: protected`. See `aopisco/somics#16`.
+### Exactly what to launch next, in order (each waits for the previous `_DONE`)
 
-**Open issues:** `#16` HuBMAP (the single tracker), `#18` staging completeness
-(one file per multi-file deposit, plus 16 prefixes holding source code rather
-than data), `#19` the published colon section's misaligned gene axis, `#14`
-portable ingestion, `#15` SAHA watch.
+Wrapper user-data pattern (all three ingest scripts take it):
+
+```bash
+#!/bin/bash
+export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/<family>/atlas/<newest stamp with _DONE>
+export SOMICS_BRANCH=protein-adapters
+# optional: SOMICS_ONLY="key1 key2"; SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"
+curl -sL https://raw.githubusercontent.com/aopisco/somics/protein-adapters/scripts/<script>.sh | bash
+```
+
+`run-instances`: `ami-0332d564d76dbd8d6`, `m5n.4xlarge`, 1500 GB gp3,
+`sg-0e81dbfc34d71253c`, `subnet-0fce42712a109e498`, profile
+`somics-raw-staging`, `--instance-initiated-shutdown-behavior terminate`
+(the exact call is in `docs/2026-08-30_full_atlas_build_plan.md`). GitHub raw
+caches ~5 min; after a push, either wait or embed the script in the user-data
+(`sed '1d' scripts/x.sh` appended after the exports).
+
+1. **Protein follow-up** -- LAUNCHED 2026-09-08 05:32Z (`i-0750ad358511d3558`)
+   from the protein block's prefix, no `SOMICS_ONLY`: skip-if-present makes it
+   process only the block's 18 skips. One of them
+   (`hubmap_hbm393_tmdx_795`, the 44-plane image) failed again: SPRM names the
+   unnamed plane "Channel:0:43"; the builder now adopts that name (fixed
+   2026-09-08). **It needs one more protein pass** -- run `ingest_protein_ec2.sh`
+   again from the newest prefix; skip-if-present leaves only it. Their causes are all fixed on the branch: truncated staged
+   files (108 re-staged byte-exact 2026-09-07, list in
+   `data/hubmap_truncated_files_2026-09-07.tsv`), the 8 px centroid tolerance
+   (now records up to 40 px), an OME header naming 43 of 44 planes, an
+   all-digit dataset uid (assemblers redraw).
+2. **Xenium run 4** -- LAUNCHED 2026-09-08 12:32Z from the follow-up's prefix;
+   when it lands, the **final protein pass** (step 1's leftover) goes from run
+   4's prefix, then verification. Original notes:
+   `ingest_tenx_xenium_ec2.sh` from the follow-up's prefix,
+   `SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"`,
+   `SOMICS_ONLY` = the 9 in `/tmp/somics_smoke/xenium_run4_userdata.sh` on the
+   laptop, or simply no ONLY (skip-if-present drops everything already in):
+   3 Onboard-Analysis-1.0 bundles (integer cell ids, now namespaced), 2
+   Explorer bundles with `morphology_mip.ome.tif`, the 2 protein co-detection
+   datasets (second feature space, first use on Xenium), the 2 re-staged
+   HuBMAP Xenium sections.
+3. **Verification** -- `verify_atlas_ec2.sh` on the final prefix with
+   `SOMICS_SPECS="specs/tenx_visium/*.json specs/tenx_xenium/*.json specs/hubmap_xenium/*.json specs/atera/*.json"`
+   (r5 not needed; the verifier reads per section). Report lands under
+   `<prefix>/_verify/<stamp>/`. The laptop cannot run it: the exported SSO
+   token expires after an hour and lance's S3 store ignores profiles.
+4. Then `docs/2026-09-07_next_plan.md`: merge the PRs and collapse the three
+   EC2 scripts into one; `in_atlas` column in the registry; publish to R2 and
+   rebuild the UI index (`sync_atlas_to_r2.sh`, `build_corpus_index.py`);
+   HuBMAP imagery (1,165 image-only datasets) as tile-grid sections; the
+   literature tail behind #18; seqFISH/Cell DIVE/MALDI decisions; file the
+   Lance compaction bug upstream.
+
+### MERFISH block (2026-09-09) -- smoke running, then production
+
+Vizgen's showcase buckets are gated (403 anonymous; needs their data-release
+form + a Google account), so the MERFISH family is the **Allen Brain Cell
+Atlas** public releases: 638850 (MERSCOPE, 59 sections, ~4M cells, 500 genes),
+Zhuang ABCA-1..4 (~9M cells, 1,122 genes), HMBA human basal ganglia MERSCOPE.
+No per-section imagery exists, so these are the atlas's first expression-only
+sections. Everything is in `docs/2026-09-09_merfish_adapter.md`. The EC2
+script is the Xenium one with a family switch:
+
+```bash
+export SOMICS_FAMILY=merfish SOMICS_BUILDER=scripts/build_merfish_package.py
+export SOMICS_RUNNER=scripts/run_merfish_pipeline.sh SOMICS_SPEC_DIRS="specs/merfish" SOMICS_RAW_INCLUDE="*"
+```
+
+Smoke (638850 alone, throwaway atlas from the rebuild base) **passed
+2026-09-09 04:30Z**: 59 sections / 3.94M cells in 835 s of build+ingest, repair
+check clean on the expression-only sections (prefix deleted). **Run production
+from the newest `_DONE` prefix after Xenium run 5 and the final protein pass**
+(serial rule): the six specs, ~13M cells, no `SOMICS_ONLY`. Macaque (QM23.50.001) is deliberately unspecced -- macaque gene
+resolution is unverified against the reference cache and a miss hangs on
+gget. **Liu et al. 2022 (LSA; @aopisco's own MERFISH kidney/liver/pancreas)**
+is a third MERFISH layout, `liu2022_figshare`: figshare zips per Vizgen run.
+**Only the two runs with Vizgen cell outputs go in, as cells**; the twelve
+transcript-only runs (decoded barcodes, no cell assignment) are excluded by
+the author's decision (2026-09-10; a grid-binned version was built and tested,
+then dropped -- the builder now refuses such runs).
+figshare's `ndownloader` needs curl's own UA (gotcha below). **seqFISH is
+prepped** (`docs/2026-09-10_seqfish_adapter.md`): 6 HuBMAP datasets, 43 FOV
+sections, one section per field of view because stage positions are not
+recoverable; specs in `specs/seqfish/`, builder verified locally. Launch it
+after the Liu block lands, with the MERFISH runner and
+`SOMICS_BUILD_SCRIPT=scripts/build_seqfish_package.py`.
+
+### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
+
+Done and pushed on `protein-adapters`: miR-Space (bioRxiv
+10.64898/2026.08.12.744364, not in paperclip; 2 datasets by hand, controlled
+access) and a sweep -- searches `s_17a07eb8` (200 papers; 75 new by DOI/id),
+extraction map `m_93d14edc` -> 277 claim rows appended to
+`data/literature_datasets.csv` (2431 -> 2708). Steps 6-8 are done too: trace
+map `m_fb3317d6` -> `trace_originals.py` added 194 registry rows and 636 usage
+rows (the trace covered all 197 mapped papers, not only the 70 new; existing
+rows untouched), `classify_spatial_modality.py --apply` set `is_spatial` on
+them ({'yes': 104, 'unknown': 67, 'no': 23}), `resolve_download_urls.py` ran after. Registry is
+5959 rows. **Review items**: the added rows flagged `is_spatial: no`
+(scRNA-seq / small-RNA references) belong in
+`data/dissociated_reference_datasets.csv`; 45 added rows carry an
+unresolved-original note; platform strings left as written. The recipe, for
+the next sweep:
+
+```bash
+paperclip results m_fb3317d6 --save /tmp/trace_0.txt          # per-paper answers
+paperclip results s_17a07eb8 --export-bundle /tmp/bundle  # cohort.csv: document_id, title, doi
+# new papers = cohort rows whose doi/document_id are not in literature_datasets.csv (75)
+# meta.jsonl: one line per new paper {"id": document_id, "title", "doi", "year"} from cohort.csv
+python3 scripts/trace_originals.py --trace /tmp/trace_0.txt --meta /tmp/meta.jsonl --cache /tmp/crossref_cache.json
+python3 scripts/resolve_download_urls.py
+# commit data/datasets.csv + data/model_dataset_usage.csv with the s_/m_ ids in the body
+```
+
+paperclip changed under us (0.7.38 -> 0.7.48): `search` needs `-s papers`;
+result ids are now document ids (`PMC12611760`, bioRxiv DOIs), not
+`bio_`/`pmc_` hashes, so dedup against the sheet by **DOI and document_id**;
+`results <s_id> --save x.csv` writes only a summary for accumulated
+`searches` sets -- use `--export-bundle DIR` and read `cohort.csv`; the skill's
+`append_datasets.py` lives at `.claude/skills/harvest-datasets/scripts/`. The
+map output is `--- [N] [success] Title ---` blocks followed by JSON; match to
+the cohort by exact title. 13 of the 70 new papers reported no datasets;
+non-spatial reused datasets (scRNA-seq references) were kept at the claim
+level for the curated step's `is_spatial` decision.
+
+### How the runs were watched
+
+A persistent Monitor per box polling S3 every 4-5 min: the newest prefix,
+`_done.txt`/`_failed.txt` line counts, `_DONE`/`_FAILED`, instance state.
+Distinguish concurrent runs writing under one family by a dataset-name prefix
+in `_geometry/` or `_failed.txt`, not by "newest". On a skip, read
+`_logs/<dataset>.log`; the last `Error` line is the cause. Throwaway smoke runs
+(one dataset into an atlas built from the rebuild base) proved every new
+layout before it touched the production line; delete their prefixes after.
+
+### Registry state
+
+`data/datasets.csv` is 5,763 rows. 18 10x re-releases folded
+(`data/tenx_rereleased_rows.csv`); 10x Visium/Xenium rows carry
+`data_downloadable` verdicts; 16 Visium rows in
+`data/tenx_visium_rows_needing_review.csv`. Atera: breast staged (bundle +
+H&E + artifacts), cervical has no bundle and a mislinked H&E. Not yet done:
+an `in_atlas` column; the 172 MIBI DeepCell+SPRM re-processings marked as
+duplicates of ingested sections.
+
+### Numbers to expect when everything lands
+
+~540 sections, ~50M obs rows: 20.3M Visium HD bins, ~19M Xenium cells
+(incl. ~7.5M from 18-20 HuBMAP small-intestine sections at 5K genes), ~8M
+SPRM cells, 2.4M base, 0.6M MIBI, 219k Visium spots. Five organisms.
 
 ## Gotchas that cost real time
 
 **Hosts disagree about user agents, in opposite directions.** Dropbox serves an
 HTML preview to a browser UA and the real file to a bare one; Zenodo's API
 returns 403 to a browser UA and 200 to a bare one; 10x's Cloudflare rejects bare
-agents. Any fetcher needs per-host UA policy and a retry that flips it. A
-200-with-HTML is the dangerous case — sniff the body, don't trust the status.
+agents; **figshare's `ndownloader` answers a browser UA with `202` and an
+empty body** and redirects only curl's own UA, to a signed S3 URL that expires
+in 10 s (so no HEAD-then-GET). Any fetcher needs per-host UA policy and a
+retry that flips it. A 200-with-HTML is the dangerous case — sniff the body,
+don't trust the status — and so is a 202 with nothing in it.
 
 **GEO's bulk endpoint lies.** `download/?acc=X&format=file` 404s for any series
 without a RAW bundle. The FTP supplementary directory
@@ -349,6 +471,26 @@ landed on disk (`du -sm`), never by its exit status. (`polycomb setup` saying
 CREATED rather than "already existed" is itself the tell that the sync
 delivered nothing.)
 
+**`optimize()` can leave the obs table unreadable under a filter.** Every
+ingest compacts obs into ~1M-row fragments, and a compacted fragment has twice
+come out with a struct null buffer Lance rejects on a *filtered* read of a
+pointer column (`Incorrect number of nulls for StructArray`): after the CosMx
+ingest, and again at the end of the Visium block (22.9M rows), where the
+verifier hit it on its first section. Unfiltered scans are fine, so nothing is
+lost, but every `where()` on obs fails. `scripts/repair_atlas.py` checks each
+struct column under a filter, rewrites the table from a whole read if one
+fails, and snapshots; both EC2 ingest scripts run it before their final sync,
+and `scripts/repair_atlas_ec2.sh` runs it standalone on a 128 GB box. A run
+whose `_repair.txt` is missing has not been checked.
+
+**An enum column that is null on every row cannot be compacted.** Lance writes
+it and `optimize()` then fails with `Value at position 0 out of bounds ... [0,
+-1]` (an empty dictionary) — *after* the rows are in the atlas. The first MIBI
+package did this through a null `segmentation_method`, following the schema's
+own "null when unreported" advice. The enum now carries `UNKNOWN`, the schema
+doc says to use it, and `somics.ingest` refuses a package with an all-null enum
+obs column before writing anything.
+
 **The first package to ingest types the atlas's registry tables.** polycomb's
 `_copy_registry_key_tables` creates each registry-key table verbatim from the
 first collection carrying it, so a family whose donors have no ages hands over
@@ -366,6 +508,21 @@ over ~1,000 papers hit a ~25 min server cap, so chunk with `-n`/`--offset` and
 recover with `map --resume <id> --retry-failed`; `.xlsx` supplements are indexed
 as *summaries only* (row/column counts, no cell values), so spreadsheet SI is
 invisible to grep.
+
+**Some staged HuBMAP files are truncated, not just missing -- at scale.** A
+size check of every file the MIBI, SPRM and HuBMAP-Xenium specs use against
+the HuBMAP files index found **106 files across 44 datasets short by multiples
+of 256 KB** (36 SPRM datasets, mostly expression images and covariance CSVs;
+3 MIBI stacks; 5 Xenium datasets), with no error recorded at staging time. The
+builders found them as JPEG 2000 decode errors and one-page stacks. (Metadata
+TSVs differ from the index by 35-38 bytes systematically; that is not
+truncation.) Check a staged file's size against the files index before
+trusting it, and re-fetch with `scripts/restage_hubmap_files_ec2.sh`, which
+accepts only a byte-exact result -- the assets server answers HEAD with 500,
+403s curl-like user agents, and served both files as error pages for hours on
+2026-09-07. All four truncated files (two Xenium z-stacks, two MIBI stacks) were
+re-staged byte-exact on 2026-09-07 once the server recovered; they go through
+the next follow-up passes (Xenium run 4, a protein follow-up).
 
 **Some HuBMAP files are indexed but not served.** The files index lists them,
 `assets.hubmapconsortium.org` returns 404 for every one, on any UA, at any
@@ -457,6 +614,21 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/ingest_tenx_visium_ec2.sh` | user-data: fetch, stage to `raw/`, build, ingest, sync — the whole 10x Visium block |
 | `scripts/verify_visium_ingest.py` | read ingested Visium/HD sections back (local or S3 atlas) and check them against spec, source and image frame |
 | `scripts/fold_tenx_rereleases.py` | fold 10x re-release rows into one per sample; write the block's `data_downloadable` verdicts and review list |
+| `scripts/make_sprm_specs.py` | staged HuBMAP CODEX/PhenoCycler rows → one spec per dataset in `specs/sprm/`, verdicts in `data/sprm_datasets.csv` |
+| `scripts/build_sprm_package.py` | one SPRM spec → obs, var, uint32 totals matrix, (Y, X, C) expression image (assembler and harmonizer alongside) |
+| `scripts/run_sprm_pipeline.sh` | build + ingest any SPRM spec (single-obs shape, four library tables) |
+| `scripts/make_mibi_specs.py` | HuBMAP MIBI rows → layout classification, `specs/mibi/`, `data/mibi_datasets.csv` |
+| `scripts/build_mibi_package.py` | one MIBI lab submission → per-cell ion counts from mask + stack, (Y, X, C) image |
+| `scripts/run_mibi_pipeline.sh` | build + ingest any MIBI spec (single-obs shape) |
+| `scripts/resolve_tenx_xenium_files.py` / `make_tenx_xenium_specs.py` | 10x Xenium outs rows → verified bundles + one spec per dataset in `specs/tenx_xenium/` |
+| `scripts/ingest_tenx_xenium_ec2.sh` | user-data: fetch the outs zip (or copy S3 files), extract, stage, build, ingest, repair, sync; `SOMICS_SPEC_DIRS` picks specs/tenx_xenium, specs/hubmap_xenium or specs/atera |
+| `scripts/make_hubmap_xenium_specs.py` | HuBMAP's 20 Xenium submissions → specs with real donor/block ids and S3 sources |
+| `scripts/verify_atlas_ec2.sh` | run the verifier on EC2 under the instance role (a laptop's SSO token expires mid-run) |
+| `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
+| `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
+| `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |
+| `scripts/make_seqfish_specs.py` / `build_seqfish_package.py` | HuBMAP seqFISH (Cai lab): one section per field of view with its DAPI; reuses the MERFISH assembler/harmonizer/runner via `SOMICS_BUILD_SCRIPT`; `specs/seqfish/` (6 datasets, 43 FOVs); `docs/2026-09-10_seqfish_adapter.md` |
+| `scripts/build_merfish_package.py` / `assemble_merfish_collection.py` / `harmonize_merfish_package.py` / `run_merfish_pipeline.sh` | MERFISH: an Allen Brain Cell Atlas release (or a staged MERSCOPE bundle) -> per-section 10x-format h5 + obs, no image; `specs/merfish/`; notes in `docs/2026-09-09_merfish_adapter.md` |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |

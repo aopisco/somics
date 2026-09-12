@@ -1,0 +1,65 @@
+{
+  "dataset_key": "hubmap_hbm564_fhqf_592_xenium_small_intestine_rna",
+  "hubmap_id": "HBM564.FHQF.592",
+  "uuid": "801ce010d0cf9d0ca3e43c1cf84b64ea",
+  "study": "HBM564.FHQF.592",
+  "study_name": "Xenium data from the small intestine of a 23-year-old white female",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "small intestine",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/801ce010d0cf9d0ca3e43c1cf84b64ea",
+  "download_url": "s3://somics-dev/hubmap/HBM564.FHQF.592/lab_processed/xenium_bundle/",
+  "source": {
+    "xoa": "xenium-3.3.0.1",
+    "morphology_layout": "zstack",
+    "protein_codetection": false,
+    "bytes": 39579981182,
+    "published_at": 1785940585545,
+    "num_cells": 438164
+  },
+  "panel": {
+    "panel_name": "Xenium Human 5K Pan Tissue & Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": 5001,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "HBM942.GGWJ.769": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 23.0,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "23-year-old stage",
+      "ethnicity": "White",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM942.GGWJ.769 (Stanford TMC). Age, sex and race as the portal records them; an organ donor, so no diagnosis is recorded."
+    }
+  },
+  "samples": {
+    "HBM564.FHQF.592": {
+      "section_id": "HBM564.FHQF.592",
+      "donor_id": "HBM942.GGWJ.769",
+      "block_id": "HBM649.PJJW.544",
+      "sample_name": "Xenium data from the small intestine of a 23-year-old white female",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "cells": "s3://somics-dev/hubmap/HBM564.FHQF.592/lab_processed/xenium_bundle/cells.parquet",
+        "matrix": "s3://somics-dev/hubmap/HBM564.FHQF.592/lab_processed/xenium_bundle/cell_feature_matrix.h5",
+        "experiment": "s3://somics-dev/hubmap/HBM564.FHQF.592/lab_processed/xenium_bundle/experiment.xenium",
+        "gene_panel": "s3://somics-dev/hubmap/HBM564.FHQF.592/raw/gene_panel.json",
+        "zstack": "s3://somics-dev/hubmap/HBM564.FHQF.592/lab_processed/images/morphology.ome.tiff"
+      }
+    }
+  }
+}

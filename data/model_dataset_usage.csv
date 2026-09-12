@@ -3626,3 +3626,639 @@ bio_2ecf87026d95,A spatial transcriptomics atlas of live donors reveals unique z
 bio_2ecf87026d95,A spatial transcriptomics atlas of live donors reveals unique zonation patterns in the healthy human liver,https://doi.org/10.1101/2025.02.22.639181,human_live_donor2025_visiumhd_merfish,analysis/benchmark,Human live donor and liver pathology spatial transcriptomics dataset
 PMC11702642,PMC11702642,PMC11702642,tonsil_dataset_f_visiumhd_visium_hd,analysis/benchmark,Tonsil dataset (Figs. 1 & 2)
 PMC11702642,PMC11702642,PMC11702642,tonsil_dataset_f_visiumhd_cosmx,analysis/benchmark,Tonsil dataset (Figs. 1 & 2)
+PMC12611760,CoCo-ST detects global and local biological structures in spatial transcriptomics datasets,https://doi.org/10.1038/s41556-025-01781-z,visium_mouse_lun_visium,analysis/benchmark,Visium mouse lung carcinogenesis data
+PMC12611760,CoCo-ST detects global and local biological structures in spatial transcriptomics datasets,https://doi.org/10.1038/s41556-025-01781-z,visium_hd_mouse_visiumhd,analysis/benchmark,Visium HD mouse lung carcinogenesis data
+PMC12611760,CoCo-ST detects global and local biological structures in spatial transcriptomics datasets,https://doi.org/10.1038/s41556-025-01781-z,xenium_prime_5k_xenium,analysis/benchmark,Xenium Prime 5K mouse lung carcinogenesis data
+PMC12611760,CoCo-ST detects global and local biological structures in spatial transcriptomics datasets,https://doi.org/10.1038/s41556-025-01781-z,shi2023_xenium,analysis/benchmark,Mouse brain Visium data
+PMC10110464,PMC10110464,PMC10110464,mantri2022_visium_2,analysis/benchmark,infected heart tissue spatial RNA-seq
+PMC10110464,PMC10110464,PMC10110464,spatial_total_rn_visium_2,analysis/benchmark,Spatial Total RNA-Sequencing data
+PMC10110464,PMC10110464,PMC10110464,small_rna_sequen_small_rnaseq,analysis/benchmark,Small RNA-sequencing data
+PMC10110464,PMC10110464,PMC10110464,single_nucleus_r_chromium_v3,analysis/benchmark,Single-nucleus RNA-sequencing data for C2C12 nuclei
+PMC10110464,PMC10110464,PMC10110464,isakova2021_smartseqtota,analysis/benchmark,Smart-Seq-Total
+PMC10110464,PMC10110464,PMC10110464,salmen2022_vasadrop,analysis/benchmark,VASA-seq
+PMC10110464,PMC10110464,PMC10110464,isakova2020_small_rnaseq,analysis/benchmark,small RNA-sequencing atlas
+PMC10110464,PMC10110464,PMC10110464,mantri2022_singlecell_r,analysis/benchmark,viral myocarditis single-cell RNA-sequencing reference
+PMC12534522,Systematic benchmarking of high-throughput subcellular spatial transcriptomics platforms across human tumors,https://doi.org/10.1038/s41467-025-64292-3,stereo_seq_v1_3_stereo,analysis/benchmark,Stereo-seq v1.3 dataset
+PMC12534522,Systematic benchmarking of high-throughput subcellular spatial transcriptomics platforms across human tumors,https://doi.org/10.1038/s41467-025-64292-3,visium_hd_ffpe_d_visiumhd_2,analysis/benchmark,Visium HD FFPE dataset
+PMC12534522,Systematic benchmarking of high-throughput subcellular spatial transcriptomics platforms across human tumors,https://doi.org/10.1038/s41467-025-64292-3,cosmx_6k_dataset_cosmx_2,analysis/benchmark,CosMx 6K dataset
+PMC12534522,Systematic benchmarking of high-throughput subcellular spatial transcriptomics platforms across human tumors,https://doi.org/10.1038/s41467-025-64292-3,xenium_5k_datase_xenium_2,analysis/benchmark,Xenium 5K dataset
+PMC12103236,PMC12103236,PMC12103236,stahl2016_spatial_tran,analysis/benchmark,mouse olfactory bulb ST data
+PMC12103236,PMC12103236,PMC12103236,liu2023_visium_3,analysis/benchmark,four human hepatocellular carcinoma Visium datasets
+PMC9181802,PMC9181802,PMC9181802,eng2019_seqfish,analysis/benchmark,SeqFISH
+PMC9181802,PMC9181802,PMC9181802,wang2018_starmap_2,analysis/benchmark,STARmap
+PMC9181802,PMC9181802,PMC9181802,codeluppi2018_unknown,analysis/benchmark,OsmFISH
+PMC9181802,PMC9181802,PMC9181802,xia2019_seqfish,analysis/benchmark,MERFISH
+PMC12317746,PMC12317746,PMC12317746,wang2018_starmap_2,analysis/benchmark,mouse brain STARmap data
+PMC12317746,PMC12317746,PMC12317746,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex data
+PMC12317746,PMC12317746,PMC12317746,joung2023_merfish,analysis/benchmark,MERFISH mouse frontal cortex and striatum data
+PMC12317746,PMC12317746,PMC12317746,zeng2023_starmap,analysis/benchmark,STARmap PLUS AD mouse brain data
+PMC12317746,PMC12317746,PMC12317746,moffitt2018_merfish_5,analysis/benchmark,MERFISH mouse hypothalamic preoptic region data
+PMC12317746,PMC12317746,PMC12317746,nelson2024_visium,analysis/benchmark,human hippocampus data
+PMC11744978,Benchmarking cell type annotation methods for 10x Xenium spatial transcriptomics data,https://doi.org/10.1186/s12859-025-06044-0,janesick2023_visium_2_visium,analysis/benchmark,Human HER2+ breast cancer Xenium and single-cell data
+PMC11996347,Evidence of off-target probe binding in the 10x Genomics Xenium v1 Human Breast Gene Expression Panel compromises accuracy of spatial transcriptomic profiling,https://doi.org/10.1101/2025.03.31.646342,xenium_breast_ca_xenium_2,analysis/benchmark,Xenium breast cancer dataset
+PMC11996347,Evidence of off-target probe binding in the 10x Genomics Xenium v1 Human Breast Gene Expression Panel compromises accuracy of spatial transcriptomic profiling,https://doi.org/10.1101/2025.03.31.646342,visium_cytassist_visium_3,analysis/benchmark,Visium CytAssist dataset
+PMC11954323,Benchmarking spatial transcriptomics technologies with the multi-sample  SpatialBenchVisium  dataset,https://doi.org/10.1186/s13059-025-03543-4,spatialbenchvisi_visium_2,analysis/benchmark,SpatialBenchVisium
+PMC11954323,Benchmarking spatial transcriptomics technologies with the multi-sample  SpatialBenchVisium  dataset,https://doi.org/10.1186/s13059-025-03543-4,schaum2018_singlecell_r,analysis/benchmark,public mouse spleen dataset
+PMC10790257,PMC10790257,PMC10790257,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) dataset
+PMC10790257,PMC10790257,PMC10790257,chen2022_slideseq,analysis/benchmark,Stereo-seq dataset
+PMC10790257,PMC10790257,PMC10790257,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 dataset
+PMC9712633,PMC9712633,PMC9712633,ghandi2019_unknown,analysis/benchmark,Cancer Cell Line Encyclopedia (CCLE) bulk RNA-seq
+PMC9712633,PMC9712633,PMC9712633,the2013_unknown,analysis/benchmark,The Cancer Genome Atlas (TCGA) bulk RNA-seq
+PMC9712633,PMC9712633,PMC9712633,young2018_unknown,analysis/benchmark,Kidney single-cell RNA sequencing data
+PMC9712633,PMC9712633,PMC9712633,visel2004_in_situ_hybr,analysis/benchmark,GenePaint mouse embryo in situ hybridization database
+PMC9712633,PMC9712633,PMC9712633,human_and_mouse_digital_spat,analysis/benchmark,Human and mouse Whole Transcriptome Atlas (WTA) datasets
+PMC11875318,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.21203/rs.3.rs-6050441/v1,huang2024_merfish,analysis/benchmark,Mouse ovary
+PMC11875318,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.21203/rs.3.rs-6050441/v1,chen2022_slideseq,analysis/benchmark,Mouse olfactory bulb
+PMC11875318,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.21203/rs.3.rs-6050441/v1,bhuva2024_xenium,analysis/benchmark,Human breast cancer tumor
+PMC11875318,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.21203/rs.3.rs-6050441/v1,maynard2024_visium,analysis/benchmark,Human DLPFC
+PMC12664024,A practical protocol of processing mineralized tissue for Visium spatial transcriptomics,https://doi.org/10.1016/j.mbm.2025.100163,visium_v2_datase_visium_2,analysis/benchmark,Visium V2 dataset
+PMC12664024,A practical protocol of processing mineralized tissue for Visium spatial transcriptomics,https://doi.org/10.1016/j.mbm.2025.100163,visium_hd_datase_visiumhd,analysis/benchmark,Visium HD dataset
+PMC9189629,Localization of T cell clonotypes using the Visium spatial transcriptomics platform,https://doi.org/10.1016/j.xpro.2022.101391,sudmeier2022_visium,analysis/benchmark,scRNA-seq data
+PMC12496014,PMC12496014,PMC12496014,maynard2024_visium,analysis/benchmark,DLPFC dataset
+PMC12496014,PMC12496014,PMC12496014,wang2018_starmap_2,analysis/benchmark,STARmap mouse cortex dataset
+PMC12496014,PMC12496014,PMC12496014,codeluppi2018_unknown,analysis/benchmark,osmFISH data
+PMC12496014,PMC12496014,PMC12496014,hang2024_visium,analysis/benchmark,Stereo-seq data
+PMC12496014,PMC12496014,PMC12496014,lohoff2021_seqfish,analysis/benchmark,SeqFISH dataset
+PMC12572259,A spatial transcriptomics dataset of the endometrium from repeated implantation failure patients,https://doi.org/10.1038/s41597-025-05995-6,spatial_transcri_visium_15,analysis/benchmark,spatial transcriptomics dataset of the endometrium from repeated implantation failure patients
+PMC12572259,A spatial transcriptomics dataset of the endometrium from repeated implantation failure patients,https://doi.org/10.1038/s41597-025-05995-6,lai2022_unknown,analysis/benchmark,GSE183837
+PMC11952649,PMC11952649,PMC11952649,janesick2023_visium_2_visium,analysis/benchmark,Human breast cancer Xenium & Visium dataset
+PMC11952649,PMC11952649,PMC11952649,kanemaru2025_spatial_tran,analysis/benchmark,Human healthy heart sample by Visium dataset
+PMC11952649,PMC11952649,PMC11952649,kuppe2022_spatial_tran,analysis/benchmark,Human myocardial infarction by Visium dataset
+PMC11952649,PMC11952649,PMC11952649,human_post_lvad_visium,analysis/benchmark,Human post-LVAD heart failure by Visium dataset
+PMC11952649,PMC11952649,PMC11952649,human_bladder_ca_visiumhd_3,analysis/benchmark,Human bladder cancer sample Visium HD dataset
+PMC11142628,PMC11142628,PMC11142628,maynard2024_visium,analysis/benchmark,10× Visium human dorsolateral prefrontal cortex (DLPFC) data
+PMC11142628,PMC11142628,PMC11142628,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse hippocampus dataset
+PMC11142628,PMC11142628,PMC11142628,stahl2016_spatial_tran,analysis/benchmark,mouse main olfactory bulb (MOB) dataset
+PMC11142628,PMC11142628,PMC11142628,janesick2023_visium_2_visium,analysis/benchmark,Mouse Brain Coronal single-cell resolution ST data
+PMC12039303,PMC12039303,PMC12039303,janesick2023_visium_2_visium,analysis/benchmark,10x Xenium breast cancer dataset (IDC and ILC)
+PMC12039303,PMC12039303,PMC12039303,chen2022_slideseq,analysis/benchmark,BGI STOmics mouse brain dataset
+PMC12039303,PMC12039303,PMC12039303,maynard2024_visium,analysis/benchmark,10x Visium human DLPFC dataset
+PMC12165841,High-definition spatial transcriptomic profiling of immune cell populations in colorectal cancer,https://doi.org/10.1038/s41588-025-02193-3,oliveira2025_visium_visium,analysis/benchmark,Visium HD CRC Dataset
+PMC9741613,PMC9741613,PMC9741613,zhang2021_merfish,analysis/benchmark,mouse primary motor cortex MOP dataset
+PMC9741613,PMC9741613,PMC9741613,mokitt2018_merfish,analysis/benchmark,mouse hypothalamic preoptic region dataset
+PMC9741613,PMC9741613,PMC9741613,chen2021_slideseq,analysis/benchmark,mouse spermatogenesis dataset
+PMC9741613,PMC9741613,PMC9741613,he2022_cosmx_6,analysis/benchmark,human non-small-cell lung cancer NSCLC dataset
+PMC9741613,PMC9741613,PMC9741613,mouse_brain_hemi_stereo,analysis/benchmark,mouse brain hemisphere dataset
+PMC11127982,PMC11127982,PMC11127982,maynard2024_visium,analysis/benchmark,Human dorsal prefrontal cortex (DLPFC) dataset
+PMC11127982,PMC11127982,PMC11127982,miao2021_unknown,analysis/benchmark,Mouse Visium kidney dataset
+PMC11127982,PMC11127982,PMC11127982,yao2023_merfish_2,analysis/benchmark,Whole mouse brain MERFISH dataset
+PMC11127982,PMC11127982,PMC11127982,wang2018_starmap_2,analysis/benchmark,STARmap mouse cortex dataset
+PMC9663444,PMC9663444,PMC9663444,he2020_st,analysis/benchmark,Human Colorectal Cancer
+PMC9663444,PMC9663444,PMC9663444,chen2020_visium_3,analysis/benchmark,MouseWT
+PMC10983986,PMC10983986,PMC10983986,barkley2022_unknown,analysis/benchmark,Barkley2022
+PMC10983986,PMC10983986,PMC10983986,bergenstrhle2022_unknown,analysis/benchmark,Bergenstrahle2021
+PMC10983986,PMC10983986,PMC10983986,berglund2018_st,analysis/benchmark,Berglund2018
+PMC10983986,PMC10983986,PMC10983986,ji2020_unknown_2,analysis/benchmark,Ji2020
+PMC10983986,PMC10983986,PMC10983986,wu2021_unknown_6,analysis/benchmark,WuPLC
+PMC11703158,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1101/2024.12.20.629785,huang2024_merfish,analysis/benchmark,mouse ovary
+PMC11703158,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1101/2024.12.20.629785,chen2024_stereo_2,analysis/benchmark,mouse olfactory bulb
+PMC11703158,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1101/2024.12.20.629785,bhuva2024_xenium,analysis/benchmark,human breast cancer tumor
+PMC11703158,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1101/2024.12.20.629785,maynard2024_visium,analysis/benchmark,human DLPFC
+PMC11703158,Randomized Spatial PCA (RASP): a computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1101/2024.12.20.629785,ortiz2024_merfish,analysis/benchmark,Sagittal adult mouse brain
+PMC10504669,PMC10504669,PMC10504669,gataric2021_iss,analysis/benchmark,in situ sequencing (ISS) of a whole coronal slice of a mouse brain
+PMC10504669,PMC10504669,PMC10504669,moffitt2016_merfish,analysis/benchmark,MERFISH of human U2-OS cell cultures
+PMC10504669,PMC10504669,PMC10504669,lohoff2021_seqfish,analysis/benchmark,seqFISH of a developing mouse embryo
+PMC12047910,PMC12047910,PMC12047910,andersson2021_10x_genomics,analysis/benchmark,HER2 positive breast tumor dataset
+PMC12047910,PMC12047910,PMC12047910,ji2020_unknown_2,analysis/benchmark,Squamous cell carcinoma dataset
+PMC12325965,PMC12325965,PMC12325965,post_lvad_heart_visium,analysis/benchmark,post-LVAD heart failure ST data
+PMC12325965,PMC12325965,PMC12325965,human_bladder_ca_visiumhd_4,analysis/benchmark,human bladder cancer Visium HD data
+PMC12325965,PMC12325965,PMC12325965,chen2015_merfish_2,analysis/benchmark,mouse brain receptor map dataset
+PMC12325965,PMC12325965,PMC12325965,janesick2023_visium_2_visium,analysis/benchmark,human breast cancer Xenium & Visium datasets
+PMC12325965,PMC12325965,PMC12325965,wu2021_visium_7,analysis/benchmark,Human ductal carcinoma in situ by Visium
+PMC12325965,PMC12325965,PMC12325965,kanemaru2025_spatial_tran,analysis/benchmark,Human healthy heart sample by Visium
+PMC12325965,PMC12325965,PMC12325965,kuppe2022_spatial_tran,analysis/benchmark,Human myocardial infarction by Visium
+PMC12325965,PMC12325965,PMC12325965,chen2022_slideseq,analysis/benchmark,Mouse olfactory bulb by Visium
+PMC12707688,Randomized Spatial PCA (RASP): A computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1371/journal.pcbi.1013759.r004,huang2024_merfish,analysis/benchmark,Mouse ovary
+PMC12707688,Randomized Spatial PCA (RASP): A computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1371/journal.pcbi.1013759.r004,chen2022_slideseq,analysis/benchmark,Mouse olfactory bulb
+PMC12707688,Randomized Spatial PCA (RASP): A computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1371/journal.pcbi.1013759.r004,bhuva2024_xenium,analysis/benchmark,Human breast cancer tumor
+PMC12707688,Randomized Spatial PCA (RASP): A computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1371/journal.pcbi.1013759.r004,maynard2024_visium,analysis/benchmark,Human DLPFC
+PMC12707688,Randomized Spatial PCA (RASP): A computationally efficient method for dimensionality reduction of high-resolution spatial transcriptomics data,https://doi.org/10.1371/journal.pcbi.1013759.r004,ortiz2024_merfish,analysis/benchmark,Sagittal mouse brain
+PMC9684472,PMC9684472,PMC9684472,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex data
+PMC9684472,PMC9684472,PMC9684472,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse hippocampus data
+PMC9684472,PMC9684472,PMC9684472,andersson2021_10x_genomics,analysis/benchmark,HER2-positive breast tumor data
+PMC9684472,PMC9684472,PMC9684472,moffitt2016_merfish,analysis/benchmark,MERFISH data
+PMC12333196,PMC12333196,PMC12333196,ravi2022_visium,analysis/benchmark,UKF243_T_ST
+PMC12333196,PMC12333196,PMC12333196,lohoff2021_seqfish,analysis/benchmark,seqFISH mouse embryo dataset
+PMC12333196,PMC12333196,PMC12333196,barkley2022_unknown,analysis/benchmark,Barkley2022 datasets
+PMC12333196,PMC12333196,PMC12333196,bergenstrhle2022_unknown,analysis/benchmark,Bergenstrahle2021 datasets
+PMC12333196,PMC12333196,PMC12333196,berglund2018_st,analysis/benchmark,Berglund2018 datasets
+PMC12333196,PMC12333196,PMC12333196,wu2021_unknown_6,analysis/benchmark,WuPLC datasets
+PMC12333196,PMC12333196,PMC12333196,gouin2021_unknown,analysis/benchmark,Gouin2021 datasets
+PMC12333196,PMC12333196,PMC12333196,gracia2021_unknown,analysis/benchmark,Gracia2021 datasets
+PMC12333196,PMC12333196,PMC12333196,ji2020_unknown_2,analysis/benchmark,Ji2020 datasets
+PMC9825193,PMC9825193,PMC9825193,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) datasets
+PMC9825193,PMC9825193,PMC9825193,rodriques2019_slideseq,analysis/benchmark,Slide-seq dataset 1
+PMC9825193,PMC9825193,PMC9825193,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 dataset
+PMC9825193,PMC9825193,PMC9825193,chen2022_slideseq,analysis/benchmark,Stereoseq dataset
+PMC9825193,PMC9825193,PMC9825193,gut2018_4i_2,analysis/benchmark,4i dataset
+PMC9825193,PMC9825193,PMC9825193,mokitt2018_merfish,analysis/benchmark,MERFISH dataset
+PMC12593783,PMC12593783,PMC12593783,andersson2021_10x_genomics,analysis/benchmark,HER2 positive breast tumors
+PMC12593783,PMC12593783,PMC12593783,lohoff2021_seqfish,analysis/benchmark,mouse embryos dataset
+PMC12593783,PMC12593783,PMC12593783,ji2020_unknown_2,analysis/benchmark,squamous cell carcinoma dataset
+PMC10832355,PMC10832355,PMC10832355,pardo2022_unknown,analysis/benchmark,DLPFC
+PMC10832355,PMC10832355,PMC10832355,gut2018_4i_2,analysis/benchmark,4i
+PMC10832355,PMC10832355,PMC10832355,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2
+PMC10719260,PMC10719260,PMC10719260,hang2024_visium,analysis/benchmark,human breast cancer tissue sections
+PMC10719260,PMC10719260,PMC10719260,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) sections
+PMC10719260,PMC10719260,PMC10719260,chen2022_slideseq,analysis/benchmark,mouse brain and mouse olfactory bulb tissues
+PMC11957009,PMC11957009,PMC11957009,codeluppi2018_unknown,analysis/benchmark,osmFISH-brain
+PMC11957009,PMC11957009,PMC11957009,janesick2023_visium_2_visium,analysis/benchmark,Xenium-breast
+PMC11957009,PMC11957009,PMC11957009,salas2023_xenium,analysis/benchmark,Xenium-brain
+PMC11957009,PMC11957009,PMC11957009,lohoff2021_seqfish,analysis/benchmark,seqFISH-embryo
+PMC11957009,PMC11957009,PMC11957009,kim2020_cosmx,analysis/benchmark,lung cancer
+PMC11957009,PMC11957009,PMC11957009,jin2020_invivo_pertu,analysis/benchmark,Perturb-seq
+PMC12632580,PMC12632580,PMC12632580,codeluppi2018_unknown,analysis/benchmark,osmFISH-brain
+PMC12632580,PMC12632580,PMC12632580,salas2023_xenium,analysis/benchmark,Xenium-breast
+PMC12632580,PMC12632580,PMC12632580,lohoff2021_seqfish,analysis/benchmark,seqFISH-embryo
+PMC9745188,PMC9745188,PMC9745188,ischemic_stroke_visium,analysis/benchmark,Normal brain section ST data
+PMC12180266,PMC12180266,PMC12180266,visium_visium_2,analysis/benchmark,Visium
+PMC12180266,PMC12180266,PMC12180266,mc_additional_da_xenium,analysis/benchmark,"MC (additional data), Merscope, Xenium"
+PMC11870578,Joint imputation and deconvolution of gene expression across spatial transcriptomics platforms,https://doi.org/10.1101/2025.02.17.638195,janesick2023_visium_2_visium,analysis/benchmark,BRCA Xenium and Visium dataset
+PMC11870578,Joint imputation and deconvolution of gene expression across spatial transcriptomics platforms,https://doi.org/10.1101/2025.02.17.638195,oliveira2024_visiumhd,analysis/benchmark,CRC pair dataset
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,mokitt2018_merfish,analysis/benchmark,MERFISH MPOA data
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,tasic2016_visium,analysis/benchmark,mouse cortex scRNA-seq reference
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,li2020_scrnaseq,analysis/benchmark,mammary tissues scRNA-seq data
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,stahl2016_spatial_tran,analysis/benchmark,mouse main olfactory bulb ST data
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,tepe2018_visium,analysis/benchmark,mouse olfactory bulb scRNA-seq reference
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,liu2020_spots,analysis/benchmark,DBiT-seq E11 mouse embryo data
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,rodriques2019_slideseq,analysis/benchmark,Slide-seq mouse cerebellum data
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,saunders2018_unknown,analysis/benchmark,mouse cerebellum Drop-seq scRNA-seq reference
+PMC9055051,Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data,https://doi.org/10.1038/s41467-022-30033-z,yoosuf2020_spatial_tran,analysis/benchmark,breast cancer ST data
+PMC9881287,PMC9881287,PMC9881287,human_spleen_sam_visium,analysis/benchmark,human spleen sample
+PMC9881287,PMC9881287,PMC9881287,deng2022_spatialcutta_4,analysis/benchmark,ME11 H3K27me3 50um
+PMC9881287,PMC9881287,PMC9881287,deng2022_spatialcutta_2,analysis/benchmark,Human tonsil sample
+PMC10274700,PMC10274700,PMC10274700,lohoff2021_seqfish,analysis/benchmark,seqFISH mouse embryos dataset
+PMC10274700,PMC10274700,PMC10274700,zhu2018_seqfish,analysis/benchmark,seqFISH+ mouse somatosensory region dataset
+PMC10274700,PMC10274700,PMC10274700,chen2021_slideseq,analysis/benchmark,Slide-seq mouse testis dataset
+PMC10274700,PMC10274700,PMC10274700,mokitt2018_merfish,analysis/benchmark,MERFISH mouse preoptic region dataset
+PMC10274700,PMC10274700,PMC10274700,asp2019_10x_genomics,analysis/benchmark,Developing human heart dataset
+PMC10274700,PMC10274700,PMC10274700,wu2021_visium_7,analysis/benchmark,Human breast cancer dataset
+PMC12177973,PMC12177973,PMC12177973,maynard2024_visium,analysis/benchmark,DLPFC
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) dataset
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seq V2 mouse brain dataset
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,zhang2023_whole_mouse_brain_merfish,analysis/benchmark,MERFISH mouse brain dataset
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,lohoff2021_seqfish,analysis/benchmark,seqFISH mouse whole-embryo slice
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,chen2022_slideseq,analysis/benchmark,Stereo-seq mouse whole-embryo slice
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,mokitt2018_merfish,analysis/benchmark,MERFISH hypothalamic preoptic region dataset
+INSPIRE,"INSPIRE: interpretable, flexible and spatially-aware integration of multiple spatial transcriptomics datasets from diverse sources",https://doi.org/10.1101/2024.09.23.614539,zeng2023_starmap,analysis/benchmark,STARmap PLUS mouse hippocampus dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,maynard2024_visium,analysis/benchmark,Human dorsolateral prefrontal cortex dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,stahl2016_spatial_tran,analysis/benchmark,Mouse olfactory bulb ST dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,tepe2018_visium,analysis/benchmark,Mouse olfactory bulb scRNA-seq dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus Slide-seq and Slide-seqV2 datasets
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,saunders2018_unknown,analysis/benchmark,DropViZ mouse hippocampus scRNA-seq dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,lohoff2021_seqfish,analysis/benchmark,Mouse embryo seqFISH dataset
+PMC10711557,Probabilistic cell/domain-type assignment of spatial transcriptomics data with SpatialAnno,https://doi.org/10.1093/nar/gkad1023,ali2020_imaging_mass,analysis/benchmark,Breast cancer imaging CyTOF data
+PMC10789051,PMC10789051,PMC10789051,liu2020_spots,analysis/benchmark,DBiT-seq Embryo dataset
+PMC10789051,PMC10789051,PMC10789051,rodriques2019_slideseq,analysis/benchmark,Slide-seq dataset
+PMC10789051,PMC10789051,PMC10789051,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 dataset
+PMC10789051,PMC10789051,PMC10789051,vickovic2022_smomics,analysis/benchmark,SM-Omics dataset
+PMC10789051,PMC10789051,PMC10789051,ji2020_st_2,analysis/benchmark,Ji et al. ST dataset (P9_ST_rep1)
+PMC10789051,PMC10789051,PMC10789051,navarro2020_st,analysis/benchmark,Navarro et al. dataset
+PMC10789051,PMC10789051,PMC10789051,ferreira2021_visium,analysis/benchmark,Ferreira et al. dataset
+PMC10789051,PMC10789051,PMC10789051,hunter2021_visium,analysis/benchmark,Hunter et al. dataset
+PMC10789051,PMC10789051,PMC10789051,janosevic2021_visium,analysis/benchmark,Janosevic et al. dataset
+PMC10789051,PMC10789051,PMC10789051,joglekar2021_visium_3,analysis/benchmark,Joglekar et al. dataset
+PMC10789051,PMC10789051,PMC10789051,lopez2022_visium,analysis/benchmark,Lopez et al. dataset
+PMC10789051,PMC10789051,PMC10789051,mccray2021_visium,analysis/benchmark,McCray et al. dataset
+PMC10789051,PMC10789051,PMC10789051,wu2021_visium_7,analysis/benchmark,Wu et al. dataset
+PMC10789051,PMC10789051,PMC10789051,xia2019_seqfish,analysis/benchmark,MERFISH dataset
+PMC10789051,PMC10789051,PMC10789051,eng2019_seqfish,analysis/benchmark,seqFISH+ dataset
+PMC10789051,PMC10789051,PMC10789051,chen2022_slideseq,analysis/benchmark,Stereo-seq dataset
+PMC10264402,Reference-based cell type matching of in situ image-based spatial transcriptomics data on primary visual cortex of mouse brain,https://doi.org/10.1038/s41598-023-36638-8,merfish_merfish,analysis/benchmark,MERFISH
+PMC10264402,Reference-based cell type matching of in situ image-based spatial transcriptomics data on primary visual cortex of mouse brain,https://doi.org/10.1038/s41598-023-36638-8,smfish_smfish,analysis/benchmark,smFISH
+PMC10264402,Reference-based cell type matching of in situ image-based spatial transcriptomics data on primary visual cortex of mouse brain,https://doi.org/10.1038/s41598-023-36638-8,baristaseq_st_2,analysis/benchmark,BaristaSeq
+PMC10264402,Reference-based cell type matching of in situ image-based spatial transcriptomics data on primary visual cortex of mouse brain,https://doi.org/10.1038/s41598-023-36638-8,exseq_exseq_2,analysis/benchmark,ExSeq
+PMC12589693,PMC12589693,PMC12589693,spatial_transcri_visium_16,analysis/benchmark,Spatial transcriptomics dataset
+PMC11952344,PMC11952344,PMC11952344,mouse_lymph_node_raefish,analysis/benchmark,A549 cell culture RAEFISH dataset
+PMC11952344,PMC11952344,PMC11952344,wanigasuriya2020_bulk_rnaseq,analysis/benchmark,Mouse placenta bulk RNA-seq dataset
+PMC11952344,PMC11952344,PMC11952344,cui2024_scrnaseq,analysis/benchmark,Mouse lymph node scRNA-seq dataset
+PMC11952344,PMC11952344,PMC11952344,perturb_raefish_perturbraefi,analysis/benchmark,Perturb-RAEFISH CRISPR screen dataset
+PMC8566243,PMC8566243,PMC8566243,snrna_seq_mop_mo_10xv3,analysis/benchmark,snRNA-seq MOp mouse brain
+PMC8566243,PMC8566243,PMC8566243,merfish_mop_mous_merfish,analysis/benchmark,MERFISH MOp mouse brain
+PMC8566243,PMC8566243,PMC8566243,wang2018_starmap_2,analysis/benchmark,STARmap visual area mouse brain
+PMC8566243,PMC8566243,PMC8566243,visium_mop_mouse_visium,analysis/benchmark,Visium MOp mouse brain
+PMC8566243,PMC8566243,PMC8566243,ma2020_shareseq,analysis/benchmark,SHARE-seq whole mouse brain
+PMC8566243,PMC8566243,PMC8566243,stewart2019_scrnaseq,analysis/benchmark,Human kidney scRNA-seq
+PMC12036962,PMC12036962,PMC12036962,maynard2024_visium,analysis/benchmark,10xDLPFC
+PMC12036962,PMC12036962,PMC12036962,srivatsan2021_scispace_3,analysis/benchmark,GSE166692
+PMC12036962,PMC12036962,PMC12036962,ortiz2024_merfish,analysis/benchmark,GSE147747
+PMC12036962,PMC12036962,PMC12036962,guo2022_spatial_tran,analysis/benchmark,GSE111672
+PMC12036962,PMC12036962,PMC12036962,wang2018_starmap_2,analysis/benchmark,STARmapMBR
+PMC12036962,PMC12036962,PMC12036962,chen2022_slideseq,analysis/benchmark,CNP0001543
+PMC12036962,PMC12036962,PMC12036962,andersson2021_10x_genomics,analysis/benchmark,EGAD00001008031
+PMC12036962,PMC12036962,PMC12036962,cho2021_seqscope_no,analysis/benchmark,GSE169706CO
+PMC12036962,PMC12036962,PMC12036962,liu2020_spots,analysis/benchmark,GSE137986E
+PMC12036962,PMC12036962,PMC12036962,stickels2021_stereo_stereo_seq,analysis/benchmark,BISCP948CE
+PMC6765407,PMC6765407,PMC6765407,high_definition_unknown,analysis/benchmark,High-Definition Spatial Transcriptomics (HDST) MOB data
+PMC6765407,PMC6765407,PMC6765407,stahl2016_spatial_tran,analysis/benchmark,MOB smFISH data
+PMC6765407,PMC6765407,PMC6765407,zeisel2018_unknown_2,analysis/benchmark,MOB single-cell RNA-seq data
+PMC6765407,PMC6765407,PMC6765407,karaayvaz2018_unknown,analysis/benchmark,Triple negative breast cancer single-cell RNA-seq data set
+PMC8494224,PMC8494224,PMC8494224,stahl2016_spatial_tran,analysis/benchmark,Spatial Transcriptomics (ST) mouse main olfactory bulb data
+PMC8494224,PMC8494224,PMC8494224,mokitt2018_merfish,analysis/benchmark,MERFISH mouse hypothalamic preoptic region data
+PMC12004221,PMC12004221,PMC12004221,chen2022_slideseq,analysis/benchmark,Stereo-seq mouse head demo dataset (#C04042E3)
+PMC11368697,PMC11368697,PMC11368697,lohoff2021_seqfish,analysis/benchmark,seqFISH
+PMC11368697,PMC11368697,PMC11368697,abdelaal2020_imagingbased,analysis/benchmark,osmFISH_AllenVISp
+PMC11368697,PMC11368697,PMC11368697,abdelaal2020_starmap,analysis/benchmark,starmap_AllenVISp
+PMC11368697,PMC11368697,PMC11368697,abdelaal2020_merfish,analysis/benchmark,Merfish_Moffit
+PMC11368697,PMC11368697,PMC11368697,vandenbon2023_visium,analysis/benchmark,Visium mouse liver
+PMC11368697,PMC11368697,PMC11368697,fawknercorbett2021_spatial_tran,analysis/benchmark,Visium human intestine
+PMC11368697,PMC11368697,PMC11368697,wu2021_visium_7,analysis/benchmark,Visium human breast cancer
+PMC11368697,PMC11368697,PMC11368697,thrane2018_spatial_rese,analysis/benchmark,Visium human melanoma
+PMC11368697,PMC11368697,PMC11368697,mantri2021_unknown,analysis/benchmark,Day 14 Chicken Heart
+PMC11368697,PMC11368697,PMC11368697,la2021_iss,analysis/benchmark,Developing Mouse Brain Atlas
+PMC11494180,PMC11494180,PMC11494180,maynard2024_visium,analysis/benchmark,Human DLPFC data
+PMC11494180,PMC11494180,PMC11494180,wu2021_scrnaseq,analysis/benchmark,Human breast cancer scRNA-seq data
+PMC11494180,PMC11494180,PMC11494180,tuong2021_scrnaseq,analysis/benchmark,Human prostate cancer scRNA-seq data
+PMC11494180,PMC11494180,PMC11494180,zhang2022_scrnaseq,analysis/benchmark,Human ovarian cancer scRNA-seq data
+PMC11875297,PMC11875297,PMC11875297,visium_hd_spatia_visiumhd_3,analysis/benchmark,Visium HD spatial RNA-sequencing data
+PMC7145543,PMC7145543,PMC7145543,stahl2016_spatial_tran,analysis/benchmark,dataset 27365449
+PMC12486056,PMC12486056,PMC12486056,chen2024_merfish_2,analysis/benchmark,Merfish Lung Cancer
+PMC12486056,PMC12486056,PMC12486056,wu2022_codex_2,analysis/benchmark,Charville
+PMC12486056,PMC12486056,PMC12486056,ptacek2021_mibi_2,analysis/benchmark,skin cancer dataset
+PMC11185656,PMC11185656,PMC11185656,maynard2024_visium,analysis/benchmark,Maynard et al. DLPFC dataset
+PMC11482879,Vispro improves imaging analysis for Visium spatial transcriptomics,https://doi.org/10.1101/2024.10.07.617088,xu2024_spatial_tran,analysis/benchmark,10x Visium datasets from STOmics DB
+PMC9464662,PMC9464662,PMC9464662,stahl2016_spatial_tran,analysis/benchmark,Mouse Olfactory Bulb dataset
+PMC9464662,PMC9464662,PMC9464662,guo2022_spatial_tran,analysis/benchmark,Human Pancreatic Ductal Adenocarcinoma (PDAC) dataset
+PMC9464662,PMC9464662,PMC9464662,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse Hippocampus Slide-seqV2 dataset
+PMC9464662,PMC9464662,PMC9464662,eng2019_seqfish,analysis/benchmark,Mouse Cortex seqFISH+ dataset
+PMC7641728,PMC7641728,PMC7641728,tasic2018_scrnaseq,analysis/benchmark,Mouse primary visual cortex scRNA-seq data
+PMC7641728,PMC7641728,PMC7641728,hodge2019_unknown,analysis/benchmark,Human middle temporal gyrus scRNA-seq / single-nucleus RNA-seq data
+PMC7641728,PMC7641728,PMC7641728,hybiss_human_mid_iss,analysis/benchmark,HybISS mouse coronal brain section dataset
+HyperGCN,HyperGCN: an effective deep representation learning framework for the integrative analysis of spatial transcriptomics data,https://doi.org/10.1186/s12864-024-10469-x,maynard2024_visium,analysis/benchmark,LIBD human dorsolateral prefrontal cortex (DLPFC) data
+HyperGCN,HyperGCN: an effective deep representation learning framework for the integrative analysis of spatial transcriptomics data,https://doi.org/10.1186/s12864-024-10469-x,codeluppi2018_unknown,analysis/benchmark,osmFISH dataset of the somatosensory cortex
+HyperGCN,HyperGCN: an effective deep representation learning framework for the integrative analysis of spatial transcriptomics data,https://doi.org/10.1186/s12864-024-10469-x,eng2019_seqfish,analysis/benchmark,seqFISH+
+HyperGCN,HyperGCN: an effective deep representation learning framework for the integrative analysis of spatial transcriptomics data,https://doi.org/10.1186/s12864-024-10469-x,andersson2020_st,analysis/benchmark,ST
+PMC12261446,PMC12261446,PMC12261446,russell2024_slidetag,analysis/benchmark,Slide-tags human melanoma
+PMC12261446,PMC12261446,PMC12261446,kanemaru2025_spatial_tran,analysis/benchmark,Human heart
+PMC12261446,PMC12261446,PMC12261446,zhu2023_10x_genomics,analysis/benchmark,Human cerebral cortex
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,codeluppi2018_unknown,analysis/benchmark,osmFISH
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,mokitt2018_merfish,analysis/benchmark,MERFISH
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,wang2018_starmap_2,analysis/benchmark,STARmap
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,zeisel2015_scrnaseq,analysis/benchmark,Zeisel
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,tasic2018_scrnaseq,analysis/benchmark,AllenVISp
+stPlus,stPlus: a reference-based method for the accurate enhancement of spatial transcriptomics,https://doi.org/10.1093/bioinformatics/btab298,chatterjee2018_osmfish,analysis/benchmark,AllenSSp
+PMC11705770,WEST is an ensemble method for spatial transcriptomics analysis,https://doi.org/10.1016/j.crmeth.2024.100886,maynard2024_visium,analysis/benchmark,10X Genomics Visium data of human dorsolateral prefrontal cortex
+PMC11705770,WEST is an ensemble method for spatial transcriptomics analysis,https://doi.org/10.1016/j.crmeth.2024.100886,palla2022_slideseq,analysis/benchmark,10X Genomics Visium fluorescence image data of mouse brain
+PMC11705770,WEST is an ensemble method for spatial transcriptomics analysis,https://doi.org/10.1016/j.crmeth.2024.100886,lohoff2020_seqfish,analysis/benchmark,seqFISH data of mouse embryo
+PMC11705770,WEST is an ensemble method for spatial transcriptomics analysis,https://doi.org/10.1016/j.crmeth.2024.100886,guo2022_spatial_tran,analysis/benchmark,Spatial Transcriptomics (ST) data of human pancreatic cancer
+stGRL,"stGRL: spatial domain identification, denoising, and imputation algorithm for spatial transcriptome data based on multi-task graph contrastive representation learning",https://doi.org/10.1186/s12915-025-02290-z,maynard2024_visium,analysis/benchmark,human DLPFC dataset
+stGRL,"stGRL: spatial domain identification, denoising, and imputation algorithm for spatial transcriptome data based on multi-task graph contrastive representation learning",https://doi.org/10.1186/s12915-025-02290-z,wu2021_visium_7,analysis/benchmark,BRCA dataset
+stGRL,"stGRL: spatial domain identification, denoising, and imputation algorithm for spatial transcriptome data based on multi-task graph contrastive representation learning",https://doi.org/10.1186/s12915-025-02290-z,lein2007_visium_2,analysis/benchmark,mouse anterior brain dataset
+stGRL,"stGRL: spatial domain identification, denoising, and imputation algorithm for spatial transcriptome data based on multi-task graph contrastive representation learning",https://doi.org/10.1186/s12915-025-02290-z,chen2022_slideseq,analysis/benchmark,mouse olfactory bulb dataset
+stGRL,"stGRL: spatial domain identification, denoising, and imputation algorithm for spatial transcriptome data based on multi-task graph contrastive representation learning",https://doi.org/10.1186/s12915-025-02290-z,wu2024_visium,analysis/benchmark,aging mouse brain dataset
+PMC12803812,PMC12803812,PMC12803812,mouse_spatial_tr_visium_2,analysis/benchmark,Mouse spatial transcriptomics raw and analyzed data
+PMC12803812,PMC12803812,PMC12803812,mouse_snrna_seq_flex_scrnase,analysis/benchmark,Mouse snRNA-seq raw and analyzed data
+PMC12667712,Joint imputation and deconvolution of gene expression across spatial transcriptomics platforms,https://doi.org/10.1101/gr.280555.125,janesick2023_visium_2_visium,analysis/benchmark,BRCA pair
+PMC12667712,Joint imputation and deconvolution of gene expression across spatial transcriptomics platforms,https://doi.org/10.1101/gr.280555.125,oliveira2025_visium_visium,analysis/benchmark,CRC pair
+PMC12083649,PMC12083649,PMC12083649,e0771_syngeneic_unknown,analysis/benchmark,SMARTA TCR transgenic spleen screen data
+PMC12729201,PMC12729201,PMC12729201,maynard2024_visium,analysis/benchmark,Human dorsolateral prefrontal cortex dataset (DLPFC)
+PMC12729201,PMC12729201,PMC12729201,lein2007_visium_2,analysis/benchmark,mouse brain dataset
+PMC12729201,PMC12729201,PMC12729201,chen2022_slideseq,analysis/benchmark,mouse olfactory bulb dataset (MOB)
+PMC12729201,PMC12729201,PMC12729201,wang2018_starmap_2,analysis/benchmark,mouse visual cortex dataset
+PMC12350917,PMC12350917,PMC12350917,spatial_rna_sequ_visiumhd_2,analysis/benchmark,Spatial RNA-sequencing raw data
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,maynard2024_visium,analysis/benchmark,DLPFC dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,chen2022_slideseq,analysis/benchmark,mouse olfactory bulb dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,codeluppi2018_unknown,analysis/benchmark,osmFISH dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,mokitt2018_merfish,analysis/benchmark,MERFISH dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,liu2023_spatial_cite,analysis/benchmark,spatial CITE-seq dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,jiang2023_spatialatacr,analysis/benchmark,MISAR-seq dataset
+PMC12820152,SEPAR enables spatial metagene discovery and associated molecular pattern characterization in spatial transcriptomics and multi-omics datasets,https://doi.org/10.1038/s42003-025-09340-w,oliveira2025_visium_visium,analysis/benchmark,colorectal cancer VisiumHD data
+PMC11919255,PMC11919255,PMC11919255,li2022_singlenucleu,analysis/benchmark,Fly Cell Atlas
+PMC11919255,PMC11919255,PMC11919255,lu2023_singlenucleu,analysis/benchmark,Aging Fly Cell Atlas
+PMC11919255,PMC11919255,PMC11919255,molecular_cartog_molecular_ca_2,analysis/benchmark,Molecular Cartography adult fly head and body dataset
+PMC11399101,PMC11399101,PMC11399101,cadasstre_unknown,analysis/benchmark,cadasSTre
+PMC11399101,PMC11399101,PMC11399101,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seq V2 mouse eyes and hippocampus data
+PMC12416547,PMC12416547,PMC12416547,single_nucleus_a_merfish,analysis/benchmark,Single-nucleus and spatial transcriptomic atlas of the Arabidopsis life cycle
+PMC12407997,PMC12407997,PMC12407997,huang2024_merfish,analysis/benchmark,mouse ovary
+PMC12407997,PMC12407997,PMC12407997,bhuva2024_xenium,analysis/benchmark,human breast cancer
+PMC12407997,PMC12407997,PMC12407997,zhang2023_whole_mouse_brain_merfish,analysis/benchmark,sagittal mouse brain
+STdGCN,STdGCN: spatial transcriptomic cell-type deconvolution using graph convolutional networks,https://doi.org/10.1186/s13059-024-03353-0,zhu2018_seqfish,analysis/benchmark,seqFISH+ (mouse somatosensory cortex)
+STdGCN,STdGCN: spatial transcriptomic cell-type deconvolution using graph convolutional networks,https://doi.org/10.1186/s13059-024-03353-0,lohoff2021_seqfish,analysis/benchmark,seqFISH (mouse embryo)
+STdGCN,STdGCN: spatial transcriptomic cell-type deconvolution using graph convolutional networks,https://doi.org/10.1186/s13059-024-03353-0,mokitt2018_merfish,analysis/benchmark,MERFISH (mouse preoptic region)
+STdGCN,STdGCN: spatial transcriptomic cell-type deconvolution using graph convolutional networks,https://doi.org/10.1186/s13059-024-03353-0,asp2019_10x_genomics,analysis/benchmark,Human heart spatial transcriptomics dataset
+STdGCN,STdGCN: spatial transcriptomic cell-type deconvolution using graph convolutional networks,https://doi.org/10.1186/s13059-024-03353-0,wu2021_visium_7,analysis/benchmark,Human breast cancer 10X Genomics Visium dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,zeisel2018_unknown_2,analysis/benchmark,mouse nervous system single-cell dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,stahl2016_spatial_tran,analysis/benchmark,mouse olfactory bulbs spatial transcriptomics dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,tepe2018_visium,analysis/benchmark,mouse olfactory bulb single-cell RNA-seq dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,guo2022_spatial_tran,analysis/benchmark,human pancreatic ductal adenocarcinoma (PDAC) dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,andersson2021_10x_genomics,analysis/benchmark,cancerous breast tissue dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,lein2007_visium_2,analysis/benchmark,mouse coronal brain sections dataset
+STsisal,STsisal: a reference-free deconvolution pipeline for spatial transcriptomics data,https://doi.org/10.3389/fgene.2025.1512435,eng2019_seqfish,analysis/benchmark,seqFISH mouse cortex dataset
+PMC11844362,PMC11844362,PMC11844362,spacebar_seqfish,analysis/benchmark,SpaceBar
+PMC10320151,PMC10320151,PMC10320151,stereo_seq_embry_stereo,analysis/benchmark,Stereo-seq embryonic mouse brain section
+PMC7794352,The spatial RNA integrity number assay for in situ evaluation of transcriptome quality,https://doi.org/10.1038/s42003-020-01573-1,stenbeck2020_spatial_tran,analysis/benchmark,Human breast cancer in situ capturing transcriptomics data
+PMC7794352,The spatial RNA integrity number assay for in situ evaluation of transcriptome quality,https://doi.org/10.1038/s42003-020-01573-1,srin_assay_data_srin_assay,analysis/benchmark,sRIN assay data
+PMC10081189,PMC10081189,PMC10081189,aibs_10x_scrna_s_10x_genomics,analysis/benchmark,AIBS 10x scRNA-seq dataset
+PMC10081189,PMC10081189,PMC10081189,aibs_merfish_dat_merfish,analysis/benchmark,AIBS MERFISH dataset
+PMC10787175,PMC10787175,PMC10787175,stahl2016_spatial_tran,analysis/benchmark,MOB ST data
+PMC9581974,PMC9581974,PMC9581974,normal_human_liv_visium,analysis/benchmark,Normal human liver spatial transcriptome dataset
+PMC9116027,PMC9116027,PMC9116027,stahl2016_spatial_tran,analysis/benchmark,ST_MOB
+PMC9116027,PMC9116027,PMC9116027,rodriques2019_slideseq,analysis/benchmark,Slide-seq mouse cerebellum
+PMC9116027,PMC9116027,PMC9116027,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse brain
+PMC9116027,PMC9116027,PMC9116027,vickovic2019_hdst,analysis/benchmark,HDST mouse olfactory bulb
+PMC9116027,PMC9116027,PMC9116027,wang2018_starmap_2,analysis/benchmark,STARmap mouse visual cortex
+PMC9116027,PMC9116027,PMC9116027,moor2018_lcmseq,analysis/benchmark,LCM-seq mouse jejunum
+PMC9116027,PMC9116027,PMC9116027,baccin2020_nicheseq,analysis/benchmark,NICHE-seq mice immune niches
+PMC9116027,PMC9116027,PMC9116027,kruse2016_tomo_3,analysis/benchmark,Tomo-seq C. elegans
+PMC9116027,PMC9116027,PMC9116027,halpern2018_paired_cell,analysis/benchmark,Paired cell sequencing liver endothelial cells
+PMC9116027,PMC9116027,PMC9116027,shah2016_smfish,analysis/benchmark,seqFISH mouse hippocampus region 43
+PMC9116027,PMC9116027,PMC9116027,eng2019_seqfish,analysis/benchmark,seqFISH+ mouse olfactory bulb
+PMC9116027,PMC9116027,PMC9116027,svensson2018_merfish,analysis/benchmark,MERFISH mouse hypothalamic preoptic region
+PMC11605406,Protocol for Xenium spatial transcriptomics studies using fixed frozen mouse brain sections,https://doi.org/10.1016/j.xpro.2024.103420,tasic2018_unknown_2,analysis/benchmark,Allen Cortex reference dataset
+PMC11605406,Protocol for Xenium spatial transcriptomics studies using fixed frozen mouse brain sections,https://doi.org/10.1016/j.xpro.2024.103420,sham_tbi_dataset_xenium,analysis/benchmark,Sham/TBI dataset
+PMC8606188,PMC8606188,PMC8606188,slide_seq_spatia_slideseq,analysis/benchmark,Slide-seq spatial transcriptomics data (mouse and human testis)
+PMC8606188,PMC8606188,PMC8606188,targeted_in_situ_in_situ_rna,analysis/benchmark,Targeted in situ RNA sequencing data
+PMC8606188,PMC8606188,PMC8606188,green2018_singlecell_r,analysis/benchmark,scRNA-seq reference dataset (mouse)
+PMC8606188,PMC8606188,PMC8606188,guo2018_singlecell_r,analysis/benchmark,scRNA-seq reference dataset (human)
+PMC8606188,PMC8606188,PMC8606188,lukassen2018_singlecell_r,analysis/benchmark,scRNA-seq dataset for pseudotime (mouse)
+PMC11272174,PMC11272174,PMC11272174,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) dataset
+PMC11272174,PMC11272174,PMC11272174,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse hippocampus dataset
+PMC11272174,PMC11272174,PMC11272174,xia2019_seqfish,analysis/benchmark,MERFISH dataset
+PMC12084619,PMC12084619,PMC12084619,fan2020_st,analysis/benchmark,ST data from SpatialDB
+PMC11888426,PMC11888426,PMC11888426,chen2022_slideseq,analysis/benchmark,E16.5 mouse embryo dataset
+PMC12667768,PMC12667768,PMC12667768,zeisel2015_cosmx,analysis/benchmark,mouse brain (Cos)
+PMC12667768,PMC12667768,PMC12667768,maynard2024_visium,analysis/benchmark,human brain (Vis)
+PMC12667768,PMC12667768,PMC12667768,janesick2023_visium_2_visium,analysis/benchmark,"human breast cancer (Vis, Xen)"
+PMC12667768,PMC12667768,PMC12667768,oliveira2025_visium_visium,analysis/benchmark,"human CRC (Vis/HD, Xen)"
+PMC12667768,PMC12667768,PMC12667768,wei2022_stereo,analysis/benchmark,axolotl brain (Stereo-seq)
+PMC12667768,PMC12667768,PMC12667768,damond2019_imc,analysis/benchmark,human type I diabetes (IMC)
+PMC10969736,Unique Spatial Transcriptomic Profiling of the Murine Femoral Fracture Callus: A Preliminary Report,https://doi.org/10.3390/cells13060522,visium_spatial_t_visium_18,analysis/benchmark,Visium Spatial Transcriptomics Callus Dataset
+PMC9849443,"Probabilistic embedding, clustering, and alignment for integrating spatial transcriptomics data with PRECAST",https://doi.org/10.1038/s41467-023-35947-w,maynard2024_visium,analysis/benchmark,LIBD human DLPFC data
+PMC9849443,"Probabilistic embedding, clustering, and alignment for integrating spatial transcriptomics data with PRECAST",https://doi.org/10.1038/s41467-023-35947-w,spatial_transcri2021_spatial_tran,analysis/benchmark,mouse liver ST data
+PMC9849443,"Probabilistic embedding, clustering, and alignment for integrating spatial transcriptomics data with PRECAST",https://doi.org/10.1038/s41467-023-35947-w,wang2022_slideseq,analysis/benchmark,mouse olfactory bulb Slide-seqV2 data
+PMC9849443,"Probabilistic embedding, clustering, and alignment for integrating spatial transcriptomics data with PRECAST",https://doi.org/10.1038/s41467-023-35947-w,human_hepatocell_visium_2,analysis/benchmark,human hepatocellular carcinoma Visium data
+PMC11570543,PMC11570543,PMC11570543,petukhov2022_merfish_2,analysis/benchmark,MERFISH mouse ileum dataset
+PMC11570543,PMC11570543,PMC11570543,wang2018_starmap_2,analysis/benchmark,STARmap dataset
+PMC11570543,PMC11570543,PMC11570543,wu2023_stereo,analysis/benchmark,Stereo-seq human liver cancer dataset
+PMC10363022,PMC10363022,PMC10363022,human_breast_can_visium_9,analysis/benchmark,Human Breast Cancer block 1 sample (HBC1)
+PMC10939304,PMC10939304,PMC10939304,maynard2024_visium,analysis/benchmark,LIBD human dorsolateral prefrontal cortex data (DLPFC)
+PMC10939304,PMC10939304,PMC10939304,thrane2018_spatial_rese,analysis/benchmark,Melanoma ST data
+PMC10939304,PMC10939304,PMC10939304,he2020_st,analysis/benchmark,HER2+ breast cancer dataset (IDC sample)
+PMC10939304,PMC10939304,PMC10939304,in_house_mouse_l_visium,analysis/benchmark,in-house mouse lung data
+PMC10939304,PMC10939304,PMC10939304,chen2022_slideseq,analysis/benchmark,Stereo-seq data
+PMC11602167,PMC11602167,PMC11602167,stahl2016_spatial_tran,analysis/benchmark,MOB
+PMC11602167,PMC11602167,PMC11602167,mokitt2018_merfish,analysis/benchmark,MERFISH
+PMC12311794,PMC12311794,PMC12311794,tepe2018_visium,analysis/benchmark,MOB scRNA-seq dataset
+PMC12311794,PMC12311794,PMC12311794,chen2022_slideseq,analysis/benchmark,Stereo-seq E16.5 mouse brain dataset
+PMC12311794,PMC12311794,PMC12311794,mokitt2018_merfish,analysis/benchmark,MERFISH MPOA dataset
+PMC12311794,PMC12311794,PMC12311794,maynard2024_visium,analysis/benchmark,human DLPFC dataset
+PMC12311794,PMC12311794,PMC12311794,cable2022_slideseq_3,analysis/benchmark,AD mouse hippocampus dataset
+PMC12311794,PMC12311794,PMC12311794,liu2020_spots,analysis/benchmark,DBiT-seq E11 mouse embryo dataset
+PMC9213715,PMC9213715,PMC9213715,ncbi_sra_bioproj_nextseq2000,analysis/benchmark,NCBI SRA BioProject ID: PRJNA775889
+PMC10025771,PMC10025771,PMC10025771,10x_genomics_off_visium,analysis/benchmark,10x Genomics officially released samples and 21 human primary liver cancer samples
+PMC10025771,PMC10025771,PMC10025771,wu2021_visium_8,analysis/benchmark,Human primary liver cancer samples
+PMC9116229,PMC9116229,PMC9116229,guo2022_spatial_tran,analysis/benchmark,PDAC
+PMC9116229,PMC9116229,PMC9116229,maynard2024_visium,analysis/benchmark,DLPFC
+PMC12807613,PMC12807613,PMC12807613,janesick2023_visium_2_visium,analysis/benchmark,DSID000600
+PMC12807613,PMC12807613,PMC12807613,castranio2023_visium_4,analysis/benchmark,DSID000211
+PMC12458305,Single-cell-scale spatial transcriptome of the developing and adult mouse ovary,https://doi.org/10.1101/2025.09.16.676655,visium_hd_spatia_visiumhd_4,analysis/benchmark,Visium HD spatial transcriptomics developing and adult mouse ovary dataset
+PMC11825862,PMC11825862,PMC11825862,stahl2016_spatial_tran,analysis/benchmark,Mouse Olfactory Bulb
+PMC11825862,PMC11825862,PMC11825862,guo2022_spatial_tran,analysis/benchmark,Human pancreatic ductal adenocarcinoma (PDAC-A and PDAC-B)
+PMC11825862,PMC11825862,PMC11825862,ji2020_spatial_tran_2,analysis/benchmark,"Human skin squamous cell carcinoma (SCC_P2.rep1, rep2, rep3)"
+PMC11825862,PMC11825862,PMC11825862,asp2019_10x_genomics,analysis/benchmark,Developing human heart data
+PMC12135205,PMC12135205,PMC12135205,yao2023_perturbseq,analysis/benchmark,Perturb-seq screen of lipopolysaccharide response in cultured monocytes
+PMC12135205,PMC12135205,PMC12135205,perturb_fish_lps_merfish,analysis/benchmark,Perturb-FISH LPS response screen
+PMC12135205,PMC12135205,PMC12135205,perturb_fish_asd_perturbfish,analysis/benchmark,Perturb-FISH ASD risk gene screen
+PMC12135205,PMC12135205,PMC12135205,perturb_fish_tum_perturbfish,analysis/benchmark,Perturb-FISH tumor xenograft screen
+PMC12458121,Reference-Informed Spatial Domain Detection Using Weak Supervision for Spatial Transcriptomics,https://doi.org/10.1101/2025.09.11.675689,maynard2024_visium,analysis/benchmark,Human DLPFC data
+PMC12458121,Reference-Informed Spatial Domain Detection Using Weak Supervision for Spatial Transcriptomics,https://doi.org/10.1101/2025.09.11.675689,allen2023_aging_brain_merfish,analysis/benchmark,Mouse Frontal Cortex data
+PMC12458121,Reference-Informed Spatial Domain Detection Using Weak Supervision for Spatial Transcriptomics,https://doi.org/10.1101/2025.09.11.675689,codeluppi2018_unknown,analysis/benchmark,Mouse Somatosensory Cortex data
+PMC12458121,Reference-Informed Spatial Domain Detection Using Weak Supervision for Spatial Transcriptomics,https://doi.org/10.1101/2025.09.11.675689,wang2018_starmap_2,analysis/benchmark,Mouse Visual Cortex data
+PMC12804215,PMC12804215,PMC12804215,du2025_visium,analysis/benchmark,multi-sample spatialbenchvisium dataset
+PMC12000868,PMC12000868,PMC12000868,maynard2024_visium,analysis/benchmark,DLPFC
+PMC12000868,PMC12000868,PMC12000868,palla2022_slideseq,analysis/benchmark,10X_MB
+PMC12000868,PMC12000868,PMC12000868,guo2022_spatial_tran,analysis/benchmark,ST_PDAC_A
+PMC12000868,PMC12000868,PMC12000868,navarro2020_st,analysis/benchmark,ST_Hip_1 / ST_Hip_2
+PMC12000868,PMC12000868,PMC12000868,wei2022_stereo,analysis/benchmark,Stereo_AB / Stereo_DPI
+PMC12000868,PMC12000868,PMC12000868,gong2024_stereo,analysis/benchmark,Stereo_MB
+PMC12000868,PMC12000868,PMC12000868,marshall2022_slideseq,analysis/benchmark,Slide-seqV2_MKD / Slide-seqV2_MKN
+PMC12000868,PMC12000868,PMC12000868,sampath2023_stereo,analysis/benchmark,Slide-seqV2_embryo
+PMC12000868,PMC12000868,PMC12000868,wang2018_starmap_2,analysis/benchmark,STARmap_MVC / STARmap_MPC / STARmap_BZ5
+PMC12000868,PMC12000868,PMC12000868,zeng2023_starmap,analysis/benchmark,STARmap_AD
+PMC12000868,PMC12000868,PMC12000868,lohoff2021_seqfish,analysis/benchmark,SeqFISH_embryo_1 / SeqFISH_embryo_2
+PMC12000868,PMC12000868,PMC12000868,eng2019_seqfish,analysis/benchmark,SeqFish_plus_cortex
+PMC9945056,iSC.MEB: an R package for multi-sample spatial clustering analysis of spatial transcriptomics data,https://doi.org/10.1093/bioadv/vbad019,maynard2024_visium,analysis/benchmark,dorsolateral prefrontal cortex (DLPFC) dataset
+PMC9945056,iSC.MEB: an R package for multi-sample spatial clustering analysis of spatial transcriptomics data,https://doi.org/10.1093/bioadv/vbad019,lohoff2020_seqfish,analysis/benchmark,embryo dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,wang2018_starmap_2,analysis/benchmark,STARmap dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,eng2019_seqfish,analysis/benchmark,seqFISH+ dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,codeluppi2018_unknown,analysis/benchmark,osmFISH dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,mokitt2018_merfish,analysis/benchmark,MERFISH dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,maynard2024_visium,analysis/benchmark,DLPFC dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,meylan2022_unknown,analysis/benchmark,RCC dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,asp2019_10x_genomics,analysis/benchmark,Human heart dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,uzquiano2022_slideseq,analysis/benchmark,Organoid dataset
+PMC10949687,Multi-slice spatial transcriptome domain analysis with SpaDo,https://doi.org/10.1186/s13059-024-03213-x,mantri2021_unknown,analysis/benchmark,Chicken heart dataset
+PMC12799013,PMC12799013,PMC12799013,maynard2024_visium,analysis/benchmark,DLPFC
+PMC12799013,PMC12799013,PMC12799013,mokitt2018_merfish,analysis/benchmark,MERFISH data
+PMC12799013,PMC12799013,PMC12799013,codeluppi2018_unknown,analysis/benchmark,osmFISH
+PMC12799013,PMC12799013,PMC12799013,wang2018_starmap_2,analysis/benchmark,STARmap
+PMC10864257,PMC10864257,PMC10864257,visium_spatial_g_visium_13,analysis/benchmark,Visium Spatial Gene Expression Assay
+PMC10503835,PMC10503835,PMC10503835,visium_spatial_g_visium_14,analysis/benchmark,Visium Spatial Gene Expression Assay dataset
+PMC10503835,PMC10503835,PMC10503835,snrnaseq_dataset_chromium_x_p,analysis/benchmark,snRNAseq dataset
+PMC12632738,Spatial transcriptomics of glioblastoma defines biologically and clinically significant reprogramming patterns across unique spatial microenvironments,https://doi.org/10.1101/2025.10.17.683110,um_cohort_visium,analysis/benchmark,UM cohort
+PMC12632738,Spatial transcriptomics of glioblastoma defines biologically and clinically significant reprogramming patterns across unique spatial microenvironments,https://doi.org/10.1101/2025.10.17.683110,ravi2022_visium,analysis/benchmark,Freiburg cohort
+PMC12632738,Spatial transcriptomics of glioblastoma defines biologically and clinically significant reprogramming patterns across unique spatial microenvironments,https://doi.org/10.1101/2025.10.17.683110,greenwald2024_visium,analysis/benchmark,Broad Institute cohort
+RETROFIT,RETROFIT: R eference-free deconvolution of cell-type mixtures in spatial transcriptomics,https://doi.org/10.1101/2023.06.07.544126,rodriques2019_slideseq,analysis/benchmark,mouse cerebellum Slide-seq dataset
+RETROFIT,RETROFIT: R eference-free deconvolution of cell-type mixtures in spatial transcriptomics,https://doi.org/10.1101/2023.06.07.544126,fawknercorbett2021_spatial_tran,analysis/benchmark,human intestinal development Visium dataset
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,maynard2024_visium,analysis/benchmark,LIBD data
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,nguyen2020_unknown,analysis/benchmark,AD study snRNA-seq data
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,hu2023_visium,analysis/benchmark,mouse posterior brain ST dataset
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,zhang2023_merfish,analysis/benchmark,Mouse3_sagittal dataset
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,yao2021_scrnaseq,analysis/benchmark,mouse brain scRNA-seq dataset
+PMC10329686,Leveraging spatial transcriptomics data to recover cell locations in single-cell RNA-seq with CeLEry,https://doi.org/10.1038/s41467-023-39895-3,janesick2023_visium_2_visium,analysis/benchmark,10x Xenium breast cancer dataset
+PMC10076218,PMC10076218,PMC10076218,spatial_atac_rna_illumina_nov,analysis/benchmark,"Spatial ATAC-RNA-seq and spatial CUT&Tag-RNA-seq datasets (E13 mouse embryo, P21/P22 mouse brain, adult human brain hippocampus)"
+PMC10076218,PMC10076218,PMC10076218,cao2019_singlecell_r,analysis/benchmark,Mouse organogenesis cell atlas (MOCA)
+PMC10076218,PMC10076218,PMC10076218,li2021_singlecell_a,analysis/benchmark,Atlas of gene regulatory elements in adult mouse cerebrum
+PMC10076218,PMC10076218,PMC10076218,zeisel2018_singlecell_r_3,analysis/benchmark,Atlas of the Adolescent Mouse Brain
+PMC10076218,PMC10076218,PMC10076218,bartosovic2021_sccuttag_2,analysis/benchmark,Mouse brain scCUT&Tag H3K4me3 data
+PMC10076218,PMC10076218,PMC10076218,franjic2022_snrnaseq,analysis/benchmark,Human hippocampus snRNA-seq
+PMC10076218,PMC10076218,PMC10076218,corces2020_scatacseq,analysis/benchmark,Human hippocampus scATAC-seq
+PMC11722551,Multiscale Cell-Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.21203/rs.3.rs-5743704/v1,maynard2024_visium,analysis/benchmark,LIBD dorsolateral prefrontal cortex data
+PMC11722551,Multiscale Cell-Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.21203/rs.3.rs-5743704/v1,xia2019_seqfish,analysis/benchmark,MERFISH data
+PMC11722551,Multiscale Cell-Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.21203/rs.3.rs-5743704/v1,chen2018_st,analysis/benchmark,BaristaSeq data
+PMC11722551,Multiscale Cell-Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.21203/rs.3.rs-5743704/v1,chen2022_slideseq,analysis/benchmark,StereoSeq data
+PMC11722551,Multiscale Cell-Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.21203/rs.3.rs-5743704/v1,wang2018_starmap_2,analysis/benchmark,STARmap data
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,xia2019_merfish,analysis/benchmark,"MERFISH (datasets 04, 09, 14, 19, 24)"
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,andersson2021_10x_genomics,analysis/benchmark,"ST (datasets A1, B1, C1, D1, E1, F1, H1)"
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,maynard2024_visium,analysis/benchmark,Visium (12 DLPFC datasets)
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,chen2022_slideseq,analysis/benchmark,StereoSeq datasets
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,chen2018_st,analysis/benchmark,BaristaSeq datasets
+PMC12667549,Multiscale Cell–Cell Interactive Spatial Transcriptomics Analysis,https://doi.org/10.1002/advs.202508358,wang2018_starmap_2,analysis/benchmark,STARmap dataset
+PMC10767841,PMC10767841,PMC10767841,chen2022_slideseq,analysis/benchmark,MOSTA
+Chrysalis,Chrysalis: decoding tissue compartments in spatial transcriptomics with archetypal analysis,https://doi.org/10.1038/s42003-024-07165-7,consortium2022_scrnaseq,analysis/benchmark,Tabula Sapiens immune cell atlas
+Chrysalis,Chrysalis: decoding tissue compartments in spatial transcriptomics with archetypal analysis,https://doi.org/10.1038/s42003-024-07165-7,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse hippocampus dataset
+Chrysalis,Chrysalis: decoding tissue compartments in spatial transcriptomics with archetypal analysis,https://doi.org/10.1038/s42003-024-07165-7,chen2022_slideseq,analysis/benchmark,Mouse embryo cross-sections (E9.5 and E12.5)
+PMC10705493,PMC10705493,PMC10705493,perturb_seq_scre_scrnaseq,analysis/benchmark,Perturb-seq screen / matched Perturb-seq screen
+PMC9410565,PMC9410565,PMC9410565,guo2022_spatial_tran,analysis/benchmark,spatial transcriptomics data for pancreatic ductal adenocarcinoma samples
+PMC11430467,PMC11430467,PMC11430467,maynard2024_visium,analysis/benchmark,DLPFC
+PMC11430467,PMC11430467,PMC11430467,guo2022_spatial_tran,analysis/benchmark,PDAC-A
+PMC11430467,PMC11430467,PMC11430467,wu2021_unknown_6,analysis/benchmark,PLC
+PMC11430467,PMC11430467,PMC11430467,arora2023_visium,analysis/benchmark,OSCC
+PMC11430467,PMC11430467,PMC11430467,he2022_cosmx_6,analysis/benchmark,NSCLC
+PMC12491524,Protocol for single-cell spatial transcriptomic profiling of cultured cells and engineered tissues without embedding or sectioning,https://doi.org/10.1016/j.xpro.2025.104074,fastq_files_and_visiumhd,analysis/benchmark,FASTQ files and Space Ranger v.3.1.3 Outputs
+PMC8743310,PMC8743310,PMC8743310,mohenska2021_rna_sequenci,analysis/benchmark,VR-Cardiomics dataset
+PMC11770176,PMC11770176,PMC11770176,saunders2018_unknown,analysis/benchmark,mouse hippocampus scRNA-seq reference data
+PMC11419108,PMC11419108,PMC11419108,photon_granulosa_illumina,analysis/benchmark,PHOTON granulosa cells dataset
+PMC11419108,PMC11419108,PMC11419108,bianco2019_unknown,analysis/benchmark,Public GC RNA-seq dataset
+PMC11419108,PMC11419108,PMC11419108,khong2017_biochemical,analysis/benchmark,Public SG dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,guo2022_spatial_tran,analysis/benchmark,PDAC dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,kleshchevnikov2022_spatial_tran,analysis/benchmark,human lymph node dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,cable2021_slideseq,analysis/benchmark,mouse cerebellum dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,wu2021_visium_7,analysis/benchmark,human breast cancer Visium dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,chen2021_slideseq,analysis/benchmark,human testis dataset
+PMC10692090,Spatial transcriptomics deconvolution at single-cell resolution using Redeconve,https://doi.org/10.1038/s41467-023-43600-9,janesick2023_visium_2_visium,analysis/benchmark,human breast cancer Xenium dataset
+spatialLIBD,spatialLIBD: an R/Bioconductor package to visualize spatially-resolved transcriptomics data,https://doi.org/10.1186/s12864-022-08601-w,maynard2024_visium,analysis/benchmark,human brain dataset with twelve samples
+PMC11379969,Intracellular spatial transcriptomic analysis toolkit (InSTAnT),https://doi.org/10.1038/s41467-024-49457-w,moffitt2016_merfish,analysis/benchmark,U2-OS MERFISH data
+PMC11379969,Intracellular spatial transcriptomic analysis toolkit (InSTAnT),https://doi.org/10.1038/s41467-024-49457-w,u2os_merfish_dat_merfish,analysis/benchmark,U2OS MERFISH data (in-house)
+PMC11379969,Intracellular spatial transcriptomic analysis toolkit (InSTAnT),https://doi.org/10.1038/s41467-024-49457-w,eng2019_seqfish,analysis/benchmark,SeqFISH+ data
+PMC11379969,Intracellular spatial transcriptomic analysis toolkit (InSTAnT),https://doi.org/10.1038/s41467-024-49457-w,mokitt2018_merfish,analysis/benchmark,Hypothalamus brain MERFISH data
+PMC11379969,Intracellular spatial transcriptomic analysis toolkit (InSTAnT),https://doi.org/10.1038/s41467-024-49457-w,salas2023_xenium,analysis/benchmark,Hippocampus brain Xenium data
+PMC12630763,PMC12630763,PMC12630763,stahl2016_spatial_tran,analysis/benchmark,MOB (mouse olfactory bulb)
+PMC12630763,PMC12630763,PMC12630763,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse cerebellum
+PMC12630763,PMC12630763,PMC12630763,guo2022_spatial_tran,analysis/benchmark,PDAC
+PMC9977836,PMC9977836,PMC9977836,maynard2024_visium,analysis/benchmark,LIBD human dorsolateral prefrontal cortex (DLPFC)
+PMC9977836,PMC9977836,PMC9977836,chen2022_slideseq,analysis/benchmark,coronal mouse olfactory bulb dataset
+PMC9977836,PMC9977836,PMC9977836,mouse_breast_can_visium,analysis/benchmark,mouse breast cancer serial sections
+PMC9977836,PMC9977836,PMC9977836,kleshchevnikov2022_spatial_tran,analysis/benchmark,human lymph node tissue dataset
+PMC9977836,PMC9977836,PMC9977836,normal_human_lun2022_visium,analysis/benchmark,human brain sample DLPFC snRNA-seq reference
+PMC9977836,PMC9977836,PMC9977836,li2022_unknown,analysis/benchmark,DISCO scRNA-Seq human breast tissue atlas
+SpatialcoGCN,SpatialcoGCN: deconvolution and spatial information–aware simulation of spatial transcriptomics data via deep graph co-embedding,https://doi.org/10.1093/bib/bbae130,wei2022_unknown,analysis/benchmark,Human ductal carcinoma in situ (DCIS) dataset
+SpatialcoGCN,SpatialcoGCN: deconvolution and spatial information–aware simulation of spatial transcriptomics data via deep graph co-embedding,https://doi.org/10.1093/bib/bbae130,asp2019_10x_genomics,analysis/benchmark,Developing human heart dataset
+SpatialcoGCN,SpatialcoGCN: deconvolution and spatial information–aware simulation of spatial transcriptomics data via deep graph co-embedding,https://doi.org/10.1093/bib/bbae130,andersson2020_spatial_tran,analysis/benchmark,Mouse brain dataset
+SpatialcoGCN,SpatialcoGCN: deconvolution and spatial information–aware simulation of spatial transcriptomics data via deep graph co-embedding,https://doi.org/10.1093/bib/bbae130,chen2022_slideseq,analysis/benchmark,Stereo-seq mouse brain dataset
+SpatialcoGCN,SpatialcoGCN: deconvolution and spatial information–aware simulation of spatial transcriptomics data via deep graph co-embedding,https://doi.org/10.1093/bib/bbae130,mokitt2018_merfish,analysis/benchmark,MERFISH dataset
+PMC9338929,PMC9338929,PMC9338929,wang2018_starmap_2,analysis/benchmark,STARmap
+PMC9338929,PMC9338929,PMC9338929,mokitt2018_merfish,analysis/benchmark,MERFISH
+PMC9338929,PMC9338929,PMC9338929,eng2019_seqfish,analysis/benchmark,seqFISH+
+PMC9338929,PMC9338929,PMC9338929,rodriques2019_slideseq,analysis/benchmark,Slide-seq
+PMC9338929,PMC9338929,PMC9338929,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2
+PMC9338929,PMC9338929,PMC9338929,marshall2022_slideseq,analysis/benchmark,Slide-seqV2 kidney
+PMC9338929,PMC9338929,PMC9338929,ji2020_visium_2,analysis/benchmark,10x Visium SCC
+PMC11739434,PMC11739434,PMC11739434,he2022_cosmx_6,analysis/benchmark,NanoString CosMx SMI NSCLC FFPE dataset
+PMC12078482,PMC12078482,PMC12078482,photon_dataset_g_illumina,analysis/benchmark,PHOTON dataset (granulosa cells)
+PMC12078482,PMC12078482,PMC12078482,bianco2019_unknown,analysis/benchmark,Public GC RNA-seq dataset
+PMC12078482,PMC12078482,PMC12078482,mantri2024_slideseq,analysis/benchmark,Slide-seqV2 dataset
+PMC12078482,PMC12078482,PMC12078482,khong2017_biochemical,analysis/benchmark,Public SG dataset
+PMC12078482,PMC12078482,PMC12078482,sidrauski2015_unknown,analysis/benchmark,Translation efficiency dataset
+PMC10097645,Predictive and robust gene selection for spatial transcriptomics,https://doi.org/10.1038/s41467-023-37392-1,tasic2018_smartseq_v4,analysis/benchmark,SSv4
+PMC10097645,Predictive and robust gene selection for spatial transcriptomics,https://doi.org/10.1038/s41467-023-37392-1,bakken2021_10x,analysis/benchmark,10X
+PMC10097645,Predictive and robust gene selection for spatial transcriptomics,https://doi.org/10.1038/s41467-023-37392-1,gouwens2020_patchseq,analysis/benchmark,Patch-seq
+PMC10097645,Predictive and robust gene selection for spatial transcriptomics,https://doi.org/10.1038/s41467-023-37392-1,zhang2021_merfish,analysis/benchmark,MERFISH
+PMC11607964,PMC11607964,PMC11607964,chen2022_slideseq,analysis/benchmark,mouse olfactory bulb
+PMC11607964,PMC11607964,PMC11607964,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse hippocampus
+PMC11607964,PMC11607964,PMC11607964,codeluppi2018_unknown,analysis/benchmark,mouse somatosensory cortex
+PMC8976049,PMC8976049,PMC8976049,maynard2024_visium,analysis/benchmark,DLPFC dataset
+PMC8976049,PMC8976049,PMC8976049,stickels2021_stereo_stereo_seq,analysis/benchmark,Slide-seqV2 mouse hippocampus dataset
+PMC8976049,PMC8976049,PMC8976049,rodriques2019_slideseq,analysis/benchmark,Slide-seq mouse hippocampus dataset
+PMC8976049,PMC8976049,PMC8976049,chen2021_stereo_4,analysis/benchmark,Stereo-seq mouse olfactory bulb dataset
+PMC8976049,PMC8976049,PMC8976049,10x_visium_mouse_visium_2,analysis/benchmark,10x Visium coronal mouse brain dataset
+PMC8976049,PMC8976049,PMC8976049,wang2018_starmap_2,analysis/benchmark,STARMAP dataset
+PMC9825565,PMC9825565,PMC9825565,berglund2018_st,analysis/benchmark,Prostate cancer transcriptomes
+PMC9825565,PMC9825565,PMC9825565,thrane2018_spatial_rese,analysis/benchmark,Stage III cutaneous malignant melanoma dataset
+PMC9825565,PMC9825565,PMC9825565,asp2019_10x_genomics,analysis/benchmark,Developing human heart atlas
+PMC9825565,PMC9825565,PMC9825565,liu2020_spots,analysis/benchmark,DBiT-seq mouse embryo dataset
+PMC9825565,PMC9825565,PMC9825565,mantri2021_unknown,analysis/benchmark,Developing chicken heart dataset
+PMC9825565,PMC9825565,PMC9825565,ferreira2021_visium,analysis/benchmark,Kidney injury spatial transcriptomics dataset
+PMC9825565,PMC9825565,PMC9825565,srivatsan2021_scispace_3,analysis/benchmark,sci-SPACE mouse embryos dataset
+PMC9825565,PMC9825565,PMC9825565,gouin2021_unknown,analysis/benchmark,Bladder cancer epithelial subpopulation dataset
+PMC9825565,PMC9825565,PMC9825565,wu2022_unknown,analysis/benchmark,Colorectal cancer liver metastasis dataset
+PMC9825565,PMC9825565,PMC9825565,lohoff2021_seqfish,analysis/benchmark,SeqFISH mouse organogenesis dataset
+PMC9825565,PMC9825565,PMC9825565,wu2021_unknown_7,analysis/benchmark,Human breast cancers atlas
+PMC9825565,PMC9825565,PMC9825565,andersson2021_10x_genomics,analysis/benchmark,HER2-positive breast cancer dataset
+PMC9825565,PMC9825565,PMC9825565,hunter2021_visium,analysis/benchmark,Zebrafish tumor-microenvironment interface dataset
+PMC9825565,PMC9825565,PMC9825565,spatial_transcri2021_spatial_tran,analysis/benchmark,Mouse liver zonation dataset
+PMC9825565,PMC9825565,PMC9825565,garciaalonso2021_unknown,analysis/benchmark,Human endometrium dataset
+PMC9825565,PMC9825565,PMC9825565,guilliams2022_visium,analysis/benchmark,Hepatic macrophage niches dataset
+PMC9825565,PMC9825565,PMC9825565,akeret2022_unknown,analysis/benchmark,Coronal mouse brain sections heme injection dataset
+PMC9825565,PMC9825565,PMC9825565,visium_spatial_t2022_visium_2,analysis/benchmark,Healing mouse intestine dataset
+PMC9825565,PMC9825565,PMC9825565,chen2022_slideseq,analysis/benchmark,Mouse organogenesis DNA nanoball-patterned arrays dataset
+PMC9825565,PMC9825565,PMC9825565,suo2022_visium,analysis/benchmark,Developing human immune system dataset
+PMC9825565,PMC9825565,PMC9825565,codeluppi2018_unknown,analysis/benchmark,osmFISH somatosensory cortex dataset
+PMC9825565,PMC9825565,PMC9825565,mokitt2018_merfish,analysis/benchmark,Hypothalamic preoptic region dataset
+PMC9825565,PMC9825565,PMC9825565,maniatis2019_unknown_2,analysis/benchmark,Mouse spinal cords ALS dataset
+PMC9825565,PMC9825565,PMC9825565,guo2022_spatial_tran,analysis/benchmark,Pancreatic ductal adenocarcinomas dataset
+PMC9825565,PMC9825565,PMC9825565,ji2020_unknown_2,analysis/benchmark,Human squamous cell carcinoma dataset
+PMC9825565,PMC9825565,PMC9825565,ortiz2024_merfish,analysis/benchmark,Adult mouse brain atlas
+PMC9825565,PMC9825565,PMC9825565,chen2020_unknown,analysis/benchmark,Alzheimer's disease mouse and human brain dataset
+PMC9825565,PMC9825565,PMC9825565,navarro2020_st,analysis/benchmark,Alzheimer disease mitochondrial functions dataset
+PMC9825565,PMC9825565,PMC9825565,joglekar2021_unknown,analysis/benchmark,Postnatal mouse brain isoform atlas dataset
+PMC9825565,PMC9825565,PMC9825565,maynard2024_visium,analysis/benchmark,Human dorsolateral prefrontal cortex dataset
+PMC9825565,PMC9825565,PMC9825565,la2021_iss,analysis/benchmark,Developing mouse brain dataset
+PMC12634688,PMC12634688,PMC12634688,mouse_spatial_tr_visium_3,analysis/benchmark,Mouse spatial transcriptomics dataset
+PMC12634688,PMC12634688,PMC12634688,baccin2020_nicheseq,analysis/benchmark,scBMReference (Baccin et al. single-cell dataset)
+STmut,STmut: a framework for visualizing somatic alterations in spatial transcriptomics data of cancer,https://doi.org/10.1186/s13059-023-03121-6,ji2020_visium_2,analysis/benchmark,Ji et al. cutaneous squamous cell carcinoma datasets (patient 4 and patient 6)
+STmut,STmut: a framework for visualizing somatic alterations in spatial transcriptomics data of cancer,https://doi.org/10.1186/s13059-023-03121-6,pozniak2022_visium,analysis/benchmark,Pozniak et al. melanoma lymph node metastases datasets
+STmut,STmut: a framework for visualizing somatic alterations in spatial transcriptomics data of cancer,https://doi.org/10.1186/s13059-023-03121-6,ucsf_archival_tu_visium,analysis/benchmark,UCSF archival tumors extension cohort (cutaneous squamous cell carcinomas and melanoma)
+PMC12240810,PMC12240810,PMC12240810,mirzazadeh2023_smallintestine_visium,analysis/benchmark,small intestine dataset
+PMC12240810,PMC12240810,PMC12240810,gracia2021_unknown,analysis/benchmark,ovarian carcinosarcoma dataset
+PMC12240810,PMC12240810,PMC12240810,janesick2023_visium_2_visium,analysis/benchmark,human breast cancer dataset
+PMC12240810,PMC12240810,PMC12240810,oliveira2024_visiumhd,analysis/benchmark,human colorectal cancer dataset
+PMC12240810,PMC12240810,PMC12240810,in_house_tnbc_sa_xenium,analysis/benchmark,in-house TNBC sample
+PMC12240810,PMC12240810,PMC12240810,kleshchevnikov2022_spatial_tran,analysis/benchmark,mouse brain Visium dataset
+PMC12240810,PMC12240810,PMC12240810,kanemaru2025_spatial_tran,analysis/benchmark,normal human heart sample dataset
+PMC12002909,PMC12002909,PMC12002909,elmentaite2021_unknown_2,analysis/benchmark,Colon
+PMC12002909,PMC12002909,PMC12002909,sikkema2023_unknown,analysis/benchmark,Lung
+PMC12002909,PMC12002909,PMC12002909,kumar2023_unknown,analysis/benchmark,Breast
+PMC12002909,PMC12002909,PMC12002909,xu2023_unknown,analysis/benchmark,Liver
+PMC12002909,PMC12002909,PMC12002909,lake2023_unknown,analysis/benchmark,Kidney
+PMC12002909,PMC12002909,PMC12002909,reynolds2021_unknown,analysis/benchmark,Skin
+PMC12002909,PMC12002909,PMC12002909,marekov2023_unknown,analysis/benchmark,Uterine
+PMC12002909,PMC12002909,PMC12002909,vzquezgarca2021_unknown,analysis/benchmark,Ovary
+PMC12002909,PMC12002909,PMC12002909,bandyopadhyay2024_unknown,analysis/benchmark,Bone
+PMC12002909,PMC12002909,PMC12002909,massonibadosa2024_unknown,analysis/benchmark,Tonsil
+PMC12002909,PMC12002909,PMC12002909,tsubosaka2023_unknown,analysis/benchmark,Stomach
+PMC12002909,PMC12002909,PMC12002909,joseph2021_unknown,analysis/benchmark,Prostate
+PMC12002909,PMC12002909,PMC12002909,monika2020_unknown,analysis/benchmark,Heart
+PMC12002909,PMC12002909,PMC12002909,kimberly2023_unknown,analysis/benchmark,Brain
+PMC10771471,PMC10771471,PMC10771471,lohoff2021_seqfish,analysis/benchmark,Spatial Mouse Atlas dataset
+PMC10771471,PMC10771471,PMC10771471,fang2022_merfish,analysis/benchmark,human middle temporal gyrus (MTG) region dataset
+PMC10771471,PMC10771471,PMC10771471,ji2020_visium_2,analysis/benchmark,human squamous cell carcinoma (hSCC) dataset
+PMC10771471,PMC10771471,PMC10771471,guilliams2022_visium,analysis/benchmark,mouse liver data
+PMC12129015,PMC12129015,PMC12129015,maynard2024_visium,analysis/benchmark,human DLPFC data set
+PMC12129015,PMC12129015,PMC12129015,stahl2016_spatial_tran,analysis/benchmark,mouse olfactory bulb data
+PMC12129015,PMC12129015,PMC12129015,wang2018_starmap_2,analysis/benchmark,mouse cortex data
+PMC12129015,PMC12129015,PMC12129015,ji2020_st_2,analysis/benchmark,human SCC data
+PMC12642540,PMC12642540,PMC12642540,dhainaut2022_spatial_tran,analysis/benchmark,Perturb-map datasets
+PMC12642540,PMC12642540,PMC12642540,mayassi2024_unknown,analysis/benchmark,mouse colon datasets
+PMC12642540,PMC12642540,PMC12642540,wang2025_visiumhd,analysis/benchmark,mouse stroke datasets
+VISTA,VISTA: visualizing the spatial transcriptome of the  C.elegans  nervous system,https://doi.org/10.1093/bioadv/vbad127,taylor2020_singlecell_r,analysis/benchmark,Single-cell transcriptome dataset
+VISTA,VISTA: visualizing the spatial transcriptome of the  C.elegans  nervous system,https://doi.org/10.1093/bioadv/vbad127,barrett2022_cellspecific,analysis/benchmark,Bulk sorted transcriptome dataset
+PMC11112797,PMC11112797,PMC11112797,maynard2024_visium,analysis/benchmark,Human dorsolateral prefrontal cortex (DLPFC) data
+PMC11112797,PMC11112797,PMC11112797,sunkin2012_stereo,analysis/benchmark,Mouse brain tissue data (anterior and posterior / cornu ammonis and dentate gyrus)
+PMC11112797,PMC11112797,PMC11112797,mokitt2018_merfish,analysis/benchmark,Mouse hypothalamus dataset by MERFISH
+PMC11112797,PMC11112797,PMC11112797,wang2018_starmap_2,analysis/benchmark,Mouse visual cortex dataset by STARmap
+PMC11112797,PMC11112797,PMC11112797,codeluppi2018_unknown,analysis/benchmark,Mouse visual cortex dataset by osmFISH
+PMC11112797,PMC11112797,PMC11112797,stickels2021_stereo_stereo_seq,analysis/benchmark,Mouse Olfactory bulb dataset by Slide-seq V2
+PMC11443003,Transcriptomic and proteomic spatial profiling of pediatric and adult diffuse midline glioma  H3 K27 -Altered,https://doi.org/10.1038/s41598-024-73199-w,spatial_transcri_geomx,analysis/benchmark,Spatial transcriptomic and proteomic dataset
+PMC11443003,Transcriptomic and proteomic spatial profiling of pediatric and adult diffuse midline glioma  H3 K27 -Altered,https://doi.org/10.1038/s41598-024-73199-w,liu2022_singlecell_r,analysis/benchmark,DMG single-cell RNA sequencing data reference matrix
+PMC12633530,PMC12633530,PMC12633530,mouse_merfish_da_merscope,analysis/benchmark,Mouse MERFISH data
+PMC7158132,PMC7158132,PMC7158132,prostate_cancer_unknown,analysis/benchmark,Human Reference RNA dataset
+PMC12132593,PMC12132593,PMC12132593,liu2022_slidetcrseq_3,analysis/benchmark,Slide-TCR-seq dataset
+PMC12132593,PMC12132593,PMC12132593,yeh2024_xenium_merfish,analysis/benchmark,CosMx dataset
+PMC12664899,stTransfer enables transfer of single-cell annotations to spatial transcriptomics with single-cell resolution,https://doi.org/10.1016/j.crmeth.2025.101205,shi2023_xenium,analysis/benchmark,STARmap mouse brain data
+PMC12664899,stTransfer enables transfer of single-cell annotations to spatial transcriptomics with single-cell resolution,https://doi.org/10.1016/j.crmeth.2025.101205,he2022_cosmx_6,analysis/benchmark,CosMx SMI human lung cancer data
+PMC12664899,stTransfer enables transfer of single-cell annotations to spatial transcriptomics with single-cell resolution,https://doi.org/10.1016/j.crmeth.2025.101205,chen2021_slideseq,analysis/benchmark,Slide-seq mouse spermatogenesis data
+PMC12664899,stTransfer enables transfer of single-cell annotations to spatial transcriptomics with single-cell resolution,https://doi.org/10.1016/j.crmeth.2025.101205,zebra_finch_opti_stereo_2,analysis/benchmark,Zebra finch optic tectum Stereo-seq data
+PMC10698261,Visium spatial transcriptomics reveals intratumor heterogeneity and profiles of Gleason score progression in prostate cancer,https://doi.org/10.1016/j.isci.2023.108429,pca_tissues_visium,analysis/benchmark,PCa tissues
+PMC10024691,PMC10024691,PMC10024691,xdbit_spatial_tr_dbit,analysis/benchmark,xDBiT spatial transcriptomic datasets (multi-organ)
+PMC10024691,PMC10024691,PMC10024691,liu2020_spots,analysis/benchmark,DBiT-seq datasets (embryonic sections)
+PMC10024691,PMC10024691,PMC10024691,davis2018_rnaseq,analysis/benchmark,ENCODE bulk RNA-seq datasets
+PMC10024691,PMC10024691,PMC10024691,miao2021_unknown,analysis/benchmark,Single-cell RNA-seq dataset of the murine kidney
+PMC11736439,PMC11736439,PMC11736439,qiu2021_singlecell_r_2,analysis/benchmark,scRNA-seq dataset
+PMC11736439,PMC11736439,PMC11736439,spatial_transcri_visium_17,analysis/benchmark,spatial transcriptomics dataset
+stTrace,stTrace: detecting spatial-temporal domains from spatial transcriptome to trace developmental path,https://doi.org/10.1093/bib/bbaf606,human_breast_can_10x_genomics,analysis/benchmark,Mouse Embryo data
+PMC12402493,A spatial transcriptomics dataset of pancreas sections in normal glucose tolerance and type 2 diabetic donors,https://doi.org/10.1038/s41597-025-05450-6,visium_spatial_t_visium_19,analysis/benchmark,Visium spatial transcriptomics dataset of pancreas sections
+PMC11109953,High-density generation of spatial transcriptomics with STAGE,https://doi.org/10.1093/nar/gkae294,maynard2024_visium,analysis/benchmark,DLPFC dataset
+PMC11109953,High-density generation of spatial transcriptomics with STAGE,https://doi.org/10.1093/nar/gkae294,guo2022_spatial_tran,analysis/benchmark,PDAC dataset
+PMC11109953,High-density generation of spatial transcriptomics with STAGE,https://doi.org/10.1093/nar/gkae294,ji2020_visium_2,analysis/benchmark,breast cancer ST dataset
+PMC11109953,High-density generation of spatial transcriptomics with STAGE,https://doi.org/10.1093/nar/gkae294,wang2022_slideseq,analysis/benchmark,mouse olfactory bulb dataset
+PMC11109953,High-density generation of spatial transcriptomics with STAGE,https://doi.org/10.1093/nar/gkae294,sunkin2012_stereo,analysis/benchmark,mouse brain dataset
+SMASH,SMASH: Scalable Method for Analyzing Spatial Heterogeneity of genes in spatial transcriptomics data,https://doi.org/10.1371/journal.pgen.1010983.r004,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse cerebellum data
+SMASH,SMASH: Scalable Method for Analyzing Spatial Heterogeneity of genes in spatial transcriptomics data,https://doi.org/10.1371/journal.pgen.1010983.r004,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) data
+SMASH,SMASH: Scalable Method for Analyzing Spatial Heterogeneity of genes in spatial transcriptomics data,https://doi.org/10.1371/journal.pgen.1010983.r004,sanders2022_visium,analysis/benchmark,small cell carcinoma of the ovary hypercalcemic type (SCCOHT) data
+SMASH,SMASH: Scalable Method for Analyzing Spatial Heterogeneity of genes in spatial transcriptomics data,https://doi.org/10.1371/journal.pgen.1010983.r004,mokitt2018_merfish,analysis/benchmark,mouse hypothalamus data
+PMC10055313,PMC10055313,PMC10055313,stickels2021_stereo_stereo_seq,analysis/benchmark,mouse cerebellum data
+PMC10055313,PMC10055313,PMC10055313,maynard2024_visium,analysis/benchmark,human dorsolateral prefrontal cortex (DLPFC) data
+PMC10055313,PMC10055313,PMC10055313,sanders2022_visium,analysis/benchmark,small cell ovarian carcinoma of the ovary hypercalcemic type (SCCOHT) data
+PMC10055313,PMC10055313,PMC10055313,mokitt2018_merfish,analysis/benchmark,mouse hypothalamus data
+PMC12439975,PMC12439975,PMC12439975,janesick2023_visium_2_visium,analysis/benchmark,Xenium datasets (In Situ Replicate 1 and In Situ Replicate 2) and Visium CytAssist dataset

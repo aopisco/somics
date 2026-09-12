@@ -20,6 +20,8 @@ import argparse
 import csv
 import json
 import os
+import re
+import sys
 
 import lancedb
 from polycomb import (
@@ -33,6 +35,7 @@ from polycomb import (
 )
 
 DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
+ENSEMBL_RE = re.compile(r"^ENS[A-Z]*G\d{6,}")
 
 # 10x's own feature labels -> the schema's FeatureType members.
 FEATURE_TYPES = {
@@ -40,7 +43,11 @@ FEATURE_TYPES = {
     "Negative Control Probe": "negative_control_probe",
     "Negative Control Codeword": "negative_control_codeword",
     "Unassigned Codeword": "blank_codeword",
+    "Blank Codeword": "blank_codeword",  # Onboard Analysis 1.0's name for the same thing
     "Deprecated Codeword": "blank_codeword",
+    # Xenium Prime 5K panels carry genomic DNA control probes (21 on the 5K
+    # human panel); the schema has a member for exactly this.
+    "Genomic Control": "genomic_control",
 }
 
 
@@ -82,11 +89,15 @@ def gene_rows(path: str, var_key: str) -> list[dict]:
     rows = []
     for feature_id, gene_name, raw in zip(ids, names, types, strict=True):
         is_gene = FEATURE_TYPES[raw] == "gene"
+        # 10x and Allen publish Ensembl ids; Vizgen's Liu 2022 codebook and
+        # seqFISH gene lists publish symbols only, and a symbol is not an
+        # Ensembl id (left null; resolvable against the reference cache later).
+        is_ensembl = bool(ENSEMBL_RE.match(str(feature_id)))
         rows.append(
             {
                 "feature_id": feature_id,
                 "gene_name": gene_name if is_gene else None,
-                "ensembl_gene_id": feature_id if is_gene else None,
+                "ensembl_gene_id": feature_id if (is_gene and is_ensembl) else None,
                 "is_control": not is_gene,
             }
         )
@@ -278,10 +289,15 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             reason="natural key finalization resolves to the panel uid",
         ),
     ]
+    # A single-feature-space dataset (MERFISH, no image) is staged with a bare
+    # obs table; the two-space Xenium shape suffixes it.
+    tables = lancedb.connect(path).list_tables()
+    tables = list(getattr(tables, "tables", tables))
+    obs_table = "SpatialObs_gene_expression" if "SpatialObs_gene_expression" in tables else "SpatialObs"
     apply(
         path,
         sample,
-        CurationTransaction(table_name="SpatialObs_gene_expression", changes=obs),
+        CurationTransaction(table_name=obs_table, changes=obs),
         {c.column for c in obs} | {"additional_metadata"},
         dry_run,
     )
@@ -315,6 +331,36 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
     )
 
 
+def harmonize_images(spec: dict, package: str, geometry: list[dict], dry_run: bool) -> None:
+    """Name the image channels where the builder stacked several.
+
+    A single DAPI focus image is left as the preview sections were (null
+    channel_names); a 2.0+ channel directory gets the names the builder derived
+    from the file names, in stored order. Library tables live in the
+    package-root Lance db, not the per-sample ones.
+    """
+    names = next((g.get("channel_names") for g in geometry if g.get("channel_names")), None)
+    if not names:
+        return
+    apply(
+        os.path.join(package, "lance_db"),
+        "package",
+        CurationTransaction(
+            table_name="SectionImageSchema",
+            changes=[
+                AddColumn(
+                    column="channel_names",
+                    value=list(names),
+                    tool="schema_align",
+                    reason="morphology focus channels as the bundle names them, stored order",
+                )
+            ],
+        ),
+        {"channel_names"},
+        dry_run,
+    )
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--spec", required=True)
@@ -326,8 +372,27 @@ def main(argv: list[str] | None = None) -> None:
     spec = json.load(open(args.spec))
     key = spec.get("dataset_key") or os.path.splitext(os.path.basename(args.spec))[0]
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
+    geometry_path = os.path.join(DATA_HOME, "datasets", key, "staging", "sample_geometry.json")
+    geometry = json.load(open(geometry_path)) if os.path.exists(geometry_path) else []
+    # A spec may leave the panel name to the bundle's gene_panel.json; the
+    # builder resolved it into the geometry and the assembler registered it
+    # under that name, so the obs join key must use the same string.
+    if spec.get("panel") and not spec["panel"].get("panel_name"):
+        names = [g.get("panel_name") for g in geometry if g.get("panel_name")]
+        if not names:
+            raise ValueError("no panel name in the spec or the builder's geometry")
+        spec["panel"]["panel_name"] = names[0]
     for sample in args.samples or list(spec["samples"]):
         harmonize_sample(spec, package, sample, args.dry_run)
+        if any(g.get("protein_targets") for g in geometry if g.get("sample") == sample):
+            # Same antigen axis and the same verified UniProt table as the HuBMAP
+            # SPRM packages; the SPRM harmonizer owns that logic.
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            from harmonize_sprm_package import harmonize_proteins
+
+            harmonize_proteins(spec, package, sample, args.dry_run)
+    if geometry:
+        harmonize_images(spec, package, geometry, args.dry_run)
 
 
 if __name__ == "__main__":

@@ -376,11 +376,15 @@ def check_frame(sample, spatial_dir, scale, height, width, x_px, y_px) -> None:
         )
 
 
-def pad_image(path: str, height: int, width: int, modality: str) -> str:
-    """Write a copy of the image padded (bottom/right) with background to ``height x width``.
+def pad_image(
+    path: str, height: int, width: int, modality: str, offset: tuple[int, int] = (0, 0)
+) -> str:
+    """Write a copy of the image padded with background to ``height x width``.
 
-    White for brightfield, black for fluorescence -- the value a crop with no
-    tissue under it would carry anyway. Written once beside the original.
+    ``offset`` = (top, left) rows/cols of padding before the original pixels;
+    the rest goes bottom/right. White for brightfield, black for fluorescence
+    -- the value a crop with no tissue under it would carry anyway. Written
+    once beside the original.
     """
     out = os.path.splitext(path)[0] + "_padded.tif"
     if os.path.exists(out):
@@ -391,7 +395,8 @@ def pad_image(path: str, height: int, width: int, modality: str) -> str:
     fill = np.iinfo(arr.dtype).max if (modality == "he" and arr.dtype.kind == "u") else 0
     shape = (height, width) + arr.shape[2:]
     canvas = np.full(shape, fill, dtype=arr.dtype)
-    canvas[: arr.shape[0], : arr.shape[1]] = arr
+    top, left = offset
+    canvas[top : top + arr.shape[0], left : left + arr.shape[1]] = arr
     del arr
     tifffile.imwrite(
         out + ".part",
@@ -472,18 +477,35 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
     # them. Every obs row must be placeable in the image (the loader refuses
     # otherwise), so the image is padded with background to the spot extent
     # and the crops there are honestly blank. Recorded in the geometry.
+    # The same happens past the top/left edge: Space Ranger then writes negative
+    # pixel positions. The first 78 sections were built before this branch
+    # existed; the verifier found 7 of them with rows at negative px, whose crop
+    # boxes the loader slides to the image edge (docs/2026-09-09_merfish_adapter.md,
+    # verification notes). Here the image is padded top/left as well and every
+    # position shifted by the same offset, so the frame stays consistent.
     padded_from = None
-    need_h = int(np.ceil(y_px.max())) + 64 + 1
-    need_w = int(np.ceil(x_px.max())) + 64 + 1
-    if need_h > height or need_w > width:
+    offset_px = (0, 0)
+    top = int(np.ceil(max(0.0, -y_px.min()))) + (64 if y_px.min() < 0 else 0)
+    left = int(np.ceil(max(0.0, -x_px.min()))) + (64 if x_px.min() < 0 else 0)
+    need_h = int(np.ceil(y_px.max())) + top + 64 + 1
+    need_w = int(np.ceil(x_px.max())) + left + 64 + 1
+    if need_h > height or need_w > width or top or left:
         image = pad_image(
-            image, max(need_h, height), max(need_w, width), spec.get("image_modality", "he")
+            image,
+            max(need_h, height + top),
+            max(need_w, width + left),
+            spec.get("image_modality", "he"),
+            offset=(top, left),
         )
         padded_from = (height, width)
+        offset_px = (top, left)
+        y_px = y_px + top
+        x_px = x_px + left
         with tifffile.TiffFile(image) as tif:
             height, width = (int(d) for d in tif.series[0].levels[0].shape[:2])
         print(
-            f"  padded image {padded_from} -> ({height}, {width}) to cover spots past the scan edge"
+            f"  padded image {padded_from} -> ({height}, {width}) (offset {offset_px}) to cover "
+            f"spots past the scan edge"
         )
 
     obs = pd.DataFrame(
@@ -544,6 +566,7 @@ def build_sample(sample: str, spec: dict, source: str, out_dir: str) -> dict:
         "image_source": image_source_url(spec, sample),
         "n_channels": int(shape[2]) if len(shape) == 3 else 1,
         "padded_from_hw": list(padded_from) if padded_from else None,
+        "pad_offset_px": list(offset_px),
         "n_spots": int(len(obs)),
         "n_features": int(len(var)),
         "pixel_size_um": pixel_size,

@@ -1,0 +1,57 @@
+{
+  "dataset_key": "hubmap_hbm829_qvhb_362_unspecified_lung_right_na",
+  "hubmap_id": "HBM829.QVHB.362",
+  "uuid": "70637954487c4f20828b30841b68f1e5",
+  "study": "70637954487c4f20828b30841b68f1e5",
+  "study_name": "PhenoCycler [DeepCell + SPRM] data from the lung (right) of a 33-year-old black or african american female",
+  "assay": "PhenoCycler",
+  "technology": "phenocycler",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "segmentation_note": "DeepCell (Mesmer) whole-cell segmentation on the nuclear and membrane channels; the enum has no deep-learning member other than cellpose, which this is not",
+  "pipeline": "DeepCell + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "lung (right)",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM829.QVHB.362",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/70637954487c4f20828b30841b68f1e5",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM829.QVHB.362",
+  "source": {
+    "dataset_type": "PhenoCycler [DeepCell + SPRM]",
+    "group_name": "University of Rochester Medical Center TMC",
+    "published_timestamp": null,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM829.QVHB.362_donor": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 33.0,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "33-year-old stage",
+      "ethnicity": "black or african american",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM443.VFRD.453 (University of Rochester Medical Center TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM829.QVHB.362_reg001",
+      "donor_id": "HBM829.QVHB.362_donor",
+      "block_id": "HBM856.BCHD.866",
+      "section_index": 0,
+      "sample_name": "HBM829.QVHB.362 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip"
+      }
+    }
+  }
+}

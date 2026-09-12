@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_xenium_protein_ffpe_human_renal_ccrcc",
+  "study": "xenium-protein-ffpe-human-renal-ccrcc",
+  "study_name": "Xenium In Situ Gene and Protein Expression data for Human FFPE Clear Cell Renal Cell Carcinoma (ccRCC)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "kidney",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-protein-ffpe-human-renal-ccrcc",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/4.0.0/Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein/Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein_xe_outs.zip",
+  "source": {
+    "xoa": "4.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": true,
+    "bytes": 29945691491,
+    "published_at": "1787175838"
+  },
+  "panel": {
+    "panel_name": "Xenium Human Multi-Tissue and Cancer Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Clear Cell Renal Cell Carcinoma",
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-protein-ffpe-human-renal-ccrcc'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein": {
+      "section_id": "Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein",
+      "donor_id": "Xenium_V1_Human_Clear_Cell_Renal_Cell_Carcinoma_FFPE_Protein_donor",
+      "sample_name": "Xenium In Situ Gene and Protein Expression data for Human FFPE Clear Cell Renal Cell Carcinoma (ccRCC)",
+      "disease_state": "diseased",
+      "disease": "Clear Cell Renal Cell Carcinoma"
+    }
+  }
+}
