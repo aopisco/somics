@@ -127,8 +127,9 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
-- **Since 2026-09-05 the atlas has grown from 59 to ~500 sections** (10x
-  Visium/HD, 10x + HuBMAP Xenium, Atera, HuBMAP MIBI and SPRM); the lineage
+- **Since 2026-09-05 the atlas has grown from 59 to ~890 sections / 73.26M obs rows**
+  (10x Visium/HD, 10x + HuBMAP Xenium, Atera, HuBMAP MIBI and SPRM, Allen
+  MERFISH/MERSCOPE, Liu 2022 MERFISH, HuBMAP seqFISH); the lineage
   of prefixes, what is running, and exactly what to launch next are under
   "Where to pick up". The newest `ingest/*/atlas/<stamp>/` prefix with a
   `_DONE` marker is always the current atlas.
@@ -274,7 +275,7 @@ git checkout protein-adapters && git pull
 | MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
 | verification runs 1-5 (2026-09-10) | `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/`; **`docs/2026-09-10_verification_results.md`** | Visium 1403/1416 (12 sections have ~7k rows at negative px: crops slid to the edge; builder fixed, sections wait for the next rebuild); all 62 cell-unit sections pass row sums once gene columns only are summed; Atera 18/18; run 5 = 200-cell registration check on Xenium |
 | Liu 2022 MERFISH (finished 2026-09-11 02:00Z; **73.23M obs rows**) | `ingest/merfish/atlas/2026-09-10T14-01-51Z` | +2 sections as cells: kidney 111921 (212,090 cells) and liver JH 09-18-2021 (83,410), 307 genes + 78 blanks; the 12 transcript-only runs excluded |
-| **seqFISH (run 6, launched 2026-09-11 22:09Z, `somics-seqfish-6`, `i-04a677b37a81c815d`)** | `ingest/seqfish/atlas/2026-09-11T22-*` | 6 HuBMAP Cai-lab datasets as 43 FOV sections with DAPI. Runs 1-5 added nothing (prefixes deleted): malformed ImageJ DAPI stacks -> contiguous big-endian read (validated, `docs/figures/seqfish_hbm782_fov0_dapi_centroids.png`); duplicated EEF2 row -> dedupe; then the runner looked for the section-image registry in staging, where coalesce no longer leaves it, skipped the image bracket and ingest found no `SpatialObs` (fatal, base prefix untouched) -> runner checks the package root |
+| **seqFISH (finished 2026-09-12 ~03:30Z; 73.26M obs rows) -- CURRENT ATLAS** | `ingest/seqfish/atlas/2026-09-11T22-08-59Z` | +43 FOV sections / 31,531 cells from 6 HuBMAP Cai-lab datasets (small intestine 13 FOVs, spleen 30), 46 genes, DAPI per FOV; repair clean. Runs 1-5 added nothing (three causes, all fixed; see `docs/2026-09-10_seqfish_adapter.md`). The run-5 prefix `2026-09-11T18-02-35Z` may still need deleting (laptop link flaky) |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,

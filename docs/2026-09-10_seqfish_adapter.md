@@ -71,3 +71,16 @@ export SOMICS_FAMILY=seqfish SOMICS_BUILDER=scripts/build_seqfish_package.py
 export SOMICS_RUNNER=scripts/run_merfish_pipeline.sh SOMICS_BUILD_SCRIPT=scripts/build_seqfish_package.py
 export SOMICS_SPEC_DIRS="specs/seqfish" SOMICS_RAW_INCLUDE="*"
 ```
+
+## Result (run 6, 2026-09-11 22:09Z -> 2026-09-12 ~03:30Z, `ingest/seqfish/atlas/2026-09-11T22-08-59Z`)
+
+All six datasets in, 43 FOV sections, 31,531 cells; atlas at 73,263,158 obs
+rows, repair check clean. Each build + ingest took 65-87 s.
+  - `hubmap_hbm354_vtth_229_unspecified_spleen_na`: 10 FOVs, 7472 cells, 46 genes + 1 blank(s)
+  - `hubmap_hbm359_csfk_287_unspecified_spleen_na`: 10 FOVs, 9554 cells, 46 genes + 1 blank(s)
+  - `hubmap_hbm443_fhtz_898_unspecified_small_intesti`: 5 FOVs, 516 cells, 46 genes + 4 blank(s)
+  - `hubmap_hbm543_kqkj_535_unspecified_small_intesti`: 3 FOVs, 2327 cells, 46 genes + 4 blank(s)
+  - `hubmap_hbm782_dnvv_354_unspecified_small_intesti`: 5 FOVs, 3589 cells, 46 genes + 4 blank(s)
+  - `hubmap_hbm954_nqwf_729_unspecified_spleen_na`: 10 FOVs, 8073 cells, 46 genes + 1 blank(s)
+The spleen matrices carry one blank row where the small-bowel ones carry four;
+both are as published.
