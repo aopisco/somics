@@ -127,7 +127,7 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
-- **Since 2026-09-05 the atlas has grown from 59 to ~890 sections / 73.26M obs rows**
+- **Since 2026-09-05 the atlas has grown from 59 to 983 sections / 73.26M obs rows (breakdown 2026-09-12 below)**
   (10x Visium/HD, 10x + HuBMAP Xenium, Atera, HuBMAP MIBI and SPRM, Allen
   MERFISH/MERSCOPE, Liu 2022 MERFISH, HuBMAP seqFISH); the lineage
   of prefixes, what is running, and exactly what to launch next are under
@@ -283,6 +283,29 @@ step), `_logs/<dataset>.log` for failures, `_geometry/<dataset>.json` (Xenium
 runs; the builder's counts, for the verifier), `_repair.txt` (the end-of-run
 pointer-read check) and `_order.txt`/`_provenance.txt`. Judge a run by these,
 never by the instance.
+
+### Atlas breakdown (2026-09-12, read from `ingest/seqfish/atlas/2026-09-11T22-08-59Z`)
+
+983 sections, 335 donors, 73,263,158 obs rows (52.8M cells, 20.3M HD bins,
+219k spots). Disease state of sections: 441 healthy, 113 diseased, 429 unknown
+(HuBMAP organ donors). Organisms (obs rows): human 54.1M, mouse 17.6M, macaque
+0.78M, rat 0.50M, zebrafish 0.29M.
+
+| technology | sections | obs rows |
+|---|---|---|
+| xenium | 64 | 24.75M |
+| visium_hd | 37 | 20.26M |
+| merfish (Allen 638850 + Zhuang + HMBA human + Liu 2022) | 395 | 15.49M |
+| codex (SPRM) | 164 | 9.12M |
+| phenocycler (SPRM) | 7 | 1.85M |
+| cosmx | 8 | 0.80M |
+| mibi | 211 | 0.57M |
+| visium | 53 | 0.22M |
+| atera | 1 | 0.17M |
+| seqfish | 43 | 0.03M |
+
+Top tissues by section: brain 321, uterus 211 (MIBI), basal ganglion 95, small
+intestine 68, lung 53, spleen 53, large intestine 38, lymph node 28.
 
 ### Exactly what to launch next, in order (each waits for the previous `_DONE`)
 
