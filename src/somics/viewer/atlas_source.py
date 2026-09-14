@@ -165,11 +165,26 @@ class AtlasConfig:
 
     @classmethod
     def from_env(cls) -> "AtlasConfig":
-        """Read overrides from SOMICS_ATLAS_DIR, SOMICS_ATLAS_STORE, SOMICS_VIEWER_INDEX
-        and SOMICS_VIEWER_CACHE."""
+        """The current atlas, from `data/atlas_pointer.json` unless the environment says otherwise.
+
+        The pointer names the private S3 prefix and its viewer index (decision
+        2026-09-14: the atlas is not published; it is read with the AWS credential
+        chain). SOMICS_ATLAS_DIR, SOMICS_ATLAS_STORE, SOMICS_VIEWER_INDEX and
+        SOMICS_VIEWER_CACHE override it, which is how the hackathon R2 copy is
+        still reachable.
+        """
         config = cls()
+        pointer = _atlas_pointer()
+        if pointer.get("atlas_dir"):
+            config.atlas_dir = pointer["atlas_dir"]
+        if pointer.get("index_dir"):
+            config.index_dir = pointer["index_dir"].rstrip("/")
+        if pointer.get("store") and not os.environ.get("SOMICS_ATLAS_STORE"):
+            os.environ["SOMICS_ATLAS_STORE"] = pointer["store"]
         if atlas_dir := os.environ.get("SOMICS_ATLAS_DIR"):
             config.atlas_dir = atlas_dir
+            if not os.environ.get("SOMICS_VIEWER_INDEX"):
+                config.index_dir = None  # an index belongs to one atlas; do not pair it with another
         config.store_kwargs = store_kwargs_for(config.atlas_dir) or {}
         if cache_dir := os.environ.get("SOMICS_VIEWER_CACHE"):
             config.cache_dir = Path(cache_dir)
@@ -610,6 +625,17 @@ class AtlasSource:
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         np.save(cache_path, aligned)
         return aligned
+
+
+def _atlas_pointer() -> dict:
+    """`data/atlas_pointer.json` at the repo root, or {} outside a checkout."""
+    import json
+
+    path = Path(__file__).resolve().parents[3] / "data" / "atlas_pointer.json"
+    if not path.is_file():
+        return {}
+    with open(path) as handle:
+        return json.load(handle)
 
 
 def _arrow_location(path: str) -> tuple:
