@@ -402,8 +402,9 @@ class AtlasSource:
         import pyarrow.parquet as pq
 
         path = f"{self.config.index_dir}/coords/{section_uid}.parquet"
+        location, filesystem = _arrow_location(path)
         try:
-            table = pq.read_table(*_arrow_location(path))
+            table = pq.read_table(location, filesystem=filesystem)
         except FileNotFoundError:
             raise SampleNotFound(section_uid) from None
         return pl.from_arrow(table)
