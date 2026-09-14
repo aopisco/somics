@@ -59,13 +59,11 @@ EC2 next to the bucket, and the API reads the result per section:
 export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp> SOMICS_BRANCH=protein-adapters
 curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/build_viewer_cache_ec2.sh | bash   # as EC2 user-data
 
-# then, on the laptop (an SSO session; lance and pyarrow read the exported variables)
+# then, on the laptop: an SSO session, exported so lance and pyarrow see it.
+# data/atlas_pointer.json names the current prefix and index; no env vars needed.
 eval "$(aws configure export-credentials --profile sci-data-dev-poweruser --format env)"
-export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/seqfish/atlas/2026-09-11T22-08-59Z
-export SOMICS_ATLAS_STORE=aws
-export SOMICS_VIEWER_INDEX=s3://somics-dev/viewer_cache/2026-09-11T22-08-59Z
-aws s3 cp $SOMICS_VIEWER_INDEX/corpus_index.json data/corpus_index.json --profile sci-data-dev-poweruser
 uv run python -m somics.viewer          # API on http://127.0.0.1:8787, serves viewer/dist at / and web/dist at /corpus/
+# (after a new index build: update data/atlas_pointer.json and copy its corpus_index.json into data/)
 ```
 
 Crops and gene painting still read the atlas live, so the first crop request
@@ -75,9 +73,10 @@ forward the port over SSM: `aws ssm start-session --target <id>
 --document-name AWS-StartPortForwardingSession --parameters
 '{"portNumber":["8787"],"localPortNumber":["8787"]}'`.
 
-The public R2 copy (`s3://epiblast-public/somics_spatial_atlas`) is still the
-59-section hackathon atlas; publishing the new one there is a separate step
-(`scripts/sync_atlas_to_r2.sh`, R2 write credentials).
+The atlas is private by decision (2026-09-14) and is not published to R2; the
+public `epiblast-public` copy is the frozen 59-section hackathon atlas, reachable
+by setting `SOMICS_ATLAS_DIR=s3://epiblast-public/somics_spatial_atlas` and
+`SOMICS_ATLAS_STORE=r2`.
 
 ## Run it (hackathon atlas on R2)
 

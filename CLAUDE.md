@@ -413,9 +413,9 @@ pages (`build_dataset_pages.py`) were **not** rebuilt -- 983 pages of rendered
 PNGs is hours of EC2; the corpus builder disables "Open viewer" without them.
 Rebuild the index after every ingest; nothing warns when it is stale.
 
-**Open decisions**: publishing to R2 (`sync_atlas_to_r2.sh` + the R2 write
-pair; replace the hackathon atlas or publish beside it; attribution review
-first), and **Idetik** (`@idetik/core-prerelease`, biohub-platform's OME-NGFF
+**Decided 2026-09-14: not published.** The atlas stays private in `somics-dev`
+and the viewer is single-user for now (see Decisions); `data/atlas_pointer.json`
+is the default the API reads. Still open: **Idetik** (`@idetik/core-prerelease`, biohub-platform's OME-NGFF
 image viewer; React wrapper at `biohub-platform/frontend/src/lib/idetik-react`)
 for the imagery panel -- needs per-section OME-NGFF multiscale exports, which
 are the same items the DCA gap analysis lists.
@@ -691,6 +691,15 @@ key pair. CZI treats an exposed port 22 as a security risk.
 - `chanzuckerberg/somics#1` — port plan, awaiting @ebezzi review
 
 ## Decisions already made — don't relitigate
+
+- **The atlas is private and stays in `s3://somics-dev` (2026-09-14).** No
+  publication to the public R2 bucket; the viewer and corpus builder are for
+  @aopisco, run locally with the SSO profile's exported credentials (or on
+  EC2 under the instance role). `data/atlas_pointer.json` names the current
+  prefix and its viewer index and is what the API and the index builders
+  default to; update it after every ingest. The hackathon 59-section copy on
+  `epiblast-public` is untouched and still public -- removing it is a separate
+  decision.
 
 - One table for everything, with `found_via` / id prefixes marking provenance,
   rather than separate literature and consortium registries.

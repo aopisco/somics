@@ -59,7 +59,7 @@ from somics.pages.render import (
     section_extent,
 )
 from somics.pages.stats import feature_summary, histogram, spatial_structure
-from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, store_kwargs_for
+from somics.viewer.atlas_source import AtlasConfig, store_kwargs_for
 from somics.viewer.paths import CORPUS_INDEX, DATASET_PAGES
 
 TEMPLATE = Path(__file__).resolve().parents[1] / "src" / "somics" / "pages" / "template.html"
@@ -845,7 +845,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-o", "--output", default=str(DATASET_PAGES))
     parser.add_argument("--index", default=str(CORPUS_INDEX))
-    parser.add_argument("--atlas", default=DEFAULT_ATLAS_DIR)
+    parser.add_argument("--atlas", default=AtlasConfig.from_env().atlas_dir)
     parser.add_argument(
         "--subsample",
         type=int,
