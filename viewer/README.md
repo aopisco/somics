@@ -46,7 +46,40 @@ orbiting and zooming leave it exactly where you put it. Drag it by the title bar
 corner, close it, and reopen it from the `panel` chip. Its position, size and open state live in the
 URL with everything else.
 
-## Run it
+## Run it against the current atlas (73M rows, 983 sections)
+
+The API was written for a 587k-cell atlas and scanned the whole obs table for
+its sample index and per-section coordinates. At the current size that is
+minutes and gigabytes per request, so those two scans are precomputed once, on
+EC2 next to the bucket, and the API reads the result per section:
+
+```bash
+# once per new atlas prefix (r5.4xlarge, ~30 min): writes
+#   s3://somics-dev/viewer_cache/<stamp>/{samples.json, coords/<section_uid>.parquet, corpus_index.json}
+export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp> SOMICS_BRANCH=protein-adapters
+curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/build_viewer_cache_ec2.sh | bash   # as EC2 user-data
+
+# then, on the laptop (an SSO session; lance and pyarrow read the exported variables)
+eval "$(aws configure export-credentials --profile sci-data-dev-poweruser --format env)"
+export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/seqfish/atlas/2026-09-11T22-08-59Z
+export SOMICS_ATLAS_STORE=aws
+export SOMICS_VIEWER_INDEX=s3://somics-dev/viewer_cache/2026-09-11T22-08-59Z
+aws s3 cp $SOMICS_VIEWER_INDEX/corpus_index.json data/corpus_index.json --profile sci-data-dev-poweruser
+uv run python -m somics.viewer          # API on http://127.0.0.1:8787, serves viewer/dist at / and web/dist at /corpus/
+```
+
+Crops and gene painting still read the atlas live, so the first crop request
+on a section costs a filtered scan of 73M rows (seconds on EC2, longer on a
+laptop link). To run the API in-region instead, start it on an EC2 box and
+forward the port over SSM: `aws ssm start-session --target <id>
+--document-name AWS-StartPortForwardingSession --parameters
+'{"portNumber":["8787"],"localPortNumber":["8787"]}'`.
+
+The public R2 copy (`s3://epiblast-public/somics_spatial_atlas`) is still the
+59-section hackathon atlas; publishing the new one there is a separate step
+(`scripts/sync_atlas_to_r2.sh`, R2 write credentials).
+
+## Run it (hackathon atlas on R2)
 
 Two processes. The API reads the atlas over Cloudflare R2 and needs no credentials of its own.
 
