@@ -394,6 +394,32 @@ recoverable; specs in `specs/seqfish/`, builder verified locally. Launch it
 after the Liu block lands, with the MERFISH runner and
 `SOMICS_BUILD_SCRIPT=scripts/build_seqfish_package.py`.
 
+### Viewer and corpus builder against the current atlas (2026-09-14)
+
+Both UIs are rebuilt (`viewer/dist`, `web/dist`) and the API runs against the
+73M-row atlas. The API used to scan the whole obs table for its sample index
+and per-section coordinates; at this size that is minutes and gigabytes, so
+`scripts/build_viewer_cache.py` (EC2 wrapper `build_viewer_cache_ec2.sh`,
+r5.4xlarge, ~4 min of scans) precomputes `samples.json` +
+`coords/<section_uid>.parquet` + `corpus_index.json` under
+`s3://somics-dev/viewer_cache/<atlas stamp>/`, and the API reads them when
+`SOMICS_VIEWER_INDEX` points there (`src/somics/viewer/atlas_source.py`;
+recipe in `viewer/README.md`). Store selection is `SOMICS_ATLAS_STORE`
+(r2 | aws | local). Measured on the laptop: `/api/samples` 2 s, `/points` 1 s;
+crops and gene painting still read the atlas live (filtered scans). The
+current index is `viewer_cache/2026-09-11T22-08-59Z` and
+`data/corpus_index.json` is from it (983 cards, 627 pass all QC). Dataset
+pages (`build_dataset_pages.py`) were **not** rebuilt -- 983 pages of rendered
+PNGs is hours of EC2; the corpus builder disables "Open viewer" without them.
+Rebuild the index after every ingest; nothing warns when it is stale.
+
+**Open decisions**: publishing to R2 (`sync_atlas_to_r2.sh` + the R2 write
+pair; replace the hackathon atlas or publish beside it; attribution review
+first), and **Idetik** (`@idetik/core-prerelease`, biohub-platform's OME-NGFF
+image viewer; React wrapper at `biohub-platform/frontend/src/lib/idetik-react`)
+for the imagery panel -- needs per-section OME-NGFF multiscale exports, which
+are the same items the DCA gap analysis lists.
+
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
 Done and pushed on `protein-adapters`: miR-Space (bioRxiv
