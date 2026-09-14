@@ -59,7 +59,7 @@ from somics.pages.render import (
     section_extent,
 )
 from somics.pages.stats import feature_summary, histogram, spatial_structure
-from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, DEFAULT_STORE_KWARGS
+from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, store_kwargs_for
 from somics.viewer.paths import CORPUS_INDEX, DATASET_PAGES
 
 TEMPLATE = Path(__file__).resolve().parents[1] / "src" / "somics" / "pages" / "template.html"
@@ -880,7 +880,7 @@ def main() -> None:
         if not cards:
             raise SystemExit(f"no cards matched {sorted(wanted)}")
 
-    store_kwargs = DEFAULT_STORE_KWARGS if args.atlas.startswith("s3://") else None
+    store_kwargs = store_kwargs_for(args.atlas)
     print(f"reading {args.atlas}")
     atlas = hox.RaggedAtlas.checkout_latest(args.atlas, store_kwargs=store_kwargs)
 

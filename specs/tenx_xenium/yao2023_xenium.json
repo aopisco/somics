@@ -1,0 +1,51 @@
+{
+  "dataset_key": "yao2023_xenium",
+  "study": "fresh-frozen-mouse-brain-for-xenium-explorer-demo-1-standard",
+  "study_name": "Fresh Frozen Mouse Brain for Xenium Explorer Demo",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Mus musculus",
+  "tissue": "brain / cortex",
+  "preservation": "fresh_frozen",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/fresh-frozen-mouse-brain-for-xenium-explorer-demo-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.0.2/Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP/Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP_outs.zip",
+  "source": {
+    "xoa": "1.0.2",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 3479544713,
+    "published_at": "1674427284"
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'fresh-frozen-mouse-brain-for-xenium-explorer-demo-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP": {
+      "section_id": "Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP",
+      "donor_id": "Xenium_V1_FF_Mouse_Brain_Coronal_Subset_CTX_HP_donor",
+      "sample_name": "Fresh Frozen Mouse Brain for Xenium Explorer Demo",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

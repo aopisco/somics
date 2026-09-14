@@ -1,0 +1,56 @@
+{
+  "dataset_key": "hubmap_hbm866_vmbk_952_unspecified_fallopian_tube_right_na",
+  "hubmap_id": "HBM866.VMBK.952",
+  "uuid": "5651e03f26d2cde2872a0972fd7ea43a",
+  "study": "5651e03f26d2cde2872a0972fd7ea43a",
+  "study_name": "PhenoCycler [DeepCell + SPRM] data from the fallopian tube (right) of a 45-year-old white female",
+  "assay": "PhenoCycler",
+  "technology": "phenocycler",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "segmentation_note": "DeepCell (Mesmer) whole-cell segmentation on the nuclear and membrane channels; the enum has no deep-learning member other than cellpose, which this is not",
+  "pipeline": "DeepCell + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "fallopian tube (right)",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM866.VMBK.952",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/5651e03f26d2cde2872a0972fd7ea43a",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM866.VMBK.952",
+  "source": {
+    "dataset_type": "PhenoCycler [DeepCell + SPRM]",
+    "group_name": "TMC - University of Pennsylvania",
+    "published_timestamp": 1781291518116,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM866.VMBK.952_donor": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 45.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "45-year-old stage",
+      "ethnicity": "white",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM823.WVQN.738 (TMC - University of Pennsylvania). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM866.VMBK.952_reg001",
+      "donor_id": "HBM866.VMBK.952_donor",
+      "block_id": "HBM445.RGWT.936",
+      "section_index": 0,
+      "sample_name": "HBM866.VMBK.952 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv"
+      }
+    }
+  }
+}

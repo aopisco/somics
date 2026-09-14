@@ -1,0 +1,252 @@
+{
+  "dataset_key": "hubmap_hbm359_csfk_287_unspecified_spleen_na",
+  "hubmap_id": "HBM359.CSFK.287",
+  "uuid": "137cfbe04757d99ae0763c1f387ccea7",
+  "study": "HBM359.CSFK.287",
+  "study_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female",
+  "assay": "seqFISH",
+  "technology": "seqfish",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "organism": "Homo sapiens",
+  "tissue": "spleen",
+  "preservation": "fresh_frozen",
+  "image_modality": "dapi",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/137cfbe04757d99ae0763c1f387ccea7",
+  "download_url": "s3://somics-dev/hubmap/HBM359.CSFK.287/",
+  "source": {
+    "layout": "hubmap_seqfish",
+    "pixel_size_um": 0.112,
+    "fovs": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "threshold": "data",
+    "bytes": 3802483499,
+    "published_at": 1598129550101,
+    "files": [
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/cell_centroids.csv",
+        "dest": "cell_centroids.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/gene-list-seqFISH-spleen.csv",
+        "dest": "gene_list.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos20.csv",
+        "dest": "pos20/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos20.tif",
+        "dest": "pos20/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos21.csv",
+        "dest": "pos21/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos21.tif",
+        "dest": "pos21/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos22.csv",
+        "dest": "pos22/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos22.tif",
+        "dest": "pos22/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos23.csv",
+        "dest": "pos23/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos23.tif",
+        "dest": "pos23/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos24.csv",
+        "dest": "pos24/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos24.tif",
+        "dest": "pos24/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos25.csv",
+        "dest": "pos25/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos25.tif",
+        "dest": "pos25/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos26.csv",
+        "dest": "pos26/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos26.tif",
+        "dest": "pos26/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos27.csv",
+        "dest": "pos27/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos27.tif",
+        "dest": "pos27/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos28.csv",
+        "dest": "pos28/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos28.tif",
+        "dest": "pos28/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/data/count_matrix_pos29.csv",
+        "dest": "pos29/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM359.CSFK.287/segmentation_mask/dapi-hyb0-pos29.tif",
+        "dest": "pos29/dapi.tif"
+      }
+    ],
+    "notes": "One section per field of view: centroids are FOV-local pixels and the stage positions in the .pos file do not map onto the posN numbering. DAPI stack max-projected to a single plane. Segmentation masks and the raw hyb-cycle stacks are not used."
+  },
+  "panel": {
+    "panel_name": "Cai lab seqFISH spleen panel (HuBMAP W105)",
+    "vendor": "Cai lab, California Institute of Technology",
+    "technology": "seqfish",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Targeted seqFISH panel of the HuBMAP Caltech TMC; gene_list.csv gives hyb cycle, round and channel per gene."
+  },
+  "donors": {
+    "HBM876.BRLJ.659": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 62.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "62-year-old stage",
+      "ethnicity": "White",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM876.BRLJ.659 (California Institute of Technology TMC). Age, sex and race as the portal records them; an organ donor, so no diagnosis is recorded."
+    }
+  },
+  "samples": {
+    "HBM359.CSFK.287_fov20": {
+      "section_id": "HBM359.CSFK.287_fov20",
+      "fov": 20,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 20",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov21": {
+      "section_id": "HBM359.CSFK.287_fov21",
+      "fov": 21,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 21",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov22": {
+      "section_id": "HBM359.CSFK.287_fov22",
+      "fov": 22,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 22",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov23": {
+      "section_id": "HBM359.CSFK.287_fov23",
+      "fov": 23,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 23",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov24": {
+      "section_id": "HBM359.CSFK.287_fov24",
+      "fov": 24,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 24",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov25": {
+      "section_id": "HBM359.CSFK.287_fov25",
+      "fov": 25,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 25",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov26": {
+      "section_id": "HBM359.CSFK.287_fov26",
+      "fov": 26,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 26",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov27": {
+      "section_id": "HBM359.CSFK.287_fov27",
+      "fov": 27,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 27",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov28": {
+      "section_id": "HBM359.CSFK.287_fov28",
+      "fov": 28,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 28",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM359.CSFK.287_fov29": {
+      "section_id": "HBM359.CSFK.287_fov29",
+      "fov": 29,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM598.KHTX.275",
+      "sample_name": "seqFISH [Lab Processed] data from the spleen of a 62.0-year-old white female -- field of view 29",
+      "anatomical_region": "posterior",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

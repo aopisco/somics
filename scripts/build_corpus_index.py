@@ -29,7 +29,7 @@ from typing import Any
 import homeobox as hox
 import polars as pl
 
-from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, DEFAULT_STORE_KWARGS
+from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, store_kwargs_for
 
 # Platform -> the resolution tier the UI filters on. Not a schema concept: it is
 # a property of the instrument, so it lives here as a lookup rather than being
@@ -523,7 +523,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    store_kwargs = DEFAULT_STORE_KWARGS if args.atlas.startswith("s3://") else None
+    store_kwargs = store_kwargs_for(args.atlas)
     print(f"reading {args.atlas}")
     atlas = hox.RaggedAtlas.checkout_latest(args.atlas, store_kwargs=store_kwargs)
     index = build_index(atlas, args.atlas, group_by=args.group_by)

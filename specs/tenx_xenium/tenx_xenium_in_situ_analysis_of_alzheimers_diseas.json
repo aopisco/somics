@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_xenium_in_situ_analysis_of_alzheimers_diseas",
+  "study": "xenium-in-situ-analysis-of-alzheimers-disease-mouse-model-brain-coronal-sections-from-one-hemisphere-over-a-time-course-1-standard",
+  "study_name": "Xenium In Situ Analysis of Alzheimer's Disease Mouse Model Brain Coronal Sections from One Hemisphere Over a Time Course",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-in-situ-analysis-of-alzheimers-disease-mouse-model-brain-coronal-sections-from-one-hemisphere-over-a-time-course-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.4.0/Xenium_V1_FFPE_TgCRND8_17_9_months/Xenium_V1_FFPE_TgCRND8_17_9_months_outs.zip",
+  "source": {
+    "xoa": "1.4.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 6046328135,
+    "published_at": "1689247488"
+  },
+  "panel": {
+    "panel_name": "Xenium Mouse Brain Gene Expression Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_FFPE_TgCRND8_17_9_months_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "healthy, Alzheimer's-like pathology",
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-in-situ-analysis-of-alzheimers-disease-mouse-model-brain-coronal-sections-from-one-hemisphere-over-a-time-course-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_FFPE_TgCRND8_17_9_months": {
+      "section_id": "Xenium_V1_FFPE_TgCRND8_17_9_months",
+      "donor_id": "Xenium_V1_FFPE_TgCRND8_17_9_months_donor",
+      "sample_name": "Xenium In Situ Analysis of Alzheimer's Disease Mouse Model Brain Coronal Sections from One Hemisphere Over a Time Course",
+      "disease_state": "diseased",
+      "disease": "healthy, Alzheimer's-like pathology"
+    }
+  }
+}
