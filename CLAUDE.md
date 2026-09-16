@@ -405,7 +405,10 @@ r5.4xlarge, ~4 min of scans) precomputes `samples.json` +
 `s3://somics-dev/viewer_cache/<atlas stamp>/`, and the API reads them when
 `SOMICS_VIEWER_INDEX` points there (`src/somics/viewer/atlas_source.py`;
 recipe in `viewer/README.md`). Store selection is `SOMICS_ATLAS_STORE`
-(r2 | aws | local). Measured on the laptop: `/api/samples` 2 s, `/points` 1 s, first `/crops` on a Xenium section 109 s (8 tiles);
+(r2 | aws | local). **Start it locally with `scripts/run_viewer_local.sh`**: the
+exported SSO credentials expire after ~1 h, after which crops and gene painting
+500 ("Failed to connect to namespace ... S3") while the cached sample list and
+points keep working -- rerun the script to refresh. Measured on the laptop: `/api/samples` 2 s, `/points` 1 s, first `/crops` on a Xenium section 109 s (8 tiles);
 crops and gene painting still read the atlas live (filtered scans). The
 current index is `viewer_cache/2026-09-11T22-08-59Z` and
 `data/corpus_index.json` is from it (983 cards, 627 pass all QC). Dataset
