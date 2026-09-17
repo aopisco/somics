@@ -1,0 +1,51 @@
+{
+  "dataset_key": "mouse_brain_hemi2025_xenium",
+  "study": "mouse_brain_hemi2025_xenium",
+  "study_name": "Mouse brain hemisphere (Xenium)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Mus musculus",
+  "tissue": "brain hemisphere",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://cf.10xgenomics.com/samples/xenium/1.4.0/Xenium_V1_FFPE_wildtype_5_7_months/Xenium_V1_FFPE_wildtype_5_7_months_outs.zip",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.4.0/Xenium_V1_FFPE_wildtype_5_7_months/Xenium_V1_FFPE_wildtype_5_7_months_outs.zip",
+  "source": {
+    "xoa": "1.4.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 5817958520,
+    "published_at": null
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_FFPE_wildtype_5_7_months_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'mouse_brain_hemi2025_xenium'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_FFPE_wildtype_5_7_months": {
+      "section_id": "Xenium_V1_FFPE_wildtype_5_7_months",
+      "donor_id": "Xenium_V1_FFPE_wildtype_5_7_months_donor",
+      "sample_name": "Mouse brain hemisphere (Xenium)",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

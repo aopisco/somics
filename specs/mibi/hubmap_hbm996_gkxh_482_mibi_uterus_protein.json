@@ -1,0 +1,68 @@
+{
+  "dataset_key": "hubmap_hbm996_gkxh_482_mibi_uterus_protein",
+  "hubmap_id": "HBM996.GKXH.482",
+  "hubmap_uuid": "b048ce529a1ebd69513c252c60db876f",
+  "study": "hubmap_stanford_rti_mibi",
+  "study_name": "MIBI data from the uterus of a 19.8-year-old white female",
+  "assay": "MIBI",
+  "technology": "mibi",
+  "spatial_unit": "cell",
+  "segmentation_method": null,
+  "organism": "Homo sapiens",
+  "tissue": "uterus",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/b048ce529a1ebd69513c252c60db876f",
+  "download_url": "https://assets.hubmapconsortium.org/b048ce529a1ebd69513c252c60db876f/3D_image_stack.ome.tiff",
+  "source": {
+    "layout": "lab_submission",
+    "bytes": 577184898,
+    "published_at": 1678370489664,
+    "sprm_derivative": "HBM834.MXGK.699",
+    "cohort_cells_table": "s3://somics-dev/hubmap/HBM996.GKXH.482/SingleCellData/cells.csv: the cohort-wide table (495k cells, 211 fields); this dataset's field is not identified, so it is not joined"
+  },
+  "panel": {
+    "panel_name": "HuBMAP Stanford RTI MIBI 37-plex panel da1df453",
+    "vendor": "Ionpath",
+    "version": "study-specific",
+    "technology": "mibi",
+    "organism": "Homo sapiens",
+    "n_targets": 37,
+    "has_custom_addon": false,
+    "description": "37 metal-conjugated antibodies imaged on a MIBIscope: CD11c, CD14, CD16, CD163, CD20, CD206, CD3, CD31, CD4, CD44, CD45, CD56, CD57, CD68, CD8, CD80, CK7, DCSIGN, Ecad, FoxP3, Galectin9, GrB, H3, HLADR, HLAG, HO1, IDO, Ki67, Lck, PD1, PDL1, SMA, TIGIT, TIM3, Tryptase, VIM, iNOS. The stack also carries the elemental and background channels, which are flagged is_control on the feature axis."
+  },
+  "donors": {
+    "HBM288.KLMH.285": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 19.8,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "19-year-old stage",
+      "ethnicity": "White",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM288.KLMH.285 (Stanford RTI). Age, sex and race as the portal records them; nothing else is published."
+    }
+  },
+  "samples": {
+    "HBM996.GKXH.482": {
+      "section_id": "HBM996.GKXH.482",
+      "donor_id": "HBM288.KLMH.285",
+      "block_id": "HBM665.GKKK.498",
+      "section_index": 0,
+      "accession_id": "HBM996.GKXH.482",
+      "sample_name": "MIBI data from the uterus of a 19.8-year-old white female",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "stack": "s3://somics-dev/hubmap/HBM996.GKXH.482/3D_image_stack.ome.tiff",
+        "mask": "s3://somics-dev/hubmap/HBM996.GKXH.482/Mapping/cluster_labels_image.tif",
+        "antibodies": "s3://somics-dev/hubmap/HBM996.GKXH.482/extras/antibodies.tsv",
+        "channel_report": "s3://somics-dev/hubmap/HBM996.GKXH.482/mcd/channelnames_report.csv",
+        "metadata_json": "s3://somics-dev/hubmap/HBM996.GKXH.482/metadata.json",
+        "metadata_tsv": "s3://somics-dev/hubmap/HBM996.GKXH.482/b048ce529a1ebd69513c252c60db876f-metadata.tsv"
+      }
+    }
+  }
+}

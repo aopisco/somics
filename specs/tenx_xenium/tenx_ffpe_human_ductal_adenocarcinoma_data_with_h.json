@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_ffpe_human_ductal_adenocarcinoma_data_with_h",
+  "study": "ffpe-human-ductal-adenocarcinoma-data-with-human-immuno-oncology-profiling-panel-1-standard",
+  "study_name": "FFPE Human Pancreatic Ductal Adenocarcinoma Data with Human Immuno-Oncology Profiling Panel",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "pancreas",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/ffpe-human-ductal-adenocarcinoma-data-with-human-immuno-oncology-profiling-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/2.0.0/Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE/Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE_outs.zip",
+  "source": {
+    "xoa": "2.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 9196360921,
+    "published_at": "1715723038"
+  },
+  "panel": {
+    "panel_name": "Xenium Human Immuno-Oncology Profiling Panel with custom add-on",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "ductal adenocarcinoma",
+      "description": "Donor of the 10x Genomics Xenium dataset 'ffpe-human-ductal-adenocarcinoma-data-with-human-immuno-oncology-profiling-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE": {
+      "section_id": "Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE",
+      "donor_id": "Xenium_V1_Human_Ductal_Adenocarcinoma_FFPE_donor",
+      "sample_name": "FFPE Human Pancreatic Ductal Adenocarcinoma Data with Human Immuno-Oncology Profiling Panel",
+      "disease_state": "diseased",
+      "disease": "ductal adenocarcinoma"
+    }
+  }
+}

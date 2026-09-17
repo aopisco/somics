@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_xenium_prime_ffpe_human_ovarian_cancer",
+  "study": "xenium-prime-ffpe-human-ovarian-cancer",
+  "study_name": "FFPE Human Ovarian Cancer with 5K Human Pan Tissue and Pathways Panel plus 100 Custom Genes",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "ovary",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-prime-ffpe-human-ovarian-cancer",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/3.0.0/Xenium_Prime_Ovarian_Cancer_FFPE_XRrun/Xenium_Prime_Ovarian_Cancer_FFPE_XRrun_xe_outs.zip",
+  "source": {
+    "xoa": "3.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 10152122749,
+    "published_at": "1734471838"
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Human Pan Tissue and Pathways Panel plus 100 Custom Genes",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "Xenium_Prime_Ovarian_Cancer_FFPE_XRrun_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "Ovarian cancer",
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-prime-ffpe-human-ovarian-cancer'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_Prime_Ovarian_Cancer_FFPE_XRrun": {
+      "section_id": "Xenium_Prime_Ovarian_Cancer_FFPE_XRrun",
+      "donor_id": "Xenium_Prime_Ovarian_Cancer_FFPE_XRrun_donor",
+      "sample_name": "FFPE Human Ovarian Cancer with 5K Human Pan Tissue and Pathways Panel plus 100 Custom Genes",
+      "disease_state": "diseased",
+      "disease": "Ovarian cancer"
+    }
+  }
+}

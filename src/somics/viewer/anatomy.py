@@ -109,6 +109,8 @@ ORGANS: tuple[Organ, ...] = (
             "cortex",
             "prefrontal cortex",
             "dorsolateral prefrontal cortex",
+            "basal ganglion",  # UBERON's label; the HMBA MERSCOPE sections carry it
+            "basal ganglia",
             "medial prefrontal cortex",
             "frontal cortex",
             "visual cortex",

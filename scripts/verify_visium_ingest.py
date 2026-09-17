@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check ingested Visium / Visium HD sections against their specs and sources.
+"""Check ingested sections (Visium, Visium HD, Xenium) against their specs and sources.
 
 An ingest can succeed and still be wrong in ways nothing downstream notices: a
 section attached to the wrong image frame, an obs row whose expression vector
@@ -53,6 +53,7 @@ import polars as pl
 RAW = "s3://somics-dev/raw"
 SAMPLE_ROWS = 64
 CROP_ROWS = 16
+REG_ROWS = 200
 
 
 class Report:
@@ -101,6 +102,32 @@ def source_counts(key: str, sample: str, tmp: str) -> tuple[int, int, dict]:
         member = next(m for m in t.getmembers() if m.name.endswith("scalefactors_json.json"))
         scale = json.load(t.extractfile(member))
     return n_bc, n_ft, scale
+
+
+def expected_rows(atlas_root: str, dataset_key: str, sample: str) -> int | None:
+    """The builder's own row count for this sample, if the run kept its geometry.
+
+    The Xenium EC2 runner uploads each dataset's ``sample_geometry.json`` to
+    ``<prefix>/_geometry/<dataset_key>.json``; the count there is what the
+    package was built with, which is what the atlas must hold.
+    """
+    path = f"{atlas_root.rstrip('/')}/_geometry/{dataset_key}.json"
+    try:
+        if path.startswith("s3://"):
+            raw = subprocess.run(
+                ["aws", "s3", "cp", path, "-", "--only-show-errors"],
+                capture_output=True,
+                check=True,
+            ).stdout
+            geometry = json.loads(raw)
+        else:
+            geometry = json.load(open(path))
+    except Exception:  # noqa: BLE001 - runs before this convention have no geometry
+        return None
+    for g in geometry:
+        if g.get("sample") == sample:
+            return int(g.get("n_cells") or g.get("n_spots") or 0) or None
+    return None
 
 
 def crop_stats(crops: np.ndarray, modality: str) -> float:
@@ -177,12 +204,11 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     uid = row["uid"][0]
     hd = spec["technology"] == "visium_hd"
 
-    report.add(
-        sid,
-        "tissue",
-        row["tissue"][0] == entry.get("tissue", spec.get("tissue")),
-        f"{row['tissue'][0]!r}",
-    )
+    # The resolution pass maps the spec's label onto UBERON's (cervix -> uterine
+    # cervix); either containing the other is the same tissue.
+    want = str(entry.get("tissue", spec.get("tissue"))).lower()
+    got = str(row["tissue"][0]).lower()
+    report.add(sid, "tissue", want in got or got in want, f"{row['tissue'][0]!r} (spec {want!r})")
     exp_state = entry.get("disease_state", spec.get("disease_state"))
     report.add(
         sid, "disease_state", row["disease_state"][0] == exp_state, f"{row['disease_state'][0]!r}"
@@ -192,6 +218,9 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     obs = q.to_polars()
     n = obs.height
     report.add(sid, "obs rows", n > 0, f"{n}")
+    expected = expected_rows(args.atlas, spec["dataset_key"], sample)
+    if expected is not None:
+        report.add(sid, "obs rows == builder geometry", n == expected, f"{n} vs {expected}")
     for col, expected in (
         ("technology", spec["technology"]),
         ("spatial_unit", spec["spatial_unit"]),
@@ -200,10 +229,14 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
         vals = obs[col].unique().to_list()
         report.add(sid, f"obs.{col}", vals == [expected], f"{vals}")
     unit = obs["unit_size_um"].unique().to_list()
-    report.add(sid, "obs.unit_size_um", unit == [float(spec["unit_size_um"])], f"{unit}")
-    report.add(
-        sid, "n_counts > 0", bool((obs["n_counts"] > 0).all()), f"min {obs['n_counts'].min()}"
-    )
+    if "unit_size_um" in spec:  # spots and bins have a size; cells (Xenium, Atera) do not
+        report.add(sid, "obs.unit_size_um", unit == [float(spec["unit_size_um"])], f"{unit}")
+    else:
+        report.add(sid, "obs.unit_size_um null (cells)", unit == [None], f"{unit}")
+    # A spot under tissue can have zero counts; a section where none do would
+    # mean a misaligned or empty matrix.
+    positive = float((obs["n_counts"] > 0).mean())
+    report.add(sid, "n_counts > 0 (fraction)", positive > 0.5, f"{positive:.3f}")
     if exp_state == "diseased":
         resolved = int(obs["disease"].is_not_null().sum())
         report.add(
@@ -220,8 +253,26 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
     qs = atlas.query().where(f"section_uid == '{uid}' AND source_obs_id IN ({quoted})")
     sub = qs.to_polars()
     try:
-        adata = qs.select_fields("gene_expression").to_anndata()
+        adata = None
+        for attempt in range(3):  # S3 GETs fail transiently under load
+            try:
+                adata = qs.select_fields("gene_expression").to_anndata()
+                break
+            except Exception as exc:  # noqa: BLE001
+                if attempt == 2 or "S3 error" not in str(exc):
+                    raise
         x = adata.X
+        # n_counts is the builder's gene-transcript count (Xenium's
+        # transcript_counts); the stored matrix also carries the control and
+        # blank codeword columns, so the comparison sums the gene columns only
+        # where the feature registry flags controls. Visium matrices are all genes.
+        var = adata.var
+        if "is_control" in var.columns and var["is_control"].notna().any():
+            keep = ~var["is_control"].fillna(False).astype(bool).to_numpy()
+            x = x[:, keep]
+            which = f"{int(keep.sum())} gene columns of {adata.n_vars}"
+        else:
+            which = f"{adata.n_vars} features"
         sums = np.asarray(x.sum(axis=1)).ravel()
         order_ok = len(sums) == sub.height
         match = order_ok and np.allclose(sums, sub["n_counts"].to_numpy())
@@ -229,7 +280,7 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
             sid,
             "expression row sums == n_counts",
             match,
-            f"{len(sums)} rows sampled, {adata.n_vars} features",
+            f"{len(sums)} rows sampled, {which}",
         )
         n_features = int(adata.n_vars)
     except Exception as e:  # noqa: BLE001
@@ -248,13 +299,16 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
             report.add(sid, "channel_names", got == spec["channel_names"], f"{got}")
         h, w = int(im["height_px"][0]), int(im["width_px"][0])
         inside = bool(
-            (obs["x_px"] < w).all() and (obs["y_px"] < h).all() and (obs["x_px"] >= 0).all()
+            (obs["x_px"] < w).all() and (obs["y_px"] < h).all()
+            and (obs["x_px"] >= 0).all() and (obs["y_px"] >= 0).all()
         )
+        n_neg = int(((obs["x_px"] < 0) | (obs["y_px"] < 0)).sum())
         report.add(
             sid,
             "obs inside image",
             inside,
-            f"max x {obs['x_px'].max():.0f}/{w}, max y {obs['y_px'].max():.0f}/{h}",
+            f"x {obs['x_px'].min():.0f}..{obs['x_px'].max():.0f}/{w}, "
+            f"y {obs['y_px'].min():.0f}..{obs['y_px'].max():.0f}/{h}, {n_neg} rows at negative px",
         )
         ps = float(im["pixel_size_um"][0])
         report.add(
@@ -280,10 +334,48 @@ def check_section(atlas, atlas_root, spec, sample, entry, tables, report, args, 
                 f"mean intensity at top spots {at:.1f} vs random {away:.1f}",
             )
             save_grid(crops, os.path.join(args.crops_dir, f"{sid}_{pointer}.png"), sid)
+            if modality != "he":
+                # Registration check that needs no background model. On a
+                # nuclear/morphology image a crop is centred on a cell centroid,
+                # so its centre 9x9 should outshine 9x9 windows 48 px away in
+                # the same crop for most cells: ~0.85 when registered, ~0.5 when
+                # not, at any tissue density. 200 uniformly sampled cells (the
+                # top-count cells and 16 samples were both too noisy).
+                sample_ids = obs.sample(n=min(REG_ROWS, n), seed=0)["source_obs_id"].to_list()
+                qu = atlas.query().where(
+                    f"section_uid == '{uid}' AND source_obs_id IN "
+                    f"({', '.join(chr(39) + i + chr(39) for i in sample_ids)})"
+                )
+                cu = np.asarray(qu.to_spatial_batch(pointer).layers["raw"], dtype="float64")
+                if cu.ndim == 4:
+                    cu = cu.mean(axis=-1)
+                c0 = cu.shape[1] // 2
+                win = lambda dy, dx: cu[:, c0 + dy - 4 : c0 + dy + 5, c0 + dx - 4 : c0 + dx + 5].mean(axis=(1, 2))
+                def centre_frac(stack: np.ndarray) -> float:
+                    c = stack.shape[1] // 2
+                    w = lambda dy, dx: stack[:, c + dy - 4 : c + dy + 5, c + dx - 4 : c + dx + 5].mean(axis=(1, 2))
+                    return float((w(0, 0) > np.mean([w(-48, 0), w(48, 0), w(0, -48), w(0, 48)], axis=0)).mean())
+
+                frac = centre_frac(cu)
+                # The null: the same statistic on windows at random positions.
+                # Dense tissue puts nuclei under the offset windows too, so the
+                # absolute fraction varies by tissue; registered centroids must
+                # beat random placement by a clear margin, misregistered ones
+                # cannot.
+                rw = random_windows(atlas_root, group, len(cu), cu.shape[1], (h, w), rng).astype("float64")
+                if rw.ndim == 4:
+                    rw = rw.mean(axis=-1)
+                null = centre_frac(rw)
+                report.add(
+                    sid,
+                    "centroids sit on nuclear signal",
+                    frac - null > 0.15,
+                    f"centre beats 48 px offsets for {frac:.2f} of {len(cu)} cells vs {null:.2f} of random windows",
+                )
         except Exception as e:  # noqa: BLE001
             report.add(sid, f"{pointer} readable", False, str(e)[:160])
 
-    if args.source_check and "files" in entry and not hd:
+    if args.source_check and "files" in entry and not hd and "unit_size_um" in spec:
         try:
             n_bc, n_ft, scale = source_counts(spec["dataset_key"], sample, tmp)
             report.add(sid, "source barcodes == obs rows", n_bc == n, f"{n_bc} vs {n}")

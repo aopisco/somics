@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_xenium_prime_ffpe_human_prostate",
+  "study": "xenium-prime-ffpe-human-prostate",
+  "study_name": "Preview Data: FFPE Human Prostate Adenocarcinoma with 5K Human Pan Tissue and Pathways Panel",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "prostate",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-prime-ffpe-human-prostate",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/3.0.0/Xenium_Prime_Human_Prostate_FFPE/Xenium_Prime_Human_Prostate_FFPE_outs.zip",
+  "source": {
+    "xoa": "3.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 12010131140,
+    "published_at": "1722462238"
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Human Pan Tissue and Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_Prime_Human_Prostate_FFPE_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "adenocarcinoma",
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-prime-ffpe-human-prostate'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_Prime_Human_Prostate_FFPE": {
+      "section_id": "Xenium_Prime_Human_Prostate_FFPE",
+      "donor_id": "Xenium_Prime_Human_Prostate_FFPE_donor",
+      "sample_name": "Preview Data: FFPE Human Prostate Adenocarcinoma with 5K Human Pan Tissue and Pathways Panel",
+      "disease_state": "diseased",
+      "disease": "adenocarcinoma"
+    }
+  }
+}

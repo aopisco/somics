@@ -1,0 +1,119 @@
+{
+  "dataset_key": "hubmap_hbm543_kqkj_535_unspecified_small_intestine_na",
+  "hubmap_id": "HBM543.KQKJ.535",
+  "uuid": "a8172784e0670b5ab59e880f315bd56a",
+  "study": "HBM543.KQKJ.535",
+  "study_name": "seqFISH [Lab Processed] data from the small intestine of a 62.0-year-old white female",
+  "assay": "seqFISH",
+  "technology": "seqfish",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "organism": "Homo sapiens",
+  "tissue": "small intestine",
+  "preservation": "fresh_frozen",
+  "image_modality": "dapi",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/a8172784e0670b5ab59e880f315bd56a",
+  "download_url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/",
+  "source": {
+    "layout": "hubmap_seqfish",
+    "pixel_size_um": 0.112,
+    "fovs": [
+      5,
+      6,
+      7
+    ],
+    "threshold": "data",
+    "bytes": 1914736806,
+    "published_at": 1598129551284,
+    "files": [
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/data/cell_centroids.csv",
+        "dest": "cell_centroids.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/gene-list-seqFISH-smallbowel.csv",
+        "dest": "gene_list.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/data/count_matrix_pos5.csv",
+        "dest": "pos5/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/segmentation_mask/dapi-hyb0-pos5.tif",
+        "dest": "pos5/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/data/count_matrix_pos6.csv",
+        "dest": "pos6/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/segmentation_mask/dapi-hyb0-pos6.tif",
+        "dest": "pos6/dapi.tif"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/data/count_matrix_pos7.csv",
+        "dest": "pos7/count_matrix.csv"
+      },
+      {
+        "url": "s3://somics-dev/hubmap/HBM543.KQKJ.535/segmentation_mask/dapi-hyb0-pos7.tif",
+        "dest": "pos7/dapi.tif"
+      }
+    ],
+    "notes": "One section per field of view: centroids are FOV-local pixels and the stage positions in the .pos file do not map onto the posN numbering. DAPI stack max-projected to a single plane. Segmentation masks and the raw hyb-cycle stacks are not used."
+  },
+  "panel": {
+    "panel_name": "Cai lab seqFISH small intestine panel (HuBMAP W105)",
+    "vendor": "Cai lab, California Institute of Technology",
+    "technology": "seqfish",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Targeted seqFISH panel of the HuBMAP Caltech TMC; gene_list.csv gives hyb cycle, round and channel per gene."
+  },
+  "donors": {
+    "HBM876.BRLJ.659": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 62.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "62-year-old stage",
+      "ethnicity": "White",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM876.BRLJ.659 (California Institute of Technology TMC). Age, sex and race as the portal records them; an organ donor, so no diagnosis is recorded."
+    }
+  },
+  "samples": {
+    "HBM543.KQKJ.535_fov5": {
+      "section_id": "HBM543.KQKJ.535_fov5",
+      "fov": 5,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM458.FPRQ.298",
+      "sample_name": "seqFISH [Lab Processed] data from the small intestine of a 62.0-year-old white female -- field of view 5",
+      "anatomical_region": "jejunum",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM543.KQKJ.535_fov6": {
+      "section_id": "HBM543.KQKJ.535_fov6",
+      "fov": 6,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM458.FPRQ.298",
+      "sample_name": "seqFISH [Lab Processed] data from the small intestine of a 62.0-year-old white female -- field of view 6",
+      "anatomical_region": "jejunum",
+      "disease_state": "unknown",
+      "disease": null
+    },
+    "HBM543.KQKJ.535_fov7": {
+      "section_id": "HBM543.KQKJ.535_fov7",
+      "fov": 7,
+      "donor_id": "HBM876.BRLJ.659",
+      "block_id": "HBM458.FPRQ.298",
+      "sample_name": "seqFISH [Lab Processed] data from the small intestine of a 62.0-year-old white female -- field of view 7",
+      "anatomical_region": "jejunum",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

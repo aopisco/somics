@@ -1,0 +1,51 @@
+{
+  "dataset_key": "xenium_on_a_one__xenium",
+  "study": "mouse-pup-preview-data-xenium-mouse-tissue-atlassing-panel-1-standard",
+  "study_name": "Whole Mouse Pup Preview Data (Xenium Mouse Tissue Atlassing Panel)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Mus musculus",
+  "tissue": "mouse pup",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/mouse-pup-preview-data-xenium-mouse-tissue-atlassing-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.6.0/Xenium_V1_mouse_pup/Xenium_V1_mouse_pup_xe_outs.zip",
+  "source": {
+    "xoa": "1.6.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 11116636297,
+    "published_at": "1692394622"
+  },
+  "panel": {
+    "panel_name": "Xenium Mouse Tissue Atlassing Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_mouse_pup_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'mouse-pup-preview-data-xenium-mouse-tissue-atlassing-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_mouse_pup": {
+      "section_id": "Xenium_V1_mouse_pup",
+      "donor_id": "Xenium_V1_mouse_pup_donor",
+      "sample_name": "Whole Mouse Pup Preview Data (Xenium Mouse Tissue Atlassing Panel)",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}
