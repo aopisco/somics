@@ -411,10 +411,17 @@ exported SSO credentials expire after ~1 h, after which crops and gene painting
 points keep working -- rerun the script to refresh. Measured on the laptop: `/api/samples` 2 s, `/points` 1 s, first `/crops` on a Xenium section 109 s (8 tiles);
 crops and gene painting still read the atlas live (filtered scans). The
 current index is `viewer_cache/2026-09-11T22-08-59Z` and
-`data/corpus_index.json` is from it (983 cards, 627 pass all QC). Dataset
-pages (`build_dataset_pages.py`) were **not** rebuilt -- 983 pages of rendered
-PNGs is hours of EC2; the corpus builder disables "Open viewer" without them.
-Rebuild the index after every ingest; nothing warns when it is stale.
+`data/corpus_index.json` is from it (983 cards, 627 pass all QC). **Dataset
+pages are built for all 983 cards** (`scripts/build_dataset_pages_ec2.sh`, three
+passes 2026-09-17: one process per shard scans the whole obs table at start,
+~40 GB resident, so 3 shards OOM-killed an r5.4xlarge -- use r5.8xlarge for 2;
+~35 s per page; the wrapper skips cards already in the destination manifest).
+They live under `viewer_cache/<stamp>/dataset_pages/` (3.1 GB) and are synced
+to the untracked `data/dataset_pages/` on the laptop; the API mounts that
+directory at startup. 135 protein-only SPRM/MIBI regions have no per-cell
+metric and got a positions-only map layer (`build_dataset_pages.py`
+fallback). Rebuild index and pages after every ingest; nothing warns when
+they are stale.
 
 **Decided 2026-09-14: not published.** The atlas stays private in `somics-dev`
 and the viewer is single-user for now (see Decisions); `data/atlas_pointer.json`
