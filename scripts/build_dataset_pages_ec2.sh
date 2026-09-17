@@ -1,6 +1,8 @@
 #!/bin/bash
 # Build the corpus builder's precomputed dataset pages for every card, on EC2,
-# in N concurrent shards (each shard is one build_dataset_pages.py process with
+# in N concurrent shards -- each is one build_dataset_pages.py process that scans the
+# whole obs table at start (~40 GB resident at 73M rows: 3 shards OOM-killed an
+# r5.4xlarge; use r5.8xlarge for 2, r5.4xlarge for 1). Each shard takes --only for its cards;
 # --only for its cards; all write into one output dir, and each process's
 # final write_manifest lists whatever pages exist, so the last one is complete).
 # Uploads to s3://somics-dev/viewer_cache/<atlas stamp>/dataset_pages/.
@@ -21,9 +23,14 @@ git clone -b $BRANCH https://github.com/aopisco/somics.git repo || finish
 cd repo && uv sync || finish
 aws s3 cp s3://somics-dev/viewer_cache/$STAMP/corpus_index.json data/corpus_index.json --region $REGION || finish
 OUT=$D/dataset_pages; mkdir -p $OUT
+# Skip cards whose page already exists under the destination (a previous, partial run).
+aws s3 cp $DEST/manifest.json /mnt/work/prev_manifest.json --region $REGION 2>/dev/null || echo '{"pages":{}}' > /mnt/work/prev_manifest.json
+aws s3 sync $DEST /mnt/work/dataset_pages --exclude "_*" --region $REGION --only-show-errors || true
 uv run python - "$SHARDS" <<'PY'
 import json, sys
-ids=[c["id"] for c in json.load(open("data/corpus_index.json"))["datasets"]]
+built=set(json.load(open("/mnt/work/prev_manifest.json")).get("pages",{}))
+ids=[c["id"] for c in json.load(open("data/corpus_index.json"))["datasets"] if c["id"] not in built]
+print(len(built), "already built, skipped")
 n=int(sys.argv[1])
 for i in range(n):
     open(f"/mnt/work/shard_{i}.txt","w").write("\n".join(ids[i::n]))
