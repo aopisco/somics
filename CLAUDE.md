@@ -275,7 +275,8 @@ git checkout protein-adapters && git pull
 | MERFISH follow-up (finished 2026-09-10 ~11:30Z; **72.94M obs rows**) | `ingest/merfish/atlas/2026-09-10T03-01-26Z` | +1 (HMBA human basal ganglia, 95 sections / 5.43M cells, 299 genes); 638850 re-fetched and refused as duplicate (skip check fixed since) |
 | verification runs 1-5 (2026-09-10) | `ingest/merfish/atlas/2026-09-10T03-01-26Z/_verify/<stamp>/`; **`docs/2026-09-10_verification_results.md`** | Visium 1403/1416 (12 sections have ~7k rows at negative px: crops slid to the edge; builder fixed, sections wait for the next rebuild); all 62 cell-unit sections pass row sums once gene columns only are summed; Atera 18/18; run 5 = 200-cell registration check on Xenium |
 | Liu 2022 MERFISH (finished 2026-09-11 02:00Z; **73.23M obs rows**) | `ingest/merfish/atlas/2026-09-10T14-01-51Z` | +2 sections as cells: kidney 111921 (212,090 cells) and liver JH 09-18-2021 (83,410), 307 genes + 78 blanks; the 12 transcript-only runs excluded |
-| **seqFISH (finished 2026-09-12 ~03:30Z; 73.26M obs rows) -- CURRENT ATLAS** | `ingest/seqfish/atlas/2026-09-11T22-08-59Z` | +43 FOV sections / 31,531 cells from 6 HuBMAP Cai-lab datasets (small intestine 13 FOVs, spleen 30), 46 genes, DAPI per FOV; repair clean. Runs 1-5 added nothing (three causes, all fixed; see `docs/2026-09-10_seqfish_adapter.md`). Only this prefix remains under `ingest/seqfish/` |
+| seqFISH (finished 2026-09-12 ~03:30Z; 73.26M obs rows) | `ingest/seqfish/atlas/2026-09-11T22-08-59Z` | +43 FOV sections / 31,531 cells from 6 HuBMAP Cai-lab datasets (small intestine 13 FOVs, spleen 30), 46 genes, DAPI per FOV; repair clean. Runs 1-5 added nothing (three causes, all fixed; see `docs/2026-09-10_seqfish_adapter.md`). Only this prefix remains under `ingest/seqfish/` |
+| **Stereo-seq (launched 2026-09-22 19:03Z, `somics-stereoseq-1`, `i-087fbaff163deb390`, r5.8xlarge)** | `ingest/stereoseq/atlas/2026-09-22T19-*` | 20 specs / ~69 sections: MOSTA 15 embryo packages + adult brain + olfactory bulb (public FTP, ~0.5 MB/s per connection, fetched 6-wide), GEO heart (with ssDNA images) / brain GEF / hippocampus cellbin, SpatialGlue Stereo-CITE thymus (first protein co-detection on bins). Smoke 2026-09-22 18:17Z passed on the olfactory bulb (2 sections, 53k bins each, 159 s build+ingest); smoke prefixes deleted |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -430,7 +431,7 @@ image viewer; React wrapper at `biohub-platform/frontend/src/lib/idetik-react`)
 for the imagery panel -- needs per-section OME-NGFF multiscale exports, which
 are the same items the DCA gap analysis lists.
 
-### Stereo-seq block (2026-09-22) -- smoke running, then production
+### Stereo-seq block (2026-09-22) -- production running
 
 `docs/2026-09-17_stereoseq_adapter.md`. Builder `scripts/build_stereoseq_package.py`
 (GEM / GEF bin1 / cellbin GEF / bins h5ad, optional registered image,
