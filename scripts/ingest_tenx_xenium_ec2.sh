@@ -155,24 +155,28 @@ for SPEC in $ORDER; do
   echo "### [$i/$N] $KEY  $(date -u +%FT%TZ)"
   T0=$(date +%s)
 
-  # 1. fetch -- the builder's own destination names, so it finds them present
-  FETCH_OK=1
-  while IFS=$'\t' read -r URL DEST; do
-    mkdir -p "$(dirname "$DEST")"
+  # 1. fetch -- the builder's own destination names, so it finds them present.
+  #    Up to SOMICS_FETCH_PARALLEL downloads at once (CNGB's FTP mirror gives
+  #    ~0.5 MB/s per connection; MOSTA is 60 GB). Judged by what landed.
+  uv run python $BUILDER --spec $SPEC --list-sources | sort -u > $D/sources.tsv
+  fetch_one() {
+    URL="$1"; DEST="$2"; mkdir -p "$(dirname "$DEST")"
     if [[ "$URL" == s3://* ]]; then
-      aws s3 cp "$URL" "$DEST" --region $REGION --only-show-errors || { echo "FETCH FAILED: $URL"; FETCH_OK=0; break; }
+      aws s3 cp "$URL" "$DEST" --region "$REGION" --only-show-errors || { echo "FETCH FAILED: $URL"; return 1; }
     else
       # figshare's ndownloader answers a browser UA with 202 and an empty body
       # and only redirects curl's own UA (to a signed S3 URL that expires in
       # 10 s, so no HEAD-then-GET); every other host here wants the browser UA.
       FUA=(-A "$UA"); [[ "$URL" == *ndownloader.figshare.com* ]] && FUA=()
-      if ! curl -sSL "${FUA[@]}" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL"; then
-        echo "FETCH FAILED: $URL"; FETCH_OK=0; break
-      fi
-      [ -s "$DEST" ] || { echo "FETCH FAILED (empty body): $URL"; FETCH_OK=0; break; }
+      curl -sSL "${FUA[@]}" --retry 8 --retry-all-errors --retry-delay 15 -C - -o "$DEST" "$URL" || { echo "FETCH FAILED: $URL"; return 1; }
+      [ -s "$DEST" ] || { echo "FETCH FAILED (empty body): $URL"; return 1; }
     fi
-    B0=$(stat -c %s "$DEST"); echo "  fetched $(basename $DEST) $((B0/1000000)) MB"
-  done < <(uv run python $BUILDER --spec $SPEC --list-sources)
+    echo "  fetched $(basename "$DEST") $(( $(stat -c %s "$DEST") / 1000000 )) MB"
+  }
+  export -f fetch_one; export REGION UA
+  FETCH_OK=1
+  xargs -P "${SOMICS_FETCH_PARALLEL:-4}" -L 1 bash -c 'fetch_one "$0" "$1"' < $D/sources.tsv || FETCH_OK=0
+  while IFS=$'\t' read -r URL DEST; do [ -s "$DEST" ] || { echo "MISSING after fetch: $DEST"; FETCH_OK=0; }; done < $D/sources.tsv
   T1=$(date +%s)
   if [ $FETCH_OK -eq 0 ]; then echo "$KEY	fetch" >> $D/failed.txt; continue; fi
   echo "  fetch took $((T1-T0)) s"
@@ -222,7 +226,9 @@ import hashlib, json, os, sys, datetime, importlib
 spec, root = json.load(open(sys.argv[1])), sys.argv[2]
 sys.path.insert(0, "scripts"); b = importlib.import_module(os.path.splitext(os.path.basename(sys.argv[3]))[0])
 files = []
-if spec.get("samples"):
+import inspect
+per_sample = len(inspect.signature(b.sources_for).parameters) >= 2  # Xenium: (spec, sample); MERFISH/Stereo-seq: (spec)
+if per_sample and spec.get("samples"):
     pairs = [(s, url, rel) for s in spec["samples"] for url, rel in b.sources_for(spec, s)]
 else:
     pairs = [(None, url, rel) for url, rel in b.sources_for(spec)]
