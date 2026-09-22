@@ -49,6 +49,7 @@ enums:
       STARMAP: starmap
       STARMAP_PLUS: starmap_plus
       SEQFISH: seqfish
+      STEREO_SEQ: stereo_seq
       IMC: imc
       CODEX: codex
       PHENOCYCLER: phenocycler

@@ -49,6 +49,10 @@ RESOLUTION_TIER = {
     "codex": "Single-cell",
     "visium": "Spot",
     "visium_hd": "Spot",
+    "stereo_seq": "Spot",
+    "atera": "Subcellular",
+    "mibi": "Single-cell",
+    "phenocycler": "Single-cell",
 }
 
 PLATFORM_LABEL = {
@@ -63,6 +67,10 @@ PLATFORM_LABEL = {
     "starmap_plus": "STARmap PLUS",
     "seqfish": "seqFISH",
     "codex": "CODEX",
+    "stereo_seq": "Stereo-seq",
+    "atera": "Atera",
+    "mibi": "MIBI",
+    "phenocycler": "PhenoCycler",
 }
 
 UNIT_NOUN = {"cell": "cells", "nucleus": "nuclei", "spot": "spots", "bin": "bins", "bead": "beads"}
@@ -70,7 +78,7 @@ UNIT_NOUN = {"cell": "cells", "nucleus": "nuclei", "spot": "spots", "bin": "bins
 # Capture-based platforms have no negative-control probes and no segmentation,
 # and their per-unit counts are not comparable to per-cell transcript counts —
 # so those metrics are "na" rather than scored. See docs/ for the reasoning.
-CAPTURE_PLATFORMS = {"visium", "visium_hd", "slideseqv2"}
+CAPTURE_PLATFORMS = {"visium", "visium_hd", "slideseqv2", "stereo_seq"}
 
 
 def _level(value: float | None, pass_at: float, warn_at: float, higher_is_better: bool) -> str:

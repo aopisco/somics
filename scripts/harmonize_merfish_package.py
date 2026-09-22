@@ -54,6 +54,10 @@ def main(argv: list[str] | None = None) -> None:
         per["spatial_unit"] = g.get("spatial_unit", spec["spatial_unit"])
         per["segmentation_method"] = g.get("segmentation_method", spec["segmentation_method"])
         harmonize_sample(per, package, g["sample"], args.dry_run)
+        if g.get("protein_targets"):
+            from harmonize_sprm_package import harmonize_proteins  # the verified UniProt table
+
+            harmonize_proteins(per, package, g["sample"], args.dry_run)
 
 
 if __name__ == "__main__":

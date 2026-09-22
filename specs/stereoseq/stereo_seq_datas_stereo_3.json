@@ -1,0 +1,192 @@
+{
+  "dataset_key": "stereo_seq_datas_stereo_3",
+  "study": "GSE298650",
+  "study_name": "Stereo-seq mouse heart, postnatal day 0, 7 and adult (GEO GSE298650)",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "bin",
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "heart",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE298650",
+  "download_url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+  "publication_doi": null,
+  "source": {
+    "layout": "gem",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 20,
+    "genome": "mm10",
+    "bytes": 34000000000,
+    "files": [
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019992_SS200000171BL_D3.TissueCut.gem.gz",
+        "sample": "SS200000171BL_D3",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019992_SS200000171BL_D3.tif.gz",
+        "sample": "SS200000171BL_D3",
+        "role": "image"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019993_SS200000171BL_E3.TissueCut.gem.gz",
+        "sample": "SS200000171BL_E3",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019993_SS200000171BL_E3.tif.gz",
+        "sample": "SS200000171BL_E3",
+        "role": "image"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019994_SS200000171BL_E1.TissueCut.gem.gz",
+        "sample": "SS200000171BL_E1",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019994_SS200000171BL_E1.tif.gz",
+        "sample": "SS200000171BL_E1",
+        "role": "image"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019995_FP200000337BR_B2.TissueCut.gem.gz",
+        "sample": "FP200000337BR_B2",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019995_FP200000337BR_B2.tif.gz",
+        "sample": "FP200000337BR_B2",
+        "role": "image"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019996_FP200000337BR_B3.TissueCut.gem.gz",
+        "sample": "FP200000337BR_B3",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas_stereo_3/GSE298650_RAW.tar",
+        "dest": "GSE298650_RAW.tar",
+        "member": "GSM9019996_FP200000337BR_B3.tif.gz",
+        "sample": "FP200000337BR_B3",
+        "role": "image"
+      }
+    ],
+    "notes": "TissueCut GEMs (tissue-covered DNBs only) + the registered ssDNA TIFF per chip, from the staged RAW tar. 20 DNB = 10 um bins; the TIFF is 1 px = 1 DNB (checked at build: >=95% of bins must fall inside)."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "GSE298650_sample_P0_p_3": {
+      "sex": "unknown",
+      "life_stage": "nursing",
+      "mouse_development_stage": "postnatal day 0",
+      "description": "GEO GSM9019992: mouse heart, P0."
+    },
+    "GSE298650_sample_P7_p_1": {
+      "sex": "unknown",
+      "life_stage": "nursing",
+      "mouse_development_stage": "postnatal day 7",
+      "description": "GEO GSM9019993: mouse heart, P7."
+    },
+    "GSE298650_sample_P7_p_2": {
+      "sex": "unknown",
+      "life_stage": "nursing",
+      "mouse_development_stage": "postnatal day 7",
+      "description": "GEO GSM9019994: mouse heart, P7."
+    },
+    "GSE298650_sample_Adult_B2": {
+      "sex": "unknown",
+      "life_stage": "young_adult",
+      "mouse_development_stage": "adult",
+      "description": "GEO GSM9019995: mouse heart, adult."
+    },
+    "GSE298650_sample_Adult_B3": {
+      "sex": "unknown",
+      "life_stage": "young_adult",
+      "mouse_development_stage": "adult",
+      "description": "GEO GSM9019996: mouse heart, adult."
+    }
+  },
+  "samples": {
+    "SS200000171BL_D3": {
+      "section_id": "GSE298650_SS200000171BL_D3",
+      "donor_id": "GSE298650_sample_P0_p_3",
+      "sample_name": "GSM9019992 sample_P0_p_3",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem",
+      "image_description": "Registered ssDNA stain of the chip from the GEO deposit, 1 px = 1 DNB."
+    },
+    "SS200000171BL_E3": {
+      "section_id": "GSE298650_SS200000171BL_E3",
+      "donor_id": "GSE298650_sample_P7_p_1",
+      "sample_name": "GSM9019993 sample_P7_p_1",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem",
+      "image_description": "Registered ssDNA stain of the chip from the GEO deposit, 1 px = 1 DNB."
+    },
+    "SS200000171BL_E1": {
+      "section_id": "GSE298650_SS200000171BL_E1",
+      "donor_id": "GSE298650_sample_P7_p_2",
+      "sample_name": "GSM9019994 sample_P7_p_2",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem",
+      "image_description": "Registered ssDNA stain of the chip from the GEO deposit, 1 px = 1 DNB."
+    },
+    "FP200000337BR_B2": {
+      "section_id": "GSE298650_FP200000337BR_B2",
+      "donor_id": "GSE298650_sample_Adult_B2",
+      "sample_name": "GSM9019995 sample_Adult_B2",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem",
+      "image_description": "Registered ssDNA stain of the chip from the GEO deposit, 1 px = 1 DNB."
+    },
+    "FP200000337BR_B3": {
+      "section_id": "GSE298650_FP200000337BR_B3",
+      "donor_id": "GSE298650_sample_Adult_B3",
+      "sample_name": "GSM9019996 sample_Adult_B3",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem",
+      "image_description": "Registered ssDNA stain of the chip from the GEO deposit, 1 px = 1 DNB."
+    }
+  }
+}

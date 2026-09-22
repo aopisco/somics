@@ -37,6 +37,12 @@ def dataset_files(g: dict, staging: str) -> list[tuple[str, FileTypeTag, str | N
     ]
     if g.get("image_file"):
         files.append((os.path.join(d, g["image_file"]), FileTypeTag.DATA, "discrete_image"))
+    if g.get("protein_targets"):  # a co-detection table (Stereo-CITE ADT): second feature space
+        files += [
+            (os.path.join(d, f"{g['sample']}_protein_intensity.csv"), FileTypeTag.DATA, "protein_abundance"),
+            (os.path.join(d, f"{g['sample']}_protein_obs.csv"), FileTypeTag.OBS, "protein_abundance"),
+            (os.path.join(d, f"{g['sample']}_protein_var.csv"), FileTypeTag.VAR, "protein_abundance"),
+        ]
     return files
 
 

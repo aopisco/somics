@@ -54,7 +54,14 @@ for T in DonorSchema TissueSectionSchema PanelSchema; do
 done
 $PY "$REPO/scripts/harmonize_merfish_package.py" --spec "$SPEC"
 
-if [ "$HAS_IMAGES" -eq 1 ]; then
+if ls "$ROOT"/*/lance_db/SpatialObs_protein_abundance.lance >/dev/null 2>&1; then
+  # Co-detection (Stereo-CITE): two obs-bearing feature spaces -> reconcile
+  # barcodes, then finalize_collection alone (it joins and stamps uids itself).
+  echo "== 5. reconcile barcodes across gene and protein; finalize =="
+  ALIGN="$SKILLS/multimodal-alignment/scripts"
+  for db in "$ROOT"/*/lance_db; do [ -d "$db" ] && $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs; done
+  $PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
+elif [ "$HAS_IMAGES" -eq 1 ]; then
   echo "== 5. finalize (bare/artifact bracket: expression + image) =="
   $PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase bare
   $PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
