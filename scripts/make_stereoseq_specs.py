@@ -170,9 +170,35 @@ def spatialglue_thymus():
     return s
 
 
+def mosta_embryo_per_embryo():
+    """One spec per (stage, embryo): 15 packages of 1-13 sections instead of one of 53.
+
+    A single 53-section package would be one ~25M-bin ingest with no failure
+    isolation and no skip-if-present granularity; per-embryo packages ingest in
+    minutes each and the registry row (chen2022_mosta_stereoseq) stays one.
+    """
+    whole = mosta_embryo()
+    out = []
+    for donor in whole["donors"]:
+        stage_embryo = donor.replace("MOSTA_", "")  # e.g. E10.5_embryo1
+        spec = json.loads(json.dumps(whole))
+        spec["dataset_key"] = f"chen2022_mosta_stereoseq__{stage_embryo}"
+        spec["study"] = f"MOSTA_{stage_embryo}"
+        spec["study_name"] = f"{whole['study_name']} -- {stage_embryo.replace('_embryo', ' embryo ')}"
+        spec["donors"] = {donor: whole["donors"][donor]}
+        spec["samples"] = {k: v for k, v in whole["samples"].items() if v["donor_id"] == donor}
+        spec["source"]["files"] = [f for f in whole["source"]["files"] if f.get("sample") in spec["samples"]]
+        spec["source"]["bytes"] = int(60_000_000_000 * len(spec["samples"]) / 53)
+        out.append(spec)
+    return out
+
+
 def main() -> None:
     os.makedirs("specs/stereoseq", exist_ok=True)
-    for spec in (mosta_embryo(), mosta_adult(), mosta_olfactory(), geo_heart(), geo_brain_gef(), geo_hippocampus_cellbin(), spatialglue_thymus()):
+    for stale in ("specs/stereoseq/chen2022_mosta_stereoseq.json",):
+        if os.path.exists(stale):
+            os.remove(stale)
+    for spec in (*mosta_embryo_per_embryo(), mosta_adult(), mosta_olfactory(), geo_heart(), geo_brain_gef(), geo_hippocampus_cellbin(), spatialglue_thymus()):
         # de-duplicate the archive entries the loops append per sample (same url + dest, no member)
         seen = set(); files = []
         for f in spec["source"]["files"]:
