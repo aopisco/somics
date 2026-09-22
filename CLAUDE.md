@@ -430,6 +430,19 @@ image viewer; React wrapper at `biohub-platform/frontend/src/lib/idetik-react`)
 for the imagery panel -- needs per-section OME-NGFF multiscale exports, which
 are the same items the DCA gap analysis lists.
 
+### Stereo-seq block (2026-09-22) -- smoke running, then production
+
+`docs/2026-09-17_stereoseq_adapter.md`. Builder `scripts/build_stereoseq_package.py`
+(GEM / GEF bin1 / cellbin GEF / bins h5ad, optional registered image,
+Stereo-CITE ADT as protein space), specs from `scripts/make_stereoseq_specs.py`
+in `specs/stereoseq/` (MOSTA 56 sections over public FTP; GEO heart, brain,
+hippocampus from staged RAW tars; SpatialGlue thymus). Unit = 20-DNB bin =
+10 um (`spatial_unit bin`, `grid`), cellbin as cells. **MOSTA `.tsv.gz` files
+are mostly plain text** -- sniff gzip by magic. Same EC2 script, family
+switch `SOMICS_FAMILY=stereoseq` with the MERFISH runner and
+`SOMICS_BUILD_SCRIPT`. Not fetchable: STOmicsDB/CNGB project pages (account),
+GITomicsDB fish, GSA-Human.
+
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
 Done and pushed on `protein-adapters`: miR-Space (bioRxiv
@@ -686,6 +699,7 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/stage_urls_ec2.sh` | stage any list of URLs into `raw/` with manifests, from EC2 (used for Atera) |
 | `scripts/repair_atlas.py` / `repair_atlas_ec2.sh` | per-section pointer-read check; rewrite + snapshot the obs table if a compacted fragment fails |
 | `scripts/ingest_protein_ec2.sh` | user-data: SPRM + MIBI blocks into the newest atlas prefix, serial |
+| `scripts/make_stereoseq_specs.py` / `build_stereoseq_package.py` | Stereo-seq: GEM/GEF/cellbin/h5ad -> 10 um bins or cells, optional ssDNA image, Stereo-CITE proteins; `specs/stereoseq/`; `docs/2026-09-17_stereoseq_adapter.md` |
 | `scripts/make_seqfish_specs.py` / `build_seqfish_package.py` | HuBMAP seqFISH (Cai lab): one section per field of view with its DAPI; reuses the MERFISH assembler/harmonizer/runner via `SOMICS_BUILD_SCRIPT`; `specs/seqfish/` (6 datasets, 43 FOVs); `docs/2026-09-10_seqfish_adapter.md` |
 | `scripts/build_merfish_package.py` / `assemble_merfish_collection.py` / `harmonize_merfish_package.py` / `run_merfish_pipeline.sh` | MERFISH: an Allen Brain Cell Atlas release (or a staged MERSCOPE bundle) -> per-section 10x-format h5 + obs, no image; `specs/merfish/`; notes in `docs/2026-09-09_merfish_adapter.md` |
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
