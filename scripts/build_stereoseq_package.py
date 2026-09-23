@@ -127,24 +127,38 @@ def read_image(path: str) -> np.ndarray:
 def read_gem(path: str) -> tuple[pd.DataFrame, dict]:
     """GEM table -> long frame (gene, x, y, count) with header offsets applied."""
     meta: dict = {}
+    n_meta = 0
     with open_text(path) as handle:
-        pos = 0
         while True:
             line = handle.readline()
-            if not line.startswith("#"):
-                header = line
+            fields = [c.strip().lstrip("#") for c in line.rstrip("\n").split("\t")]
+            if len(fields) >= 3 and all(f.lower() in GEM_COLUMNS for f in fields[:3]):
+                header = fields  # the column line, whether or not it starts with '#'
                 break
+            if not line.startswith("#"):
+                raise ValueError(f"{path}: no GEM header found; first non-comment line is {line[:80]!r}")
             k, _, v = line[1:].strip().partition("=")
             meta[k] = v
-            pos += len(line)
-    cols = [c.strip() for c in header.rstrip("\n").split("\t")]
+            n_meta += 1
+    cols = header
     rename = {c: GEM_COLUMNS[c.lower()] for c in cols if c.lower() in GEM_COLUMNS}
     use = [c for c in cols if c in rename]
+    dtypes = {c: ("category" if rename[c] == "gene" else np.int64) for c in use}
     # gene as a categorical: a 100M-row embryo GEM as Python strings is >6 GB,
     # as category codes it is <1 GB.
-    frame = pd.read_csv(
-        open_text(path), sep="\t", comment="#", usecols=use, dtype={c: ("category" if rename[c] == "gene" else np.int64) for c in use}
-    ).rename(columns=rename)
+    try:
+        frame = pd.read_csv(open_text(path), sep="\t", names=cols, skiprows=n_meta + 1, usecols=use, dtype=dtypes).rename(columns=rename)
+    except (ValueError, TypeError):
+        # A header line repeated inside the file (E15.5_E2S1: 'x' where an int
+        # belongs) or another stray text row: read as text, drop rows whose
+        # coordinates are not integers, then cast.
+        frame = pd.read_csv(open_text(path), sep="\t", names=cols, skiprows=n_meta + 1, usecols=use, dtype=str).rename(columns=rename)
+        ok = frame["x"].str.fullmatch(r"-?\d+") & frame["y"].str.fullmatch(r"-?\d+") & frame["count"].str.fullmatch(r"\d+")
+        dropped = int((~ok).sum())
+        print(f"    {dropped} non-numeric row(s) dropped from {os.path.basename(path)} (repeated header or stray text)")
+        frame = frame[ok]
+        frame = frame.astype({"x": np.int64, "y": np.int64, "count": np.int64})
+        frame["gene"] = frame["gene"].astype("category")
     if "count" not in frame.columns:
         raise ValueError(f"{path}: no count column among {cols}")
     off_x, off_y = int(float(meta.get("OffsetX", 0))), int(float(meta.get("OffsetY", 0)))
@@ -303,6 +317,16 @@ def build_sample(sample: str, entry: dict, spec: dict, src: str, out_dir: str) -
         tifffile.imwrite(os.path.join(out_dir, image_file + ".part"), img, tile=(1024, 1024), bigtiff=True, compression="zlib")
         os.replace(os.path.join(out_dir, image_file + ".part"), os.path.join(out_dir, image_file))
         extras["image_px_per_dnb"] = img_scale
+
+    if var.gene_id.duplicated().any():
+        # The cellbin GEF gene table repeats a symbol (two entries, same name);
+        # the harmonizer's keyed merge needs unique feature ids, so the columns
+        # are summed per unique symbol.
+        names, inv = np.unique(var.gene_id.to_numpy(), return_inverse=True)
+        collapse = sp.csr_matrix((np.ones(len(inv)), (np.arange(len(inv)), inv.ravel())), shape=(len(inv), len(names)))
+        matrix = sp.csr_matrix(matrix @ collapse)
+        print(f"    {len(inv) - len(names)} duplicated gene name(s) summed into one column each")
+        var = pd.DataFrame({"gene_id": names, "gene_name": names, "feature_type": GENE_FEATURE_TYPE})
 
     n_counts = np.asarray(matrix.sum(axis=1)).ravel()
     n_genes = np.asarray((matrix > 0).sum(axis=1)).ravel()
