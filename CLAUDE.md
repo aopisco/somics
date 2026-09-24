@@ -247,6 +247,59 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
+### RESUME HERE (written 2026-09-24 ~18:00Z before a laptop restart)
+
+**Deadline:** presentation Monday 2026-09-28; atlas + viewer ready by the
+afternoon of 2026-09-24 Pacific (memory `presentation-deadline-2026-09-28`).
+
+**Running on EC2 (survives the restart):** Stereo-seq follow-up
+`somics-stereoseq-2` / `i-0cc27df28692bf7cf`, prefix
+`s3://somics-dev/ingest/stereoseq/atlas/2026-09-24T13-59-18Z`, base = run 1's
+prefix. Ingests the 3 skips: E15.5 embryo 2 (**already in**, 469,925 bins),
+hippocampus cellbin (3 chips), heart (5 chips, 4 with images). Judge it by
+`_done.txt` / `_failed.txt` / `_logs/` / `_DONE`, expected ~21:00-22:00Z.
+
+**When its `_DONE` lands, in order:**
+1. `aws s3 cp <prefix>/_repair.txt -` must say "nothing to repair" (or rewrote).
+2. Viewer index: launch `scripts/build_viewer_cache_ec2.sh` as user-data with
+   `SOMICS_ATLAS_DIR=<prefix>` (r5.4xlarge, ~20 min) -> writes
+   `s3://somics-dev/viewer_cache/2026-09-24T13-59-18Z/{samples.json,coords/,corpus_index.json,_DONE}`.
+3. Dataset pages: `scripts/build_dataset_pages_ec2.sh` as user-data with
+   `SOMICS_ATLAS_DIR=<prefix>`, `SOMICS_SHARDS=1`,
+   `SOMICS_PAGES_SEED=s3://somics-dev/viewer_cache/2026-09-22T19-03-01Z/dataset_pages`
+   (renders only the ~9 new sections; r5.4xlarge).
+4. Laptop: set `data/atlas_pointer.json` (`atlas_dir`, `index_dir`, `updated`),
+   `aws s3 cp <viewer_cache>/corpus_index.json data/corpus_index.json`,
+   `aws s3 sync <viewer_cache>/dataset_pages/ data/dataset_pages/ --exclude "_*"`,
+   then `scripts/run_viewer_local.sh` (exports SSO creds; they expire in ~1 h).
+   Commit pointer + corpus index.
+5. Final numbers for the deck: the breakdown query in "Atlas breakdown"
+   (select technology/spatial_unit/organism/section_uid over obs; ~1 min in
+   region, longer on the laptop) on the final prefix; update that section.
+
+**State now:** the viewer on the laptop points at run 1's prefix
+(`ingest/stereoseq/atlas/2026-09-22T19-03-01Z`, 1,043 sections, 101,131,969
+obs rows, 11 platforms; 1,043 dataset pages). Run 1 added 60 Stereo-seq
+sections / ~27.9M 10 um bins. Everything is committed and pushed on
+`protein-adapters`.
+
+**Open question from @aopisco:** "what data do we have in the pile that we
+could stage for ingest next?" -- interrupted by the restart. Inputs saved:
+`data/raw_prefixes_2026-09-24.txt` (staged `raw/` prefixes) and
+`data/raw_prefix_bytes_2026-09-24.tsv` (bytes per prefix from `_manifest.json`).
+Recipe: join to `data/datasets.csv` on `dataset_id`; a row is ingested if its
+`dataset_id` is a `dataset_key` in any `specs/*/*.json` (or a HuBMAP
+Xenium/MIBI/CODEX/PhenoCycler/seqFISH row); group the rest by platform with
+sizes. Expect the literature Visium / MERFISH / CosMx / Slide-seq prefixes to
+dominate -- no literature-derived Visium or CosMx prefix has been ingested
+(only 10x, LIBD and the CosMx NSCLC base).
+
+**Also open:** shared deployment of the viewer (org-only) -- waiting on the
+login provider choice (Okta app vs Cognito invite list) and a go-ahead for the
+load balancer + DNS name; `scripts/deploy_viewer_ec2.sh` is ready.
+
+
+
 **Everything is on the `protein-adapters` branch** (PR #22, stacked on
 `tenx-visium-ingest`, PR #21). `main` stops at the DCA brief. Every EC2
 script clones the branch by name; point them at `main` once both PRs merge.
