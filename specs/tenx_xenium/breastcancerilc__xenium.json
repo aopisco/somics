@@ -1,0 +1,51 @@
+{
+  "dataset_key": "breastcancerilc__xenium",
+  "study": "breastcancerilc__xenium",
+  "study_name": "BreastCancerILC and BreastCancerIDC",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "breast",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/ffpe-human-breast-with-pre-designed-panel-1-standard/",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.0.2/Xenium_V1_FFPE_Human_Breast_ILC/Xenium_V1_FFPE_Human_Breast_ILC_outs.zip",
+  "source": {
+    "xoa": "1.0.2",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 16267681926,
+    "published_at": null
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_FFPE_Human_Breast_ILC_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'breastcancerilc__xenium'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_FFPE_Human_Breast_ILC": {
+      "section_id": "Xenium_V1_FFPE_Human_Breast_ILC",
+      "donor_id": "Xenium_V1_FFPE_Human_Breast_ILC_donor",
+      "sample_name": "BreastCancerILC and BreastCancerIDC",
+      "disease_state": "unknown",
+      "disease": null
+    }
+  }
+}

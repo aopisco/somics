@@ -1,0 +1,51 @@
+{
+  "dataset_key": "dataset_32026_xenium",
+  "study": "xenium-prime-fresh-frozen-mouse-brain",
+  "study_name": "Fresh Frozen Mouse Brain Hemisphere with 5K Mouse Pan Tissue and Pathways Panel",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "fresh_frozen",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/xenium-prime-fresh-frozen-mouse-brain",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/3.0.0/Xenium_Prime_Mouse_Brain_Coronal_FF/Xenium_Prime_Mouse_Brain_Coronal_FF_xe_outs.zip",
+  "source": {
+    "xoa": "3.0.0",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 5786076936,
+    "published_at": "1722462238"
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Mouse Pan Tissue and Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_Prime_Mouse_Brain_Coronal_FF_donor": {
+      "organism": "Mus musculus",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of the 10x Genomics Xenium dataset 'xenium-prime-fresh-frozen-mouse-brain'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_Prime_Mouse_Brain_Coronal_FF": {
+      "section_id": "Xenium_Prime_Mouse_Brain_Coronal_FF",
+      "donor_id": "Xenium_Prime_Mouse_Brain_Coronal_FF_donor",
+      "sample_name": "Fresh Frozen Mouse Brain Hemisphere with 5K Mouse Pan Tissue and Pathways Panel",
+      "disease_state": "healthy",
+      "disease": null
+    }
+  }
+}

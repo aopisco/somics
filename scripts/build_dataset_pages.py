@@ -59,7 +59,7 @@ from somics.pages.render import (
     section_extent,
 )
 from somics.pages.stats import feature_summary, histogram, spatial_structure
-from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, DEFAULT_STORE_KWARGS
+from somics.viewer.atlas_source import AtlasConfig, store_kwargs_for
 from somics.viewer.paths import CORPUS_INDEX, DATASET_PAGES
 
 TEMPLATE = Path(__file__).resolve().parents[1] / "src" / "somics" / "pages" / "template.html"
@@ -498,6 +498,29 @@ def build_map_layers(
             }
         )
 
+    if not layers:
+        # Every unit metric is null and nothing is annotated (45 HuBMAP SPRM
+        # regions: protein-only obs with no counts, areas or controls recorded).
+        # The positions are still a measurement: draw the cells uniformly so
+        # the page exists and the feature maps have a frame to sit in.
+        png, geometry = rasterize_points(x_um, y_um, np.ones(len(x_um)), extent=extent)
+        name = "map_unit_positions.png"
+        (out_dir / name).write_bytes(png)
+        layers.append(
+            {
+                "key": "unit:positions",
+                "group": "Unit metrics",
+                "label": "Cell positions",
+                "file": name,
+                "kind": "continuous",
+                "unit": "presence",
+                "ramp": "viridis",
+                "rampStops": lut_css_stops("viridis"),
+                "valueRange": geometry["valueRange"],
+                "note": f"All {len(obs):,} units; no per-unit metric is recorded for this dataset.",
+            }
+        )
+
     return layers, geometry or {}
 
 
@@ -845,7 +868,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-o", "--output", default=str(DATASET_PAGES))
     parser.add_argument("--index", default=str(CORPUS_INDEX))
-    parser.add_argument("--atlas", default=DEFAULT_ATLAS_DIR)
+    parser.add_argument("--atlas", default=AtlasConfig.from_env().atlas_dir)
     parser.add_argument(
         "--subsample",
         type=int,
@@ -880,7 +903,7 @@ def main() -> None:
         if not cards:
             raise SystemExit(f"no cards matched {sorted(wanted)}")
 
-    store_kwargs = DEFAULT_STORE_KWARGS if args.atlas.startswith("s3://") else None
+    store_kwargs = store_kwargs_for(args.atlas)
     print(f"reading {args.atlas}")
     atlas = hox.RaggedAtlas.checkout_latest(args.atlas, store_kwargs=store_kwargs)
 

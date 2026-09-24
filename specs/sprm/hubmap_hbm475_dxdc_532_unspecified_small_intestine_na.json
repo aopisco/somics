@@ -1,0 +1,58 @@
+{
+  "dataset_key": "hubmap_hbm475_dxdc_532_unspecified_small_intestine_na",
+  "hubmap_id": "HBM475.DXDC.532",
+  "uuid": "89e4944336dd47d32a50fe8aac049db1",
+  "study": "89e4944336dd47d32a50fe8aac049db1",
+  "study_name": "CODEX [Cytokit + SPRM] data from the small intestine of a 54-year-old black or african american female",
+  "assay": "PhenoCycler",
+  "technology": "codex",
+  "spatial_unit": "cell",
+  "segmentation_method": "watershed",
+  "segmentation_note": "Cytokit detects nuclei with a U-Net on the nuclear channel and grows cell boundaries by marker-controlled watershed on the membrane channel",
+  "pipeline": "Cytokit + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "small intestine",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM475.DXDC.532",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/89e4944336dd47d32a50fe8aac049db1",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM475.DXDC.532",
+  "source": {
+    "dataset_type": "CODEX [Cytokit + SPRM]",
+    "group_name": "Stanford TMC",
+    "published_timestamp": 1688997991090,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM475.DXDC.532_donor": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 54.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "54-year-old stage",
+      "ethnicity": "black or african american",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM275.QBCZ.562 (Stanford TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM475.DXDC.532_reg001",
+      "donor_id": "HBM475.DXDC.532_donor",
+      "block_id": "HBM937.MZGP.398",
+      "section_index": 0,
+      "sample_name": "HBM475.DXDC.532 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    }
+  }
+}

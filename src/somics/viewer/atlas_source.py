@@ -56,6 +56,31 @@ DEFAULT_STORE_KWARGS = {
     }
 }
 
+def store_kwargs_for(atlas_dir: str) -> dict | None:
+    """Object-store credentials for an atlas location.
+
+    `SOMICS_ATLAS_STORE` picks the store explicitly: `r2` (the public bucket's
+    read-only pair above), `aws` (the default AWS credential chain -- env vars,
+    an SSO profile exported with `aws configure export-credentials`, or an
+    instance role; this is the `s3://somics-dev/ingest/...` prefixes), or `local`.
+    Unset, the public bucket gets `r2`, any other `s3://` gets `aws`, and a
+    path gets nothing.
+    """
+    store = os.environ.get("SOMICS_ATLAS_STORE", "").lower()
+    if not store:
+        if atlas_dir.startswith("s3://epiblast-public"):
+            store = "r2"
+        elif atlas_dir.startswith("s3://"):
+            store = "aws"
+        else:
+            store = "local"
+    if store == "r2":
+        return DEFAULT_STORE_KWARGS
+    if store == "aws":
+        return {"config": {"aws_region": os.environ.get("AWS_REGION", "us-east-1")}}
+    return None
+
+
 # Columns the sample index needs. Kept minimal because this is a full-table scan.
 _INDEX_COLUMNS = (
     "section_uid",
@@ -132,18 +157,39 @@ class AtlasConfig:
     atlas_dir: str = DEFAULT_ATLAS_DIR
     store_kwargs: dict = field(default_factory=lambda: DEFAULT_STORE_KWARGS)
     cache_dir: Path = field(default_factory=lambda: Path.home() / ".cache" / "somics-viewer")
+    # A precomputed index (scripts/build_viewer_cache.py): `samples.json` and
+    # `coords/<section_uid>.parquet`, on a local path or an s3:// prefix. With it
+    # the API never scans the obs table; at 73M rows the scans this module was
+    # written around take minutes and gigabytes.
+    index_dir: str | None = None
 
     @classmethod
     def from_env(cls) -> "AtlasConfig":
-        """Read overrides from SOMICS_ATLAS_DIR and SOMICS_VIEWER_CACHE."""
+        """The current atlas, from `data/atlas_pointer.json` unless the environment says otherwise.
+
+        The pointer names the private S3 prefix and its viewer index (decision
+        2026-09-14: the atlas is not published; it is read with the AWS credential
+        chain). SOMICS_ATLAS_DIR, SOMICS_ATLAS_STORE, SOMICS_VIEWER_INDEX and
+        SOMICS_VIEWER_CACHE override it, which is how the hackathon R2 copy is
+        still reachable.
+        """
         config = cls()
+        pointer = _atlas_pointer()
+        if pointer.get("atlas_dir"):
+            config.atlas_dir = pointer["atlas_dir"]
+        if pointer.get("index_dir"):
+            config.index_dir = pointer["index_dir"].rstrip("/")
+        if pointer.get("store") and not os.environ.get("SOMICS_ATLAS_STORE"):
+            os.environ["SOMICS_ATLAS_STORE"] = pointer["store"]
         if atlas_dir := os.environ.get("SOMICS_ATLAS_DIR"):
             config.atlas_dir = atlas_dir
-            # A local path needs no object-store credentials.
-            if not atlas_dir.startswith("s3://"):
-                config.store_kwargs = {}
+            if not os.environ.get("SOMICS_VIEWER_INDEX"):
+                config.index_dir = None  # an index belongs to one atlas; do not pair it with another
+        config.store_kwargs = store_kwargs_for(config.atlas_dir) or {}
         if cache_dir := os.environ.get("SOMICS_VIEWER_CACHE"):
             config.cache_dir = Path(cache_dir)
+        if index_dir := os.environ.get("SOMICS_VIEWER_INDEX"):
+            config.index_dir = index_dir.rstrip("/")
         return config
 
 
@@ -224,6 +270,12 @@ class AtlasSource:
         with self._lock:
             if self._samples is not None:
                 return self._samples
+
+        if self.config.index_dir:
+            samples = _read_json(f"{self.config.index_dir}/samples.json")
+            with self._lock:
+                self._samples = samples
+            return samples
 
         index = self._section_index()
         sections = self._table("TissueSectionSchema")
@@ -317,6 +369,13 @@ class AtlasSource:
         if cached is not None:
             return cached
 
+        if self.config.index_dir:
+            frame = self._read_index_parquet(section_uid)
+            with self._lock:
+                self._coords[section_uid] = frame.drop("uid")
+                self._cell_uids[section_uid] = frame["uid"].to_list()
+            return self._coords[section_uid]
+
         frame = self.atlas.query().select(list(_COORD_COLUMNS)).to_polars()
         partitions = {
             str(key[0]): part.drop("section_uid")
@@ -338,6 +397,9 @@ class AtlasSource:
             cached = self._cell_uids.get(section_uid)
         if cached is not None:
             return cached
+        if self.config.index_dir:
+            self._section_coords(section_uid)  # fills _cell_uids from the same parquet
+            return self._cell_uids[section_uid]
         frame = self.atlas.query().select(["section_uid", "uid"]).to_polars()
         partitions = {
             str(key[0]): part["uid"].to_list()
@@ -348,6 +410,19 @@ class AtlasSource:
         if section_uid not in partitions:
             raise SampleNotFound(section_uid)
         return partitions[section_uid]
+
+    def _read_index_parquet(self, section_uid: str) -> pl.DataFrame:
+        """One section's coordinates (uid, x_um, y_um, n_counts, n_genes, cell_area_um2)
+        from the precomputed index, local or S3 (pyarrow's S3 filesystem, AWS chain)."""
+        import pyarrow.parquet as pq
+
+        path = f"{self.config.index_dir}/coords/{section_uid}.parquet"
+        location, filesystem = _arrow_location(path)
+        try:
+            table = pq.read_table(location, filesystem=filesystem)
+        except FileNotFoundError:
+            raise SampleNotFound(section_uid) from None
+        return pl.from_arrow(table)
 
     def point_cloud(self, section_uid: str, max_points: int) -> tuple[bytes, dict]:
         """Decimated cell positions as three float32 blocks: x, y, then n_counts.
@@ -550,6 +625,37 @@ class AtlasSource:
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         np.save(cache_path, aligned)
         return aligned
+
+
+def _atlas_pointer() -> dict:
+    """`data/atlas_pointer.json` at the repo root, or {} outside a checkout."""
+    import json
+
+    path = Path(__file__).resolve().parents[3] / "data" / "atlas_pointer.json"
+    if not path.is_file():
+        return {}
+    with open(path) as handle:
+        return json.load(handle)
+
+
+def _arrow_location(path: str) -> tuple:
+    """(path, filesystem) for pyarrow readers: S3 via the AWS credential chain."""
+    if path.startswith("s3://"):
+        import pyarrow.fs as pafs
+
+        return path[len("s3://") :], pafs.S3FileSystem(region=os.environ.get("AWS_REGION", "us-east-1"))
+    return path, None
+
+
+def _read_json(path: str):
+    import json
+
+    location, filesystem = _arrow_location(path)
+    if filesystem is None:
+        with open(location) as handle:
+            return json.load(handle)
+    with filesystem.open_input_file(location) as handle:
+        return json.loads(handle.read().decode())
 
 
 def _decimation_order(n_rows: int, max_points: int) -> np.ndarray:

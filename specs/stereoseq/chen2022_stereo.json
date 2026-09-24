@@ -1,0 +1,76 @@
+{
+  "dataset_key": "chen2022_stereo",
+  "study": "MOSTA_olfactory_bulb",
+  "study_name": "MOSTA: adult mouse olfactory bulb (Chen et al. 2022) -- Stereo-seq bin1, two sections",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "bin",
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "olfactory bulb",
+  "preservation": "fresh_frozen",
+  "life_stage": "young_adult",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": "dapi",
+  "accession_database": "CNGB / STOmicsDB",
+  "data_access_link": "https://db.cngb.org/stomics/mosta/",
+  "download_url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/",
+  "publication_doi": "10.1016/j.cell.2022.04.003",
+  "source": {
+    "layout": "gem",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 20,
+    "genome": "mm10",
+    "bytes": 1000000000,
+    "files": [
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/Mouse_olfa_S1_GEM_bin1.tsv.gz",
+        "dest": "Mouse_olfa_S1_GEM_bin1.tsv.gz",
+        "sample": "Mouse_olfa_S1",
+        "role": "counts"
+      },
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/Mouse_olfa_S2_GEM_bin1.tsv.gz",
+        "dest": "Mouse_olfa_S2_GEM_bin1.tsv.gz",
+        "sample": "Mouse_olfa_S2",
+        "role": "counts"
+      }
+    ],
+    "notes": "bin1 GEMs from the MOSTA FTP mirror; 20 DNB = 10 um bins. The registry's many olfactory-bulb rows (SEDR tutorial copies) describe this data."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "MOSTA_adult_mouse_olfactory": {
+      "sex": "unknown",
+      "life_stage": "young_adult",
+      "description": "MOSTA adult mouse (olfactory bulb sections); age and sex not in the release metadata."
+    }
+  },
+  "samples": {
+    "Mouse_olfa_S1": {
+      "section_id": "MOSTA_Mouse_olfa_S1",
+      "donor_id": "MOSTA_adult_mouse_olfactory",
+      "sample_name": "MOSTA olfactory bulb S1",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem"
+    },
+    "Mouse_olfa_S2": {
+      "section_id": "MOSTA_Mouse_olfa_S2",
+      "donor_id": "MOSTA_adult_mouse_olfactory",
+      "sample_name": "MOSTA olfactory bulb S2",
+      "disease_state": "healthy",
+      "disease": null,
+      "layout": "gem"
+    }
+  }
+}

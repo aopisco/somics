@@ -1,0 +1,67 @@
+{
+  "dataset_key": "stereo_seq_mouse_stereo_2",
+  "study": "GSE256319",
+  "study_name": "Stereo-seq mouse brain, SAW 3.0.2 GEF (GEO GSE256319)",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "bin",
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE256319",
+  "download_url": "s3://somics-dev/raw/stereo_seq_mouse_stereo_2/GSE256319_RAW.tar",
+  "publication_doi": null,
+  "source": {
+    "layout": "gem",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 20,
+    "genome": "mm10",
+    "bytes": 13000000000,
+    "files": [
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_mouse_stereo_2/GSE256319_RAW.tar",
+        "dest": "GSE256319_RAW.tar"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_mouse_stereo_2/GSE256319_RAW.tar",
+        "dest": "GSE256319_RAW.tar",
+        "member": "GSM8093734_StereoSeq_Replicate1_counts.gef.h5",
+        "sample": "StereoSeq_Replicate1",
+        "role": "counts"
+      }
+    ],
+    "notes": "bin1 expression from the SAW GEF (HDF5) in the staged RAW tar; 20 DNB = 10 um bins. No registered image in the deposit (the ipr.h5 holds registration parameters only)."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "GSE256319_mouse": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "GEO GSM8093734 StereoSeq Replicate1; donor metadata not in the deposit."
+    }
+  },
+  "samples": {
+    "StereoSeq_Replicate1": {
+      "section_id": "GSE256319_StereoSeq_Replicate1",
+      "donor_id": "GSE256319_mouse",
+      "sample_name": "GSM8093734 StereoSeq Replicate1",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "gef_bin"
+    }
+  }
+}

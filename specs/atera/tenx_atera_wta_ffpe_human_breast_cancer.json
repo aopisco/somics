@@ -1,0 +1,53 @@
+{
+  "dataset_key": "tenx_atera_wta_ffpe_human_breast_cancer",
+  "study": "atera-wta-ffpe-human-breast-cancer",
+  "study_name": "Preview Data: Atera In Situ Gene Expression, FFPE Human Breast Cancer",
+  "assay": "Atera In Situ Gene Expression",
+  "technology": "atera",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "breast",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/atera-wta-ffpe-human-breast-cancer",
+  "download_url": "s3://somics-dev/raw/tenx_atera_wta_ffpe_human_breast_cancer/WTA_Preview_FFPE_Breast_Cancer_xe_outs.zip",
+  "source": {
+    "xoa": "xenium-9.9.9.9 (Atera Onboard Analysis dev, preproduction chemistry)",
+    "morphology_layout": "directory",
+    "protein_codetection": false,
+    "bytes": 43215041248,
+    "published_at": "1780428178",
+    "num_cells": 170057,
+    "note": "Preproduction Atera Whole Transcriptome Assay; 10x labels the software version as a placeholder. Cells and matrix ship only as zarr archives; the builder converts them."
+  },
+  "panel": {
+    "panel_name": "Human WTA (pre-release)",
+    "vendor": "10x Genomics",
+    "technology": "atera",
+    "organism": "Homo sapiens",
+    "n_targets": 18028,
+    "has_custom_addon": false,
+    "description": "Atera Whole Transcriptome Assay, preproduction; 18,028 targets designed to match the Chromium Flex Apex content."
+  },
+  "donors": {
+    "WTA_Preview_FFPE_Breast_Cancer_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "breast cancer",
+      "description": "Donor of the 10x Atera preview dataset. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "WTA_Preview_FFPE_Breast_Cancer": {
+      "section_id": "WTA_Preview_FFPE_Breast_Cancer",
+      "donor_id": "WTA_Preview_FFPE_Breast_Cancer_donor",
+      "sample_name": "Preview Data: Atera In Situ Gene Expression, FFPE Human Breast Cancer",
+      "disease_state": "diseased",
+      "disease": "breast cancer"
+    }
+  }
+}

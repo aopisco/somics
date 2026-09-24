@@ -29,7 +29,7 @@ from typing import Any
 import homeobox as hox
 import polars as pl
 
-from somics.viewer.atlas_source import DEFAULT_ATLAS_DIR, DEFAULT_STORE_KWARGS
+from somics.viewer.atlas_source import AtlasConfig, store_kwargs_for
 
 # Platform -> the resolution tier the UI filters on. Not a schema concept: it is
 # a property of the instrument, so it lives here as a lookup rather than being
@@ -49,6 +49,10 @@ RESOLUTION_TIER = {
     "codex": "Single-cell",
     "visium": "Spot",
     "visium_hd": "Spot",
+    "stereo_seq": "Spot",
+    "atera": "Subcellular",
+    "mibi": "Single-cell",
+    "phenocycler": "Single-cell",
 }
 
 PLATFORM_LABEL = {
@@ -63,6 +67,10 @@ PLATFORM_LABEL = {
     "starmap_plus": "STARmap PLUS",
     "seqfish": "seqFISH",
     "codex": "CODEX",
+    "stereo_seq": "Stereo-seq",
+    "atera": "Atera",
+    "mibi": "MIBI",
+    "phenocycler": "PhenoCycler",
 }
 
 UNIT_NOUN = {"cell": "cells", "nucleus": "nuclei", "spot": "spots", "bin": "bins", "bead": "beads"}
@@ -70,7 +78,7 @@ UNIT_NOUN = {"cell": "cells", "nucleus": "nuclei", "spot": "spots", "bin": "bins
 # Capture-based platforms have no negative-control probes and no segmentation,
 # and their per-unit counts are not comparable to per-cell transcript counts —
 # so those metrics are "na" rather than scored. See docs/ for the reasoning.
-CAPTURE_PLATFORMS = {"visium", "visium_hd", "slideseqv2"}
+CAPTURE_PLATFORMS = {"visium", "visium_hd", "slideseqv2", "stereo_seq"}
 
 
 def _level(value: float | None, pass_at: float, warn_at: float, higher_is_better: bool) -> str:
@@ -512,7 +520,7 @@ def main() -> None:
     parser.add_argument("-o", "--output", default="data/corpus_index.json")
     parser.add_argument(
         "--atlas",
-        default=os.environ.get("SOMICS_ATLAS_DIR", DEFAULT_ATLAS_DIR),
+        default=AtlasConfig.from_env().atlas_dir,
         help="Atlas directory; defaults to the public R2 bucket.",
     )
     parser.add_argument(
@@ -523,7 +531,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    store_kwargs = DEFAULT_STORE_KWARGS if args.atlas.startswith("s3://") else None
+    store_kwargs = store_kwargs_for(args.atlas)
     print(f"reading {args.atlas}")
     atlas = hox.RaggedAtlas.checkout_latest(args.atlas, store_kwargs=store_kwargs)
     index = build_index(atlas, args.atlas, group_by=args.group_by)
