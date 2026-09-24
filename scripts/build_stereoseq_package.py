@@ -312,11 +312,21 @@ def build_sample(sample: str, entry: dict, spec: dict, src: str, out_dir: str) -
         x_px, y_px = x_dnb * img_scale, y_dnb * img_scale
         inside = (x_px >= 0) & (x_px < width) & (y_px >= 0) & (y_px < height)
         if inside.mean() < 0.95:
-            raise ValueError(f"{sample}: only {inside.mean():.1%} of units fall inside the {height}x{width} image; image_px_per_dnb or the coordinate origin is wrong")
-        image_file = "morphology_focus.ome.tif"
-        tifffile.imwrite(os.path.join(out_dir, image_file + ".part"), img, tile=(1024, 1024), bigtiff=True, compression="zlib")
-        os.replace(os.path.join(out_dir, image_file + ".part"), os.path.join(out_dir, image_file))
-        extras["image_px_per_dnb"] = img_scale
+            # The registered TIFF is not the whole chip in chip coordinates
+            # (GSE298650 FP200000337BR_B3: bins span x to 17,028 DNB, the image
+            # is 12,451 px wide; no origin in the GEM header or the ImageJ
+            # metadata). Placing it would be a guess, so the section is
+            # ingested expression-only and the reason recorded.
+            print(f"    ! {sample}: only {inside.mean():.1%} of units fall inside the {height}x{width} image; ingesting without the image")
+            extras["image_dropped"] = f"{inside.mean():.3f} of units inside the {height}x{width} registered image at 1 px = 1 DNB; frame origin unknown"
+            x_px = y_px = None
+            height = width = None
+            del img
+        else:
+            image_file = "morphology_focus.ome.tif"
+            tifffile.imwrite(os.path.join(out_dir, image_file + ".part"), img, tile=(1024, 1024), bigtiff=True, compression="zlib")
+            os.replace(os.path.join(out_dir, image_file + ".part"), os.path.join(out_dir, image_file))
+            extras["image_px_per_dnb"] = img_scale
 
     if var.gene_id.duplicated().any():
         # The cellbin GEF gene table repeats a symbol (two entries, same name);

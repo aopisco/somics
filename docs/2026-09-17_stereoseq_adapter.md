@@ -56,3 +56,26 @@ nothing. The GEF, cellbin, h5ad and image paths are exercised first on EC2.
   `SOMICS_SPEC_DIRS=specs/stereoseq`, `SOMICS_RAW_INCLUDE="*"`, from the
   newest `_DONE` prefix (seqFISH's). Expect ~70 sections; the embryo block is
   the bulk (E16.5 sections are ~2.8 GB of GEM each).
+
+## Production run 1 (2026-09-22 19:03Z, `ingest/stereoseq/atlas/2026-09-22T19-03-01Z`)
+
+17 of 20 packages in on the first pass; three skips, each a real property of
+the source, each fixed on the branch for the follow-up:
+
+- `chen2022_mosta_stereoseq__E15.5_embryo2`: a different MOSTA export (gzip,
+  internal name `E15.5_HC21_filter.txt`) with a header line repeated inside
+  the data -> the GEM reader now finds the header wherever it sits and drops
+  rows whose coordinates are not integers, reporting how many.
+- `stereo_seq_datas2024_stereo` (hippocampus cellbin GEFs): built 229,775
+  cells, then the harmonizer's keyed merge hit a repeated gene symbol in the
+  GEF gene table -> duplicated gene columns are summed into one.
+- `stereo_seq_datas_stereo_3` (GSE298650 heart): four of five chips place on
+  their registered ssDNA TIFF at 1 px = 1 DNB (>=95% of bins inside); on
+  `FP200000337BR_B3` only 71% do -- the image is 12,451 px wide while bins run
+  to x = 17,028 DNB, and neither the GEM (no `#Offset` lines) nor the ImageJ
+  metadata carries an origin. That chip is ingested expression-only with the
+  reason in `additional_metadata`; the other four keep their images.
+
+GEO brain GEF (`stereo_seq_mouse_stereo_2`) and the Stereo-CITE thymus
+(RNA bins + 51 ADT as `protein_abundance`) went through first time, so the
+GEF-bin, h5ad-bins and co-detection paths are validated on real data.
