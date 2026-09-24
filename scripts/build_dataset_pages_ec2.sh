@@ -23,6 +23,11 @@ git clone -b $BRANCH https://github.com/aopisco/somics.git repo || finish
 cd repo && uv sync || finish
 aws s3 cp s3://somics-dev/viewer_cache/$STAMP/corpus_index.json data/corpus_index.json --region $REGION || finish
 OUT=$D/dataset_pages; mkdir -p $OUT
+# Seed the destination from an earlier stamp's pages (card ids are dataset uids,
+# stable across atlas prefixes), so only the new sections are rendered.
+if [ -n "${SOMICS_PAGES_SEED:-}" ]; then
+  aws s3 sync "$SOMICS_PAGES_SEED" "$DEST" --exclude "_*" --region $REGION --only-show-errors || true
+fi
 # Skip cards whose page already exists under the destination (a previous, partial run).
 aws s3 cp $DEST/manifest.json /mnt/work/prev_manifest.json --region $REGION 2>/dev/null || echo '{"pages":{}}' > /mnt/work/prev_manifest.json
 aws s3 sync $DEST /mnt/work/dataset_pages --exclude "_*" --region $REGION --only-show-errors || true
