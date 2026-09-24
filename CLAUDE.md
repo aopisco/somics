@@ -284,10 +284,9 @@ sections / ~27.9M 10 um bins. Everything is committed and pushed on
 `protein-adapters`.
 
 **Open question from @aopisco:** "what data do we have in the pile that we
-could stage for ingest next?" -- interrupted by the restart. Inputs saved:
-`data/raw_prefixes_2026-09-24.txt` (staged `raw/` prefixes) and
-`data/raw_prefix_bytes_2026-09-24.tsv` (bytes per prefix from `_manifest.json`).
-Recipe: join to `data/datasets.csv` on `dataset_id`; a row is ingested if its
+could stage for ingest next?" -- interrupted by the restart. `data/raw_prefixes_2026-09-24.txt` lists the
+607 staged `raw/` prefixes; sizes were not collected (read each prefix's
+`_manifest.json`: `bytes`, or the sum of `files[].bytes`). Recipe: join to `data/datasets.csv` on `dataset_id`; a row is ingested if its
 `dataset_id` is a `dataset_key` in any `specs/*/*.json` (or a HuBMAP
 Xenium/MIBI/CODEX/PhenoCycler/seqFISH row); group the rest by platform with
 sizes. Expect the literature Visium / MERFISH / CosMx / Slide-seq prefixes to
