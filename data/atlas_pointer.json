@@ -1,7 +1,7 @@
 {
-  "atlas_dir": "s3://somics-dev/ingest/seqfish/atlas/2026-09-11T22-08-59Z",
+  "atlas_dir": "s3://somics-dev/ingest/stereoseq/atlas/2026-09-22T19-03-01Z",
   "store": "aws",
-  "index_dir": "s3://somics-dev/viewer_cache/2026-09-11T22-08-59Z",
-  "updated": "2026-09-14",
+  "index_dir": "s3://somics-dev/viewer_cache/2026-09-22T19-03-01Z",
+  "updated": "2026-09-24",
   "note": "The current atlas prefix and its precomputed viewer index. Private: read with the AWS credential chain (SSO profile sci-data-dev-poweruser exported, or an instance role). Update after every ingest and viewer-cache build; scripts/build_viewer_cache_ec2.sh writes the index the pointer names."
 }
