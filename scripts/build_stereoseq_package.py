@@ -328,6 +328,28 @@ def build_sample(sample: str, entry: dict, spec: dict, src: str, out_dir: str) -
             os.replace(os.path.join(out_dir, image_file + ".part"), os.path.join(out_dir, image_file))
             extras["image_px_per_dnb"] = img_scale
 
+    unnamed = (var.gene_id.astype(str).str.strip() == "").to_numpy()
+    if unnamed.any():
+        # GSE274447 A03599E2/B03018A2: 1431/831 cellbin gene entries with an
+        # empty geneName and no geneID field to fall back on. Summed into one
+        # "" column they staged as a NaN feature key (pandas reads "" as NA),
+        # so they are dropped -- a feature with no identity cannot be keyed.
+        keep = np.flatnonzero(~unnamed)
+        extras["unnamed_features_dropped"] = int(unnamed.sum())
+        extras["unnamed_feature_counts_dropped"] = int(matrix[:, np.flatnonzero(unnamed)].sum())
+        matrix = sp.csr_matrix(matrix[:, keep])
+        var = var.iloc[keep].reset_index(drop=True)
+        print(f"    {int(unnamed.sum())} unnamed gene entr(ies) dropped ({extras['unnamed_feature_counts_dropped']:,} counts)")
+    guides = var.gene_id[var.gene_id.str.contains(r"^sg ?rna[_-]", case=False, regex=True)]
+    if len(guides) and not spec.get("perturbation"):
+        # The DCA spec requires a PerturbationAssignment for perturbed data, and
+        # whether data is perturbed is a judgment, not a default. Guide features
+        # in the gene table are the tell; refuse rather than ingest it as plain.
+        raise ValueError(
+            f"{sample}: {len(guides)} sgRNA feature(s) in the gene table ({', '.join(guides[:5])}...); "
+            "this is a CRISPR perturbation dataset -- add a 'perturbation' block to the spec before ingesting"
+        )
+
     if var.gene_id.duplicated().any():
         # The cellbin GEF gene table repeats a symbol (two entries, same name);
         # the harmonizer's keyed merge needs unique feature ids, so the columns

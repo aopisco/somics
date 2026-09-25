@@ -259,6 +259,16 @@ prefix. Ingests the 3 skips: E15.5 embryo 2 (**already in**, 469,925 bins),
 hippocampus cellbin (3 chips), heart (5 chips, 4 with images). Judge it by
 `_done.txt` / `_failed.txt` / `_logs/` / `_DONE`, expected ~21:00-22:00Z.
 
+**Status 2026-09-25 01:30Z:** E15.5 embryo 2 and heart (`stereo_seq_datas_stereo_3`)
+ingested; **hippocampus (`stereo_seq_datas2024_stereo`) failed and must stay out
+for now**: its GEFs carry 18 `sgrna_*` features (C9orf72, Trem2, Lrrk2, Tbk1...)
+-- an in-vivo CRISPR screen, so it needs guide assignment + a filled
+`PerturbationAssignment` (DCA rule). The proximate failure was 1431/831 gene
+entries with an empty name (0 counts) staging as a NaN feature key; the builder
+now drops them and refuses sgRNA features unless the spec has a `perturbation`
+block. `repair_atlas.py` found a filtered-read failure, rewrote obs (committed
+00:18Z) and is re-checking (~4 h); `_DONE` expected ~05:00-05:30Z.
+
 **When its `_DONE` lands, in order:**
 1. `aws s3 cp <prefix>/_repair.txt -` must say "nothing to repair" (or rewrote).
 2. Viewer index: launch `scripts/build_viewer_cache_ec2.sh` as user-data with
