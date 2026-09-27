@@ -1,0 +1,58 @@
+{
+  "dataset_key": "hubmap_hbm585_svfl_994_unspecified_lymph_node_na",
+  "hubmap_id": "HBM585.SVFL.994",
+  "uuid": "5a9c10551a193819aeb3d243824d85e4",
+  "study": "5a9c10551a193819aeb3d243824d85e4",
+  "study_name": "CODEX [Cytokit + SPRM] data from the lymph node of a 18-year-old black or african american male",
+  "assay": "PhenoCycler",
+  "technology": "codex",
+  "spatial_unit": "cell",
+  "segmentation_method": "watershed",
+  "segmentation_note": "Cytokit detects nuclei with a U-Net on the nuclear channel and grows cell boundaries by marker-controlled watershed on the membrane channel",
+  "pipeline": "Cytokit + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "lymph node",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM585.SVFL.994",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/5a9c10551a193819aeb3d243824d85e4",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM585.SVFL.994",
+  "source": {
+    "dataset_type": "CODEX [Cytokit + SPRM]",
+    "group_name": "University of Florida TMC",
+    "published_timestamp": 1642038910298,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM585.SVFL.994_donor": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": 18.0,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "18-year-old stage",
+      "ethnicity": "black or african american",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM678.JKBB.893 (University of Florida TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg1": {
+      "section_id": "HBM585.SVFL.994_reg1",
+      "donor_id": "HBM585.SVFL.994_donor",
+      "block_id": "HBM838.WXVW.284",
+      "section_index": 0,
+      "sample_name": "HBM585.SVFL.994 region reg1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/stitched/expressions/reg1_stitched_expressions.ome.tif",
+        "cell_centers": "sprm_outputs/reg1_stitched_expressions.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg1_stitched_expressions.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg1_stitched_expressions-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    }
+  }
+}

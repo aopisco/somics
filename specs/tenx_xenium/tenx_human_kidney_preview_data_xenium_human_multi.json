@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_human_kidney_preview_data_xenium_human_multi",
+  "study": "human-kidney-preview-data-xenium-human-multi-tissue-and-cancer-panel-1-standard",
+  "study_name": "Human Kidney Preview Data (Xenium Human Multi-Tissue and Cancer Panel)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "kidney",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-kidney-preview-data-xenium-human-multi-tissue-and-cancer-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.5.0/Xenium_V1_hKidney_nondiseased_section/Xenium_V1_hKidney_nondiseased_section_outs.zip",
+  "source": {
+    "xoa": "1.5.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 5069771406,
+    "published_at": "1689613774"
+  },
+  "panel": {
+    "panel_name": "Xenium Human Multi-Tissue and Cancer Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_hKidney_nondiseased_section_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "healthy, cancer (papillary renal cell carcinoma)",
+      "description": "Donor of the 10x Genomics Xenium dataset 'human-kidney-preview-data-xenium-human-multi-tissue-and-cancer-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_hKidney_nondiseased_section": {
+      "section_id": "Xenium_V1_hKidney_nondiseased_section",
+      "donor_id": "Xenium_V1_hKidney_nondiseased_section_donor",
+      "sample_name": "Human Kidney Preview Data (Xenium Human Multi-Tissue and Cancer Panel)",
+      "disease_state": "diseased",
+      "disease": "healthy, cancer (papillary renal cell carcinoma)"
+    }
+  }
+}

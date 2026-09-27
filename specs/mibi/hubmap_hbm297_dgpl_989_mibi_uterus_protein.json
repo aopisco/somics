@@ -1,0 +1,68 @@
+{
+  "dataset_key": "hubmap_hbm297_dgpl_989_mibi_uterus_protein",
+  "hubmap_id": "HBM297.DGPL.989",
+  "hubmap_uuid": "18a68d8433ac8bf3fcc9c1052628f101",
+  "study": "hubmap_stanford_rti_mibi",
+  "study_name": "MIBI data from the uterus of a 24.5-year-old unknown female",
+  "assay": "MIBI",
+  "technology": "mibi",
+  "spatial_unit": "cell",
+  "segmentation_method": null,
+  "organism": "Homo sapiens",
+  "tissue": "uterus",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/18a68d8433ac8bf3fcc9c1052628f101",
+  "download_url": "https://assets.hubmapconsortium.org/18a68d8433ac8bf3fcc9c1052628f101/3D_image_stack.ome.tiff",
+  "source": {
+    "layout": "lab_submission",
+    "bytes": 577184905,
+    "published_at": 1678370335476,
+    "sprm_derivative": "HBM443.BWDP.264",
+    "cohort_cells_table": "s3://somics-dev/hubmap/HBM297.DGPL.989/SingleCellData/cells.csv: the cohort-wide table (495k cells, 211 fields); this dataset's field is not identified, so it is not joined"
+  },
+  "panel": {
+    "panel_name": "HuBMAP Stanford RTI MIBI 37-plex panel da1df453",
+    "vendor": "Ionpath",
+    "version": "study-specific",
+    "technology": "mibi",
+    "organism": "Homo sapiens",
+    "n_targets": 37,
+    "has_custom_addon": false,
+    "description": "37 metal-conjugated antibodies imaged on a MIBIscope: CD11c, CD14, CD16, CD163, CD20, CD206, CD3, CD31, CD4, CD44, CD45, CD56, CD57, CD68, CD8, CD80, CK7, DCSIGN, Ecad, FoxP3, Galectin9, GrB, H3, HLADR, HLAG, HO1, IDO, Ki67, Lck, PD1, PDL1, SMA, TIGIT, TIM3, Tryptase, VIM, iNOS. The stack also carries the elemental and background channels, which are flagged is_control on the feature axis."
+  },
+  "donors": {
+    "HBM969.NGFR.863": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 24.5,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "24-year-old stage",
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM969.NGFR.863 (Stanford RTI). Age, sex and race as the portal records them; nothing else is published."
+    }
+  },
+  "samples": {
+    "HBM297.DGPL.989": {
+      "section_id": "HBM297.DGPL.989",
+      "donor_id": "HBM969.NGFR.863",
+      "block_id": "HBM854.BKGS.837",
+      "section_index": 0,
+      "accession_id": "HBM297.DGPL.989",
+      "sample_name": "MIBI data from the uterus of a 24.5-year-old unknown female",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "stack": "s3://somics-dev/hubmap/HBM297.DGPL.989/3D_image_stack.ome.tiff",
+        "mask": "s3://somics-dev/hubmap/HBM297.DGPL.989/Mapping/cluster_labels_image.tif",
+        "antibodies": "s3://somics-dev/hubmap/HBM297.DGPL.989/extras/antibodies.tsv",
+        "channel_report": "s3://somics-dev/hubmap/HBM297.DGPL.989/mcd/channelnames_report.csv",
+        "metadata_json": "s3://somics-dev/hubmap/HBM297.DGPL.989/metadata.json",
+        "metadata_tsv": "s3://somics-dev/hubmap/HBM297.DGPL.989/18a68d8433ac8bf3fcc9c1052628f101-metadata.tsv"
+      }
+    }
+  }
+}

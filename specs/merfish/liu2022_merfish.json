@@ -1,0 +1,68 @@
+{
+  "dataset_key": "liu2022_merfish",
+  "study": "liu2022_merfish_kidney",
+  "study_name": "Liu et al. 2022 (Life Science Alliance): MERFISH mouse kidney, Vizgen VZG116 panel, Tabula Muris Senis comparison",
+  "assay": "MERFISH",
+  "technology": "merfish",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Mus musculus",
+  "tissue": "kidney",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "figshare",
+  "data_access_link": "https://figshare.com/projects/MERFISH_mouse_comparison_study/134213",
+  "download_url": "https://doi.org/10.6084/m9.figshare.19310711",
+  "publication_doi": "10.26508/lsa.202201701",
+  "source": {
+    "layout": "liu2022_figshare",
+    "genome": "mm10",
+    "bytes": 2283834210,
+    "runs": {
+      "MsKidney_CellBoundary_VZG116_111921": {
+        "zip": "MsKidney_CellBoundary_VZG116_111921.zip",
+        "donor_id": "liu2022_kidney_kidney3",
+        "boundary_stain": "CellBound3",
+        "date": "11/19/21",
+        "rin": "7.9",
+        "sample_notes": "kidney #3, sectioned at biohub. vanessa.",
+        "segmentation_method": "cell_boundary_stain"
+      }
+    },
+    "files": [
+      {
+        "url": "https://ndownloader.figshare.com/files/34298381",
+        "dest": "codebook.csv"
+      },
+      {
+        "url": "https://ndownloader.figshare.com/files/37020589",
+        "dest": "MsKidney_CellBoundary_VZG116_111921.zip"
+      }
+    ],
+    "notes": "Only runs with Vizgen cell outputs (cell_by_gene.csv + cell_metadata.csv) are ingested, as cells. The release's transcript-only runs (barcodes.csv, no cell assignment) are excluded by the author's decision (2026-09-10) and listed in excluded_runs. Codebook VZG116: 307 genes + 78 blanks; barcode_id indexes codebook rows. Raw images are on the AWS Open Data bucket s3://czb-tabula-muris-senis/spatial-transcriptomics/MERFISH-data/ (not used). No per-section image.",
+    "excluded_runs": [
+      "Mskidney_CellBoundary_VZG116_022221",
+      "Mskidney_CellBoundary_VZG116_022321",
+      "MsKidney_CellBoundary_VZG116_121021"
+    ]
+  },
+  "panel": {
+    "panel_name": "Vizgen VZG116 mouse 307-gene MERFISH panel (Liu et al. 2022)",
+    "vendor": "Vizgen",
+    "technology": "merfish",
+    "organism": "Mus musculus",
+    "n_targets": 307,
+    "has_custom_addon": false,
+    "description": "The codebook on figshare (10.6084/m9.figshare.19311017): 307 genes and 78 blank barcodes."
+  },
+  "donors": {
+    "liu2022_kidney_kidney3": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "Mouse 'kidney3' of the Liu et al. 2022 kidney runs, as DataStatus.csv labels it; sex and age not in the release."
+    }
+  }
+}

@@ -1,0 +1,430 @@
+dataset_id,hubmap_id,tissue,layout,bytes,files,sprm_derivative,skip_reason
+hubmap_hbm222_wqkc_382_mibi_uterus_protein,HBM222.WQKC.382,Uterus,lab_submission,577188377,9,HBM339.GMFL.329,
+hubmap_hbm224_dtzl_954_mibi_uterus_protein,HBM224.DTZL.954,Uterus,lab_submission,577184901,9,HBM336.LKFW.859,
+hubmap_hbm224_kgnf_646_mibi_uterus_protein,HBM224.KGNF.646,Uterus,lab_submission,577188376,9,HBM423.PQMZ.473,
+hubmap_hbm224_rchm_744_mibi_uterus_protein,HBM224.RCHM.744,Uterus,lab_submission,577188380,9,HBM633.VBFP.756,
+hubmap_hbm225_pqgq_852_mibi_uterus_protein,HBM225.PQGQ.852,Uterus,lab_submission,577184998,9,HBM563.BTTX.877,
+hubmap_hbm226_sdcn_999_mibi_uterus_protein,HBM226.SDCN.999,Uterus,lab_submission,577185000,9,HBM389.NKLC.534,
+hubmap_hbm228_mlpt_762_mibi_uterus_protein,HBM228.MLPT.762,Uterus,lab_submission,577183188,9,HBM778.LBZC.847,
+hubmap_hbm228_nlns_669_mibi_uterus_protein,HBM228.NLNS.669,Uterus,lab_submission,577185001,9,HBM587.BRXX.822,
+hubmap_hbm237_dlkc_855_mibi_uterus_protein,HBM237.DLKC.855,Uterus,lab_submission,577184867,9,HBM578.PPJH.439,
+hubmap_hbm243_bkxt_647_mibi_uterus_protein,HBM243.BKXT.647,Uterus,lab_submission,577185000,9,HBM352.VRCW.258,
+hubmap_hbm248_ccgt_382_mibi_uterus_protein,HBM248.CCGT.382,Uterus,lab_submission,577185001,9,HBM852.GQVD.966,
+hubmap_hbm252_ggcl_762_mibi_uterus_protein,HBM252.GGCL.762,Uterus,lab_submission,577183200,9,,
+hubmap_hbm253_pqvp_942_mibi_uterus_protein,HBM253.PQVP.942,Uterus,lab_submission,577188377,9,HBM487.BVPM.787,
+hubmap_hbm255_fcjd_432_mibi_uterus_protein,HBM255.FCJD.432,Uterus,lab_submission,577186673,9,HBM225.KJQB.487,
+hubmap_hbm257_tffm_796_mibi_uterus_protein,HBM257.TFFM.796,Uterus,lab_submission,577184891,9,HBM488.LPFG.595,
+hubmap_hbm258_swdz_622_mibi_uterus_protein,HBM258.SWDZ.622,Uterus,lab_submission,577184899,9,HBM665.HQWG.468,
+hubmap_hbm258_wpbz_892_mibi_uterus_protein,HBM258.WPBZ.892,Uterus,lab_submission,577181483,9,HBM893.FJGK.264,
+hubmap_hbm259_fwhd_689_mibi_uterus_protein,HBM259.FWHD.689,Uterus,lab_submission,577184881,9,HBM758.VFJL.949,
+hubmap_hbm264_hhbz_855_mibi_uterus_protein,HBM264.HHBZ.855,Uterus,lab_submission,577184895,9,HBM554.LVXX.786,
+hubmap_hbm268_zzgq_759_mibi_uterus_protein,HBM268.ZZGQ.759,Uterus,lab_submission,577184901,9,HBM339.VCLB.796,
+hubmap_hbm273_zhhg_846_mibi_uterus_protein,HBM273.ZHHG.846,Uterus,lab_submission,577186573,9,HBM374.CKSV.949,
+hubmap_hbm275_hpvh_884_mibi_uterus_protein,HBM275.HPVH.884,Uterus,lab_submission,577185023,9,HBM946.VBVT.327,
+hubmap_hbm276_zmlr_392_mibi_uterus_protein,HBM276.ZMLR.392,Uterus,lab_submission,577183191,9,HBM889.RMXX.954,
+hubmap_hbm277_nsql_526_mibi_uterus_protein,HBM277.NSQL.526,Uterus,lab_submission,577188321,9,HBM536.VGGL.365,
+hubmap_hbm278_ghlh_482_mibi_uterus_protein,HBM278.GHLH.482,Uterus,lab_submission,577184894,9,HBM533.RPKS.527,
+hubmap_hbm278_jpvf_359_mibi_uterus_protein,HBM278.JPVF.359,Uterus,lab_submission,577184897,9,HBM753.BNXK.497,
+hubmap_hbm283_cpxw_835_mibi_uterus_protein,HBM283.CPXW.835,Uterus,lab_submission,577184891,9,HBM687.LKCM.747,
+hubmap_hbm283_zhqs_286_mibi_uterus_protein,HBM283.ZHQS.286,Uterus,lab_submission,577183191,9,,
+hubmap_hbm285_rqpt_487_mibi_uterus_protein,HBM285.RQPT.487,Uterus,lab_submission,577184894,9,HBM448.ZHND.632,
+hubmap_hbm286_pppq_526_mibi_uterus_protein,HBM286.PPPQ.526,Uterus,lab_submission,577183342,9,HBM792.XFHW.388,
+hubmap_hbm293_jjrg_875_mibi_uterus_protein,HBM293.JJRG.875,Uterus,lab_submission,577190063,9,HBM264.ZSRX.862,
+hubmap_hbm293_plzj_793_mibi_uterus_protein,HBM293.PLZJ.793,Uterus,lab_submission,577184894,9,,
+hubmap_hbm294_rhds_354_mibi_uterus_protein,HBM294.RHDS.354,Uterus,lab_submission,577183186,9,,
+hubmap_hbm296_nrcf_473_mibi_uterus_protein,HBM296.NRCF.473,Uterus,lab_submission,577183196,9,HBM357.KZGB.898,
+hubmap_hbm297_dgpl_989_mibi_uterus_protein,HBM297.DGPL.989,Uterus,lab_submission,577184905,9,HBM443.BWDP.264,
+hubmap_hbm299_pbzf_474_mibi_uterus_protein,HBM299.PBZF.474,Uterus,lab_submission,577188307,9,HBM836.RCJX.699,
+hubmap_hbm327_vgqk_363_mibi_uterus_protein,HBM327.VGQK.363,Uterus,lab_submission,577185000,9,HBM776.NBTT.385,
+hubmap_hbm327_vpmv_784_mibi_uterus_protein,HBM327.VPMV.784,Uterus,lab_submission,577186571,9,HBM459.BSLC.269,
+hubmap_hbm338_kptd_485_mibi_uterus_protein,HBM338.KPTD.485,Uterus,lab_submission,577183188,9,HBM689.BSHD.684,
+hubmap_hbm339_jvhd_976_mibi_uterus_protein,HBM339.JVHD.976,Uterus,lab_submission,577186673,9,HBM346.KNSC.626,
+hubmap_hbm348_kshk_482_mibi_uterus_protein,HBM348.KSHK.482,Uterus,lab_submission,577184897,9,HBM996.VSMV.377,
+hubmap_hbm349_xmll_699_mibi_uterus_protein,HBM349.XMLL.699,Uterus,lab_submission,577183201,9,HBM896.CGHW.626,
+hubmap_hbm352_zmmk_237_mibi_uterus_protein,HBM352.ZMMK.237,Uterus,lab_submission,577183198,9,HBM233.ZXRV.849,
+hubmap_hbm353_kbtw_556_mibi_uterus_protein,HBM353.KBTW.556,Uterus,lab_submission,577186676,9,,
+hubmap_hbm354_slnr_553_mibi_uterus_protein,HBM354.SLNR.553,Uterus,lab_submission,577189983,9,HBM632.DXDR.993,
+hubmap_hbm354_svbp_894_mibi_uterus_protein,HBM354.SVBP.894,Uterus,lab_submission,577183184,9,HBM629.KZXC.984,
+hubmap_hbm355_pmsx_677_mibi_uterus_protein,HBM355.PMSX.677,Uterus,lab_submission,577183183,9,,
+hubmap_hbm357_lsbk_728_mibi_uterus_protein,HBM357.LSBK.728,Uterus,lab_submission,577184881,9,HBM587.FKLL.897,
+hubmap_hbm359_dtzl_543_mibi_uterus_protein,HBM359.DTZL.543,Uterus,lab_submission,577184896,9,,
+hubmap_hbm367_jljv_287_mibi_uterus_protein,HBM367.JLJV.287,Uterus,lab_submission,577188444,9,HBM387.QLNT.432,
+hubmap_hbm367_qmzk_885_mibi_uterus_protein,HBM367.QMZK.885,Uterus,lab_submission,577186677,9,,
+hubmap_hbm368_pzjv_258_mibi_uterus_protein,HBM368.PZJV.258,Uterus,lab_submission,577188311,9,HBM666.DRSD.887,
+hubmap_hbm369_tvnz_782_mibi_uterus_protein,HBM369.TVNZ.782,Uterus,lab_submission,577184894,9,HBM363.HMHK.475,
+hubmap_hbm374_nbpr_367_mibi_uterus_protein,HBM374.NBPR.367,Uterus,lab_submission,577183187,9,HBM279.XSJK.324,
+hubmap_hbm383_lxsq_768_mibi_uterus_protein,HBM383.LXSQ.768,Uterus,lab_submission,576921044,9,,
+hubmap_hbm385_mrxx_887_mibi_uterus_protein,HBM385.MRXX.887,Uterus,lab_submission,577186693,9,HBM887.WSNK.687,
+hubmap_hbm386_zhwd_475_mibi_uterus_protein,HBM386.ZHWD.475,Uterus,lab_submission,577183186,9,HBM695.MZVR.729,
+hubmap_hbm386_zklm_879_mibi_uterus_protein,HBM386.ZKLM.879,Uterus,lab_submission,577185000,9,HBM982.HZPP.223,
+hubmap_hbm426_blgp_789_mibi_uterus_protein,HBM426.BLGP.789,Uterus,lab_submission,577186677,9,HBM499.PLQB.587,
+hubmap_hbm428_wpxp_979_mibi_uterus_protein,HBM428.WPXP.979,Uterus,lab_submission,577183183,9,HBM467.WTJJ.952,
+hubmap_hbm428_zkrh_262_mibi_uterus_protein,HBM428.ZKRH.262,Uterus,lab_submission,577184891,9,HBM828.CLVC.365,
+hubmap_hbm434_gjqf_366_mibi_uterus_protein,HBM434.GJQF.366,Uterus,lab_submission,577186676,9,HBM985.ZKWC.825,
+hubmap_hbm439_hfgx_695_mibi_uterus_protein,HBM439.HFGX.695,Uterus,lab_submission,577185000,9,HBM466.MCSZ.832,
+hubmap_hbm446_rbdj_452_mibi_uterus_protein,HBM446.RBDJ.452,Uterus,lab_submission,577186571,9,HBM662.RZHP.327,
+hubmap_hbm447_ctpp_495_mibi_uterus_protein,HBM447.CTPP.495,Uterus,lab_submission,577184891,9,,
+hubmap_hbm448_fxrb_555_mibi_uterus_protein,HBM448.FXRB.555,Uterus,lab_submission,576660590,9,HBM372.VJLQ.498,
+hubmap_hbm448_wcwb_444_mibi_uterus_protein,HBM448.WCWB.444,Uterus,lab_submission,577186676,9,HBM277.DXWW.264,
+hubmap_hbm452_kwsp_459_mibi_uterus_protein,HBM452.KWSP.459,Uterus,lab_submission,577181483,9,HBM362.QSQQ.769,
+hubmap_hbm456_cldp_753_mibi_uterus_protein,HBM456.CLDP.753,Uterus,lab_submission,577184881,9,HBM352.KMNR.697,
+hubmap_hbm456_xqlg_678_mibi_uterus_protein,HBM456.XQLG.678,Uterus,lab_submission,577184997,9,HBM223.WRTC.433,
+hubmap_hbm457_qjsc_438_mibi_uterus_protein,HBM457.QJSC.438,Uterus,lab_submission,577186676,9,HBM468.TPQX.899,
+hubmap_hbm458_jhbq_969_mibi_uterus_protein,HBM458.JHBQ.969,Uterus,lab_submission,577183186,9,,
+hubmap_hbm463_sqhj_376_mibi_uterus_protein,HBM463.SQHJ.376,Uterus,lab_submission,577190063,9,HBM487.ZCTD.796,
+hubmap_hbm467_cvld_644_mibi_uterus_protein,HBM467.CVLD.644,Uterus,lab_submission,577188311,9,HBM449.SNWD.969,
+hubmap_hbm467_lmbg_759_mibi_uterus_protein,HBM467.LMBG.759,Uterus,lab_submission,577184899,9,HBM622.PTRQ.645,
+hubmap_hbm467_rvkv_883_mibi_uterus_protein,HBM467.RVKV.883,Uterus,lab_submission,577184905,9,HBM452.RZRZ.228,
+hubmap_hbm477_kggp_574_mibi_uterus_protein,HBM477.KGGP.574,Uterus,lab_submission,577184893,9,,
+hubmap_hbm482_nhcd_375_mibi_uterus_protein,HBM482.NHCD.375,Uterus,lab_submission,577185000,9,HBM378.FRMP.675,
+hubmap_hbm485_zghc_972_mibi_uterus_protein,HBM485.ZGHC.972,Uterus,lab_submission,577183186,9,HBM562.GVDM.422,
+hubmap_hbm492_zvkw_999_mibi_uterus_protein,HBM492.ZVKW.999,Uterus,lab_submission,577184867,9,,
+hubmap_hbm495_dfnt_747_mibi_uterus_protein,HBM495.DFNT.747,Uterus,lab_submission,577183191,9,HBM688.KJSH.433,
+hubmap_hbm495_mjdq_587_mibi_uterus_protein,HBM495.MJDQ.587,Uterus,lab_submission,577186573,9,,
+hubmap_hbm495_vxpx_373_mibi_uterus_protein,HBM495.VXPX.373,Uterus,lab_submission,577185000,9,HBM428.QXPR.772,
+hubmap_hbm496_hphv_342_mibi_uterus_protein,HBM496.HPHV.342,Uterus,lab_submission,577186673,9,HBM538.NSJL.252,
+hubmap_hbm496_qttn_457_mibi_uterus_protein,HBM496.QTTN.457,Uterus,lab_submission,577184997,9,,
+hubmap_hbm497_djzh_744_mibi_uterus_protein,HBM497.DJZH.744,Uterus,lab_submission,577184998,9,HBM737.NXQL.382,
+hubmap_hbm522_cflm_852_mibi_uterus_protein,HBM522.CFLM.852,Uterus,lab_submission,577188318,9,,
+hubmap_hbm524_jfvn_863_mibi_uterus_protein,HBM524.JFVN.863,Uterus,lab_submission,577185000,9,HBM743.FSGC.752,
+hubmap_hbm525_bzjc_926_mibi_uterus_protein,HBM525.BZJC.926,Uterus,lab_submission,577186690,9,HBM427.DPCH.628,
+hubmap_hbm525_jlpd_977_mibi_uterus_protein,HBM525.JLPD.977,Uterus,lab_submission,577184894,9,,
+hubmap_hbm526_ffgj_297_mibi_uterus_protein,HBM526.FFGJ.297,Uterus,lab_submission,577183186,9,,
+hubmap_hbm527_dxpq_356_mibi_uterus_protein,HBM527.DXPQ.356,Uterus,lab_submission,577184901,9,HBM855.JSRH.432,
+hubmap_hbm529_qfwc_259_mibi_uterus_protein,HBM529.QFWC.259,Uterus,lab_submission,577186676,9,HBM862.SVKN.436,
+hubmap_hbm534_cdww_587_mibi_uterus_protein,HBM534.CDWW.587,Uterus,lab_submission,577183188,9,HBM236.VKZM.892,
+hubmap_hbm534_jjhb_889_mibi_uterus_protein,HBM534.JJHB.889,Uterus,lab_submission,577185000,9,,
+hubmap_hbm534_zdnw_945_mibi_uterus_protein,HBM534.ZDNW.945,Uterus,lab_submission,577184901,9,HBM892.LHLQ.299,
+hubmap_hbm537_jphf_622_mibi_uterus_protein,HBM537.JPHF.622,Uterus,lab_submission,577184891,9,HBM676.VGQV.586,
+hubmap_hbm539_pkzn_553_mibi_uterus_protein,HBM539.PKZN.553,Uterus,lab_submission,577184895,9,HBM696.NMNJ.684,
+hubmap_hbm539_wtjt_464_mibi_uterus_protein,HBM539.WTJT.464,Uterus,lab_submission,577190060,9,,
+hubmap_hbm546_npgh_532_mibi_uterus_protein,HBM546.NPGH.532,Uterus,lab_submission,577181486,9,HBM259.SGMM.647,
+hubmap_hbm547_pwmc_589_mibi_uterus_protein,HBM547.PWMC.589,Uterus,lab_submission,577188384,9,HBM339.XRNQ.456,
+hubmap_hbm549_cjsk_997_mibi_uterus_protein,HBM549.CJSK.997,Uterus,lab_submission,577181483,9,HBM385.NTHW.467,
+hubmap_hbm549_jnkh_249_mibi_uterus_protein,HBM549.JNKH.249,Uterus,lab_submission,577186629,9,HBM232.QFXQ.736,
+hubmap_hbm552_jxcb_872_mibi_uterus_protein,HBM552.JXCB.872,Uterus,lab_submission,577184894,9,HBM629.HLJH.658,
+hubmap_hbm554_tvpr_268_mibi_uterus_protein,HBM554.TVPR.268,Uterus,lab_submission,577184892,9,HBM647.QGRW.979,
+hubmap_hbm555_zntk_962_mibi_uterus_protein,HBM555.ZNTK.962,Uterus,lab_submission,577186673,9,HBM932.HSPZ.392,
+hubmap_hbm557_pzrz_633_mibi_uterus_protein,HBM557.PZRZ.633,Uterus,lab_submission,577188381,9,HBM785.KHPT.974,
+hubmap_hbm558_kgml_422_mibi_uterus_protein,HBM558.KGML.422,Uterus,lab_submission,577190019,9,,
+hubmap_hbm559_jcqf_496_mibi_uterus_protein,HBM559.JCQF.496,Uterus,lab_submission,577184891,9,,
+hubmap_hbm562_bdqq_934_mibi_uterus_protein,HBM562.BDQQ.934,Uterus,lab_submission,577188380,9,HBM262.FKKM.985,
+hubmap_hbm562_fgzt_852_mibi_uterus_protein,HBM562.FGZT.852,Uterus,lab_submission,577184892,9,HBM764.DFKL.255,
+hubmap_hbm565_bmsb_555_mibi_uterus_protein,HBM565.BMSB.555,Uterus,lab_submission,577184898,9,HBM454.MHTH.883,
+hubmap_hbm566_zcsf_285_mibi_uterus_protein,HBM566.ZCSF.285,Uterus,lab_submission,577184996,9,HBM726.SPXN.546,
+hubmap_hbm574_rbck_759_mibi_uterus_protein,HBM574.RBCK.759,Uterus,lab_submission,577184893,9,HBM957.GCWC.626,
+hubmap_hbm576_grbw_848_mibi_uterus_protein,HBM576.GRBW.848,Uterus,lab_submission,577186673,9,HBM896.KQRM.534,
+hubmap_hbm576_hcwq_728_mibi_uterus_protein,HBM576.HCWQ.728,Uterus,lab_submission,577188444,9,,
+hubmap_hbm578_rpxl_745_mibi_uterus_protein,HBM578.RPXL.745,Uterus,lab_submission,577185001,9,HBM867.QQCL.679,
+hubmap_hbm594_gwvl_995_mibi_uterus_protein,HBM594.GWVL.995,Uterus,lab_submission,577184873,9,HBM534.HZVT.527,
+hubmap_hbm595_ccls_824_mibi_uterus_protein,HBM595.CCLS.824,Uterus,lab_submission,577183183,9,,
+hubmap_hbm622_pxtn_854_mibi_uterus_protein,HBM622.PXTN.854,Uterus,lab_submission,577186673,9,HBM278.XVZM.876,
+hubmap_hbm624_xmrv_622_mibi_uterus_protein,HBM624.XMRV.622,Uterus,lab_submission,576660603,9,HBM334.RHTZ.568,
+hubmap_hbm625_wnhz_662_mibi_uterus_protein,HBM625.WNHZ.662,Uterus,lab_submission,577184902,9,HBM924.RHDN.439,
+hubmap_hbm634_ghph_986_mibi_uterus_protein,HBM634.GHPH.986,Uterus,lab_submission,577185001,9,HBM458.TQNJ.838,
+hubmap_hbm638_hwqz_266_mibi_uterus_protein,HBM638.HWQZ.266,Uterus,lab_submission,577184891,9,HBM774.FMWK.835,
+hubmap_hbm639_jhbt_479_mibi_uterus_protein,HBM639.JHBT.479,Uterus,lab_submission,577184997,9,HBM668.WMVH.926,
+hubmap_hbm642_bqbq_999_mibi_uterus_protein,HBM642.BQBQ.999,Uterus,lab_submission,577183191,9,HBM236.XKVD.576,
+hubmap_hbm645_qbfq_879_mibi_uterus_protein,HBM645.QBFQ.879,Uterus,lab_submission,576924529,9,HBM338.CVLQ.488,
+hubmap_hbm646_zrtz_549_mibi_uterus_protein,HBM646.ZRTZ.549,Uterus,lab_submission,577184997,9,HBM555.CBQL.388,
+hubmap_hbm649_qjjm_548_mibi_uterus_protein,HBM649.QJJM.548,Uterus,lab_submission,577188441,9,HBM795.QKFB.543,
+hubmap_hbm653_fmzx_257_mibi_uterus_protein,HBM653.FMZX.257,Uterus,lab_submission,577185001,9,HBM853.HJMP.646,
+hubmap_hbm656_wrhj_584_mibi_uterus_protein,HBM656.WRHJ.584,Uterus,lab_submission,577185001,9,HBM289.ZBHM.542,
+hubmap_hbm665_zmnl_735_mibi_uterus_protein,HBM665.ZMNL.735,Uterus,lab_submission,577185000,9,HBM229.CTRD.753,
+hubmap_hbm675_rhmb_532_mibi_uterus_protein,HBM675.RHMB.532,Uterus,lab_submission,577186676,9,,
+hubmap_hbm678_bntk_599_mibi_uterus_protein,HBM678.BNTK.599,Uterus,lab_submission,577184878,9,,
+hubmap_hbm688_xsdw_776_mibi_uterus_protein,HBM688.XSDW.776,Uterus,lab_submission,577184898,9,HBM949.FLPW.679,
+hubmap_hbm689_dmzd_693_mibi_uterus_protein,HBM689.DMZD.693,Uterus,lab_submission,577188380,9,HBM346.HBZP.532,
+hubmap_hbm692_jwnq_842_mibi_uterus_protein,HBM692.JWNQ.842,Uterus,lab_submission,577184893,9,HBM873.DNXG.769,
+hubmap_hbm692_lrpb_358_mibi_uterus_protein,HBM692.LRPB.358,Uterus,lab_submission,577184895,9,HBM893.LWZD.456,
+hubmap_hbm693_gxcw_762_mibi_uterus_protein,HBM693.GXCW.762,Uterus,lab_submission,577183342,9,HBM652.GCSK.976,
+hubmap_hbm694_kghj_534_mibi_uterus_protein,HBM694.KGHJ.534,Uterus,lab_submission,577184998,9,,
+hubmap_hbm695_pkfw_682_mibi_uterus_protein,HBM695.PKFW.682,Uterus,lab_submission,577184898,9,HBM384.JNMQ.626,
+hubmap_hbm696_qbdc_928_mibi_uterus_protein,HBM696.QBDC.928,Uterus,lab_submission,577184894,9,HBM578.ZQRT.586,
+hubmap_hbm699_qbtp_684_mibi_uterus_protein,HBM699.QBTP.684,Uterus,lab_submission,577183342,9,HBM763.MJPD.884,
+hubmap_hbm726_kxwb_325_mibi_uterus_protein,HBM726.KXWB.325,Uterus,lab_submission,577184894,9,,
+hubmap_hbm727_vzcg_863_mibi_uterus_protein,HBM727.VZCG.863,Uterus,lab_submission,577184894,9,,
+hubmap_hbm729_nhjf_956_mibi_uterus_protein,HBM729.NHJF.956,Uterus,lab_submission,577184891,9,HBM392.XMWR.794,
+hubmap_hbm732_lrmf_287_mibi_uterus_protein,HBM732.LRMF.287,Uterus,lab_submission,577183191,9,HBM949.BKBC.868,
+hubmap_hbm735_pwvl_294_mibi_uterus_protein,HBM735.PWVL.294,Uterus,lab_submission,577186677,9,HBM573.LQQF.645,
+hubmap_hbm747_rhfn_588_mibi_uterus_protein,HBM747.RHFN.588,Uterus,lab_submission,577183197,9,HBM699.MZWR.768,
+hubmap_hbm764_nxmm_785_mibi_uterus_protein,HBM764.NXMM.785,Uterus,lab_submission,577185000,9,,
+hubmap_hbm772_csqs_353_mibi_uterus_protein,HBM772.CSQS.353,Uterus,lab_submission,577188307,9,HBM554.NGKR.393,
+hubmap_hbm772_hcwx_787_mibi_uterus_protein,HBM772.HCWX.787,Uterus,lab_submission,577184881,9,HBM629.HKGZ.649,
+hubmap_hbm773_pvxd_869_mibi_uterus_protein,HBM773.PVXD.869,Uterus,lab_submission,577183190,9,HBM248.HJBB.845,
+hubmap_hbm774_gncd_967_mibi_uterus_protein,HBM774.GNCD.967,Uterus,lab_submission,577185016,9,HBM866.BMJQ.762,
+hubmap_hbm775_lktg_696_mibi_uterus_protein,HBM775.LKTG.696,Uterus,lab_submission,577188381,9,HBM679.JXJR.677,
+hubmap_hbm776_kfmz_755_mibi_uterus_protein,HBM776.KFMZ.755,Uterus,lab_submission,577190019,9,HBM973.WJWJ.379,
+hubmap_hbm784_hvpg_384_mibi_uterus_protein,HBM784.HVPG.384,Uterus,lab_submission,577184867,9,HBM858.WNPC.892,
+hubmap_hbm785_qgfz_856_mibi_uterus_protein,HBM785.QGFZ.856,Uterus,lab_submission,577184894,9,HBM849.LSSS.222,
+hubmap_hbm786_vlvn_435_mibi_uterus_protein,HBM786.VLVN.435,Uterus,lab_submission,577183201,9,,
+hubmap_hbm789_xszp_797_mibi_uterus_protein,HBM789.XSZP.797,Uterus,lab_submission,577185000,9,,
+hubmap_hbm796_nkqb_286_mibi_uterus_protein,HBM796.NKQB.286,Uterus,lab_submission,577184993,9,,
+hubmap_hbm796_tzpx_595_mibi_uterus_protein,HBM796.TZPX.595,Uterus,lab_submission,577184881,9,HBM583.VMRL.945,
+hubmap_hbm798_wzkk_699_mibi_uterus_protein,HBM798.WZKK.699,Uterus,lab_submission,577184894,9,,
+hubmap_hbm798_xdvp_432_mibi_uterus_protein,HBM798.XDVP.432,Uterus,lab_submission,577184873,9,HBM964.QDJQ.743,
+hubmap_hbm829_ftcd_454_mibi_uterus_protein,HBM829.FTCD.454,Uterus,lab_submission,577184895,9,HBM349.JMXZ.632,
+hubmap_hbm829_pddg_496_mibi_uterus_protein,HBM829.PDDG.496,Uterus,lab_submission,577184901,9,HBM829.HRPD.829,
+hubmap_hbm836_rwtl_263_mibi_uterus_protein,HBM836.RWTL.263,Uterus,lab_submission,577188380,9,HBM538.VFFN.553,
+hubmap_hbm837_gsbz_237_mibi_uterus_protein,HBM837.GSBZ.237,Uterus,lab_submission,577184998,9,HBM655.RVSP.298,
+hubmap_hbm837_knjv_852_mibi_uterus_protein,HBM837.KNJV.852,Uterus,lab_submission,576660576,9,HBM284.FQRQ.428,
+hubmap_hbm838_vlbv_829_mibi_uterus_protein,HBM838.VLBV.829,Uterus,lab_submission,577184892,9,HBM479.JZMH.487,
+hubmap_hbm845_pkdg_353_mibi_uterus_protein,HBM845.PKDG.353,Uterus,lab_submission,577188444,9,HBM367.HXVX.992,
+hubmap_hbm848_mjvk_888_mibi_uterus_protein,HBM848.MJVK.888,Uterus,lab_submission,577184894,9,HBM837.VCTX.325,
+hubmap_hbm852_wwtr_224_mibi_uterus_protein,HBM852.WWTR.224,Uterus,lab_submission,577186590,9,HBM832.JBXK.434,
+hubmap_hbm857_ksrq_839_mibi_uterus_protein,HBM857.KSRQ.839,Uterus,lab_submission,577184894,9,HBM779.ZBMX.798,
+hubmap_hbm857_wqjx_764_mibi_uterus_protein,HBM857.WQJX.764,Uterus,lab_submission,577185000,9,HBM324.DRZP.422,
+hubmap_hbm862_dddq_629_mibi_uterus_protein,HBM862.DDDQ.629,Uterus,lab_submission,577186568,9,HBM595.FNHH.789,
+hubmap_hbm862_gjrt_992_mibi_uterus_protein,HBM862.GJRT.992,Uterus,lab_submission,577183186,9,,
+hubmap_hbm875_mrxw_469_mibi_uterus_protein,HBM875.MRXW.469,Uterus,lab_submission,577184894,9,HBM269.VVFS.334,
+hubmap_hbm883_pbzb_248_mibi_uterus_protein,HBM883.PBZB.248,Uterus,lab_submission,577185001,9,HBM254.WNRF.534,
+hubmap_hbm885_kdqv_248_mibi_uterus_protein,HBM885.KDQV.248,Uterus,lab_submission,577184894,9,HBM263.MXVH.898,
+hubmap_hbm885_lxgs_976_mibi_uterus_protein,HBM885.LXGS.976,Uterus,lab_submission,577184878,9,HBM276.NXKT.226,
+hubmap_hbm886_bwml_747_mibi_uterus_protein,HBM886.BWML.747,Uterus,lab_submission,577190024,9,HBM347.SPBZ.875,
+hubmap_hbm887_dprs_422_mibi_uterus_protein,HBM887.DPRS.422,Uterus,lab_submission,577185000,9,HBM278.HKNP.262,
+hubmap_hbm887_tlxr_894_mibi_uterus_protein,HBM887.TLXR.894,Uterus,lab_submission,577184894,9,HBM282.RJBP.442,
+hubmap_hbm893_gwwt_254_mibi_uterus_protein,HBM893.GWWT.254,Uterus,lab_submission,577184878,9,HBM756.CMNB.785,
+hubmap_hbm894_nxbd_956_mibi_uterus_protein,HBM894.NXBD.956,Uterus,lab_submission,577184894,9,HBM839.ZPNM.248,
+hubmap_hbm925_cjtm_862_mibi_uterus_protein,HBM925.CJTM.862,Uterus,lab_submission,577184896,9,,
+hubmap_hbm935_xgnv_348_mibi_uterus_protein,HBM935.XGNV.348,Uterus,lab_submission,577186629,9,HBM835.KCDK.276,
+hubmap_hbm938_grrv_389_mibi_uterus_protein,HBM938.GRRV.389,Uterus,lab_submission,577184899,9,,
+hubmap_hbm944_ckwn_576_mibi_uterus_protein,HBM944.CKWN.576,Uterus,lab_submission,577184998,9,HBM557.HZZH.482,
+hubmap_hbm953_jhwj_752_mibi_uterus_protein,HBM953.JHWJ.752,Uterus,lab_submission,577184997,9,HBM746.ZPGQ.644,
+hubmap_hbm953_wbfb_656_mibi_uterus_protein,HBM953.WBFB.656,Uterus,lab_submission,577184891,9,,
+hubmap_hbm962_knck_947_mibi_uterus_protein,HBM962.KNCK.947,Uterus,lab_submission,577184893,9,HBM884.BLCS.293,
+hubmap_hbm964_lvpl_638_mibi_uterus_protein,HBM964.LVPL.638,Uterus,lab_submission,577184899,9,HBM596.RDBW.548,
+hubmap_hbm964_twtv_455_mibi_uterus_protein,HBM964.TWTV.455,Uterus,lab_submission,577184998,9,HBM459.CJWM.725,
+hubmap_hbm966_blfs_983_mibi_uterus_protein,HBM966.BLFS.983,Uterus,lab_submission,577188321,9,HBM348.BSKF.594,
+hubmap_hbm966_nkxf_465_mibi_uterus_protein,HBM966.NKXF.465,Uterus,lab_submission,577184894,9,HBM292.PMFN.687,
+hubmap_hbm969_sdkg_788_mibi_uterus_protein,HBM969.SDKG.788,Uterus,lab_submission,577184870,9,HBM956.WMBT.943,
+hubmap_hbm972_fwfl_332_mibi_uterus_protein,HBM972.FWFL.332,Uterus,lab_submission,577181486,9,HBM252.PSLX.399,
+hubmap_hbm973_ghqh_368_mibi_uterus_protein,HBM973.GHQH.368,Uterus,lab_submission,577184890,9,HBM892.PHBG.697,
+hubmap_hbm973_lqcm_488_mibi_uterus_protein,HBM973.LQCM.488,Uterus,lab_submission,577184892,9,HBM939.LCVV.254,
+hubmap_hbm976_dfcv_879_mibi_uterus_protein,HBM976.DFCV.879,Uterus,lab_submission,577184901,9,HBM376.MSTH.249,
+hubmap_hbm977_jqgh_993_mibi_uterus_protein,HBM977.JQGH.993,Uterus,lab_submission,577184901,9,HBM735.VDQV.744,
+hubmap_hbm978_kxlg_227_mibi_uterus_protein,HBM978.KXLG.227,Uterus,lab_submission,577184891,9,HBM677.WZWK.635,
+hubmap_hbm979_kdpm_382_mibi_uterus_protein,HBM979.KDPM.382,Uterus,lab_submission,577184892,9,HBM837.PJNH.875,
+hubmap_hbm982_wkhj_983_mibi_uterus_protein,HBM982.WKHJ.983,Uterus,lab_submission,577188377,9,HBM865.NPPQ.438,
+hubmap_hbm992_wlfd_899_mibi_uterus_protein,HBM992.WLFD.899,Uterus,lab_submission,577188380,9,,
+hubmap_hbm994_pdjn_987_mibi_uterus_protein,HBM994.PDJN.987,Uterus,lab_submission,577184895,9,HBM482.TCWK.632,
+hubmap_hbm996_gkxh_482_mibi_uterus_protein,HBM996.GKXH.482,Uterus,lab_submission,577184898,9,HBM834.MXGK.699,
+hubmap_hbm997_frkv_293_mibi_uterus_protein,HBM997.FRKV.293,Uterus,lab_submission,577183183,9,HBM897.DHXK.526,
+hubmap_hbm999_mjzx_394_mibi_uterus_protein,HBM999.MJZX.394,Uterus,lab_submission,577184901,9,HBM725.PQBF.973,
+hubmap_hbm223_wrtc_433_unspecified_uterus_na,HBM223.WRTC.433,Uterus,sprm_derivative,992774764,121,,"HuBMAP DeepCell + SPRM re-processing of HBM456.XQLG.678; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm225_kjqb_487_unspecified_uterus_na,HBM225.KJQB.487,Uterus,sprm_derivative,844229205,121,,"HuBMAP DeepCell + SPRM re-processing of HBM255.FCJD.432; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm229_ctrd_753_unspecified_uterus_na,HBM229.CTRD.753,Uterus,sprm_derivative,966757440,121,,"HuBMAP DeepCell + SPRM re-processing of HBM665.ZMNL.735; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm232_qfxq_736_unspecified_uterus_na,HBM232.QFXQ.736,Uterus,sprm_derivative,797249703,121,,"HuBMAP DeepCell + SPRM re-processing of HBM549.JNKH.249; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm233_zxrv_849_unspecified_uterus_na,HBM233.ZXRV.849,Uterus,sprm_derivative,854893094,121,,"HuBMAP DeepCell + SPRM re-processing of HBM352.ZMMK.237; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm235_lkxn_596_mibi_bone_marrow_protein,HBM235.LKXN.596,Bone Marrow,image_only,381341316,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm236_vkzm_892_unspecified_uterus_na,HBM236.VKZM.892,Uterus,sprm_derivative,844292998,121,,"HuBMAP DeepCell + SPRM re-processing of HBM534.CDWW.587; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm236_xkvd_576_unspecified_uterus_na,HBM236.XKVD.576,Uterus,sprm_derivative,907230352,121,,"HuBMAP DeepCell + SPRM re-processing of HBM642.BQBQ.999; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm244_szpv_865_mibi_bone_marrow_protein,HBM244.SZPV.865,Bone Marrow,image_only,786979540,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm246_nqwm_888_mibi_bone_marrow_protein,HBM246.NQWM.888,Bone Marrow,image_only,1281879569,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm247_wfvb_442_mibi_bone_marrow_protein,HBM247.WFVB.442,Bone Marrow,image_only,321037734,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm248_hjbb_845_unspecified_uterus_na,HBM248.HJBB.845,Uterus,sprm_derivative,958781002,121,,"HuBMAP DeepCell + SPRM re-processing of HBM773.PVXD.869; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm252_pslx_399_unspecified_uterus_na,HBM252.PSLX.399,Uterus,sprm_derivative,1125293150,121,,"HuBMAP DeepCell + SPRM re-processing of HBM972.FWFL.332; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm254_wnrf_534_unspecified_uterus_na,HBM254.WNRF.534,Uterus,sprm_derivative,863586146,121,,"HuBMAP DeepCell + SPRM re-processing of HBM883.PBZB.248; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm259_sgmm_647_unspecified_uterus_na,HBM259.SGMM.647,Uterus,sprm_derivative,938411216,120,,"HuBMAP DeepCell + SPRM re-processing of HBM546.NPGH.532; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm262_fkkm_985_unspecified_uterus_na,HBM262.FKKM.985,Uterus,sprm_derivative,1052717723,121,,"HuBMAP DeepCell + SPRM re-processing of HBM562.BDQQ.934; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm263_mxvh_898_unspecified_uterus_na,HBM263.MXVH.898,Uterus,sprm_derivative,795873236,121,,"HuBMAP DeepCell + SPRM re-processing of HBM885.KDQV.248; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm264_zsrx_862_unspecified_uterus_na,HBM264.ZSRX.862,Uterus,sprm_derivative,736741870,121,,"HuBMAP DeepCell + SPRM re-processing of HBM293.JJRG.875; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm269_vvfs_334_unspecified_uterus_na,HBM269.VVFS.334,Uterus,sprm_derivative,995150054,121,,"HuBMAP DeepCell + SPRM re-processing of HBM875.MRXW.469; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm276_nxkt_226_unspecified_uterus_na,HBM276.NXKT.226,Uterus,sprm_derivative,742435019,121,,"HuBMAP DeepCell + SPRM re-processing of HBM885.LXGS.976; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm277_dxww_264_unspecified_uterus_na,HBM277.DXWW.264,Uterus,sprm_derivative,1079228874,121,,"HuBMAP DeepCell + SPRM re-processing of HBM448.WCWB.444; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm278_hknp_262_unspecified_uterus_na,HBM278.HKNP.262,Uterus,sprm_derivative,920432929,120,,"HuBMAP DeepCell + SPRM re-processing of HBM887.DPRS.422; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm278_xvzm_876_unspecified_uterus_na,HBM278.XVZM.876,Uterus,sprm_derivative,779466417,121,,"HuBMAP DeepCell + SPRM re-processing of HBM622.PXTN.854; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm279_xsjk_324_unspecified_uterus_na,HBM279.XSJK.324,Uterus,sprm_derivative,1055552098,121,,"HuBMAP DeepCell + SPRM re-processing of HBM374.NBPR.367; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm282_rjbp_442_unspecified_uterus_na,HBM282.RJBP.442,Uterus,sprm_derivative,1025300856,121,,"HuBMAP DeepCell + SPRM re-processing of HBM887.TLXR.894; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm284_fqrq_428_unspecified_uterus_na,HBM284.FQRQ.428,Uterus,sprm_derivative,675210517,121,,"HuBMAP DeepCell + SPRM re-processing of HBM837.KNJV.852; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm289_zbhm_542_unspecified_uterus_na,HBM289.ZBHM.542,Uterus,sprm_derivative,887089719,121,,"HuBMAP DeepCell + SPRM re-processing of HBM656.WRHJ.584; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm292_pmfn_687_unspecified_uterus_na,HBM292.PMFN.687,Uterus,sprm_derivative,855135397,121,,"HuBMAP DeepCell + SPRM re-processing of HBM966.NKXF.465; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm324_drzp_422_unspecified_uterus_na,HBM324.DRZP.422,Uterus,sprm_derivative,1075889589,121,,"HuBMAP DeepCell + SPRM re-processing of HBM857.WQJX.764; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm326_gspk_893_mibi_bone_marrow_protein,HBM326.GSPK.893,Bone Marrow,image_only,833609397,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm326_vznc_325_mibi_bone_marrow_protein,HBM326.VZNC.325,Bone Marrow,image_only,486669569,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm329_fztd_578_mibi_bone_marrow_protein,HBM329.FZTD.578,Bone Marrow,image_only,252600878,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm334_rhtz_568_unspecified_uterus_na,HBM334.RHTZ.568,Uterus,sprm_derivative,995905808,121,,"HuBMAP DeepCell + SPRM re-processing of HBM624.XMRV.622; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm336_lkfw_859_unspecified_uterus_na,HBM336.LKFW.859,Uterus,sprm_derivative,786183642,121,,"HuBMAP DeepCell + SPRM re-processing of HBM224.DTZL.954; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm338_cvlq_488_unspecified_uterus_na,HBM338.CVLQ.488,Uterus,sprm_derivative,932154040,121,,"HuBMAP DeepCell + SPRM re-processing of HBM645.QBFQ.879; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm339_gmfl_329_unspecified_uterus_na,HBM339.GMFL.329,Uterus,sprm_derivative,1124453275,121,,"HuBMAP DeepCell + SPRM re-processing of HBM222.WQKC.382; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm339_vclb_796_unspecified_uterus_na,HBM339.VCLB.796,Uterus,sprm_derivative,748659610,121,,"HuBMAP DeepCell + SPRM re-processing of HBM268.ZZGQ.759; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm339_xrnq_456_unspecified_uterus_na,HBM339.XRNQ.456,Uterus,sprm_derivative,809440573,121,,"HuBMAP DeepCell + SPRM re-processing of HBM547.PWMC.589; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm346_hbzp_532_unspecified_uterus_na,HBM346.HBZP.532,Uterus,sprm_derivative,951637307,121,,"HuBMAP DeepCell + SPRM re-processing of HBM689.DMZD.693; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm346_knsc_626_unspecified_uterus_na,HBM346.KNSC.626,Uterus,sprm_derivative,1081898586,121,,"HuBMAP DeepCell + SPRM re-processing of HBM339.JVHD.976; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm347_spbz_875_unspecified_uterus_na,HBM347.SPBZ.875,Uterus,sprm_derivative,882079073,121,,"HuBMAP DeepCell + SPRM re-processing of HBM886.BWML.747; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm348_bskf_594_unspecified_uterus_na,HBM348.BSKF.594,Uterus,sprm_derivative,655829032,121,,"HuBMAP DeepCell + SPRM re-processing of HBM966.BLFS.983; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm349_jmxz_632_unspecified_uterus_na,HBM349.JMXZ.632,Uterus,sprm_derivative,822275724,121,,"HuBMAP DeepCell + SPRM re-processing of HBM829.FTCD.454; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm352_kmnr_697_unspecified_uterus_na,HBM352.KMNR.697,Uterus,sprm_derivative,719835684,121,,"HuBMAP DeepCell + SPRM re-processing of HBM456.CLDP.753; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm352_vrcw_258_unspecified_uterus_na,HBM352.VRCW.258,Uterus,sprm_derivative,819183042,121,,"HuBMAP DeepCell + SPRM re-processing of HBM243.BKXT.647; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm354_jsll_452_mibi_bone_marrow_protein,HBM354.JSLL.452,Bone Marrow,image_only,1073121435,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm357_kzgb_898_unspecified_uterus_na,HBM357.KZGB.898,Uterus,sprm_derivative,838463110,121,,"HuBMAP DeepCell + SPRM re-processing of HBM296.NRCF.473; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm362_qsqq_769_unspecified_uterus_na,HBM362.QSQQ.769,Uterus,sprm_derivative,993808769,121,,"HuBMAP DeepCell + SPRM re-processing of HBM452.KWSP.459; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm362_xdrt_592_mibi_bone_marrow_protein,HBM362.XDRT.592,Bone Marrow,image_only,1731731632,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm363_hmhk_475_unspecified_uterus_na,HBM363.HMHK.475,Uterus,sprm_derivative,746476882,121,,"HuBMAP DeepCell + SPRM re-processing of HBM369.TVNZ.782; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm367_hxvx_992_unspecified_uterus_na,HBM367.HXVX.992,Uterus,sprm_derivative,820793179,121,,"HuBMAP DeepCell + SPRM re-processing of HBM845.PKDG.353; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm368_dmqj_545_mibi_bone_marrow_protein,HBM368.DMQJ.545,Bone Marrow,image_only,470243650,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm372_sfrd_593_mibi_bone_marrow_protein,HBM372.SFRD.593,Bone Marrow,image_only,457699474,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm372_vjlq_498_unspecified_uterus_na,HBM372.VJLQ.498,Uterus,sprm_derivative,688157611,121,,"HuBMAP DeepCell + SPRM re-processing of HBM448.FXRB.555; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm374_cksv_949_unspecified_uterus_na,HBM374.CKSV.949,Uterus,sprm_derivative,636869523,121,,"HuBMAP DeepCell + SPRM re-processing of HBM273.ZHHG.846; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm376_msth_249_unspecified_uterus_na,HBM376.MSTH.249,Uterus,sprm_derivative,938400071,121,,"HuBMAP DeepCell + SPRM re-processing of HBM976.DFCV.879; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm377_kchf_827_mibi_bone_marrow_protein,HBM377.KCHF.827,Bone Marrow,image_only,631911522,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm378_frmp_675_unspecified_uterus_na,HBM378.FRMP.675,Uterus,sprm_derivative,1028880816,121,,"HuBMAP DeepCell + SPRM re-processing of HBM482.NHCD.375; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm384_jnmq_626_unspecified_uterus_na,HBM384.JNMQ.626,Uterus,sprm_derivative,822182228,121,,"HuBMAP DeepCell + SPRM re-processing of HBM695.PKFW.682; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm385_nthw_467_unspecified_uterus_na,HBM385.NTHW.467,Uterus,sprm_derivative,1065489720,121,,"HuBMAP DeepCell + SPRM re-processing of HBM549.CJSK.997; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm387_qlnt_432_unspecified_uterus_na,HBM387.QLNT.432,Uterus,sprm_derivative,678813922,121,,"HuBMAP DeepCell + SPRM re-processing of HBM367.JLJV.287; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm389_nklc_534_unspecified_uterus_na,HBM389.NKLC.534,Uterus,sprm_derivative,897125037,121,,"HuBMAP DeepCell + SPRM re-processing of HBM226.SDCN.999; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm392_xmwr_794_unspecified_uterus_na,HBM392.XMWR.794,Uterus,sprm_derivative,758493716,121,,"HuBMAP DeepCell + SPRM re-processing of HBM729.NHJF.956; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm423_pqmz_473_unspecified_uterus_na,HBM423.PQMZ.473,Uterus,sprm_derivative,856948855,121,,"HuBMAP DeepCell + SPRM re-processing of HBM224.KGNF.646; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm427_dpch_628_unspecified_uterus_na,HBM427.DPCH.628,Uterus,sprm_derivative,827018369,121,,"HuBMAP DeepCell + SPRM re-processing of HBM525.BZJC.926; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm428_qxpr_772_unspecified_uterus_na,HBM428.QXPR.772,Uterus,sprm_derivative,791590208,121,,"HuBMAP DeepCell + SPRM re-processing of HBM495.VXPX.373; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm439_ncmh_676_mibi_bone_marrow_protein,HBM439.NCMH.676,Bone Marrow,image_only,771828328,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm443_bwdp_264_unspecified_uterus_na,HBM443.BWDP.264,Uterus,sprm_derivative,836510607,121,,"HuBMAP DeepCell + SPRM re-processing of HBM297.DGPL.989; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm448_zhnd_632_unspecified_uterus_na,HBM448.ZHND.632,Uterus,sprm_derivative,943729541,121,,"HuBMAP DeepCell + SPRM re-processing of HBM285.RQPT.487; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm449_rpcg_995_mibi_bone_marrow_protein,HBM449.RPCG.995,Bone Marrow,image_only,917900506,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm449_snwd_969_unspecified_uterus_na,HBM449.SNWD.969,Uterus,sprm_derivative,801515400,121,,"HuBMAP DeepCell + SPRM re-processing of HBM467.CVLD.644; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm452_rzrz_228_unspecified_uterus_na,HBM452.RZRZ.228,Uterus,sprm_derivative,737695225,121,,"HuBMAP DeepCell + SPRM re-processing of HBM467.RVKV.883; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm454_mhth_883_unspecified_uterus_na,HBM454.MHTH.883,Uterus,sprm_derivative,786376375,121,,"HuBMAP DeepCell + SPRM re-processing of HBM565.BMSB.555; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm458_tqnj_838_unspecified_uterus_na,HBM458.TQNJ.838,Uterus,sprm_derivative,678004187,121,,"HuBMAP DeepCell + SPRM re-processing of HBM634.GHPH.986; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm459_bslc_269_unspecified_uterus_na,HBM459.BSLC.269,Uterus,sprm_derivative,858362688,121,,"HuBMAP DeepCell + SPRM re-processing of HBM327.VPMV.784; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm459_cjwm_725_unspecified_uterus_na,HBM459.CJWM.725,Uterus,sprm_derivative,922220881,119,,"HuBMAP DeepCell + SPRM re-processing of HBM964.TWTV.455; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm466_mcsz_832_unspecified_uterus_na,HBM466.MCSZ.832,Uterus,sprm_derivative,735304925,115,,"HuBMAP DeepCell + SPRM re-processing of HBM439.HFGX.695; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm467_wtjj_952_unspecified_uterus_na,HBM467.WTJJ.952,Uterus,sprm_derivative,458327171,94,,"HuBMAP DeepCell + SPRM re-processing of HBM428.WPXP.979; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm468_tpqx_899_unspecified_uterus_na,HBM468.TPQX.899,Uterus,sprm_derivative,1031692703,121,,"HuBMAP DeepCell + SPRM re-processing of HBM457.QJSC.438; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm479_jzmh_487_unspecified_uterus_na,HBM479.JZMH.487,Uterus,sprm_derivative,778498295,121,,"HuBMAP DeepCell + SPRM re-processing of HBM838.VLBV.829; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm482_tcwk_632_unspecified_uterus_na,HBM482.TCWK.632,Uterus,sprm_derivative,874320388,121,,"HuBMAP DeepCell + SPRM re-processing of HBM994.PDJN.987; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm487_bvpm_787_unspecified_uterus_na,HBM487.BVPM.787,Uterus,sprm_derivative,805974105,121,,"HuBMAP DeepCell + SPRM re-processing of HBM253.PQVP.942; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm487_zctd_796_unspecified_uterus_na,HBM487.ZCTD.796,Uterus,sprm_derivative,793175499,121,,"HuBMAP DeepCell + SPRM re-processing of HBM463.SQHJ.376; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm488_lpfg_595_unspecified_uterus_na,HBM488.LPFG.595,Uterus,sprm_derivative,691870854,121,,"HuBMAP DeepCell + SPRM re-processing of HBM257.TFFM.796; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm495_vspl_665_mibi_bone_marrow_protein,HBM495.VSPL.665,Bone Marrow,image_only,1105731973,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm499_plqb_587_unspecified_uterus_na,HBM499.PLQB.587,Uterus,sprm_derivative,969582021,121,,"HuBMAP DeepCell + SPRM re-processing of HBM426.BLGP.789; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm533_rpks_527_unspecified_uterus_na,HBM533.RPKS.527,Uterus,sprm_derivative,771954483,121,,"HuBMAP DeepCell + SPRM re-processing of HBM278.GHLH.482; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm534_hzvt_527_unspecified_uterus_na,HBM534.HZVT.527,Uterus,sprm_derivative,762044603,121,,"HuBMAP DeepCell + SPRM re-processing of HBM594.GWVL.995; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm536_vggl_365_unspecified_uterus_na,HBM536.VGGL.365,Uterus,sprm_derivative,674351766,121,,"HuBMAP DeepCell + SPRM re-processing of HBM277.NSQL.526; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm538_nsjl_252_unspecified_uterus_na,HBM538.NSJL.252,Uterus,sprm_derivative,868992486,121,,"HuBMAP DeepCell + SPRM re-processing of HBM496.HPHV.342; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm538_vffn_553_unspecified_uterus_na,HBM538.VFFN.553,Uterus,sprm_derivative,875687957,121,,"HuBMAP DeepCell + SPRM re-processing of HBM836.RWTL.263; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm554_lvxx_786_unspecified_uterus_na,HBM554.LVXX.786,Uterus,sprm_derivative,738407984,121,,"HuBMAP DeepCell + SPRM re-processing of HBM264.HHBZ.855; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm554_ngkr_393_unspecified_uterus_na,HBM554.NGKR.393,Uterus,sprm_derivative,668220073,121,,"HuBMAP DeepCell + SPRM re-processing of HBM772.CSQS.353; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm555_cbql_388_unspecified_uterus_na,HBM555.CBQL.388,Uterus,sprm_derivative,994787982,121,,"HuBMAP DeepCell + SPRM re-processing of HBM646.ZRTZ.549; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm557_hzzh_482_unspecified_uterus_na,HBM557.HZZH.482,Uterus,sprm_derivative,814069199,121,,"HuBMAP DeepCell + SPRM re-processing of HBM944.CKWN.576; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm558_jwnc_449_mibi_bone_marrow_protein,HBM558.JWNC.449,Bone Marrow,image_only,1261443949,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm562_gvdm_422_unspecified_uterus_na,HBM562.GVDM.422,Uterus,sprm_derivative,921332629,121,,"HuBMAP DeepCell + SPRM re-processing of HBM485.ZGHC.972; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm563_bttx_877_unspecified_uterus_na,HBM563.BTTX.877,Uterus,sprm_derivative,867006949,120,,"HuBMAP DeepCell + SPRM re-processing of HBM225.PQGQ.852; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm573_lqqf_645_unspecified_uterus_na,HBM573.LQQF.645,Uterus,sprm_derivative,983615253,121,,"HuBMAP DeepCell + SPRM re-processing of HBM735.PWVL.294; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm574_ndxz_553_mibi_bone_marrow_protein,HBM574.NDXZ.553,Bone Marrow,image_only,765664466,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm578_ppjh_439_unspecified_uterus_na,HBM578.PPJH.439,Uterus,sprm_derivative,689647071,121,,"HuBMAP DeepCell + SPRM re-processing of HBM237.DLKC.855; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm578_zqrt_586_unspecified_uterus_na,HBM578.ZQRT.586,Uterus,sprm_derivative,912913328,121,,"HuBMAP DeepCell + SPRM re-processing of HBM696.QBDC.928; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm583_vmrl_945_unspecified_uterus_na,HBM583.VMRL.945,Uterus,sprm_derivative,734453950,121,,"HuBMAP DeepCell + SPRM re-processing of HBM796.TZPX.595; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm587_brxx_822_unspecified_uterus_na,HBM587.BRXX.822,Uterus,sprm_derivative,727693664,121,,"HuBMAP DeepCell + SPRM re-processing of HBM228.NLNS.669; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm587_fkll_897_unspecified_uterus_na,HBM587.FKLL.897,Uterus,sprm_derivative,702131404,121,,"HuBMAP DeepCell + SPRM re-processing of HBM357.LSBK.728; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm595_fnhh_789_unspecified_uterus_na,HBM595.FNHH.789,Uterus,sprm_derivative,744798793,121,,"HuBMAP DeepCell + SPRM re-processing of HBM862.DDDQ.629; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm596_rdbw_548_unspecified_uterus_na,HBM596.RDBW.548,Uterus,sprm_derivative,878418975,121,,"HuBMAP DeepCell + SPRM re-processing of HBM964.LVPL.638; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm599_kzlq_246_mibi_bone_marrow_protein,HBM599.KZLQ.246,Bone Marrow,image_only,1531298652,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm622_ptrq_645_unspecified_uterus_na,HBM622.PTRQ.645,Uterus,sprm_derivative,1104554925,121,,"HuBMAP DeepCell + SPRM re-processing of HBM467.LMBG.759; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm623_jcwz_639_mibi_bone_marrow_protein,HBM623.JCWZ.639,Bone Marrow,image_only,792318750,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm625_czzh_873_mibi_bone_marrow_protein,HBM625.CZZH.873,Bone Marrow,image_only,639838931,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm629_hkgz_649_unspecified_uterus_na,HBM629.HKGZ.649,Uterus,sprm_derivative,706810535,121,,"HuBMAP DeepCell + SPRM re-processing of HBM772.HCWX.787; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm629_hljh_658_unspecified_uterus_na,HBM629.HLJH.658,Uterus,sprm_derivative,730813651,117,,"HuBMAP DeepCell + SPRM re-processing of HBM552.JXCB.872; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm629_kzxc_984_unspecified_uterus_na,HBM629.KZXC.984,Uterus,sprm_derivative,884381046,120,,"HuBMAP DeepCell + SPRM re-processing of HBM354.SVBP.894; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm632_dxdr_993_unspecified_uterus_na,HBM632.DXDR.993,Uterus,sprm_derivative,732074327,121,,"HuBMAP DeepCell + SPRM re-processing of HBM354.SLNR.553; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm633_vbfp_756_unspecified_uterus_na,HBM633.VBFP.756,Uterus,sprm_derivative,821189549,121,,"HuBMAP DeepCell + SPRM re-processing of HBM224.RCHM.744; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm647_qgrw_979_unspecified_uterus_na,HBM647.QGRW.979,Uterus,sprm_derivative,688369936,121,,"HuBMAP DeepCell + SPRM re-processing of HBM554.TVPR.268; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm649_czjq_495_mibi_bone_marrow_protein,HBM649.CZJQ.495,Bone Marrow,image_only,1394987762,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm652_gcsk_976_unspecified_uterus_na,HBM652.GCSK.976,Uterus,sprm_derivative,756216920,119,,"HuBMAP DeepCell + SPRM re-processing of HBM693.GXCW.762; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm655_rvsp_298_unspecified_uterus_na,HBM655.RVSP.298,Uterus,sprm_derivative,1009024225,121,,"HuBMAP DeepCell + SPRM re-processing of HBM837.GSBZ.237; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm662_rzhp_327_unspecified_uterus_na,HBM662.RZHP.327,Uterus,sprm_derivative,615417810,121,,"HuBMAP DeepCell + SPRM re-processing of HBM446.RBDJ.452; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm665_hqwg_468_unspecified_uterus_na,HBM665.HQWG.468,Uterus,sprm_derivative,933446412,121,,"HuBMAP DeepCell + SPRM re-processing of HBM258.SWDZ.622; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm666_drsd_887_unspecified_uterus_na,HBM666.DRSD.887,Uterus,sprm_derivative,801555450,121,,"HuBMAP DeepCell + SPRM re-processing of HBM368.PZJV.258; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm668_wmvh_926_unspecified_uterus_na,HBM668.WMVH.926,Uterus,sprm_derivative,854937223,121,,"HuBMAP DeepCell + SPRM re-processing of HBM639.JHBT.479; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm672_cxsr_737_mibi_bone_marrow_protein,HBM672.CXSR.737,Bone Marrow,image_only,1665154748,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm676_vgqv_586_unspecified_uterus_na,HBM676.VGQV.586,Uterus,sprm_derivative,941352341,121,,"HuBMAP DeepCell + SPRM re-processing of HBM537.JPHF.622; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm677_mdsl_949_mibi_bone_marrow_protein,HBM677.MDSL.949,Bone Marrow,image_only,1714487387,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm677_wzwk_635_unspecified_uterus_na,HBM677.WZWK.635,Uterus,sprm_derivative,915629843,121,,"HuBMAP DeepCell + SPRM re-processing of HBM978.KXLG.227; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm679_jxjr_677_unspecified_uterus_na,HBM679.JXJR.677,Uterus,sprm_derivative,695897509,117,,"HuBMAP DeepCell + SPRM re-processing of HBM775.LKTG.696; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm684_bwkj_728_mibi_bone_marrow_protein,HBM684.BWKJ.728,Bone Marrow,image_only,270706320,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm687_khdm_377_mibi_bone_marrow_protein,HBM687.KHDM.377,Bone Marrow,image_only,550411827,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm687_lkcm_747_unspecified_uterus_na,HBM687.LKCM.747,Uterus,sprm_derivative,991494680,121,,"HuBMAP DeepCell + SPRM re-processing of HBM283.CPXW.835; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm688_hclz_743_mibi_bone_marrow_protein,HBM688.HCLZ.743,Bone Marrow,image_only,1389544843,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm688_kjsh_433_unspecified_uterus_na,HBM688.KJSH.433,Uterus,sprm_derivative,733844801,121,,"HuBMAP DeepCell + SPRM re-processing of HBM495.DFNT.747; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm689_bshd_684_unspecified_uterus_na,HBM689.BSHD.684,Uterus,sprm_derivative,753574908,121,,"HuBMAP DeepCell + SPRM re-processing of HBM338.KPTD.485; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm695_mzvr_729_unspecified_uterus_na,HBM695.MZVR.729,Uterus,sprm_derivative,904292645,121,,"HuBMAP DeepCell + SPRM re-processing of HBM386.ZHWD.475; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm696_nmnj_684_unspecified_uterus_na,HBM696.NMNJ.684,Uterus,sprm_derivative,696137406,117,,"HuBMAP DeepCell + SPRM re-processing of HBM539.PKZN.553; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm699_mzwr_768_unspecified_uterus_na,HBM699.MZWR.768,Uterus,sprm_derivative,968637994,121,,"HuBMAP DeepCell + SPRM re-processing of HBM747.RHFN.588; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm725_pqbf_973_unspecified_uterus_na,HBM725.PQBF.973,Uterus,sprm_derivative,866473194,121,,"HuBMAP DeepCell + SPRM re-processing of HBM999.MJZX.394; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm726_spxn_546_unspecified_uterus_na,HBM726.SPXN.546,Uterus,sprm_derivative,1104410806,121,,"HuBMAP DeepCell + SPRM re-processing of HBM566.ZCSF.285; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm735_vdqv_744_unspecified_uterus_na,HBM735.VDQV.744,Uterus,sprm_derivative,592257861,121,,"HuBMAP DeepCell + SPRM re-processing of HBM977.JQGH.993; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm737_nxql_382_unspecified_uterus_na,HBM737.NXQL.382,Uterus,sprm_derivative,722149032,121,,"HuBMAP DeepCell + SPRM re-processing of HBM497.DJZH.744; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm743_fsgc_752_unspecified_uterus_na,HBM743.FSGC.752,Uterus,sprm_derivative,828311116,121,,"HuBMAP DeepCell + SPRM re-processing of HBM524.JFVN.863; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm746_zpgq_644_unspecified_uterus_na,HBM746.ZPGQ.644,Uterus,sprm_derivative,825707067,121,,"HuBMAP DeepCell + SPRM re-processing of HBM953.JHWJ.752; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm753_bnxk_497_unspecified_uterus_na,HBM753.BNXK.497,Uterus,sprm_derivative,818409938,121,,"HuBMAP DeepCell + SPRM re-processing of HBM278.JPVF.359; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm756_cmnb_785_unspecified_uterus_na,HBM756.CMNB.785,Uterus,sprm_derivative,689673422,120,,"HuBMAP DeepCell + SPRM re-processing of HBM893.GWWT.254; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm758_vfjl_949_unspecified_uterus_na,HBM758.VFJL.949,Uterus,sprm_derivative,816581504,121,,"HuBMAP DeepCell + SPRM re-processing of HBM259.FWHD.689; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm763_fvrz_988_mibi_bone_marrow_protein,HBM763.FVRZ.988,Bone Marrow,image_only,721463432,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm763_mjpd_884_unspecified_uterus_na,HBM763.MJPD.884,Uterus,sprm_derivative,1047006054,121,,"HuBMAP DeepCell + SPRM re-processing of HBM699.QBTP.684; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm764_dfkl_255_unspecified_uterus_na,HBM764.DFKL.255,Uterus,sprm_derivative,811179090,121,,"HuBMAP DeepCell + SPRM re-processing of HBM562.FGZT.852; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm774_fmwk_835_unspecified_uterus_na,HBM774.FMWK.835,Uterus,sprm_derivative,768644301,121,,"HuBMAP DeepCell + SPRM re-processing of HBM638.HWQZ.266; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm776_nbtt_385_unspecified_uterus_na,HBM776.NBTT.385,Uterus,sprm_derivative,919545013,121,,"HuBMAP DeepCell + SPRM re-processing of HBM327.VGQK.363; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm778_lbzc_847_unspecified_uterus_na,HBM778.LBZC.847,Uterus,sprm_derivative,818489068,121,,"HuBMAP DeepCell + SPRM re-processing of HBM228.MLPT.762; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm779_xgpr_359_mibi_bone_marrow_protein,HBM779.XGPR.359,Bone Marrow,image_only,852177887,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm779_zbmx_798_unspecified_uterus_na,HBM779.ZBMX.798,Uterus,sprm_derivative,715497455,121,,"HuBMAP DeepCell + SPRM re-processing of HBM857.KSRQ.839; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm785_khpt_974_unspecified_uterus_na,HBM785.KHPT.974,Uterus,sprm_derivative,906869843,121,,"HuBMAP DeepCell + SPRM re-processing of HBM557.PZRZ.633; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm786_vjwh_589_mibi_bone_marrow_protein,HBM786.VJWH.589,Bone Marrow,image_only,1866458518,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm792_mvxp_558_mibi_bone_marrow_protein,HBM792.MVXP.558,Bone Marrow,image_only,398834240,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm792_xfhw_388_unspecified_uterus_na,HBM792.XFHW.388,Uterus,sprm_derivative,1236913675,121,,"HuBMAP DeepCell + SPRM re-processing of HBM286.PPPQ.526; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm793_qphb_595_mibi_bone_marrow_protein,HBM793.QPHB.595,Bone Marrow,image_only,1050139450,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm795_qkfb_543_unspecified_uterus_na,HBM795.QKFB.543,Uterus,sprm_derivative,732637573,121,,"HuBMAP DeepCell + SPRM re-processing of HBM649.QJJM.548; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm824_pzkp_497_mibi_bone_marrow_protein,HBM824.PZKP.497,Bone Marrow,image_only,675441205,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm828_clvc_365_unspecified_uterus_na,HBM828.CLVC.365,Uterus,sprm_derivative,1098775252,121,,"HuBMAP DeepCell + SPRM re-processing of HBM428.ZKRH.262; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm829_hrpd_829_unspecified_uterus_na,HBM829.HRPD.829,Uterus,sprm_derivative,764855380,121,,"HuBMAP DeepCell + SPRM re-processing of HBM829.PDDG.496; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm832_jbxk_434_unspecified_uterus_na,HBM832.JBXK.434,Uterus,sprm_derivative,795390498,121,,"HuBMAP DeepCell + SPRM re-processing of HBM852.WWTR.224; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm834_mxgk_699_unspecified_uterus_na,HBM834.MXGK.699,Uterus,sprm_derivative,760561245,121,,"HuBMAP DeepCell + SPRM re-processing of HBM996.GKXH.482; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm835_kcdk_276_unspecified_uterus_na,HBM835.KCDK.276,Uterus,sprm_derivative,732988232,121,,"HuBMAP DeepCell + SPRM re-processing of HBM935.XGNV.348; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm836_rcjx_699_unspecified_uterus_na,HBM836.RCJX.699,Uterus,sprm_derivative,807610550,121,,"HuBMAP DeepCell + SPRM re-processing of HBM299.PBZF.474; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm837_pjnh_875_unspecified_uterus_na,HBM837.PJNH.875,Uterus,sprm_derivative,672480248,121,,"HuBMAP DeepCell + SPRM re-processing of HBM979.KDPM.382; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm837_vctx_325_unspecified_uterus_na,HBM837.VCTX.325,Uterus,sprm_derivative,752700251,121,,"HuBMAP DeepCell + SPRM re-processing of HBM848.MJVK.888; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm839_cfpd_822_mibi_bone_marrow_protein,HBM839.CFPD.822,Bone Marrow,image_only,954385237,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm839_zpnm_248_unspecified_uterus_na,HBM839.ZPNM.248,Uterus,sprm_derivative,1033932823,121,,"HuBMAP DeepCell + SPRM re-processing of HBM894.NXBD.956; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm847_zvhs_879_mibi_bone_marrow_protein,HBM847.ZVHS.879,Bone Marrow,image_only,565054244,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm849_lsss_222_unspecified_uterus_na,HBM849.LSSS.222,Uterus,sprm_derivative,1217845882,120,,"HuBMAP DeepCell + SPRM re-processing of HBM785.QGFZ.856; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm852_gqvd_966_unspecified_uterus_na,HBM852.GQVD.966,Uterus,sprm_derivative,899782884,121,,"HuBMAP DeepCell + SPRM re-processing of HBM248.CCGT.382; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm853_hjmp_646_unspecified_uterus_na,HBM853.HJMP.646,Uterus,sprm_derivative,700483623,121,,"HuBMAP DeepCell + SPRM re-processing of HBM653.FMZX.257; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm853_tfpf_733_mibi_bone_marrow_protein,HBM853.TFPF.733,Bone Marrow,image_only,664718128,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm855_jsrh_432_unspecified_uterus_na,HBM855.JSRH.432,Uterus,sprm_derivative,607151179,121,,"HuBMAP DeepCell + SPRM re-processing of HBM527.DXPQ.356; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm858_wnpc_892_unspecified_uterus_na,HBM858.WNPC.892,Uterus,sprm_derivative,760622881,121,,"HuBMAP DeepCell + SPRM re-processing of HBM784.HVPG.384; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm862_svkn_436_unspecified_uterus_na,HBM862.SVKN.436,Uterus,sprm_derivative,902062534,121,,"HuBMAP DeepCell + SPRM re-processing of HBM529.QFWC.259; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm865_nppq_438_unspecified_uterus_na,HBM865.NPPQ.438,Uterus,sprm_derivative,824448169,121,,"HuBMAP DeepCell + SPRM re-processing of HBM982.WKHJ.983; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm866_bmjq_762_unspecified_uterus_na,HBM866.BMJQ.762,Uterus,sprm_derivative,999860299,121,,"HuBMAP DeepCell + SPRM re-processing of HBM774.GNCD.967; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm867_bxmm_498_mibi_bone_marrow_protein,HBM867.BXMM.498,Bone Marrow,image_only,857087993,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm867_qqcl_679_unspecified_uterus_na,HBM867.QQCL.679,Uterus,sprm_derivative,838124567,121,,"HuBMAP DeepCell + SPRM re-processing of HBM578.RPXL.745; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm873_dnxg_769_unspecified_uterus_na,HBM873.DNXG.769,Uterus,sprm_derivative,926583226,121,,"HuBMAP DeepCell + SPRM re-processing of HBM692.JWNQ.842; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm876_jwgc_776_mibi_bone_marrow_protein,HBM876.JWGC.776,Bone Marrow,image_only,2219578169,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm879_xspl_347_mibi_bone_marrow_protein,HBM879.XSPL.347,Bone Marrow,image_only,1031887173,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm883_jhmg_566_mibi_bone_marrow_protein,HBM883.JHMG.566,Bone Marrow,image_only,788714181,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm884_blcs_293_unspecified_uterus_na,HBM884.BLCS.293,Uterus,sprm_derivative,882862415,116,,"HuBMAP DeepCell + SPRM re-processing of HBM962.KNCK.947; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm887_wsnk_687_unspecified_uterus_na,HBM887.WSNK.687,Uterus,sprm_derivative,762062587,121,,"HuBMAP DeepCell + SPRM re-processing of HBM385.MRXX.887; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm889_rmxx_954_unspecified_uterus_na,HBM889.RMXX.954,Uterus,sprm_derivative,685181723,121,,"HuBMAP DeepCell + SPRM re-processing of HBM276.ZMLR.392; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm892_lhlq_299_unspecified_uterus_na,HBM892.LHLQ.299,Uterus,sprm_derivative,604972625,121,,"HuBMAP DeepCell + SPRM re-processing of HBM534.ZDNW.945; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm892_phbg_697_unspecified_uterus_na,HBM892.PHBG.697,Uterus,sprm_derivative,886653740,121,,"HuBMAP DeepCell + SPRM re-processing of HBM973.GHQH.368; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm893_fjgk_264_unspecified_uterus_na,HBM893.FJGK.264,Uterus,sprm_derivative,926618270,121,,"HuBMAP DeepCell + SPRM re-processing of HBM258.WPBZ.892; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm893_lwzd_456_unspecified_uterus_na,HBM893.LWZD.456,Uterus,sprm_derivative,807360021,121,,"HuBMAP DeepCell + SPRM re-processing of HBM692.LRPB.358; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm896_cghw_626_unspecified_uterus_na,HBM896.CGHW.626,Uterus,sprm_derivative,715490523,121,,"HuBMAP DeepCell + SPRM re-processing of HBM349.XMLL.699; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm896_kqrm_534_unspecified_uterus_na,HBM896.KQRM.534,Uterus,sprm_derivative,757422167,121,,"HuBMAP DeepCell + SPRM re-processing of HBM576.GRBW.848; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm897_dhxk_526_unspecified_uterus_na,HBM897.DHXK.526,Uterus,sprm_derivative,776156404,121,,"HuBMAP DeepCell + SPRM re-processing of HBM997.FRKV.293; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm897_hxgj_336_mibi_bone_marrow_protein,HBM897.HXGJ.336,Bone Marrow,image_only,445269783,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm898_hppm_779_mibi_bone_marrow_protein,HBM898.HPPM.779,Bone Marrow,image_only,425098735,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm899_bnlr_374_mibi_bone_marrow_protein,HBM899.BNLR.374,Bone Marrow,image_only,147607072,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm923_pzbz_268_mibi_bone_marrow_protein,HBM923.PZBZ.268,Bone Marrow,image_only,1797473347,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm924_rhdn_439_unspecified_uterus_na,HBM924.RHDN.439,Uterus,sprm_derivative,800737863,121,,"HuBMAP DeepCell + SPRM re-processing of HBM625.WNHZ.662; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm932_hspz_392_unspecified_uterus_na,HBM932.HSPZ.392,Uterus,sprm_derivative,871692507,121,,"HuBMAP DeepCell + SPRM re-processing of HBM555.ZNTK.962; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm939_lcvv_254_unspecified_uterus_na,HBM939.LCVV.254,Uterus,sprm_derivative,652658878,121,,"HuBMAP DeepCell + SPRM re-processing of HBM973.LQCM.488; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm946_vbvt_327_unspecified_uterus_na,HBM946.VBVT.327,Uterus,sprm_derivative,783361002,121,,"HuBMAP DeepCell + SPRM re-processing of HBM275.HPVH.884; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm949_bkbc_868_unspecified_uterus_na,HBM949.BKBC.868,Uterus,sprm_derivative,720316534,121,,"HuBMAP DeepCell + SPRM re-processing of HBM732.LRMF.287; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm949_flpw_679_unspecified_uterus_na,HBM949.FLPW.679,Uterus,sprm_derivative,766797674,121,,"HuBMAP DeepCell + SPRM re-processing of HBM688.XSDW.776; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm956_wmbt_943_unspecified_uterus_na,HBM956.WMBT.943,Uterus,sprm_derivative,769010463,120,,"HuBMAP DeepCell + SPRM re-processing of HBM969.SDKG.788; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm957_gcwc_626_unspecified_uterus_na,HBM957.GCWC.626,Uterus,sprm_derivative,1087913668,121,,"HuBMAP DeepCell + SPRM re-processing of HBM574.RBCK.759; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm962_nfgx_867_mibi_bone_marrow_protein,HBM962.NFGX.867,Bone Marrow,image_only,293906256,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm963_hhbk_559_mibi_bone_marrow_protein,HBM963.HHBK.559,Bone Marrow,image_only,1295861819,9,,lab-processed image only: no segmentation mask or cell table
+hubmap_hbm964_qdjq_743_unspecified_uterus_na,HBM964.QDJQ.743,Uterus,sprm_derivative,742339927,121,,"HuBMAP DeepCell + SPRM re-processing of HBM798.XDVP.432; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm973_wjwj_379_unspecified_uterus_na,HBM973.WJWJ.379,Uterus,sprm_derivative,880519381,121,,"HuBMAP DeepCell + SPRM re-processing of HBM776.KFMZ.755; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm982_hzpp_223_unspecified_uterus_na,HBM982.HZPP.223,Uterus,sprm_derivative,959144910,121,,"HuBMAP DeepCell + SPRM re-processing of HBM386.ZKLM.879; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm985_zkwc_825_unspecified_uterus_na,HBM985.ZKWC.825,Uterus,sprm_derivative,1110936013,121,,"HuBMAP DeepCell + SPRM re-processing of HBM434.GJQF.366; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm996_vsmv_377_unspecified_uterus_na,HBM996.VSMV.377,Uterus,sprm_derivative,675129725,121,,"HuBMAP DeepCell + SPRM re-processing of HBM348.KSHK.482; SPRM layout, the CODEX/PhenoCycler adapter's domain, and the same section"
+hubmap_hbm997_hgbt_698_mibi_bone_marrow_protein,HBM997.HGBT.698,Bone Marrow,image_only,939737711,9,,lab-processed image only: no segmentation mask or cell table

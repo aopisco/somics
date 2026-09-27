@@ -1,0 +1,109 @@
+{
+  "dataset_key": "chen2022_mosta_stereoseq__E13.5_embryo1",
+  "study": "MOSTA_E13.5_embryo1",
+  "study_name": "MOSTA: Mouse Organogenesis Spatiotemporal Transcriptomic Atlas (Chen et al. 2022, Cell) -- Stereo-seq embryo sections -- E13.5 embryo 1",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "bin",
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "embryo",
+  "preservation": "fresh_frozen",
+  "life_stage": "embryonic",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": "dapi",
+  "accession_database": "CNGB / STOmicsDB",
+  "data_access_link": "https://db.cngb.org/stomics/mosta/",
+  "download_url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/",
+  "publication_doi": "10.1016/j.cell.2022.04.003",
+  "source": {
+    "layout": "gem",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 20,
+    "genome": "mm10",
+    "bytes": 4528301886,
+    "files": [
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/E13.5_E1S1_GEM_bin1.tsv.gz",
+        "dest": "E13.5_E1S1_GEM_bin1.tsv.gz",
+        "sample": "E13.5_E1S1",
+        "role": "counts"
+      },
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/E13.5_E1S2_GEM_bin1.tsv.gz",
+        "dest": "E13.5_E1S2_GEM_bin1.tsv.gz",
+        "sample": "E13.5_E1S2",
+        "role": "counts"
+      },
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/E13.5_E1S3_GEM_bin1.tsv.gz",
+        "dest": "E13.5_E1S3_GEM_bin1.tsv.gz",
+        "sample": "E13.5_E1S3",
+        "role": "counts"
+      },
+      {
+        "url": "https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000058/Bin1_matrix/E13.5_E1S4_GEM_bin1.tsv.gz",
+        "dest": "E13.5_E1S4_GEM_bin1.tsv.gz",
+        "sample": "E13.5_E1S4",
+        "role": "counts"
+      }
+    ],
+    "notes": "bin1 GEMs from the MOSTA FTP mirror (public HTTPS). Files are named .tsv.gz but most are plain text; the builder sniffs gzip by magic bytes. Coordinates are absolute DNB positions (500 nm pitch); bins of 20 DNB = 10 um. No per-section imagery is published. Section labels: E<stage>_E<embryo>S<section>; one donor per (stage, embryo)."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "MOSTA_E13.5_embryo1": {
+      "sex": "unknown",
+      "life_stage": "embryonic",
+      "mouse_development_stage": "embryonic day 13.5",
+      "description": "MOSTA C57BL/6 embryo 1 at E13.5; sex not reported."
+    }
+  },
+  "samples": {
+    "E13.5_E1S1": {
+      "section_id": "MOSTA_E13.5_E1S1",
+      "donor_id": "MOSTA_E13.5_embryo1",
+      "sample_name": "MOSTA E13.5_E1S1",
+      "disease_state": "healthy",
+      "disease": null,
+      "anatomical_region": null,
+      "layout": "gem"
+    },
+    "E13.5_E1S2": {
+      "section_id": "MOSTA_E13.5_E1S2",
+      "donor_id": "MOSTA_E13.5_embryo1",
+      "sample_name": "MOSTA E13.5_E1S2",
+      "disease_state": "healthy",
+      "disease": null,
+      "anatomical_region": null,
+      "layout": "gem"
+    },
+    "E13.5_E1S3": {
+      "section_id": "MOSTA_E13.5_E1S3",
+      "donor_id": "MOSTA_E13.5_embryo1",
+      "sample_name": "MOSTA E13.5_E1S3",
+      "disease_state": "healthy",
+      "disease": null,
+      "anatomical_region": null,
+      "layout": "gem"
+    },
+    "E13.5_E1S4": {
+      "section_id": "MOSTA_E13.5_E1S4",
+      "donor_id": "MOSTA_E13.5_embryo1",
+      "sample_name": "MOSTA E13.5_E1S4",
+      "disease_state": "healthy",
+      "disease": null,
+      "anatomical_region": null,
+      "layout": "gem"
+    }
+  }
+}

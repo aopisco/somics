@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_human_colon_preview_data_xenium_human_colon_",
+  "study": "human-colon-preview-data-xenium-human-colon-gene-expression-panel-1-standard",
+  "study_name": "Human Colon Preview Data (Xenium Human Colon Gene Expression Panel)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "intestine (colon)",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-colon-preview-data-xenium-human-colon-gene-expression-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.6.0/Xenium_V1_hColon_Non_diseased_Add_on_FFPE/Xenium_V1_hColon_Non_diseased_Add_on_FFPE_outs.zip",
+  "source": {
+    "xoa": "1.6.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 13626095120,
+    "published_at": "1693341802"
+  },
+  "panel": {
+    "panel_name": "Xenium Human Colon Gene Expression Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_hColon_Non_diseased_Add_on_FFPE_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "healthy, cancer (stage 2A adenocarcinoma)",
+      "description": "Donor of the 10x Genomics Xenium dataset 'human-colon-preview-data-xenium-human-colon-gene-expression-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_hColon_Non_diseased_Add_on_FFPE": {
+      "section_id": "Xenium_V1_hColon_Non_diseased_Add_on_FFPE",
+      "donor_id": "Xenium_V1_hColon_Non_diseased_Add_on_FFPE_donor",
+      "sample_name": "Human Colon Preview Data (Xenium Human Colon Gene Expression Panel)",
+      "disease_state": "diseased",
+      "disease": "healthy, cancer (stage 2A adenocarcinoma)"
+    }
+  }
+}

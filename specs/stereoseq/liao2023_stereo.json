@@ -1,0 +1,163 @@
+{
+  "dataset_key": "liao2023_stereo",
+  "study": "SpatialGlue_thymus",
+  "study_name": "Stereo-CITE-seq mouse thymus, four sections (SpatialGlue data bundle, Long et al. 2024)",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "bin",
+  "segmentation_method": "grid",
+  "organism": "Mus musculus",
+  "tissue": "thymus",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "GEO",
+  "data_access_link": "https://zenodo.org/records/10362607",
+  "download_url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+  "publication_doi": null,
+  "source": {
+    "layout": "h5ad_bins",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 100,
+    "genome": "mm10",
+    "bytes": 700000000,
+    "files": [
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset3_Mouse_Thymus1/adata_RNA.h5ad",
+        "sample": "Mouse_Thymus1",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset3_Mouse_Thymus1/adata_ADT.h5ad",
+        "sample": "Mouse_Thymus1",
+        "role": "protein"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset4_Mouse_Thymus2/adata_RNA.h5ad",
+        "sample": "Mouse_Thymus2",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset4_Mouse_Thymus2/adata_ADT.h5ad",
+        "sample": "Mouse_Thymus2",
+        "role": "protein"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset5_Mouse_Thymus3/adata_RNA.h5ad",
+        "sample": "Mouse_Thymus3",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset5_Mouse_Thymus3/adata_ADT.h5ad",
+        "sample": "Mouse_Thymus3",
+        "role": "protein"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset6_Mouse_Thymus4/adata_RNA.h5ad",
+        "sample": "Mouse_Thymus4",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/liao2023_stereo/Data_SpatialGlue.zip",
+        "dest": "Data_SpatialGlue.zip",
+        "member": "Data_SpatialGlue/Dataset6_Mouse_Thymus4/adata_ADT.h5ad",
+        "sample": "Mouse_Thymus4",
+        "role": "protein"
+      }
+    ],
+    "notes": "RNA bins (bin100 = 50 um; obsm['spatial'] in DNB units) plus the ADT protein table on the same bins, from Data_SpatialGlue.zip staged under raw/. The bundle's spleen datasets are SPOTS (Visium + ADT, 10x barcodes) and are not Stereo-seq; its brain datasets are spatial ATAC/CUT&Tag-RNA. Only the thymus is Stereo-CITE-seq."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "SpatialGlue_thymus_mouse1": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "SpatialGlue Dataset3 mouse thymus; donor metadata not in the bundle."
+    },
+    "SpatialGlue_thymus_mouse2": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "SpatialGlue Dataset4 mouse thymus; donor metadata not in the bundle."
+    },
+    "SpatialGlue_thymus_mouse3": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "SpatialGlue Dataset5 mouse thymus; donor metadata not in the bundle."
+    },
+    "SpatialGlue_thymus_mouse4": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "SpatialGlue Dataset6 mouse thymus; donor metadata not in the bundle."
+    }
+  },
+  "samples": {
+    "Mouse_Thymus1": {
+      "section_id": "SpatialGlue_Mouse_Thymus1",
+      "donor_id": "SpatialGlue_thymus_mouse1",
+      "sample_name": "SpatialGlue Dataset3 Mouse_Thymus1",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "h5ad_bins",
+      "coord_unit": "dnb",
+      "bin_dnb": 100
+    },
+    "Mouse_Thymus2": {
+      "section_id": "SpatialGlue_Mouse_Thymus2",
+      "donor_id": "SpatialGlue_thymus_mouse2",
+      "sample_name": "SpatialGlue Dataset4 Mouse_Thymus2",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "h5ad_bins",
+      "coord_unit": "dnb",
+      "bin_dnb": 100
+    },
+    "Mouse_Thymus3": {
+      "section_id": "SpatialGlue_Mouse_Thymus3",
+      "donor_id": "SpatialGlue_thymus_mouse3",
+      "sample_name": "SpatialGlue Dataset5 Mouse_Thymus3",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "h5ad_bins",
+      "coord_unit": "dnb",
+      "bin_dnb": 100
+    },
+    "Mouse_Thymus4": {
+      "section_id": "SpatialGlue_Mouse_Thymus4",
+      "donor_id": "SpatialGlue_thymus_mouse4",
+      "sample_name": "SpatialGlue Dataset6 Mouse_Thymus4",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "h5ad_bins",
+      "coord_unit": "dnb",
+      "bin_dnb": 100
+    }
+  }
+}

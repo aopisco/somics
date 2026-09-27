@@ -1,0 +1,64 @@
+{
+  "dataset_key": "rhesus_macaque_b2025_merscope__h22_30_001",
+  "study": "H22.30.001",
+  "study_name": "Allen Brain Cell Atlas / HMBA: MERSCOPE human basal ganglia, donor H22.30.001",
+  "assay": "MERFISH",
+  "technology": "merfish",
+  "spatial_unit": "cell",
+  "segmentation_method": "cellpose",
+  "organism": "Homo sapiens",
+  "tissue": "basal ganglia",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "Allen Brain Cell Atlas",
+  "data_access_link": "https://alleninstitute.github.io/abc_atlas_access/descriptions/HMBA-MERSCOPE-H22.30.001-BG.html",
+  "download_url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/HMBA-MERSCOPE-H22.30.001-BG/20250930/MERSCOPE-H22.30.001-BG-raw.h5ad",
+  "publication_doi": "10.1101/2025.11.22.688128",
+  "source": {
+    "layout": "allen_abc",
+    "feature_matrix_label": "MERSCOPE-H22.30.001-BG",
+    "h5ad": "raw.h5ad",
+    "genome": "GRCh38",
+    "xy_columns": [
+      "x_experiment",
+      "y_experiment"
+    ],
+    "xy_unit": "um",
+    "donor_label": "H22.30.001",
+    "bytes": 1667026676,
+    "files": [
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/HMBA-MERSCOPE-H22.30.001-BG/20250930/MERSCOPE-H22.30.001-BG-raw.h5ad",
+        "dest": "raw.h5ad"
+      },
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/metadata/HMBA-MERSCOPE-H22.30.001-BG/20250930/cell_metadata.csv",
+        "dest": "cell_metadata.csv"
+      },
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/metadata/HMBA-MERSCOPE-H22.30.001-BG/20250930/gene.csv",
+        "dest": "gene.csv"
+      }
+    ],
+    "notes": "HMBA basal ganglia release 20250930. Vizgen MERSCOPE; segmentation recorded per cell as sis_cellpose_v1, hence cellpose. Coordinates x_experiment/y_experiment in um; qc_pass kept as passes_qc. No donor sex or age in the release metadata. The macaque companion release (QM23.50.001) is deliberately not specced yet: macaque gene resolution against the reference cache is unverified and a miss falls through to gget."
+  },
+  "panel": {
+    "panel_name": "HMBA basal ganglia MERSCOPE panel (human)",
+    "vendor": "Vizgen",
+    "technology": "merfish",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Panel of the HMBA cross-species basal ganglia atlas; n_targets counted from the release's feature axis."
+  },
+  "donors": {
+    "H22.30.001": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "HMBA human donor H22.30.001. Sex and age are not in the Allen release metadata and are left null/unknown."
+    }
+  }
+}

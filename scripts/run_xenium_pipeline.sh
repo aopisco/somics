@@ -29,6 +29,8 @@ PREP="$SKILLS/prepare-package-for-resolution/scripts"
 HARM="$SKILLS/schema-harmonization/scripts"
 FIN="$SKILLS/finalize-tables/scripts"
 PY="${PYTHON:-python}"
+ATLAS_ARGS=()
+[ -n "${SOMICS_ATLAS:-}" ] && ATLAS_ARGS=(--atlas "$SOMICS_ATLAS")
 
 echo "== 1. derive obs/var from the outs bundle =="
 $PY "$REPO/scripts/build_xenium_package.py" --spec "$SPEC"
@@ -54,13 +56,27 @@ for T in DonorSchema TissueSectionSchema PanelSchema; do
 done
 $PY "$REPO/scripts/harmonize_xenium_package.py" --spec "$SPEC"
 
-echo "== 5. finalize (note the bare/artifact bracket) =="
-$PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase bare
-$PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
-$PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase artifact
+if ls "$ROOT"/*/lance_db/SpatialObs_protein_abundance.lance >/dev/null 2>&1; then
+  # Co-detection bundle: two feature spaces on the same cells. The multimodal
+  # shape (CosMx): reconcile barcodes, then finalize_collection alone -- it
+  # joins the per-space obs tables and stamps uids itself (CLAUDE.md).
+  echo "== 5. reconcile barcodes across gene and protein =="
+  ALIGN="$SKILLS/multimodal-alignment/scripts"
+  for db in "$ROOT"/*/lance_db; do
+    [ -d "$db" ] || continue
+    $PY "$ALIGN/reconcile_barcodes.py" "$db" --obs-class SpatialObs
+  done
+  echo "== 6. finalize =="
+  $PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
+else
+  echo "== 5. finalize (note the bare/artifact bracket) =="
+  $PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase bare
+  $PY "$FIN/finalize_collection.py" "$ROOT" --schema "$SCHEMA"
+  $PY "$REPO/scripts/materialize_bare_obs.py" "$ROOT" --obs-class SpatialObs --phase artifact
+fi
 
 echo "== 6. ingest =="
-PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT"
+PYTHONPATH="$REPO/src" $PY -m somics.ingest "$ROOT" "${ATLAS_ARGS[@]}"
 
 echo
 echo "Done. Diff against the published atlas with:"

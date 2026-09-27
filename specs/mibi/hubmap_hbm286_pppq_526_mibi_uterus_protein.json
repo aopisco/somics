@@ -1,0 +1,68 @@
+{
+  "dataset_key": "hubmap_hbm286_pppq_526_mibi_uterus_protein",
+  "hubmap_id": "HBM286.PPPQ.526",
+  "hubmap_uuid": "2046c3c42bd2169c217fb4d68aafb6ce",
+  "study": "hubmap_stanford_rti_mibi",
+  "study_name": "MIBI data from the uterus of a 36-year-old native hawaiian or other pacific islander female",
+  "assay": "MIBI",
+  "technology": "mibi",
+  "spatial_unit": "cell",
+  "segmentation_method": null,
+  "organism": "Homo sapiens",
+  "tissue": "uterus",
+  "preservation": "ffpe",
+  "image_modality": "morphology",
+  "accession_database": "HuBMAP",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/2046c3c42bd2169c217fb4d68aafb6ce",
+  "download_url": "https://assets.hubmapconsortium.org/2046c3c42bd2169c217fb4d68aafb6ce/3D_image_stack.ome.tiff",
+  "source": {
+    "layout": "lab_submission",
+    "bytes": 577183342,
+    "published_at": 1678370472604,
+    "sprm_derivative": "HBM792.XFHW.388",
+    "cohort_cells_table": "s3://somics-dev/hubmap/HBM286.PPPQ.526/SingleCellData/cells.csv: the cohort-wide table (495k cells, 211 fields); this dataset's field is not identified, so it is not joined"
+  },
+  "panel": {
+    "panel_name": "HuBMAP Stanford RTI MIBI 37-plex panel da1df453",
+    "vendor": "Ionpath",
+    "version": "study-specific",
+    "technology": "mibi",
+    "organism": "Homo sapiens",
+    "n_targets": 37,
+    "has_custom_addon": false,
+    "description": "37 metal-conjugated antibodies imaged on a MIBIscope: CD11c, CD14, CD16, CD163, CD20, CD206, CD3, CD31, CD4, CD44, CD45, CD56, CD57, CD68, CD8, CD80, CK7, DCSIGN, Ecad, FoxP3, Galectin9, GrB, H3, HLADR, HLAG, HO1, IDO, Ki67, Lck, PD1, PDL1, SMA, TIGIT, TIM3, Tryptase, VIM, iNOS. The stack also carries the elemental and background channels, which are flagged is_control on the feature axis."
+  },
+  "donors": {
+    "HBM722.MGZD.359": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": 36.0,
+      "age_unit": "year",
+      "life_stage": "young_adult",
+      "human_development_stage": "36-year-old stage",
+      "ethnicity": "Native Hawaiian or Other Pacific Islander",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM722.MGZD.359 (Stanford RTI). Age, sex and race as the portal records them; nothing else is published."
+    }
+  },
+  "samples": {
+    "HBM286.PPPQ.526": {
+      "section_id": "HBM286.PPPQ.526",
+      "donor_id": "HBM722.MGZD.359",
+      "block_id": "HBM223.ZRQH.282",
+      "section_index": 0,
+      "accession_id": "HBM286.PPPQ.526",
+      "sample_name": "MIBI data from the uterus of a 36-year-old native hawaiian or other pacific islander female",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "stack": "s3://somics-dev/hubmap/HBM286.PPPQ.526/3D_image_stack.ome.tiff",
+        "mask": "s3://somics-dev/hubmap/HBM286.PPPQ.526/Mapping/cluster_labels_image.tif",
+        "antibodies": "s3://somics-dev/hubmap/HBM286.PPPQ.526/extras/antibodies.tsv",
+        "channel_report": "s3://somics-dev/hubmap/HBM286.PPPQ.526/mcd/channelnames_report.csv",
+        "metadata_json": "s3://somics-dev/hubmap/HBM286.PPPQ.526/metadata.json",
+        "metadata_tsv": "s3://somics-dev/hubmap/HBM286.PPPQ.526/2046c3c42bd2169c217fb4d68aafb6ce-metadata.tsv"
+      }
+    }
+  }
+}

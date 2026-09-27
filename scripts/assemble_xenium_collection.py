@@ -32,6 +32,24 @@ DATA_HOME = os.environ.get("SOMICS_DATA_HOME", "/home/ubuntu")
 
 def dataset_files(sample: str, staging: str) -> list[tuple[str, FileTypeTag, str | None]]:
     d = os.path.join(staging, sample)
+    # HuBMAP submissions carry no metrics_summary.csv; it is provenance, not data.
+    files = _dataset_files(d, sample)
+    files = [f for f in files if f[1] != FileTypeTag.OTHER or os.path.exists(f[0])]
+    # A co-detection bundle adds a protein_abundance space (see the builder's split).
+    if os.path.exists(os.path.join(d, f"{sample}_protein_intensity.csv")):
+        files += [
+            (
+                os.path.join(d, f"{sample}_protein_intensity.csv"),
+                FileTypeTag.DATA,
+                "protein_abundance",
+            ),
+            (os.path.join(d, f"{sample}_protein_obs.csv"), FileTypeTag.OBS, "protein_abundance"),
+            (os.path.join(d, f"{sample}_protein_var.csv"), FileTypeTag.VAR, "protein_abundance"),
+        ]
+    return files
+
+
+def _dataset_files(d: str, sample: str) -> list[tuple[str, FileTypeTag, str | None]]:
     return [
         (os.path.join(d, "cell_feature_matrix.h5"), FileTypeTag.DATA, "gene_expression"),
         (os.path.join(d, f"{sample}_obs.csv"), FileTypeTag.OBS, "gene_expression"),
@@ -63,6 +81,7 @@ def write_registries(
                 "age_value": donor.get("age_value"),
                 "age_unit": donor.get("age_unit"),
                 "clinical_diagnosis": donor.get("clinical_diagnosis"),
+                "ethnicity": donor.get("ethnicity"),
                 "description": donor.get("description"),
             }
             for donor_id, donor in spec["donors"].items()
@@ -76,6 +95,7 @@ def write_registries(
                 "TissueSectionSchema_join": entry["section_id"],
                 "donor_id": entry["donor_id"],
                 "donor_uid_DonorSchema_join": entry["donor_id"],
+                "block_id": entry.get("block_id"),
                 "tissue": spec["tissue"],
                 "disease_state": entry["disease_state"],
                 "disease": entry.get("disease"),
@@ -86,6 +106,18 @@ def write_registries(
     ).to_csv(os.path.join(staging, "tissuesection_registry.csv"), index=False)
 
     panel = dict(spec["panel"])
+    # The spec may leave the name and size to the bundle: gene_panel.json names
+    # the panel and experiment.xenium counts its targets.
+    g0 = geometry[0]
+    panel["panel_name"] = panel.get("panel_name") or g0.get("panel_name")
+    if not panel["panel_name"]:
+        raise ValueError("no panel name in the spec or in the bundle's gene_panel.json")
+    if panel.get("n_targets") is None:
+        panel["n_targets"] = int(g0["panel_num_targets_predesigned"]) + int(
+            g0["panel_num_targets_custom"]
+        )
+    if panel.get("description") is None and g0.get("panel_name_from_bundle"):
+        panel["description"] = f"gene_panel.json names the panel '{g0['panel_name_from_bundle']}'."
     panel["PanelSchema_join"] = panel["panel_name"]
     pd.DataFrame([panel]).to_csv(os.path.join(staging, "panel_registry.csv"), index=False)
 
@@ -110,6 +142,12 @@ def write_registries(
                 "description": (
                     "Single-channel autofocus projection of the nuclear stain, in the same "
                     "pixel frame as the cell centroids."
+                    if not g.get("channel_names")
+                    else (
+                        f"Autofocus projections of the {len(g['channel_names'])} morphology "
+                        f"channels ({', '.join(g['channel_names'])}), stacked channels-last, "
+                        "in the same pixel frame as the cell centroids."
+                    )
                 ),
             }
             for g in geometry
@@ -127,7 +165,7 @@ def write_dataset_registry(spec: dict, geometry: list[dict], staging: str) -> No
                 "accession_database": spec["accession_database"],
                 "data_access_link": spec["data_access_link"],
                 "download_url": spec["download_url"].format(sample=g["sample"]),
-                "panel_name": spec["panel"]["panel_name"],
+                "panel_name": spec["panel"].get("panel_name") or g.get("panel_name"),
                 "dataset_description": (
                     f"{spec['tissue']} section, {spec['preservation'].upper()}. "
                     f"{g['n_cells']} cells, {g['n_genes_panel']} panel genes of "
@@ -161,6 +199,11 @@ def main(argv: list[str] | None = None) -> None:
     uid_by_sample: dict[str, str] = {}
     for g in geometry:
         dataset = Dataset(g["sample"])
+        # A uid that is all digits comes back from the CSV staging as an int and
+        # fails the string field on SectionImageSchema.dataset_uid; uids are random
+        # per build, so redraw rather than carry the trap into the package.
+        while dataset.uid.isdigit():
+            dataset = Dataset(g["sample"])
         for path, tag, space in dataset_files(g["sample"], staging):
             dataset.add_file(path, tag, space)
         collection.add_dataset(dataset)

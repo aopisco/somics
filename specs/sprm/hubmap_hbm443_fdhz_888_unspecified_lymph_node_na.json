@@ -1,0 +1,58 @@
+{
+  "dataset_key": "hubmap_hbm443_fdhz_888_unspecified_lymph_node_na",
+  "hubmap_id": "HBM443.FDHZ.888",
+  "uuid": "608f6ca28ad2e6317ed8f1577bd51014",
+  "study": "608f6ca28ad2e6317ed8f1577bd51014",
+  "study_name": "CODEX [Cytokit + SPRM] data from the lymph node of a 47-year-old white male",
+  "assay": "PhenoCycler",
+  "technology": "codex",
+  "spatial_unit": "cell",
+  "segmentation_method": "watershed",
+  "segmentation_note": "Cytokit detects nuclei with a U-Net on the nuclear channel and grows cell boundaries by marker-controlled watershed on the membrane channel",
+  "pipeline": "Cytokit + SPRM",
+  "organism": "Homo sapiens",
+  "tissue": "lymph node",
+  "preservation": "unknown",
+  "image_modality": "immunofluorescence",
+  "accession_database": "HuBMAP",
+  "accession_id": "HBM443.FDHZ.888",
+  "data_access_link": "https://portal.hubmapconsortium.org/browse/dataset/608f6ca28ad2e6317ed8f1577bd51014",
+  "s3_prefix": "s3://somics-dev/hubmap/HBM443.FDHZ.888",
+  "source": {
+    "dataset_type": "CODEX [Cytokit + SPRM]",
+    "group_name": "University of Florida TMC",
+    "published_timestamp": 1661909029700,
+    "n_regions": 1
+  },
+  "donors": {
+    "HBM443.FDHZ.888_donor": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": 47.0,
+      "age_unit": "year",
+      "life_stage": "middle_aged",
+      "human_development_stage": "47-year-old stage",
+      "ethnicity": "white",
+      "clinical_diagnosis": null,
+      "description": "HuBMAP donor HBM338.KSBT.288 (University of Florida TMC). Sex, age and race are read from the portal's dataset title; no clinical history is published with the processed dataset. donor_id is package-local."
+    }
+  },
+  "samples": {
+    "reg001": {
+      "section_id": "HBM443.FDHZ.888_reg001",
+      "donor_id": "HBM443.FDHZ.888_donor",
+      "block_id": "HBM296.RWBN.476",
+      "section_index": 0,
+      "sample_name": "HBM443.FDHZ.888 region reg001",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "expression_image": "ometiff-pyramids/pipeline_output/expr/reg001_expr.ome.tif",
+        "cell_centers": "sprm_outputs/reg001_expr.ome.tiff-cell_centers.csv",
+        "cell_channel_total": "sprm_outputs/reg001_expr.ome.tiff-cell_channel_total.csv",
+        "anndata": "anndata-zarr/reg001_expr-anndata.zarr.zip",
+        "experiment_yaml": "experiment.yaml"
+      }
+    }
+  }
+}

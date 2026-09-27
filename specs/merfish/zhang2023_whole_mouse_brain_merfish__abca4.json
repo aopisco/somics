@@ -1,0 +1,52 @@
+{
+  "dataset_key": "zhang2023_whole_mouse_brain_merfish__abca4",
+  "study": "Zhuang-ABCA-4",
+  "study_name": "Allen Brain Cell Atlas: Zhuang lab MERFISH whole mouse brain, Zhuang-ABCA-4 (Zhang et al. 2023)",
+  "assay": "MERFISH",
+  "technology": "merfish",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "Allen Brain Cell Atlas",
+  "data_access_link": "https://alleninstitute.github.io/abc_atlas_access/descriptions/Zhuang-ABCA-4.html",
+  "download_url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/Zhuang-ABCA-4/20230830/Zhuang-ABCA-4-raw.h5ad",
+  "publication_doi": "10.1038/s41586-023-06808-9",
+  "source": {
+    "layout": "allen_abc",
+    "feature_matrix_label": "Zhuang-ABCA-4",
+    "h5ad": "raw.h5ad",
+    "genome": "mm10",
+    "bytes": 96189312,
+    "files": [
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/Zhuang-ABCA-4/20230830/Zhuang-ABCA-4-raw.h5ad",
+        "dest": "raw.h5ad"
+      },
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/metadata/Zhuang-ABCA-4/20231215/cell_metadata.csv",
+        "dest": "cell_metadata.csv"
+      },
+      {
+        "url": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/metadata/Zhuang-ABCA-4/20231215/gene.csv",
+        "dest": "gene.csv"
+      }
+    ],
+    "notes": "Expression release 20230830 with the 20231215 metadata. One animal per release (sex and genotype from the cell metadata), coronal or sagittal sections at 1,122 genes on the Zhuang lab's MERFISH instruments. Coordinates published in mm; no per-section imagery."
+  },
+  "panel": {
+    "panel_name": "Zhuang lab whole mouse brain MERFISH 1,122-gene panel",
+    "vendor": "Zhuang lab, Harvard University",
+    "technology": "merfish",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "1,122-gene panel of Zhang et al. 2023 (Nature 624, 343-354); n_targets is counted from the release's feature axis."
+  },
+  "donors": {}
+}

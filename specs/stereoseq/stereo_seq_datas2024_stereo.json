@@ -1,0 +1,110 @@
+{
+  "dataset_key": "stereo_seq_datas2024_stereo",
+  "study": "GSE274447",
+  "study_name": "Stereo-seq mouse hippocampus, cell-segmented (cellbin) GEFs (GEO GSE274447)",
+  "assay": "Stereo-seq",
+  "technology": "stereo_seq",
+  "spatial_unit": "cell",
+  "segmentation_method": "other",
+  "organism": "Mus musculus",
+  "tissue": "hippocampus",
+  "preservation": "fresh_frozen",
+  "life_stage": "unknown",
+  "disease_state": "healthy",
+  "disease": null,
+  "image_modality": null,
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE274447",
+  "download_url": "s3://somics-dev/raw/stereo_seq_datas2024_stereo/GSE274447_RAW.tar",
+  "publication_doi": null,
+  "source": {
+    "layout": "gem",
+    "dnb_pitch_um": 0.5,
+    "bin_dnb": 20,
+    "genome": "mm10",
+    "bytes": 2200000000,
+    "files": [
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas2024_stereo/GSE274447_RAW.tar",
+        "dest": "GSE274447_RAW.tar"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas2024_stereo/GSE274447_RAW.tar",
+        "dest": "GSE274447_RAW.tar",
+        "member": "GSM8449354_C02943C3.adjusted.cellbin.gef",
+        "sample": "C02943C3",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas2024_stereo/GSE274447_RAW.tar",
+        "dest": "GSE274447_RAW.tar",
+        "member": "GSM9659883_B03018A2.adjusted.cellbin.gef",
+        "sample": "B03018A2",
+        "role": "counts"
+      },
+      {
+        "url": "s3://somics-dev/raw/stereo_seq_datas2024_stereo/GSE274447_RAW.tar",
+        "dest": "GSE274447_RAW.tar",
+        "member": "GSM9659884_A03599E2.adjusted.cellbin.gef",
+        "sample": "A03599E2",
+        "role": "counts"
+      }
+    ],
+    "notes": "Three adjusted cellbin GEFs (SAW cell segmentation on the ssDNA image) from the staged RAW tar; ingested as cells with the lab's centroids and areas."
+  },
+  "panel": {
+    "panel_name": "Stereo-seq whole transcriptome (poly-A capture)",
+    "vendor": "BGI / STOmics",
+    "technology": "stereo_seq",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": "Untargeted; the feature axis is every gene with at least one MID in the section."
+  },
+  "donors": {
+    "GSE274447_C02943C3": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "GEO GSM8449354: mouse hippocampus chip C02943C3; donor metadata not in the deposit."
+    },
+    "GSE274447_B03018A2": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "GEO GSM9659883: mouse hippocampus chip B03018A2; donor metadata not in the deposit."
+    },
+    "GSE274447_A03599E2": {
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "description": "GEO GSM9659884: mouse hippocampus chip A03599E2; donor metadata not in the deposit."
+    }
+  },
+  "samples": {
+    "C02943C3": {
+      "section_id": "GSE274447_C02943C3",
+      "donor_id": "GSE274447_C02943C3",
+      "sample_name": "GSM8449354 C02943C3",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "gef_cellbin",
+      "segmentation_method": "other"
+    },
+    "B03018A2": {
+      "section_id": "GSE274447_B03018A2",
+      "donor_id": "GSE274447_B03018A2",
+      "sample_name": "GSM9659883 B03018A2",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "gef_cellbin",
+      "segmentation_method": "other"
+    },
+    "A03599E2": {
+      "section_id": "GSE274447_A03599E2",
+      "donor_id": "GSE274447_A03599E2",
+      "sample_name": "GSM9659884 A03599E2",
+      "disease_state": "unknown",
+      "disease": null,
+      "layout": "gef_cellbin",
+      "segmentation_method": "other"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "dataset_key": "tenx_human_bone_and_bone_marrow_data_with_custom_",
+  "study": "human-bone-and-bone-marrow-data-with-custom-add-on-panel-1-standard",
+  "study_name": "Human Bone and Bone Marrow Data with Custom Add-on Panel",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "bone, bone marrow",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "10x Genomics Datasets",
+  "data_access_link": "https://www.10xgenomics.com/datasets/human-bone-and-bone-marrow-data-with-custom-add-on-panel-1-standard",
+  "download_url": "https://cf.10xgenomics.com/samples/xenium/1.9.0/Xenium_V1_hBone_nondiseased_section/Xenium_V1_hBone_nondiseased_section_outs.zip",
+  "source": {
+    "xoa": "1.9.0",
+    "morphology_layout": "file",
+    "protein_codetection": false,
+    "bytes": 11524483430,
+    "published_at": "1712177002"
+  },
+  "panel": {
+    "panel_name": "Xenium Human Multi-Tissue and Cancer Panel with custom add-on",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "Xenium_V1_hBone_nondiseased_section_donor": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "clinical_diagnosis": "acute lymphoid leukemia",
+      "description": "Donor of the 10x Genomics Xenium dataset 'human-bone-and-bone-marrow-data-with-custom-add-on-panel-1-standard'. 10x publishes no donor identifier, age or sex, so donor_id is a package-local key and those columns stay null."
+    }
+  },
+  "samples": {
+    "Xenium_V1_hBone_nondiseased_section": {
+      "section_id": "Xenium_V1_hBone_nondiseased_section",
+      "donor_id": "Xenium_V1_hBone_nondiseased_section_donor",
+      "sample_name": "Human Bone and Bone Marrow Data with Custom Add-on Panel",
+      "disease_state": "diseased",
+      "disease": "acute lymphoid leukemia"
+    }
+  }
+}

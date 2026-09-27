@@ -179,7 +179,18 @@ skipped because Space Ranger 4.0.1 and 3.0.0 HD tarballs carry no hires
 image per bin, so the frame check had nothing to compare against. 10x's
 top-level `_spatial.tar.gz` for HD has the hires and lowres images (no scale
 factors); the builder now takes the frame image from there with the bin's own
-factors. The fifth launch runs from run 4's atlas over those 9.
+factors. The fifth launch (`2026-09-05T19-14-47Z`) ran from run 4's atlas over
+those 9: all in, none skipped.
+
+**Final: 78 of 78 buildable datasets ingested.** The atlas at
+`s3://somics-dev/ingest/tenx_visium/atlas/2026-09-05T19-14-47Z` holds 137
+sections and 22,907,115 obs rows: 20,262,680 Visium HD bins (8 um), 219,000
+Visium spots, and the base's 2,425,435 cells. Five organisms (human, mouse,
+macaque, rat, zebrafish). **That prefix's obs table failed every filtered read of `he_crop`** (Lance's
+compacted-fragment defect; see CLAUDE.md gotchas); the repaired copy at
+`s3://somics-dev/ingest/repair/atlas/2026-09-06T17-46-36Z` is the atlas to
+build on. Verification over all 78 specs with the source check runs against
+it: `reports/visium_verify_repaired_2026-09-06.md`.
 
 Order is smallest-first with a healthy human Visium as the first dataset —
 the normal prostate, the same one the builder was smoke-tested on locally — so

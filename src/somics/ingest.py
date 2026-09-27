@@ -505,6 +505,41 @@ def sections_already_present(collection_root: str, atlas_path: str) -> set[str]:
     return incoming & existing
 
 
+def all_null_enum_columns(collection_root: str, schema) -> list[str]:
+    """Enum-typed obs columns that are null on every row of a package's obs table.
+
+    Lance writes such a column but cannot compact it: ``optimize()`` fails with
+    "Value at position 0 out of bounds ... [0, -1]" (an empty dictionary), after
+    the rows are already in the atlas. The first MIBI package did exactly this
+    through a null ``segmentation_method``. Catching it here, before the write,
+    turns a corrupting failure into a harmonization fix.
+    """
+    model = schema.info.live_class(schema.obs_class)
+    if model is None:
+        return []
+    enum_columns = [f.name for f in model.to_arrow_schema() if pa.types.is_dictionary(f.type)]
+    problems: list[str] = []
+    for name in sorted(os.listdir(collection_root)):
+        lance_path = os.path.join(collection_root, name, "lance_db")
+        if not os.path.isdir(lance_path):
+            continue
+        db = lancedb.connect(lance_path)
+        tables = db.list_tables()
+        tables = list(getattr(tables, "tables", tables))
+        for table_name in tables:
+            if not table_name.startswith(schema.obs_class):
+                continue
+            table = db.open_table(table_name)
+            present = [c for c in enum_columns if c in table.schema.names]
+            if not present or table.count_rows() == 0:
+                continue
+            arrow = table.search().select(present).limit(table.count_rows()).to_arrow()
+            for c in present:
+                if arrow.column(c).null_count == arrow.num_rows:
+                    problems.append(f"{name}/{table_name}.{c}")
+    return problems
+
+
 def ensure_registry_tables(atlas_path: str, schema) -> None:
     """Create any missing registry-key table with the schema's own column types.
 
@@ -586,6 +621,14 @@ def main(argv: list[str] | None = None) -> None:
         )
 
     schema = _resolve_schema(schema_path)
+    null_enums = all_null_enum_columns(collection_root, schema)
+    if null_enums:
+        raise SystemExit(
+            "refusing to ingest: enum column(s) null on every row -- "
+            f"{null_enums}. Lance writes an all-null enum column but cannot compact it, so "
+            "optimize() would fail after the rows are in the atlas. Give the column a value "
+            "in harmonization (the schema enums carry UNKNOWN / OTHER for this)."
+        )
     ensure_registry_tables(atlas_path, schema)
 
     report = ingest_collection(
