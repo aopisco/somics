@@ -84,6 +84,11 @@ def main():
 
     with open(REPO / "data" / "datasets.csv") as f:
         rows = list(csv.DictReader(f))
+    # HuBMAP rows (3,948 since 2026-08-20) are consortium data no model paper
+    # cites -- one named usage row in the whole table -- so they would only
+    # swamp the literature bars with grey. The chart is about the literature.
+    n_hubmap = sum(r["dataset_id"].startswith("hubmap_") for r in rows)
+    rows = [r for r in rows if not r["dataset_id"].startswith("hubmap_")]
 
     def bucket(ds_id):
         n = n_models.get(ds_id, 0)
@@ -150,7 +155,7 @@ def main():
         ax.spines[side].set_visible(False)
 
     ax.set_title(
-        "somics dataset registry: datasets per technology,\n"
+        "somics dataset registry: literature datasets per technology,\n"
         "colored by how many named model papers use them",
         fontsize=13,
         color=INK,
@@ -162,14 +167,16 @@ def main():
         0,
         1.012,
         f"data/datasets.csv × model_dataset_usage.csv · "
-        f"{len(rows):,} datasets, {shown:,} shown · platform canonicalized "
-        "by keyword · reuse counts named models only",
+        f"{len(rows):,} literature datasets ({n_hubmap:,} HuBMAP rows excluded) · "
+        "reuse counts named models only",
         transform=ax.transAxes,
         fontsize=8.5,
         color=MUTED,
     )
 
-    totals = [sum(counts[t][b] for t in counts) for b in range(len(BUCKETS))]
+    # Over the bars shown: the long tail was folded into Other above, and
+    # summing every key of `counts` would count those datasets twice.
+    totals = [sum(counts[t][b] for t in order) for b in range(len(BUCKETS))]
     handles, labels = ax.get_legend_handles_labels()
     labels = [f"{lab}  ({totals[i]:,})" for i, lab in enumerate(labels)]
     # Below the axes: the no-model group makes the lower bars long enough that a
