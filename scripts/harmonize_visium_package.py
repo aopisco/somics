@@ -140,29 +140,45 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
         ),
         AddColumn(
             column="tissue",
-            value=spec["tissue"],
+            value=entry.get("tissue", spec.get("tissue")),
             tool="resolve_tissues",
-            reason="UBERON label; one tissue across the study",
+            reason="UBERON label",
         ),
         AddColumn(
             column="disease_state",
-            value=spec["disease_state"],
+            value=entry.get("disease_state", spec.get("disease_state")),
             tool="schema_align",
-            reason="study-level health status",
+            reason="section-level health status",
+        ),
+        # Only a diseased section adds `disease`. A healthy one leaves the column
+        # to finalization's null-init, which is what the LIBD sections did and
+        # what the published atlas holds -- adding an explicit all-null column
+        # here would change nothing but the audit trail.
+        *(
+            [
+                AddColumn(
+                    column="disease",
+                    value=entry["disease"],
+                    tool="resolve_diseases",
+                    reason="MONDO label for this section's diagnosis",
+                )
+            ]
+            if entry.get("disease")
+            else []
         ),
         AddColumn(
             column="spatial_unit",
             value=spec["spatial_unit"],
             tool="schema_align",
-            reason="an obs row is a capture spot, not a segmented cell",
+            reason="an obs row is a capture spot or bin, not a segmented cell",
         ),
         AddColumn(
             column="segmentation_method",
             value=spec["segmentation_method"],
             tool="schema_align",
             reason=(
-                "a spot is a fixed position on the capture area, so the boundary comes from "
-                "the grid rather than from segmentation"
+                "a spot or bin is a fixed position on the capture area, so the boundary comes "
+                "from the grid rather than from segmentation"
             ),
         ),
         RenameColumn(
@@ -194,6 +210,7 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             "organism",
             "tissue",
             "disease_state",
+            "disease",
             "spatial_unit",
             "segmentation_method",
             "additional_metadata",
@@ -229,6 +246,35 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
     )
 
 
+def harmonize_images(spec: dict, package: str, sample: str, dry_run: bool) -> None:
+    """Name the image channels where the spec knows them (fluorescence stacks).
+
+    H&E sections are left as the LIBD ones were -- channel_names null -- so the
+    published atlas still reproduces; a stack of stains gets 10x's own names, in
+    stored order, which after the builder's rewrite is the source page order.
+    """
+    names = spec.get("channel_names")
+    if not names:
+        return
+    ops = [
+        AddColumn(
+            column="channel_names",
+            value=list(names),
+            tool="schema_align",
+            reason="the stains 10x names for this fluorescence image, one per trailing channel",
+        )
+    ]
+    # Library tables (donors, sections, images) live in the package-root Lance
+    # db, not the per-sample one the obs and feature tables use.
+    apply(
+        os.path.join(package, "lance_db"),
+        sample,
+        CurationTransaction(table_name="SectionImageSchema", changes=ops),
+        {"channel_names"},
+        dry_run,
+    )
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--spec", required=True)
@@ -240,8 +286,11 @@ def main(argv: list[str] | None = None) -> None:
     spec = json.load(open(args.spec))
     key = spec.get("dataset_key") or os.path.splitext(os.path.basename(args.spec))[0]
     package = args.package or os.path.join(DATA_HOME, "polycomb_data_packages", key)
-    for sample in args.samples or list(spec["samples"]):
+    samples = args.samples or list(spec["samples"])
+    for sample in samples:
         harmonize_sample(spec, package, sample, args.dry_run)
+    # One library table for the package, so one transaction, not one per sample.
+    harmonize_images(spec, package, samples[0], args.dry_run)
 
 
 if __name__ == "__main__":
