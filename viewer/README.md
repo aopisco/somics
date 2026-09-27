@@ -56,7 +56,7 @@ EC2 next to the bucket, and the API reads the result per section:
 ```bash
 # once per new atlas prefix (r5.4xlarge, ~30 min): writes
 #   s3://somics-dev/viewer_cache/<stamp>/{samples.json, coords/<section_uid>.parquet, corpus_index.json}
-export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp> SOMICS_BRANCH=protein-adapters
+export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp>
 curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/build_viewer_cache_ec2.sh | bash   # as EC2 user-data
 
 # then, on the laptop: an SSO session, exported so lance and pyarrow see it.

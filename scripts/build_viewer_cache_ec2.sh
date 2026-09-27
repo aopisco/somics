@@ -4,7 +4,7 @@
 #   s3://somics-dev/viewer_cache/<atlas stamp>/{samples.json,coords/,corpus_index.json}
 # Run as user-data:
 #   export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp>
-#   export SOMICS_BRANCH=protein-adapters
+#   export SOMICS_BRANCH=main
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/build_viewer_cache_ec2.sh | bash
 set -uo pipefail
 exec > /var/log/viewer_cache.log 2>&1

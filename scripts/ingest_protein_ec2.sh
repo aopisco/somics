@@ -22,7 +22,7 @@
 #   #!/bin/bash
 #   export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/tenx_visium/atlas/<stamp>
 #   export SOMICS_ONLY="hubmap_hbm626_kxrz_238_unspecified_spleen_na hubmap_hbm526_ffgj_297_mibi_uterus_protein"
-#   export SOMICS_BRANCH=protein-adapters
+#   export SOMICS_BRANCH=main
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/ingest_protein_ec2.sh | bash
 #
 # Progress and logs land in s3://somics-dev/ingest/protein/.
@@ -36,7 +36,7 @@ FAMILIES=${SOMICS_FAMILIES:-sprm mibi}
 STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
 ATLAS_DEST=$B/atlas/$STAMP
 REGION=us-east-1
-BRANCH=${SOMICS_BRANCH:-protein-adapters}
+BRANCH=${SOMICS_BRANCH:-main}
 
 fail() {
   aws s3 cp /var/log/ingest.log $B/ingest-FAILED-$STAMP.log --region $REGION

@@ -8,7 +8,7 @@
 # Uploads to s3://somics-dev/viewer_cache/<atlas stamp>/dataset_pages/.
 #
 #   export SOMICS_ATLAS_DIR=s3://somics-dev/ingest/<family>/atlas/<stamp>
-#   export SOMICS_BRANCH=protein-adapters  SOMICS_SHARDS=3
+#   export SOMICS_SHARDS=3
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/build_dataset_pages_ec2.sh | bash
 set -uo pipefail
 exec > /var/log/dataset_pages.log 2>&1

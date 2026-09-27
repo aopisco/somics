@@ -13,7 +13,7 @@
 # pulls, rebuilds the UIs and restarts.
 #
 # Run as user-data:
-#   export SOMICS_BRANCH=protein-adapters
+#   export SOMICS_BRANCH=main
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/deploy_viewer_ec2.sh | bash
 set -euo pipefail
 exec > /var/log/somics-viewer-deploy.log 2>&1

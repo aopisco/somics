@@ -296,8 +296,7 @@ Next: smoke the heart package alone against a throwaway atlas and read its
 **State now:** the viewer on the laptop points at run 1's prefix
 (`ingest/stereoseq/atlas/2026-09-22T19-03-01Z`, 1,043 sections, 101,131,969
 obs rows, 11 platforms; 1,043 dataset pages). Run 1 added 60 Stereo-seq
-sections / ~27.9M 10 um bins. Everything is committed and pushed on
-`protein-adapters`.
+sections / ~27.9M 10 um bins. Everything is on `main`.
 
 **Open question from @aopisco:** "what data do we have in the pile that we
 could stage for ingest next?" -- interrupted by the restart. `data/raw_prefixes_2026-09-24.txt` lists the
@@ -315,13 +314,9 @@ load balancer + DNS name; `scripts/deploy_viewer_ec2.sh` is ready.
 
 
 
-**Everything is on the `protein-adapters` branch** (PR #22, stacked on
-`tenx-visium-ingest`, PR #21). `main` stops at the DCA brief. Every EC2
-script clones the branch by name; point them at `main` once both PRs merge.
-
-```bash
-git checkout protein-adapters && git pull
-```
+**Everything is on `main`** (PRs #21 and #22 merged 2026-09-27; both branches
+deleted). Every EC2 script clones `SOMICS_BRANCH`, default `main`; set it only
+to test a feature branch.
 
 ### The atlas lineage (each run stacks on the previous prefix)
 
@@ -384,9 +379,8 @@ Wrapper user-data pattern (all three ingest scripts take it):
 ```bash
 #!/bin/bash
 export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/<family>/atlas/<newest stamp with _DONE>
-export SOMICS_BRANCH=protein-adapters
 # optional: SOMICS_ONLY="key1 key2"; SOMICS_SPEC_DIRS="specs/tenx_xenium specs/hubmap_xenium specs/atera"
-curl -sL https://raw.githubusercontent.com/aopisco/somics/protein-adapters/scripts/<script>.sh | bash
+curl -sL https://raw.githubusercontent.com/aopisco/somics/main/scripts/<script>.sh | bash
 ```
 
 `run-instances`: `ami-0332d564d76dbd8d6`, `m5n.4xlarge`, 1500 GB gp3,
@@ -515,7 +509,7 @@ GITomicsDB fish, GSA-Human.
 
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
-Done and pushed on `protein-adapters`: miR-Space (bioRxiv
+Done and pushed (now on `main`): miR-Space (bioRxiv
 10.64898/2026.08.12.744364, not in paperclip; 2 datasets by hand, controlled
 access) and a sweep -- searches `s_17a07eb8` (200 papers; 75 new by DOI/id),
 extraction map `m_93d14edc` -> 277 claim rows appended to
