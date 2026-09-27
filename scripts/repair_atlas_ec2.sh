@@ -5,7 +5,7 @@
 # Wrapper user-data:
 #   #!/bin/bash
 #   export SOMICS_BASE_ATLAS=s3://somics-dev/ingest/<family>/atlas/<stamp>
-#   export SOMICS_BRANCH=protein-adapters
+#   export SOMICS_BRANCH=main
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/repair_atlas_ec2.sh | bash
 #
 # Needs memory for the whole obs table (22.9M rows -> use r5.4xlarge, 128 GB)

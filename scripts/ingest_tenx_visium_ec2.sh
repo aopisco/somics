@@ -42,7 +42,7 @@ ONLY=${SOMICS_ONLY:-}
 STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
 ATLAS_DEST=$B/atlas/$STAMP
 REGION=us-east-1
-BRANCH=${SOMICS_BRANCH:-tenx-visium-ingest}  # point at main once merged
+BRANCH=${SOMICS_BRANCH:-main}
 
 fail() {
   aws s3 cp /var/log/ingest.log $B/ingest-FAILED-$STAMP.log --region $REGION

@@ -7,7 +7,7 @@
 #   #!/bin/bash
 #   export SOMICS_ATLAS_PREFIX=s3://somics-dev/ingest/<family>/atlas/<stamp>
 #   export SOMICS_SPECS="specs/tenx_visium/*.json specs/tenx_xenium/*.json"   # space-separated globs
-#   export SOMICS_BRANCH=protein-adapters
+#   export SOMICS_BRANCH=main
 #   curl -sL https://raw.githubusercontent.com/aopisco/somics/$SOMICS_BRANCH/scripts/verify_atlas_ec2.sh | bash
 #
 # The report and crop grids land under <prefix>/_verify/<stamp>/.
