@@ -1,0 +1,606 @@
+dataset_id,bytes,n_files,platform,modality,is_spatial,specced
+molinasnchez2020_bulk_rnaseq,48148480,0,,,,False
+spatial_transcri_visium_14,823797760,0,Visium,spatial transcriptomics,yes,False
+spatial_rna_sequ2025_visiumhd,1702871040,0,Visium HD,spatial transcriptomics,yes,False
+tenx_fresh_frozen_visium_on_cytassist_mouse_brain_2,3420031892,3,Visium,spatial transcriptomics,yes,True
+cords2024cancer,13298159868,0,IMC,spatial proteomics,yes,False
+visium_spatial_r2024_visium,75735040,0,Visium,spatial transcriptomics,yes,False
+peng2019_geoseq,877209,0,Geo-seq,,unknown,False
+ni2022_10x_genomics,41520640,0,10x Genomics,,unknown,False
+spatial_transcri2025_xenium,75064627200,0,Xenium,spatial transcriptomics,yes,False
+single_cell_rna_2025_10x_chromium,98586214400,0,,,,False
+kukanja2024_in_situ_sequ,36275058865,0,in situ sequencing,,yes,False
+mohammadi2023_unknown,373340160,0,,,yes,False
+open_st_dataset_2024_illumina_nov,37722347520,0,,,,False
+ma2023_10x_genomics,264120320,0,10x Genomics,,unknown,False
+tasic2018_osmfish,1173368797,0,osmFISH,spatial transcriptomics,yes,False
+chatterjee2018_osmfish,1173368797,0,osmFISH,spatial transcriptomics,yes,False
+tenx_adult_mouse_brain_coronal_section_fresh_froz,429784384,3,Visium,spatial transcriptomics,yes,True
+grubman2019_snrnaseq,86792,0,,,,False
+gse1990662022_visium,538701,0,Visium Spatial Gene Expression Slides and Reagent Kits (10X Genomics),spatial transcriptomics,yes,False
+tenx_visium_hd_cytassist_6p5mm_human_heart,11893125757,2,Visium HD,spatial transcriptomics,yes,True
+visium_hd_spatia2025_visiumhd,1702871040,0,Visium HD,spatial transcriptomics,yes,False
+ximerakis2019_singlecell_r,429690880,0,Single-cell RNA sequencing,,unknown,False
+jin2020_invivo_pertu,86167355,0,In-vivo Perturb-seq,,unknown,False
+xenium_spatial_d2025_xenium,75526922240,0,Xenium,spatial transcriptomics,yes,False
+mouse_colon_slid2025_slideseq,1714053120,0,Slide-seqV2,spatial transcriptomics,yes,False
+habermann2020_scrnaseq,22408030400,0,,,,False
+tenx_human_tonsil_data_xenium_human_multi_tissue_,4516388007,1,Xenium,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E16.5_embryo2,23961798141,13,,,,True
+tenx_visium_hd_three_prime_mouse_kidney,7295308928,3,Visium HD,spatial transcriptomics,yes,True
+bladder_ewing_sa_visium,266035200,0,Visium,spatial transcriptomics,yes,False
+ruoss2022_visium,165550080,0,Visium,spatial transcriptomics,yes,False
+tenx_ffpe_human_brain_cancer_data_with_human_immu,13150072990,1,Xenium,spatial transcriptomics,yes,True
+tenx_xenium_human_lung_cancer_post_xenium_technot,13910732059,1,Xenium,spatial transcriptomics,yes,True
+zenodo_starmap_mouse_brain_benchmark,4350256892,0,STARmap,spatial transcriptomics,yes,False
+liu2022_mibi,483218750,0,Multiplexed Ion Beam Imaging by Time-of-Flight(MIBI-TOF),spatial proteomics,yes,False
+zhong2020_scrnaseq,77281280,0,,,,False
+spatial_atac_rna2023_nextgenerati,8177080320,0,Next-generation sequencing (NovaSeq 6000),spatial epigenomics,yes,False
+murine_lymph_nod_visium,937256960,0,Visium,spatial transcriptomics,yes,False
+kwon2023_visium_2,527059874,0,Visium,spatial transcriptomics,yes,False
+malt_tumor_biops_dbit,7392798720,0,Patho-DBiT,spatial transcriptomics,yes,False
+tenx_visium_cytassist_gene_expression_libraries_o,3351097117,3,Visium,spatial transcriptomics,yes,True
+mouse_spatial_tr_visium,477040640,0,1x Visium Spatial Gene Expression version 1,spatial transcriptomics,yes,False
+baccin2020_nicheseq,92303360,0,NICHE-seq,,unknown,False
+tenx_human_spinal_cord_whole_transcriptome_analys,173607020,3,Visium,spatial transcriptomics,yes,True
+kadur2022_visium,34672640,0,Visium,spatial transcriptomics,yes,False
+nagy2020_unknown,6244,0,,,unknown,False
+mouse_spatial_tr2025_visium,477040640,0,Visium,spatial transcriptomics,yes,False
+lcm_seq_spatial__iss,141168640,0,LCM-seq (laser-capture microdissection-sequencing),spatial transcriptomics,yes,False
+spatial_transcri_visium_4,2301255680,0,Visium,spatial transcriptomics,yes,False
+image_seq_10x_sc2022_10x_genomics,57681920,0,,,,False
+single_cell_tran2019_10x_genomics,57784320,0,10X Genomics,,unknown,False
+qiu2024_stereo,78323280,0,Stereo-seq,spatial transcriptomics,yes,False
+halpern2018_pairedcell_s,12726109,0,paired-cell sequencing,,unknown,False
+jiang2023_spatialatacr,8177080320,0,spatial ATAC-RNA-seq,spatial epigenomics,yes,False
+ghasemi2024_molecular_ca,1368565760,0,Molecular Cartography (MC),,unknown,False
+mantri2021_visium,73605120,0,Visium,spatial transcriptomics,yes,False
+chatterjee2018_unknown,126553,0,,,unknown,False
+tasic2018_unknown,501614,0,,,unknown,False
+tenx_human_ovarian_cancer_11_mm_capture_area_ffpe,3831758836,3,Visium,spatial transcriptomics,yes,True
+multi_cancer_tma_codex,1211013078,0,PhenoCycler-Fusion (PCF) / high-plex immunohistochemistry (CODEX),spatial proteomics,yes,False
+ortiz2020_visium,55591204,0,Visium,spatial transcriptomics,yes,False
+salie2025spatial,1541132381,0,IMC,spatial proteomics,yes,False
+cheung2022_unknown,438026240,0,,,yes,False
+gupta2026single,11384104344,0,IMC,spatial proteomics,yes,False
+halpern2018_paired_cell,12726109,0,Paired cell sequencing,,unknown,False
+e13_50_m_12024_spatialmuxse,3306485760,0,spatial-Mux-seq (microfluidic device),,yes,False
+baek2019_10x,5376000,0,10X,,unknown,False
+u_2_os_cell_spat_merfish,9518242,0,MERFISH,spatial transcriptomics,yes,False
+janesick2023_visium,2858362880,0,Visium,spatial transcriptomics,yes,False
+nova_st_data_mou_st,29012531200,0,,,,False
+tenx_human_spinal_cord_targeted_neuroscience_pane,164888287,3,Visium,spatial transcriptomics,yes,True
+adams2020_scrnaseq,1177282560,0,,,,False
+kim2022_imc,755471304,0,Imaging Mass Cytometry (IMC),spatial proteomics,yes,False
+visium_spatial_d2025_visium,4794357760,0,Visium,spatial transcriptomics,yes,False
+khaliq2022_singlecell_r,71326042,0,single-cell RNA-seq,,unknown,False
+tenx_human_lung_cancer_preview_data_xenium_human_,9091405304,1,Xenium,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E9.5_embryo2,822940697,4,,,,True
+spatial_total_rn_visium,3696271360,0,Visium,spatial transcriptomics,yes,False
+xenium_tcr_seq_d_xenium,443383191,0,Xenium,spatial transcriptomics,yes,False
+hrvatin2018_visium,203069440,0,Visium,spatial transcriptomics,yes,False
+eng2019_seqfish,19000610,0,seqFISH+,spatial transcriptomics,yes,False
+visium_spatial_t_visium_15,53381120,0,Visium,spatial transcriptomics,yes,False
+liu2024_unknown,628531200,0,,,unknown,False
+russell2024_slidetag,103639040,0,Slide-tag,spatial transcriptomics,unknown,False
+cho2025modeling,8757538439,0,IMC,spatial proteomics,yes,False
+park2018_scrnaseq,55205579,0,,,,False
+tenx_xenium_prime_ffpe_neonatal_mouse,30910928431,1,Xenium,spatial transcriptomics,yes,True
+larouche2023_visium,21762775040,0,Visium,spatial transcriptomics,yes,False
+mouse_lung_data_visium,96573440,0,Visium,spatial transcriptomics,yes,False
+chi2021_bulk_rnaseq,5071418,0,,,,False
+liao2023_stereo,671921238,0,,,,True
+chen2022_mosta_stereoseq__E10.5_embryo2,229316885,1,,,,True
+benotmane2023_sptcrseq,70584320,0,SPTCR-seq,,yes,False
+tenx_human_kidney_11_mm_capture_area_ffpe_2_stand,3506959797,3,Visium,spatial transcriptomics,yes,True
+lu2021_merfish,6203352948,0,MERFISH,spatial transcriptomics,yes,False
+franzen2024_visium,1488353280,0,Visium,spatial transcriptomics,yes,False
+spatial_rna_sequ_visiumhd,1606593221,0,Visium HD,spatial transcriptomics,yes,False
+ks_skin_tumors_s_visium,4033126400,0,Visium,spatial transcriptomics,yes,False
+baron2016_visiumhd,29122560,0,Visium HD,spatial transcriptomics,yes,False
+independent_adul2021_10x_genomics,113707,0,,,,False
+deng2022_spatialcutta_2,3557679,0,Spatial-cut&tag,spatial epigenomics,yes,False
+tenx_fresh_frozen_visium_on_cytassist_human_breas,2416076271,3,Visium,spatial transcriptomics,yes,True
+jiang2024_visium,82878588,0,Visium,spatial transcriptomics,yes,False
+in_house_human_o_stereo,3523348480,0,scStereo-seq,spatial transcriptomics,no,False
+wu2021_unknown_2,457685417,0,,,unknown,False
+fu2024_xenium,57040510,0,Xenium,spatial transcriptomics,yes,False
+wu2021_citeseq,558264320,0,,,,False
+tenx_visium_hd_cytassist_11mm_human_pancreas,35122555095,2,Visium HD,spatial transcriptomics,yes,True
+habermann2020_10x_genomics,22408030400,0,10x Genomics Chromium,,unknown,False
+haber2017_visiumhd,6034152093,0,Visium HD,spatial transcriptomics,yes,False
+human_breast_can2025_visium_2,70174434,0,Visium,spatial transcriptomics,yes,False
+arutyunyan2023_visium,8781866174,0,Visium,spatial transcriptomics,yes,False
+tenx_visium_hd_three_prime_mouse_embryo_fresh_fro,14566722155,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_rhesus_liver_fresh_fro,7533064716,2,Visium HD,spatial transcriptomics,yes,True
+spatial_transcri_visium_5,844748800,0,Visium,spatial transcriptomics,yes,False
+ma2023_visium,169758720,0,Visium,spatial transcriptomics,yes,False
+small_rna_sequen2022_hiseq2500,102400,0,,,,False
+hu2023single,2711590864,0,IMC,spatial proteomics,yes,False
+ji2020_st,169758720,0,ST,spatial transcriptomics,unknown,False
+temporo_spatial_2025_imaging_mass,1455180725,0,Imaging Mass Cytometry (Hyperion),spatial proteomics,yes,False
+human_spinal_cor2024_visium,1506416640,0,Visium,spatial transcriptomics,yes,False
+visium_cytassist_visium,2817848,0,Visium CytAssist,spatial transcriptomics,yes,False
+jackson2020_imc,36847453483,0,IMC,spatial proteomics,yes,False
+ferreira2021_visium,668928000,0,Visium,spatial transcriptomics,yes,False
+zeisel2015_osmfish,1173368797,0,osmFISH,spatial transcriptomics,yes,False
+barkley2022_unknown,708270080,0,,,unknown,False
+tenx_visium_hd_cytassist_6p5mm_mouse_brain,10095428079,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_human_lu,13821850734,2,Visium HD,spatial transcriptomics,yes,True
+dercole2022_visium,537896960,0,Visium,spatial transcriptomics,yes,False
+moncada2020_spatial_tran,749291520,0,Spatial Transcriptomics (different version),,yes,False
+liu2025_unknown,239820800,0,,,unknown,False
+diffuse_large_b_2023_cytof,566449695,0,CyTOF,,unknown,False
+tenx_visium_hd_cytassist_gene_expression_ovarian_,25960976967,2,Visium HD,spatial transcriptomics,yes,True
+spatial_transcri2024_visium,495740,0,Visium,spatial transcriptomics,yes,False
+chen2022_stereo,669014320,2,Stereo-seq,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_human_pancreatic_cance,14461549469,2,Visium HD,spatial transcriptomics,yes,True
+lequain2023_visium,90193920,0,Visium,spatial transcriptomics,yes,False
+travaglini2020_visium,28395520,0,Visium,spatial transcriptomics,yes,False
+human_lung2025_xenium,18421878030,0,Xenium,spatial transcriptomics,yes,False
+xenium_spatial_t_xenium,1152083464,0,Xenium,spatial transcriptomics,yes,False
+spatially_sorted2019_agilent_mous,245760,0,Agilent Mouse miRNA Microarray,,yes,False
+mouse_merfish_da2025_merfish,2076131597,0,MERSCOPE,spatial transcriptomics,yes,False
+zhang2023_whole_mouse_brain_merfish__abca1,1749285591,3,,,,True
+olaniru2023_unknown,201646080,0,,,unknown,False
+meyer2025stratification,10112731255,0,IMC,spatial proteomics,yes,False
+tenx_human_lymph_node_preview_data_xenium_human_m,7378404737,1,Xenium,spatial transcriptomics,yes,True
+dataset_32026_xenium,5786076936,1,Xenium,spatial transcriptomics,yes,True
+tepe2018_10x_chromium,392574926,0,,,,False
+10x_genomics_cri2021_10x_genomics,4491765760,0,,,,False
+tenx_visium_hd_three_prime_ovarian_cancer_discove,14080632192,3,Visium HD,spatial transcriptomics,yes,True
+zhang2023_unknown_2,8177080320,0,,,yes,False
+gse2119562025_visium,160829440,0,Visium,spatial transcriptomics,yes,False
+saunders2018_dropseq_2,9047356,0,,,,False
+spatial_transcri_visium_9,412200960,0,Visium and AFADESI-MSI,spatial transcriptomics,yes,False
+visium_hd_ffpe_m_visiumhd,4616239264,0,Visium HD,spatial transcriptomics,yes,False
+spatial_transcri_visium_2,10567680,0,Visium,spatial transcriptomics,yes,False
+codex_tonsil_dat2024_codex,2850508013,0,CODEX,spatial proteomics,yes,False
+azx_treated_rat__visium,59351040,0,Visium,spatial transcriptomics,yes,False
+moldoveanu2022spatially,1239837085,0,IMC,spatial proteomics,yes,False
+wu2021_unknown_5,558264320,0,,,unknown,False
+srivatsan2021_scispace,512007,0,sci-SPACE,,yes,False
+chen2023_visium_2,384880640,0,Visium,spatial transcriptomics,yes,False
+lee2021_xyzeq,273960960,0,XYZeq,,unknown,False
+human_gastric_ca2025_xenium,29795534461,0,Xenium,spatial transcriptomics,yes,False
+tenx_mouse_brain_serial_section_1_sagittal_poster,435631713,3,Visium,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E15.5_embryo2,1199695752,1,,,,True
+tenx_visium_hd_cytassist_gene_expression_librarie_12,10759199554,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_librarie_6,12103435875,3,Visium HD,spatial transcriptomics,yes,True
+maynard2021_visium,2941117,0,Visium,spatial transcriptomics,yes,False
+malchiodi2024natural,9511933751,0,IMC,spatial proteomics,yes,False
+andersson2021_microarray_t,169758720,0,,,,False
+ren2020_spatial_tran,98088960,0,Spatial transcriptomics,,yes,False
+biancalani2021_merfish,117094400,0,MERFISH,spatial transcriptomics,yes,False
+tenx_human_colorectal_cancer_whole_transcriptome_,557455758,3,Visium,spatial transcriptomics,yes,True
+tepe2018_visium,20043441,0,Visium,spatial transcriptomics,yes,False
+dataset_22026_visiumhd,1620176219,0,Visium HD,spatial transcriptomics,yes,False
+codex_mif_data_a_visium,1236133950,0,Visium,spatial proteomics,yes,False
+oetjen2018_10x_genomics,314593280,0,10x Genomics,,unknown,False
+arora2023_visium,160829440,0,Visium,spatial transcriptomics,yes,False
+ortiz2020_st,577075200,0,ST,spatial transcriptomics,unknown,False
+corces2020_scatacseq,373862533120,0,scATAC-seq,,,False
+tenx_visium_hd_cytassist_6p5mm_human_colon_cancer,14854272144,2,Visium HD,spatial transcriptomics,yes,True
+ji2020_spatial_tran,169758720,0,Spatial Transcriptomics,,yes,False
+lugmayr2023_starmap,31237200922,0,STARmap,spatial transcriptomics,yes,False
+sample_1_sample__visium,884231877,0,Visium,spatial transcriptomics,yes,False
+spatial_transcri_visium_12,106803200,0,Visium,spatial transcriptomics,yes,False
+chen2023_visium,116695040,0,Visium,spatial transcriptomics,yes,False
+in_house_scrna_s2025_st,558264320,0,DNBelab C4 system,,unknown,False
+jackson2020single,36847453483,0,IMC,spatial proteomics,yes,False
+rosenbluth2008_st,749291520,0,ST,spatial transcriptomics,unknown,False
+scrna_seq_datase2024_10x_genomics,16087040,0,10X Genomics Chromium,,unknown,False
+tenx_visium_hd_three_prime_zebrafish_head_fresh_f,4133915125,3,Visium HD,spatial transcriptomics,yes,True
+patsalos2024_visium,37376000,0,Visium,spatial transcriptomics,yes,False
+nanostring_geomx2023_geomx,1648640,0,GeoMx,spatial transcriptomics,yes,False
+tenx_preservation_method_comparison_on_visium_cyt_2,5237122929,3,Visium,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E12.5_embryo2,419443738,1,,,,True
+fawknercorbett2021_visium,224307200,0,Visium,spatial transcriptomics,yes,False
+barley_germinati_visium,1532672000,0,Visium,spatial transcriptomics,yes,False
+stec2023_visium,126433280,0,Visium,spatial transcriptomics,yes,False
+tenx_visium_hd_cytassist_11mm_human_breast_cancer_2,39841269710,2,Visium HD,spatial transcriptomics,yes,True
+reyfman2018_scrnaseq,755537920,0,,,,False
+tenx_human_skin_data_xenium_human_multi_tissue_an,11829658911,1,Xenium,spatial transcriptomics,yes,True
+visium_visium,2116529309,0,Visium,spatial transcriptomics,yes,False
+tenx_xenium_comparison_fresh_frozen_human_ovarian,17509221513,1,Xenium,spatial transcriptomics,yes,True
+zheng2022_singlecell_r,354191360,0,single-cell RNA-seq,,unknown,False
+human_spinal_cor2024_10x_genomics,1506416640,0,10x Genomics,,unknown,False
+lyubetskaya2022_unknown,110002995200,0,,,yes,False
+dbit_seq_dataset_dbit,62443520,0,DBiT-seq,spatial transcriptomics,yes,False
+che2021_singlecell_r,592450,0,single-cell RNA-seq,,unknown,False
+tenx_mouse_brain_serial_section_2_sagittal_anteri,433297351,3,Visium,spatial transcriptomics,yes,True
+dhainaut2022_visium,150231040,0,Visium,spatial transcriptomics,yes,False
+qiu2022_stereo,73871317,0,Stereo-seq,spatial transcriptomics,yes,False
+ransick2019_visium,145094649,0,Visium v1,spatial transcriptomics,yes,False
+tenx_human_heart_1_standard_1_1_0,554805216,3,Visium,spatial transcriptomics,yes,True
+deng2022_spatialcutta,4079585280,0,Spatial-cut&tag,spatial epigenomics,yes,False
+zeng2023_starmap,2070679,0,STARmap PLUS,spatial transcriptomics,yes,False
+xu2024_10x_genomics,77614759,0,10x Genomics,,unknown,False
+liu2020_dbit,62443520,0,DBiT-seq,spatial transcriptomics,yes,False
+tietscher2023_imc,5844406,0,IMC,spatial proteomics,yes,False
+ge2020_scrnaseq,422618571,0,,,,False
+cheng2022_unknown,360448000,0,,,unknown,False
+cho2021_seqscope,750940160,0,Seq-Scope,,unknown,False
+scrna_seq_crop_s2024_10x_genomics,199004,0,10X Genomics Chromium,,unknown,False
+zhao2021_unknown,96573440,0,,,unknown,False
+chandrasekaran2023_cell_paintin,91807744,0,Cell Painting,,unknown,False
+visium_spatial_t2024_visium,5709326018,0,Visium for FFPE and CytAssist,spatial transcriptomics,yes,False
+lyubetskaya2022_visium,351989377,0,Visium,spatial transcriptomics,yes,False
+hahn2023_visium,1379348480,0,Visium,spatial transcriptomics,yes,False
+tenx_xenium_in_situ_analysis_of_alzheimers_diseas,6046328135,1,Xenium,spatial transcriptomics,yes,True
+breast_cancer_br2024_visium,44650373,0,Visium,spatial transcriptomics,yes,False
+mouse_slide_seq__slideseq,1714053120,0,Slide-seqV2,spatial transcriptomics,yes,False
+rhesus_macaque_b2025_merscope__h22_30_001,1667054079,3,,,,True
+mccray2021_visium,931104,0,Visium,spatial transcriptomics,yes,False
+ni2022_visium,496353280,0,Visium,spatial transcriptomics,yes,False
+qiu2021_unknown,140738560,0,,,unknown,False
+ji2020_10x_genomics,169758720,0,10X Genomics,,unknown,False
+salcher2022_visium,79376178,0,Visium,spatial transcriptomics,yes,False
+mirnatissueatlas2022_bgiseq500rs,2202599,0,,,,False
+geomx_spatial_tr2024_geomx,217600000,0,NanoString GeoMx Whole Transcriptome Atlas,spatial transcriptomics,yes,False
+jiang2023_misarseq,727802133,0,MISAR-seq (spatial ATAC),spatial epigenomics,yes,False
+karras2022_visium,4336506880,0,Visium,spatial transcriptomics,yes,False
+merfish_and_snrn2025_merfish,3823175680,0,MERFISH,spatial transcriptomics,yes,False
+dobie2019_singlecell_r,261068800,0,single-cell RNA-seq,,unknown,False
+hildebrandt2021_st,273219326,0,Spatial Transcriptomics (ST),spatial transcriptomics,yes,False
+tenx_xenium_protein_ffpe_human_renal_carcinoma,19253385986,1,Xenium,spatial transcriptomics,yes,True
+liu2023_spatialcites,31877120,0,spatial-CITE-seq,,yes,False
+bartosovic2021_singlecell_c,1959045120,0,Single-cell CUT&Tag sequencing,,unknown,False
+xenium_breast_ca_xenium,56645038080,0,Xenium,spatial transcriptomics,yes,False
+guo2025_unknown,3306485760,0,,,unknown,False
+smalley2021_scrnaseq,75384734,0,,,,False
+tenx_human_prostate_cancer_adjacent_normal_sectio,751668141,3,Visium,spatial transcriptomics,yes,True
+tenx_xenium_prime_ffpe_human_cervical_cancer,12387049707,1,Xenium,spatial transcriptomics,yes,True
+he2024_unknown,164116480,0,,,unknown,False
+mouse_breast_can2023_visium,6244,0,Visium,spatial transcriptomics,yes,False
+zhang2023_spatial_cutt,4079585280,0,spatial CUT&Tag-RNA-seq,spatial epigenomics,yes,False
+tenx_preservation_method_comparison_on_visium_cyt_3,6734380390,3,Visium,spatial transcriptomics,yes,True
+normal_human_lun2022_visium,28395520,0,Visium,spatial transcriptomics,yes,False
+mantri2022_visium,206950400,0,Visium,spatial transcriptomics,yes,False
+spatial_transcri_visium_13,475188679,0,Visium,spatial transcriptomics,yes,False
+tenx_ffpe_human_ductal_adenocarcinoma_data_with_h,9196360921,1,Xenium,spatial transcriptomics,yes,True
+xiong2019_singlecell_r,65034240,0,single-cell RNA-seq,,unknown,False
+tenx_xenium_ffpe_human_breast_biomarkers,19909133549,1,Xenium,spatial transcriptomics,yes,True
+10x_genomics_fre_visium,41520640,0,Visium,spatial transcriptomics,yes,False
+mantri2021_spatial_tran,1343065,0,Spatial Transcriptomics,,yes,False
+wang2022_slideseq,18161090560,0,Slide-seqV2,spatial transcriptomics,yes,False
+pbhl_seq_dataset_illumina_his,2048000,0,,,,False
+he2022_visium,15156728,0,Visium,spatial transcriptomics,yes,False
+ren2023_unknown,2611107840,0,,,yes,False
+xia2019_seqfish,9518242,0,seqFISH+,spatial transcriptomics,yes,False
+miyoshi2024_visium,1509560325,0,Visium,spatial transcriptomics,yes,False
+tenx_preview_data_xenium_prime_gene_expression,9171781597,1,Xenium,spatial transcriptomics,yes,True
+liu2023_scrnaseq,4133619191,0,,,,False
+tenx_adult_human_brain_2_cerebral_cortex_unknown_,4734169321,3,Visium,spatial transcriptomics,yes,True
+west2022_saberfish,2695992,0,SABER-FISH,,unknown,False
+xenium_on_a_one__xenium,11116636297,1,Xenium,spatial transcriptomics,yes,True
+travaglini2020_visium_2,28395520,0,Visium,spatial transcriptomics,yes,False
+alkaslasi2021_unknown,819128320,0,,,unknown,False
+ff_mouse_brain_s_visium,74061791,0,Visium,spatial transcriptomics,yes,False
+long2024_visium,671921238,0,10x Visium RNA and protein coprofiling,spatial transcriptomics,yes,False
+binan2025_perturbfish,2723410,0,Perturb-FISH,,yes,False
+mirzazadeh2023_smallintestine_visium,105383388,0,Visium,spatial transcriptomics,yes,False
+tenx_visium_hd_cytassist_gene_expression_librarie_7,5648508001,3,Visium HD,spatial transcriptomics,yes,True
+yeo2024_dlbcl_multiomics,181795960,0,multiplexed imaging,spatial proteomics,yes,False
+visium2025_visium,2116529309,0,Visium,spatial transcriptomics,yes,False
+ehret2025shaking,1325119511,0,IMC,spatial proteomics,yes,False
+scrnaseq_of_inte2022_scrnaseq,396462080,0,,,,False
+mouse_heart_visi_visiumhd,160457157,0,Visium HD,spatial transcriptomics,yes,False
+moffitt2016_merfish,24055816214,0,MERFISH,spatial transcriptomics,yes,False
+chen2022_mosta_stereoseq__E14.5_embryo2,2645995711,2,,,,True
+stereo_seq_datas2024_stereo,2142842880,0,Stereo-seq,spatial transcriptomics,yes,True
+adult_human_cell2020_10x_genomics,131747840,0,"10x Genomics GemCode (single-cell RNA sequencing, TCR, BCR)",,unknown,False
+morse2019_scrnaseq,617748480,0,,,,False
+sudmeier2022_visium,188323840,0,Visium,spatial transcriptomics,yes,False
+liu2022reproducible,483218750,0,MIBI,spatial proteomics,yes,False
+spatial_transcri_visium_3,340377600,0,Visium,spatial transcriptomics,yes,False
+spatial_transcri2022_visium,96573440,0,Visium,spatial transcriptomics,yes,False
+hn_xenium,3456638778,1,Xenium,spatial transcriptomics,yes,True
+cords2023cancer,7065633441,0,IMC,spatial proteomics,yes,False
+tenx_visium_hd_three_prime_ovarian_cancer_fresh_f,24730174518,2,Visium HD,spatial transcriptomics,yes,True
+pbhl_seq_mouse_e2024_illumina_his,2048000,0,,,,False
+chen2022_mosta_adult_brain_stereoseq,466140570,1,Stereo-seq,spatial transcriptomics,yes,True
+imaging_mass_cyt_imc,514887680,0,IMC,spatial proteomics,yes,False
+tenx_mouse_brain_section_coronal_1_standard_1_0_0,428445246,3,,,,False
+tenx_ffpe_human_colorectal_cancer_data_with_human,12436222302,1,Xenium,spatial transcriptomics,yes,True
+chen2023_codex,243087591,0,CODEX,spatial proteomics,yes,False
+vannan2023_xenium,175735193600,0,Xenium,spatial transcriptomics,yes,False
+human_post_lvad_2025_visium,1083937146,0,Visium,spatial transcriptomics,yes,False
+qiu2021_scrnaseq_2,140738560,0,,,,False
+di2023_visium,34416640,0,Visium,spatial transcriptomics,yes,False
+joglekar2021_visium,2048614400,0,Visium,spatial transcriptomics,yes,False
+zhou2023_snmcseq_with,64278598563,0,snmC-seq with retroviral tracing,,unknown,False
+gsm6177599_spatial_tran,55162,0,spatial transcriptomics,,yes,False
+tenx_human_ovarian_cancer_targeted_pan_cancer_pan,4711188994,3,Visium,spatial transcriptomics,yes,True
+tenx_xenium_prime_ffpe_human_breast_cancer,13271185051,1,Xenium,spatial transcriptomics,yes,True
+satija2015_in_situ_hybr,313956162,0,in situ hybridization (ISH) / binarized reference atlas,,unknown,False
+kruse2016_tomo_2,13824000,0,Tomo-seq,spatial transcriptomics,yes,False
+melo2021_visium,9334702,0,Visium,spatial transcriptomics,yes,False
+wu2021_scrnaseq,558264320,0,scRNA-seq,,,False
+tenx_visium_hd_cytassist_6p5mm_human_brain_cancer,10162510562,2,Visium HD,spatial transcriptomics,yes,True
+skinnider2023_spatial_tran,135208960,0,spatial transcriptomics,,yes,False
+tabula2020_visium,33014753,0,Visium,spatial transcriptomics,yes,False
+garridotrigo2023_cosmx,310,0,CosMx Spatially Molecular Imaging (SMI),spatial transcriptomics,yes,False
+song2025_visium,369792667,0,Visium,spatial transcriptomics,yes,False
+tenx_visium_hd_cytassist_gene_expression_librarie_4,5002114596,2,Visium HD,spatial transcriptomics,yes,True
+bulk_rna_seq_of_2025_illumina_mis,17704960,0,,,,False
+visium_spatial_t2022_visium_3,2471545253,0,Visium,spatial transcriptomics,yes,False
+mouse_coronal_br2024_visium,47315919,0,Visium,spatial transcriptomics,yes,False
+10x_cytassist_sp_st,52846215,0,10X CytAssist Spatial Gene Expression (V2 Chemistry),,yes,False
+andersson2021_st,457685417,0,ST,spatial transcriptomics,unknown,False
+upmc_hnc_codex,1293817976,0,CODEX,spatial proteomics,yes,False
+spatial_transcri2022_visium_2,106803200,0,Visium,spatial transcriptomics,yes,False
+gse2505232025_illumina_nov,266035200,0,,,,False
+karaiskos2017_scrnaseq,66007040,0,,,,False
+nanostring_geomx2025_geomx,16261120,0,Nanostring GeoMx Digital Spatial Profiler,spatial transcriptomics,yes,False
+bahl2022_visium,137113600,0,Visium,spatial transcriptomics,yes,False
+mantri2024_slideseq,283156480,0,Slide-seq V2,spatial transcriptomics,yes,False
+coronal_mouse_br2025_visiumhd,1620176219,0,Visium HD,spatial transcriptomics,yes,False
+chen2022_mosta_stereoseq__E14.5_embryo1,12805900313,5,,,,True
+tenx_fresh_frozen_mouse_colon_with_xenium_multimo,15362983225,1,Xenium,spatial transcriptomics,yes,True
+sinnamon2019_sciatacseq,87930880,0,,,,False
+spatial_transcri2025_visium_3,38000640,0,Visium Spatial Gene Expression for FFPE assay (10x Genomics),spatial transcriptomics,yes,False
+janesick2023_unknown,202137600,0,,,unknown,False
+tenx_human_brain_cancer_11_mm_capture_area_ffpe_2,9559763595,3,Visium,spatial transcriptomics,yes,True
+spatial_transcri2025_visium,216657920,0,Visium,spatial transcriptomics,yes,False
+mouse_crc_slide_2025_slideseq,1714053120,0,Slide-seqV2,spatial transcriptomics,yes,False
+visium_spatial_s2023_visium,103546880,0,Visium,spatial transcriptomics,yes,False
+whole_body_parti_merfish,4227749424,0,MERFISH,spatial transcriptomics,yes,False
+ji2022_singlecell_r,664363,0,single-cell RNA-seq,,unknown,False
+tenx_visium_hd_cytassist_11mm_human_breast_cancer,31513422424,2,Visium HD,spatial transcriptomics,yes,True
+peng2019_geoseq_2,877209,0,Geo-seq,,unknown,False
+moncada2020_st,749291520,0,ST,spatial transcriptomics,unknown,False
+tenx_adult_human_brain_1_cerebral_cortex_unknown_,4731575797,3,Visium,spatial transcriptomics,yes,True
+visium_spatial_g_visium_12,62287617,0,Visium,spatial transcriptomics,yes,False
+guilliams2022_unknown,2593300480,0,,,unknown,False
+hbchd_visiumhd,12560966255,0,Visium HD,spatial transcriptomics,yes,False
+chen2020_spatial_tran_3,168273376,0,spatial transcriptomics and in situ sequencing,,yes,False
+nguyen2020_snrnaseq,182310,0,,,,False
+10x_visium_human_visium,45925294,0,Visium,spatial transcriptomics,yes,False
+tenx_human_breast_cancer_targeted_immunology_pane,1775788418,3,Visium,spatial transcriptomics,yes,True
+schulz2024immucan,1174579392,0,IMC,spatial proteomics,yes,False
+tumor_tma_1_ttma2025_xenium,282193920,0,"Xenium, MERSCOPE, CosMx, 10x Chromium Single Cell Gene Expression FLEX",spatial transcriptomics,yes,False
+mouse_brain_hemi2025_xenium,5817958520,1,Xenium,spatial transcriptomics,yes,True
+tenx_human_lymph_node_1_standard_1_0_0,434567231,3,Visium,spatial transcriptomics,yes,True
+liu2022_merfish,1987488069,2,MERFISH,spatial transcriptomics,yes,True
+hunter2021_visium,4093368320,0,Visium,spatial transcriptomics,yes,False
+mckellar2021_visium,2651289600,0,Visium,spatial transcriptomics,yes,False
+merfish_dataset2021_merfish,9298,0,MERFISH,spatial transcriptomics,yes,False
+tenx_visium_hd_cytassist_gene_expression_librarie_8,11907974549,2,Visium HD,spatial transcriptomics,yes,True
+janesick2023_xenium,5970,0,Xenium,spatial transcriptomics,yes,False
+tenx_mouse_bone_data_with_custom_add_on_panel_1_s,17401952190,1,Xenium,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_human_to,25471587150,2,Visium HD,spatial transcriptomics,yes,True
+wu2021_visium_5,457685417,0,Visium,spatial transcriptomics,yes,False
+fawknercorbett2021_scrnaseq,1652090880,0,,,,False
+isakova2020_unknown,284007,0,,,unknown,False
+wu2021_st,457685417,0,ST,spatial transcriptomics,unknown,False
+hoch2022multiplexed,17930564179,0,IMC,spatial proteomics,yes,False
+li2023_stereo,203697405,0,Stereo-seq,spatial transcriptomics,yes,False
+transcriptomics__geomx,2049504034,0,GeoMx,spatial transcriptomics,yes,False
+schott2024_st,37722347520,0,OpenST,,unknown,False
+tasic2016_visium,55591204,0,Visium,spatial transcriptomics,yes,False
+lopez2022_unknown,937256960,0,,,unknown,False
+sanders2022_visium,354109440,0,Visium,spatial transcriptomics,yes,False
+lopez2022_visium,778690560,0,Visium,spatial transcriptomics,yes,False
+zhang2023_whole_mouse_brain_merfish__abca4,96273989,3,,,,True
+tenx_normal_human_prostate_ffpe_1_standard_1_3_0,391996523,3,Visium,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_human_lymph_node_fresh,8915294701,2,Visium HD,spatial transcriptomics,yes,True
+tenx_adult_mouse_brain_coronal_section_visium_ff_,557391899,3,Visium,spatial transcriptomics,yes,True
+mouse_ssp_merfis2023_merfish,2723410,0,MERFISH,spatial transcriptomics,yes,False
+zeng2023_starmap_3,31237200922,0,STARmap PLUS,spatial transcriptomics,yes,False
+tenx_visium_hd_three_prime_mouse_brain_fresh_froz,5257827940,3,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_human_to_2,17498462500,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_11mm_mouse_embryo,32486986950,2,Visium HD,spatial transcriptomics,yes,True
+stereo_seq_datas_stereo_3,33718671360,0,Stereo-seq,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E13.5_embryo1,8830477905,4,,,,True
+ji2020_visium,232919040,0,Visium,spatial transcriptomics,yes,False
+tenx_human_cerebellum_targeted_neuroscience_panel,544918706,3,Visium,spatial transcriptomics,yes,True
+blum2021_unknown,819621893,0,,,unknown,False
+zhou2023_snmcseq,64278598563,0,snmC-seq,,unknown,False
+spatial_transcri_visium_11,34416640,0,Visium,spatial transcriptomics,yes,False
+du2014_rnaseq,921484,0,,,,False
+stereo_seq_mouse_stereo_2,12918394880,0,Stereo-seq (BGI STomics),spatial transcriptomics,yes,True
+kozareva2021_10x_chromium,4397303191,0,,,,False
+greenwald2024_visium,4468568903,0,Visium,spatial transcriptomics,yes,False
+chen2022_mosta_stereoseq__E12.5_embryo1,5910754196,5,,,,True
+soybean_spatial__visium,66821,0,Visium,spatial transcriptomics,yes,False
+danenberg2022_imc,71831315,0,IMC,spatial proteomics,yes,False
+yao2023_perturbseq,6260828160,0,Perturb-seq,,unknown,False
+tenx_xenium_ffpe_human_breast_with_custom_add_on_,26997416969,1,Xenium,spatial transcriptomics,yes,True
+visium_spatial_t_visium_7,5139608811,0,Visium,spatial transcriptomics,yes,False
+tenx_human_kidney_preview_data_xenium_human_multi,5069771406,1,Xenium,spatial transcriptomics,yes,True
+tenx_ffpe_human_breast_using_the_entire_sample_ar,51856022931,1,Xenium,spatial transcriptomics,yes,True
+egfr_amplified_g_visium,710901760,0,Visium CytAssist,spatial transcriptomics,yes,False
+koupourtidou2024_visium,734351360,0,Visium,spatial transcriptomics,yes,False
+linnakuosmanen2024_visium,8794904847,0,Visium,spatial transcriptomics,yes,False
+tenx_human_breast_cancer_block_a_section_2_1_stan,1802249965,3,Visium,spatial transcriptomics,yes,True
+danenberg2022breast,6217806617,0,IMC,spatial proteomics,yes,False
+chen2022_visium_2,8806980615,0,Visium,spatial transcriptomics,yes,False
+tenx_preservation_method_comparison_on_visium_cyt,4946108286,3,Visium,spatial transcriptomics,yes,True
+perturb_multi_mo2025_merfish,241725440,0,RCA-MERFISH and 10x Flex scRNA-seq,spatial transcriptomics,yes,False
+guilliams2022_spatial_tran,2593300480,0,Spatial Transcriptomics,,yes,False
+tenx_visium_cytassist_mouse_embryo_11_mm_capture_,7121784026,3,Visium,spatial transcriptomics,yes,True
+tenx_visium_v2_human_lymph_node,8568830554,3,Visium,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_rhesus_kidney_fresh_fr,4264880664,3,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_mouse_ovary_fresh_froz,1217374428,2,Visium HD,spatial transcriptomics,yes,True
+organoid_referen2021_seqwell,7219200,0,Seq-Well,,unknown,False
+chen2020_spatial_tran_2,168273376,0,Spatial Transcriptomics,,yes,False
+johnson2023_visium,353228800,0,Visium,spatial transcriptomics,yes,False
+msc_seqfish_data2023_seqfish,6557489871,0,seqFISH,spatial transcriptomics,yes,False
+wang2020_scrnaseq_wit,131635200,0,scRNA-seq with spatial data integration (SpaOTsc),,yes,False
+tenx_xenium_protein_ffpe_human_renal_ccrcc,29945691491,1,Xenium,spatial transcriptomics,yes,True
+tenx_human_liver_data_xenium_human_multi_tissue_a,15182730692,1,Xenium,spatial transcriptomics,yes,True
+human_and_mouse__geomx,55152640,0,Digital Spatial Profiling (GeoMx DSP),spatial transcriptomics,yes,False
+wohlschlegel2023_dualomic_seq,3560611840,0,dual-omic sequencing,,unknown,False
+tenx_human_glioblastoma_targeted_pan_cancer_panel,543804194,3,Visium,spatial transcriptomics,yes,True
+chen2015_merfish_2,17458730,0,MERFISH,spatial transcriptomics,yes,False
+tenx_adult_mouse_brain_if_stained_ffpe_1_standard,500893743,3,Visium,spatial transcriptomics,yes,True
+hybiss_adult_lun2025_iss,223309300,0,HybISS,spatial transcriptomics,unknown,False
+visium_spatial_g2025_visium,4223713280,0,10x Genomics Visium and Chromium 3' gene expression,spatial transcriptomics,yes,False
+spatial_transcri2025_visium_2,10567680,0,10X Visium CytAssist Spatial Gene Expression for FFPE,spatial transcriptomics,yes,False
+seq_scope_aorta__seqscope,552544,0,Seq-Scope,,unknown,False
+xu2024_scrnaseq,388515840,0,,,,False
+cosmx_melanoma_d_cosmx,1828888647,0,CosMx,spatial transcriptomics,yes,False
+zhang2022_scrnaseq,110431971,0,scRNA-seq,,,False
+yao2023_xenium,3479544713,1,Xenium,spatial transcriptomics,yes,True
+tenx_xenium_prime_ffpe_human_ovarian_cancer,10152122749,1,Xenium,spatial transcriptomics,yes,True
+kruse2016_tomo,13824000,0,Tomo-seq,spatial transcriptomics,yes,False
+isakova2021_unknown,337307,0,,,unknown,False
+human_breast_can_visium_6,558264320,0,Visium,spatial transcriptomics,yes,False
+10x_xenium_prime_skin_melanoma,3101599008,1,Xenium,spatial transcriptomics,yes,True
+10x_visium_ffpe_2025_visium,7698397,0,Visium,spatial transcriptomics,yes,False
+hayashi2018_10x,3604480,0,10X,,unknown,False
+tenx_visium_hd_cytassist_gene_expression_librarie,20823669817,2,Visium HD,spatial transcriptomics,yes,True
+tenx_human_ovarian_cancer_targeted_immunology_pan,4710811010,3,Visium,spatial transcriptomics,yes,True
+spatial_transcri2022_visium_3,53381120,0,Visium,spatial transcriptomics,yes,False
+deng2022_unknown,343871801,0,,,unknown,False
+hbc_xenium,1741519852,0,Xenium,spatial transcriptomics,yes,False
+chen2022_mosta_stereoseq__E15.5_embryo1,8895108464,4,,,,True
+visium_spatial_t2022_visium_2,847022080,0,Visium,spatial transcriptomics,yes,False
+thymus_spatial_t2025_st,37577082880,0,BMKMANU ST03002,,yes,False
+tenx_visium_hd_cytassist_gene_expression_librarie_5,27010583557,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_librarie_11,20407700422,3,Visium HD,spatial transcriptomics,yes,True
+fischer2023multiplex,35484565852,0,IMC,spatial proteomics,yes,False
+tenx_visium_hd_cytassist_6p5mm_rat_liver,18627299843,2,Visium HD,spatial transcriptomics,yes,True
+spatial_dmt_post_spatialdmt,12099823149,0,Spatial-DMT,,yes,False
+ohara2024_imc,755471304,0,IMC,spatial proteomics,yes,False
+scrna_seq_lcmseq2020_marsseq_mcsc,244456,0,"MARS-seq, mcSCRBseq",,yes,False
+human_kidney_iga2024_xenium,1502740480,0,Xenium,spatial transcriptomics,yes,False
+benchetrit2023_spots,9913762,0,SPOTS,,unknown,False
+tenx_mouse_brain_serial_section_2_sagittal_poster,434417145,3,Visium,spatial transcriptomics,yes,True
+spatial_mux_seq__spatialmuxse,3306485760,0,spatial-Mux-seq (microfluidic device with DNA barcoding),,yes,False
+liu2023_merfish,709362186,2,MERFISH,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_mouse_lu,21858775722,2,Visium HD,spatial transcriptomics,yes,True
+starmap_plus_mou2023_starmap,4350256892,0,STARmap PLUS,spatial transcriptomics,yes,False
+allam2022spatially,498609218,0,IMC,spatial proteomics,yes,False
+hu2024_visium,1552125769,0,AFADESI-MSI / Visium,spatial transcriptomics,yes,False
+janosevic2021_visium,9236480,0,Visium,spatial transcriptomics,yes,False
+mckellar2023_st,24820,0,STRS,,unknown,False
+spatialbenchvisi_visium,866242560,0,Visium,spatial transcriptomics,yes,False
+spatial_sorting_2021_nextseq_550,9461760,0,NextSeq 550,,yes,False
+tenx_human_colon_preview_data_xenium_human_colon_,13626095120,1,Xenium,spatial transcriptomics,yes,True
+davis2018_rnaseq,866222080,0,RNA-seq,,,False
+tenx_human_skin_preview_data_xenium_human_skin_ge,6249559913,1,Xenium,spatial transcriptomics,yes,True
+ibex_zenodo_5244551,10293205677,0,IBEX,spatial proteomics,yes,False
+tenx_xenium_human_brain_preview_data_1_standard,7567057067,1,Xenium,spatial transcriptomics,yes,True
+mchenga_conophor2024_visium,171919360,0,Visium,spatial transcriptomics,yes,False
+spatial_transcri2023_visium,412200960,0,10x Genomics Visium and AFADESI-MSI,spatial transcriptomics,yes,False
+human_bladder_ca2025_visiumhd_2,1083937146,0,Visium HD,spatial transcriptomics,yes,False
+stereo_seq_datas2025_stereo,558264320,0,Stereo-seq,spatial transcriptomics,no,False
+azx_dosed_rat_lu2026_visium,59351040,0,Visium and DESI MSI,spatial transcriptomics,yes,False
+wu2021_visium_3,558264320,0,Visium,spatial transcriptomics,yes,False
+visium_spatial_g_visium_2,38000640,0,Visium Spatial Gene Expression for FFPE assay,spatial transcriptomics,yes,False
+radtke2020_ibex,4095475276,0,IBEX,spatial proteomics,yes,False
+garbarino2023_visium,105256960,0,Visium,spatial transcriptomics,yes,False
+tenx_xenium_prime_ffpe_human_prostate,12010131140,1,Xenium,spatial transcriptomics,yes,True
+tasic2016_scrnaseq,501614,0,,,,False
+genomics2019_visium,70174434,0,Visium,spatial transcriptomics,yes,False
+tenx_pancreatic_cancer_with_xenium_human_multi_ti,7288256844,1,Xenium,spatial transcriptomics,yes,True
+bae2023_visium,14908115535,0,Visium,spatial transcriptomics,yes,False
+sountoulidis2023_unknown,3555973120,0,,,unknown,False
+spatial_transcri_visium,538701,0,Visium,spatial transcriptomics,yes,False
+wang2023_scrnaseq,290896,0,,,,False
+zhang2023_whole_mouse_brain_merfish__abca2,760605250,3,,,,True
+tenx_human_glioblastoma_whole_transcriptome_analy,562977472,3,Visium,spatial transcriptomics,yes,True
+calcagno2022_visium,2906828800,0,Visium,spatial transcriptomics,yes,False
+hp_xenium,1741519852,1,Xenium,spatial transcriptomics,yes,True
+tenx_human_prostate_cancer_acinar_cell_carcinoma_,160368801,3,Visium,spatial transcriptomics,yes,True
+dulken2017_scrnaseq,2330395657,0,,,,False
+tenx_ffpe_human_lung_cancer_data_with_human_immun,10333803490,1,Xenium,spatial transcriptomics,yes,True
+fei2022_visiumhd,774369280,0,Visium HD,spatial transcriptomics,yes,False
+moor2018_lcmseq,425555792,0,LCM-seq,,unknown,False
+scrna_seq_datase2024_10x_scrnaseq,380620800,0,,,,False
+spatial_sorting__rnaseq,9461760,0,RNA-seq,,yes,False
+visium_spatial_t_visium_17,617011200,0,Visium,spatial transcriptomics,yes,False
+zarkhin2008_codex,199375830,0,CODEX,spatial proteomics,yes,False
+tenx_ffpe_human_ovarian_cancer_data_with_human_im,8489405701,1,Xenium,spatial transcriptomics,yes,True
+malignant_mesoth_visium,2681036800,0,Visium CytAssist Gene and Protein Expression,spatial transcriptomics,yes,False
+snrna_seq_datase2025_snrnaseq,3823175680,0,,,,False
+baryawno2019_scrnaseq,741642240,0,,,,False
+qiu2021_scrnaseq,140738560,0,,,,False
+salmen2022_unknown,802140160,0,,,unknown,False
+mouse_crc_slide__slideseq,1714053120,0,Slide-seqV2,spatial transcriptomics,yes,False
+chen2022_mosta_stereoseq__E10.5_embryo1,2411826766,3,,,,True
+mantri2021_unknown,1343065,0,,,unknown,False
+androvic2023_merfish,5098731520,0,MERFISH,spatial transcriptomics,yes,False
+tenx_human_pancreas_preview_data_xenium_human_mul,4660108035,1,Xenium,spatial transcriptomics,yes,True
+visium_hd_spatia_visiumhd_2,52846215,0,Visium HD,spatial transcriptomics,yes,False
+mouse_snrna_seq_2025_10_flex_scrn,867686400,0,,,,False
+tenx_visium_hd_cytassist_gene_expression_librarie_2,16073166781,2,Visium HD,spatial transcriptomics,yes,True
+tenx_visium_hd_cytassist_gene_expression_librarie_16,14727908678,3,Visium HD,spatial transcriptomics,yes,True
+zhou2023_singlenucleu,64278598563,0,Single-nucleus methylation sequencing (snmC-seq),,unknown,False
+qiu2021_singlecell_r,140738560,0,single-cell RNA sequencing,,unknown,False
+tenx_mouse_kidney_section_coronal_1_standard_1_0_,402710831,3,Visium,spatial transcriptomics,yes,True
+spatial_transcri2022_visium_4,12820480,0,Visium,spatial transcriptomics,yes,False
+human_and_mouse_2022_geomx,55152640,0,Digital Spatial Profiling (GeoMx),spatial transcriptomics,yes,False
+tenx_human_cervical_cancer_1_standard,126452669,3,Visium,spatial transcriptomics,yes,True
+park2018_scrnaseq_2,55205579,0,,,,False
+breastcancerilc__xenium,16267681926,1,Xenium,spatial transcriptomics,yes,True
+serrano2024_spatial_rnas,617011200,0,Spatial RNA-seq,,yes,False
+joost2016_fish,4665337,0,FISH,,yes,False
+yao2023_merfish,8191796144,3,MERFISH,spatial transcriptomics,yes,True
+spatial_dmt_post2025_st,12099823149,0,Illumina NovaSeq 6000 sequencer and NovaSeq X Plus system,,yes,False
+monkman2024spatial,975434050,0,CODEX,spatial proteomics,yes,False
+spatial_transcri_visium_6,137113600,0,Visium,spatial transcriptomics,yes,False
+alhaddad2024_visium,354416640,0,Visium,spatial transcriptomics,yes,False
+tenx_human_ovarian_cancer_whole_transcriptome_ana,4726884788,3,Visium,spatial transcriptomics,yes,True
+sampath2023_slideseq,1637212160,0,Slide-seqV2,spatial transcriptomics,yes,False
+gse296623_visiumhd,1262458880,0,Visium HD,spatial transcriptomics,yes,False
+seq_and_3d_storm2016_st,10742252,0,,,,False
+arora2023_unknown,160829440,0,,,unknown,False
+single_nucleus_t2022_chromium_v3,81367040,0,Chromium v.3,,unknown,False
+spatial_transcri2025_visium_4,13465600,0,Visium CytAssist,spatial transcriptomics,yes,False
+tiva_isolated_si2014_illumina_100,5427200,0,,,,False
+joglekar2021_visium_2,2048614400,0,Visium,spatial transcriptomics,yes,False
+bartosovic2021_sccuttag,1959045120,0,scCUT&Tag,,unknown,False
+visium_spatial_t2025_visium,530309417,0,Visium,spatial transcriptomics,yes,False
+tenx_atera_wta_ffpe_human_breast_cancer,60965678911,7,Atera,spatial transcriptomics,unknown,True
+bharat2020_scrnaseq,4124559360,0,,,,False
+lohoff2022_iss,6053929565,0,HybISS,spatial transcriptomics,unknown,False
+xiao2022multiplexed,2927556652,0,IMC,spatial proteomics,yes,False
+tenx_visium_hd_cytassist_gene_expression_librarie_3,10770478728,2,Visium HD,spatial transcriptomics,yes,True
+chen2022_mosta_stereoseq__E11.5_embryo1,3496078255,4,,,,True
+abedini2024_visium,1239183360,0,Visium,spatial transcriptomics,yes,False
+zhang2023_merfish,2723410,0,MERFISH,spatial transcriptomics,yes,False
+meylan2022_visium,1122877440,0,Visium,spatial transcriptomics,yes,False
+halpern2017_singlecell_r,14948,0,single-cell RNA-seq,,unknown,False
+moffitt2018_3d_gene_expr,126553,0,3D gene expression (BDTNP),,unknown,False
+sathyamurthy2018_dropseq,114576,0,,,,False
+czarnewski2019_bulk_rnaseq,29163520,0,,,,False
+chen2022_visium,473323596,0,Visium,spatial transcriptomics,yes,False
+tenx_human_lung_cancer_11_mm_capture_area_ffpe_2_,3898678730,3,Visium,spatial transcriptomics,yes,True
+mohammadi2023_unknown_2,373340160,0,,,yes,False
+chen2022_mosta_stereoseq__E9.5_embryo1,982514949,1,,,,True
+in_house_mouse_l2024_visium,96573440,0,Visium,spatial transcriptomics,yes,False
+kathe2022_visium,2836531200,0,Visium,spatial transcriptomics,yes,False
+pelka2021_visiumhd,2472848,0,Visium HD,spatial transcriptomics,yes,False
+tenx_atera_wta_ffpe_human_cervical_cancer,41662170,5,Atera,spatial transcriptomics,unknown,False
+franjic2022_snrnaseq,831330,0,snRNA-seq,,,False
+ghasemi2024_chromium,1903882240,0,Chromium,,unknown,False
+kirita2020_snrnaseq,27596188,0,,,,False
+vyas2024_geomx,82797063,0,GeoMx,spatial transcriptomics,yes,False
+ortiz2020_spatial_tran,577075200,0,Spatial Transcriptomics,,yes,False
+tenx_human_colorectal_cancer_targeted_gene_signat,543135699,3,Visium,spatial transcriptomics,yes,True
+zhang2023_whole_mouse_brain_merfish__abca3,968806891,3,,,,True
+qian2020_pciseq,5222400,0,pciSeq,,unknown,False
+moncada2020_microarrayba,749291520,0,microarray-based spatial transcriptomics,,yes,False
+scrna_seq_atlas_2025_10x_genomics,6271098880,0,,,,False
+tenx_human_ovarian_cancer_1_standard,128648866,3,Visium,spatial transcriptomics,yes,True
+tenx_visium_cytassist_gene_expression_libraries_o_2,2713731787,3,Visium,spatial transcriptomics,yes,True
+tenx_visium_hd_three_prime_human_tonsil_fresh_fro,10667247166,2,Visium HD,spatial transcriptomics,yes,True
+kamath2022_snrnaseq,82170,0,,,,False
+scrinshot_lung_d2024_scrinshot,513184093,0,SCRINSHOT,,unknown,False
+tenx_human_bone_and_bone_marrow_data_with_custom_,11524483430,1,Xenium,spatial transcriptomics,yes,True
+ratz2022_spatial_tran,1376921600,0,Spatial Transcriptomics,,yes,False
+haber2017_visiumhd_2,6034152093,0,Visium HD,spatial transcriptomics,yes,False
+rosenberg2018_splitseq,269803520,0,SplitSeq,,unknown,False
+thymus_spatial_t_st,37577082880,0,BMKMANU ST03002,,yes,False
+spitzer2023_4i,63038191050,0,4i,spatial proteomics,yes,False
+chen2022_mosta_stereoseq__E16.5_embryo1,14788255618,5,,,,True
+karaayvaz2018_singlecell_r,9390657,0,single-cell RNA-seq,,unknown,False
+single_cell_rna_2025_10x_genomics,6271098880,0,,,,False
+spatial_total_rn2022_visium,806056901,0,Visium,spatial transcriptomics,yes,False
+peiratsllobet2023_spatial_tran,1532672000,0,Spatial transcriptomics,,yes,False
+mouse_sagittal_p2025_visium,58401379,0,Visium,spatial transcriptomics,yes,False
+diffuse_large_b_2023_mibi,566449695,0,MIBI,spatial proteomics,yes,False
+barkley2022_visium,708270080,0,Visium,spatial transcriptomics,yes,False
