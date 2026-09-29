@@ -1,20 +1,22 @@
 # somics — working notes
 
 State, decisions and hard-won gotchas for this repo. Written to be picked up
-cold. Numbers are as of 2026-08-25 (state as of 2026-09-04) and move as jobs finish — re-run
-`scripts/bucket_inventory.py` rather than trusting them.
+cold. **Start at "RESUME HERE" under "Where to pick up"** (current as of
+2026-09-28). Older numbers further down are dated where they appear; re-run
+`scripts/bucket_inventory.py` rather than trusting staged-size figures.
 
 ## What this project is
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5959 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 5,964 rows, one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
    source bundles.
-3. **An ingested atlas + two UIs** — 59 datasets in Lance/zarr, browsable in a
-   3D viewer and a corpus builder. This is the hackathon output and the only
+3. **An ingested atlas + a dataset-browsing webapp** — 1,043 sections / 101.1M
+   obs rows in Lance/zarr (2026-09-22), browsable in the corpus builder webapp.
+   It grew from the hackathon's 59 sections and is the only
    part that is queryable today.
 
 Origin: a weekend hackathon (2026-08-15) by @aopisco and @conradry. Public
@@ -25,9 +27,9 @@ has been ported to it yet** — see its issue #1 for the plan.
 
 | file | grain | rows |
 |---|---|---|
-| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,708 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5959 |
-| `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 3,526 |
+| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,711 |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,964 |
+| `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 4,263 |
 | `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
 | `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
@@ -127,7 +129,7 @@ technologies: Histology/H&E 6.65 TB, CODEX/PhenoCycler 4.59 TB, Cell DIVE
   below. 175 of the 2,066 tier-2 datasets have no files indexed at all.
 - **The unattended atlas rebuild landed and verified 2026-09-02** — see "Where
   to pick up" below. Ingestion of new data is unblocked.
-- **Since 2026-09-05 the atlas has grown from 59 to 983 sections / 73.26M obs rows (breakdown 2026-09-12 below)**
+- **Since 2026-09-05 the atlas has grown from 59 to 1,043 sections / 101.13M obs rows** (983 / 73.26M before Stereo-seq; breakdown 2026-09-12 below)
   (10x Visium/HD, 10x + HuBMAP Xenium, Atera, HuBMAP MIBI and SPRM, Allen
   MERFISH/MERSCOPE, Liu 2022 MERFISH, HuBMAP seqFISH); the lineage
   of prefixes, what is running, and exactly what to launch next are under
@@ -247,76 +249,135 @@ indistinguishable from a quirk of the new data.
 
 ## Where to pick up
 
-### RESUME HERE (written 2026-09-24 ~18:00Z before a laptop restart)
+### RESUME HERE (written 2026-09-28, before an OS upgrade)
 
-**Deadline:** presentation Monday 2026-09-28; atlas + viewer ready by the
-afternoon of 2026-09-24 Pacific (memory `presentation-deadline-2026-09-28`).
+**Nothing is running.** No somics EC2 instance exists (checked 2026-09-27;
+filter on instance profile `somics-raw-staging` -- the account is shared and
+has ~30 other teams' boxes). Git is clean: **`main` is the only branch**,
+local and remote (PRs #21-#25 merged 2026-09-27, all branches deleted).
+Every EC2 script clones `SOMICS_BRANCH`, default `main`; set it only to test a
+feature branch. Work goes through short PRs so `main` stays clean.
 
-**Running on EC2 (survives the restart):** Stereo-seq follow-up
-`somics-stereoseq-2` / `i-0cc27df28692bf7cf`, prefix
-`s3://somics-dev/ingest/stereoseq/atlas/2026-09-24T13-59-18Z`, base = run 1's
-prefix. Ingests the 3 skips: E15.5 embryo 2 (**already in**, 469,925 bins),
-hippocampus cellbin (3 chips), heart (5 chips, 4 with images). Judge it by
-`_done.txt` / `_failed.txt` / `_logs/` / `_DONE`, expected ~21:00-22:00Z.
+**Current atlas = Stereo-seq run 1**, `s3://somics-dev/ingest/stereoseq/atlas/2026-09-22T19-03-01Z`:
+1,043 sections, 101,131,969 obs rows (52.8M cells, 48.1M bins, 0.2M spots),
+11 platforms, 261 studies, 355 donors, 37 tissues, 5 species (human 54.1M obs,
+mouse 45.5M; macaque/rat/zebrafish only via Visium HD). Index + 1,043 dataset
+pages at `viewer_cache/2026-09-22T19-03-01Z`; `data/atlas_pointer.json` and
+`data/corpus_index.json` point there. Breakdown by technology × species:
+`analysis/plots/atlas_composition.png` (from the index's `samples.json`; a copy
+is at `~/Documents/somics_wg_slides_src/samples_2026-09-22T19-03-01Z.json`).
 
-**Status 2026-09-25 04:35Z: the follow-up FAILED at repair; do not use its prefix.**
-E15.5 embryo 2 and heart ingested, then `repair_atlas.py` found `morphology_crop`
-unreadable under a filter on 1049 sections ("Incorrect number of nulls for
-StructArray, expected 1024 got 1140"), rewrote obs from a whole read, and the
-same error came back ("got 1183") -- so this is malformed crop data, not the
-compaction bug, and the rewrite cannot fix it. Run 1's repair passed on the same
-column; the heart package (4 chips with images) is the only new image data, so
-suspect its crops. The broken atlas was synced to `2026-09-24T13-59-18Z` (with
-`_FAILED`); instance terminated. **Run 1's prefix stays current** (viewer
-unchanged). Hippocampus stays out regardless: its GEFs carry 18 `sgrna_*`
-features (C9orf72, Trem2, Lrrk2, Tbk1...) -- an in-vivo CRISPR screen needing a
-`PerturbationAssignment`; the builder now drops its 0-count unnamed genes (the
-proximate failure) and refuses sgRNA features without a `perturbation` block.
-Next: smoke the heart package alone against a throwaway atlas and read its
-`morphology_crop` under a filter before any rerun from run 1's prefix.
+**The only UI that matters is the dataset-browsing webapp** (`/corpus/`, `web/`):
+cards with QC chips, filters, dataset panel/pages, corpus export. **Ignore the
+3D body viewer** (`viewer/`) in slides, plans and work (@aopisco, 2026-09-27;
+memory `ignore-3d-viewer`). Start it with `scripts/run_viewer_local.sh`
+(same API process), then open http://127.0.0.1:8787/corpus/. SSO credentials
+expire in ~1 h: rerun the script. The index `samples.json` has a `species`
+field that is the 3D body model (mouse/macaque -> "rat"), **not a bug**; use
+`organism`.
 
-**When a clean follow-up's `_DONE` lands, in order:**
+**Stereo-seq follow-up FAILED (2026-09-25 04:31Z); its prefix
+`ingest/stereoseq/atlas/2026-09-24T13-59-18Z` (~25 GB, `_FAILED`) is broken --
+do not use; deleting it is awaiting @aopisco's OK.** E15.5 embryo 2 and heart
+(`stereo_seq_datas_stereo_3`) ingested, then `repair_atlas.py` found
+`morphology_crop` unreadable under a filter on 1,049 sections ("Incorrect
+number of nulls for StructArray, expected 1024 got 1140"); the whole-read
+rewrite reproduced it ("got 1183"), so the crop data itself is malformed, not
+the compaction bug. Run 1's repair passed on the same column; the heart (4
+chips with images) is the only new image data -> suspect its crops. **To retry:**
+smoke the heart package alone into a throwaway atlas from the rebuild base,
+read `morphology_crop` under a filter, fix, then rerun E15.5 + heart from run
+1's prefix (~8 h incl. repair), then index + pages (steps below).
+**Hippocampus (`stereo_seq_datas2024_stereo`, GSE274447) stays out:** all 3
+cellbin GEFs carry 18 `sgrna_*` features (C9orf72, Trem2, Lrrk2, Tbk1, Gfap,
+Clu...) = an in-vivo CRISPR screen; it needs per-cell guide assignment and a
+filled `PerturbationAssignment` -- @aopisco to decide whether to ingest. The
+builder now drops 0-count unnamed genes (1,431/831 on two chips; the proximate
+failure: "" staged as a NaN feature key) and **refuses sgRNA features unless
+the spec has a `perturbation` block**.
+
+**After any clean ingest, in order:**
 1. `aws s3 cp <prefix>/_repair.txt -` must say "nothing to repair" (or rewrote).
-2. Viewer index: launch `scripts/build_viewer_cache_ec2.sh` as user-data with
-   `SOMICS_ATLAS_DIR=<prefix>` (r5.4xlarge, ~20 min) -> writes
-   `s3://somics-dev/viewer_cache/2026-09-24T13-59-18Z/{samples.json,coords/,corpus_index.json,_DONE}`.
-3. Dataset pages: `scripts/build_dataset_pages_ec2.sh` as user-data with
-   `SOMICS_ATLAS_DIR=<prefix>`, `SOMICS_SHARDS=1`,
-   `SOMICS_PAGES_SEED=s3://somics-dev/viewer_cache/2026-09-22T19-03-01Z/dataset_pages`
-   (renders only the ~9 new sections; r5.4xlarge).
-4. Laptop: set `data/atlas_pointer.json` (`atlas_dir`, `index_dir`, `updated`),
-   `aws s3 cp <viewer_cache>/corpus_index.json data/corpus_index.json`,
-   `aws s3 sync <viewer_cache>/dataset_pages/ data/dataset_pages/ --exclude "_*"`,
-   then `scripts/run_viewer_local.sh` (exports SSO creds; they expire in ~1 h).
-   Commit pointer + corpus index.
-5. Final numbers for the deck: the breakdown query in "Atlas breakdown"
-   (select technology/spatial_unit/organism/section_uid over obs; ~1 min in
-   region, longer on the laptop) on the final prefix; update that section.
+2. Index: `scripts/build_viewer_cache_ec2.sh` as user-data with
+   `SOMICS_ATLAS_DIR=<prefix>` (r5.4xlarge, ~20 min) ->
+   `s3://somics-dev/viewer_cache/<stamp>/{samples.json,coords/,corpus_index.json,_DONE}`.
+3. Dataset pages: `scripts/build_dataset_pages_ec2.sh` with `SOMICS_ATLAS_DIR`,
+   `SOMICS_SHARDS=1`, `SOMICS_PAGES_SEED=s3://somics-dev/viewer_cache/2026-09-22T19-03-01Z/dataset_pages`
+   (renders only new sections).
+4. Laptop: update `data/atlas_pointer.json`; `aws s3 cp <viewer_cache>/corpus_index.json data/`;
+   `aws s3 sync <viewer_cache>/dataset_pages/ data/dataset_pages/ --exclude "_*"`;
+   commit pointer + index (via a PR -- keep `main` clean).
 
-**State now:** the viewer on the laptop points at run 1's prefix
-(`ingest/stereoseq/atlas/2026-09-22T19-03-01Z`, 1,043 sections, 101,131,969
-obs rows, 11 platforms; 1,043 dataset pages). Run 1 added 60 Stereo-seq
-sections / ~27.9M 10 um bins. Everything is on `main`.
+**Working-group deck (presented 2026-09-28) -- done.** Spatial Omics Working
+Group update, 19 slides: `~/Documents/somics_WG_update_2026-09-28.pptx` (+ `.pdf`).
+Built from the hackathon Google-Slides export
+`~/Downloads/Somics RE_Agent Hackathon.pptx` by
+`~/Documents/somics_wg_slides_src/make_deck.py` (python-pptx; edits in place,
+drops hackathon slides, adds modality/atlas/gap/model slides; screenshots in
+`shots/`). No authors on the title slide; no 3D viewer anywhere. Rebuild:
+```
+python3 -m venv /tmp/pptxvenv && /tmp/pptxvenv/bin/pip install python-pptx pymupdf pillow
+/tmp/pptxvenv/bin/python ~/Documents/somics_wg_slides_src/make_deck.py
+```
+Preview: open the pptx in Keynote via osascript, `export d to POSIX file ... as PDF`.
+Google Slides: no connector here -- upload the pptx to Drive, "Open with
+Google Slides". Figures come from `analysis/` (all merged):
+`plot_atlas_composition.py <samples.json>`, `plot_modality_landscape.py`
+(typical resolution × plex per platform, filled = in atlas; values are
+order-of-magnitude typicals), `plot_models_by_dataset_technology.py` (top 30
+named models × dataset technology), `plot_technologies_by_model_reuse.py`
+(now literature rows only; legend double count fixed: **1,690 of 2,016
+literature datasets (84%) have no named model**),
+`plot_datasets_by_organism_modality.py`. Run with `uv run --with matplotlib`
+from `analysis/`. Screenshots: Playwright with the installed Chromium
+(`~/Library/Caches/ms-playwright/chromium-1234/...`; the pip package's default
+build is missing, pass `executable_path`).
 
-**Open question from @aopisco:** "what data do we have in the pile that we
-could stage for ingest next?" -- interrupted by the restart. `data/raw_prefixes_2026-09-24.txt` lists the
-607 staged `raw/` prefixes; sizes were not collected (read each prefix's
-`_manifest.json`: `bytes`, or the sum of `files[].bytes`). Recipe: join to `data/datasets.csv` on `dataset_id`; a row is ingested if its
-`dataset_id` is a `dataset_key` in any `specs/*/*.json` (or a HuBMAP
-Xenium/MIBI/CODEX/PhenoCycler/seqFISH row); group the rest by platform with
-sizes. Expect the literature Visium / MERFISH / CosMx / Slide-seq prefixes to
-dominate -- no literature-derived Visium or CosMx prefix has been ingested
-(only 10x, LIBD and the CosMx NSCLC base).
+**Registry numbers (2026-09-27):** 5,964 datasets (3,948 HuBMAP, 2,016
+literature); `is_spatial` yes 5,311 / unknown 457 / **blank 194** (literature
+rows from the last sweep that were never classified -- rerun
+`classify_spatial_modality.py`) / no 2. Plus 182 dissociated references and 18
+folded 10x re-releases outside the registry. `literature_datasets.csv` 2,711
+claims from ~560 papers; `model_dataset_usage.csv` 4,263 links across 1,093
+papers, 107 named models (the title-prefix heuristic also admits databases:
+SPASCER, SpatialDB, CellMap).
 
-**Also open:** shared deployment of the viewer (org-only) -- waiting on the
-login provider choice (Okta app vs Cognito invite list) and a go-ahead for the
-load balancer + DNS name; `scripts/deploy_viewer_ec2.sh` is ready.
+**What is not in the atlas (for planning; counts are spatial registry rows /
+staged):** MALDI 167/151 (all HuBMAP; needs an m/z feature space), DESI 4/4,
+LC-MS 15/0; IMC 64/24 (206 GB in `raw/`), Cell DIVE 100/8 (2.9 TB), IBEX,
+4i, CyCIF; GeoMx DSP 1,415/7 (1,362 HuBMAP; ROI-level -- in or out is a
+decision); Slide-seq 79/7, legacy ST 64/10, HuBMAP Visium-no-probes 89/0,
+HuBMAP CosMx 12/0, STARmap, ISS, osmFISH, DBiT; spatial ATAC 10/2, CUT&Tag
+4/3; HuBMAP histology 852/763 (6.65 TB) + autofluorescence 357/356 (1.58 TB) as
+tile grids; no plant/fly/worm/chicken/axolotl species.
 
+**The pile (answer to "what could we stage/ingest next", 2026-09-27):**
+`data/raw_prefix_sizes_2026-09-27.csv` = every staged `raw/` prefix with bytes
+from its `_manifest.json`, joined to the registry, `specced` = has a spec.
+605 prefixes / 3.74 TB; 148 specced; **457 unspecced / 2.32 TB**: Xenium 12
+(436 GB; vannan2023 176 GB), IMC 22 (206 GB), literature Visium 125 (153 GB),
+MERFISH 11 (44 GB), Visium HD 16 (41 GB), Slide-seqV2 6, STARmap 5; 88 have no
+registry row (55 are dissociated references; lyubetskaya2022_unknown 110 GB);
+a few are not spatial (scATAC 374 GB, snmC-seq 3 × 64 GB). Recommendation given:
+literature Visium first (builder exists), then Xenium. Check each for
+perturbations before speccing.
 
+**Incoming Atera data (private, from 10x, not public):** stage it like the
+breast sample -- one prefix per sample at
+`raw/tenx_atera_<assay>_<preservation>_<organism>_<tissue>/`, outs bundle as
+shipped + H&E + `he_alignment`/`keypoints`, and a `_manifest.json` whose
+`source_url` names where 10x delivered it plus
+`"access": "shared privately by 10x Genomics, <date>, not public"`; registry
+row with blank `download_url` and the sharing terms in `notes`. Delivery route
+decides the copy (presigned URLs -> `stage_urls_ec2.sh` promptly; their bucket
+-> cross-account grant + server-side sync; Box/Aspera -> via EC2). Existing
+Atera: breast 56.8 GiB (outs zip 43.2 GB: transcripts.zarr.zip 22.1 GB unused,
+morphology.ome.tif 14.8 GB unused, morphology_focus ch0000-0003 5.3 GB,
+cell_feature_matrix.zarr.zip 0.72 GB, cells.zarr.zip 0.23 GB; H&E OME-TIFF
+17.7 GB); cervical 39.7 MiB, side files only, not buildable.
 
-**Everything is on `main`** (PRs #21 and #22 merged 2026-09-27; both branches
-deleted). Every EC2 script clones `SOMICS_BRANCH`, default `main`; set it only
-to test a feature branch.
+**Also open:** org-only shared deployment of the webapp (login provider: Okta
+app vs Cognito invite list; `scripts/deploy_viewer_ec2.sh` is ready).
 
 ### The atlas lineage (each run stacks on the previous prefix)
 
@@ -340,7 +401,7 @@ to test a feature branch.
 | Liu 2022 MERFISH (finished 2026-09-11 02:00Z; **73.23M obs rows**) | `ingest/merfish/atlas/2026-09-10T14-01-51Z` | +2 sections as cells: kidney 111921 (212,090 cells) and liver JH 09-18-2021 (83,410), 307 genes + 78 blanks; the 12 transcript-only runs excluded |
 | seqFISH (finished 2026-09-12 ~03:30Z; 73.26M obs rows) | `ingest/seqfish/atlas/2026-09-11T22-08-59Z` | +43 FOV sections / 31,531 cells from 6 HuBMAP Cai-lab datasets (small intestine 13 FOVs, spleen 30), 46 genes, DAPI per FOV; repair clean. Runs 1-5 added nothing (three causes, all fixed; see `docs/2026-09-10_seqfish_adapter.md`). Only this prefix remains under `ingest/seqfish/` |
 | Stereo-seq run 1 (finished 2026-09-24 ~13:30Z; **101.13M obs rows**) | `ingest/stereoseq/atlas/2026-09-22T19-03-01Z` | +17 packages / 60 sections (~27.9M 10 um bins): MOSTA adult brain, olfactory bulb, 13 embryo packages (E9.5-E16.5), GEO brain GEF, Stereo-CITE thymus (RNA + 51 ADT). 3 skips, all fixed: E15.5 embryo 2 (repeated header in a gzip export), hippocampus cellbin (duplicate gene symbol), heart (one chip's image cannot be placed -> expression-only). Repair clean |
-| **Stereo-seq follow-up (launched 2026-09-24 13:59Z, `somics-stereoseq-2`, `i-0cc27df28692bf7cf`)** | `ingest/stereoseq/atlas/2026-09-24T13-*` | the 3 skips (E15.5 embryo 2, hippocampus 3 chips, heart 5 chips with 4 images) |
+| Stereo-seq follow-up (**FAILED** 2026-09-25 04:31Z at repair; instance terminated) | `ingest/stereoseq/atlas/2026-09-24T13-59-18Z` (broken, `_FAILED`; do not use) | E15.5 embryo 2 + heart ingested, then malformed `morphology_crop` (heart suspected); hippocampus refused as a CRISPR screen. See RESUME HERE |
 
 **The newest `ingest/*/atlas/<stamp>/` prefix with a `_DONE` marker is the
 current atlas.** Every prefix carries `_done.txt`, `_failed.txt` (dataset,
@@ -372,7 +433,7 @@ never by the instance.
 Top tissues by section: brain 321, uterus 211 (MIBI), basal ganglion 95, small
 intestine 68, lung 53, spleen 53, large intestine 38, lymph node 28.
 
-### Exactly what to launch next, in order (each waits for the previous `_DONE`)
+### Launch pattern and the September run log (steps 1-3 below are done; kept for the recipe)
 
 Wrapper user-data pattern (all three ingest scripts take it):
 
@@ -557,7 +618,7 @@ layout before it touched the production line; delete their prefixes after.
 
 ### Registry state
 
-`data/datasets.csv` is 5,763 rows. 18 10x re-releases folded
+`data/datasets.csv` is 5,964 rows (2026-09-27). 18 10x re-releases folded
 (`data/tenx_rereleased_rows.csv`); 10x Visium/Xenium rows carry
 `data_downloadable` verdicts; 16 Visium rows in
 `data/tenx_visium_rows_needing_review.csv`. Atera: breast staged (bundle +
@@ -565,7 +626,7 @@ H&E + artifacts), cervical has no bundle and a mislinked H&E. Not yet done:
 an `in_atlas` column; the 172 MIBI DeepCell+SPRM re-processings marked as
 duplicates of ingested sections.
 
-### Numbers to expect when everything lands
+### Numbers to expect when everything lands (historical, 2026-09-04 estimate; superseded)
 
 ~540 sections, ~50M obs rows: 20.3M Visium HD bins, ~19M Xenium cells
 (incl. ~7.5M from 18-20 HuBMAP small-intestine sections at 5K genes), ~8M
@@ -769,7 +830,7 @@ key pair. CZI treats an exposed port 22 as a security risk.
 | `scripts/backfill_hubmap_dataset_type.py` | recover technology the portal TSV writes as N/A |
 | `scripts/copy_atlas_to_s3.py` | mirror the atlas R2 → S3 |
 | `scripts/render_report_pdf.py` | markdown + figures → PDF via Playwright |
-| `analysis/*.py` | the four report figures |
+| `analysis/*.py` | registry, model-usage, atlas-composition and modality-landscape figures (report + WG deck); `analysis/README.md` |
 
 ## Open issues
 
