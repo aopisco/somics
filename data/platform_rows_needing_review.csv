@@ -63,3 +63,4 @@ chen2020_spatial_tran_3,spatial transcriptomics and in situ sequencing,Mouse,bra
 joglekar2021_spatial_tran_2,spatial transcriptomics and long-read sequencing,Mouse,brain,,
 human_tonsil_and_iss,timsTOF Pro2 / timsTOF SCP mass spectrometry coupled with laser microdissection (Deep Visual Proteomics),human,tonsil and skin,,
 visel2007_transgenic_m,transgenic mice / lacZ,human and mouse,,,https://doi.org/10.1093/nar/gkl822
+formalin_fixed_p2026_st,timsTOF FleX M2 / timsTOF FleX / Phenocyler Fusion 2.0,human,colorectal cancer tissue,,https://doi.org/10.64898/2026.08.21.746293
