@@ -224,7 +224,7 @@ def harmonize_sample(spec: dict, package: str, sample: str, dry_run: bool) -> No
             reason="NCBITaxon canonical name",
         ),
         AddColumn(
-            column="tissue", value=spec["tissue"], tool="resolve_tissues", reason="UBERON label"
+            column="tissue", value=entry.get("tissue") or spec["tissue"], tool="resolve_tissues", reason="UBERON label"
         ),
         AddColumn(
             column="disease_state",

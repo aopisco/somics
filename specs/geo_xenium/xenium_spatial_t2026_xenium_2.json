@@ -1,0 +1,94 @@
+{
+  "dataset_key": "xenium_spatial_t2026_xenium_2",
+  "study": "GSE335552",
+  "study_name": "Colorectal liver metastases and adjacent normal liver, Xenium before IMC (2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "liver",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE335552",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 17583468923,
+    "n_samples": 3
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE335552_M242": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "colorectal cancer liver metastasis",
+      "description": "CRLM patient M242 (GEO GSE335552)."
+    },
+    "GSE335552_M131": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "colorectal cancer liver metastasis",
+      "description": "CRLM patient M131 (GEO GSE335552)."
+    }
+  },
+  "samples": {
+    "GSM9815454": {
+      "section_id": "GSE335552_tumor1_M242T",
+      "donor_id": "GSE335552_M242",
+      "sample_name": "tumor1_M242T",
+      "disease_state": "diseased",
+      "disease": "colorectal carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815454/suppl/GSM9815454_tumor1_M242T_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815454/suppl/GSM9815454_tumor1_M242T_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815454/suppl/GSM9815454_tumor1_M242T_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9815455": {
+      "section_id": "GSE335552_tumor2_M131T",
+      "donor_id": "GSE335552_M131",
+      "sample_name": "tumor2_M131T",
+      "disease_state": "diseased",
+      "disease": "colorectal carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815455/suppl/GSM9815455_tumor2_M131T_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815455/suppl/GSM9815455_tumor2_M131T_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815455/suppl/GSM9815455_tumor2_M131T_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9815457": {
+      "section_id": "GSE335552_AdjNormal_M131N",
+      "donor_id": "GSE335552_M131",
+      "sample_name": "AdjNormal_M131N",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815457/suppl/GSM9815457_AdjNormal_M131N_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815457/suppl/GSM9815457_AdjNormal_M131N_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815457/suppl/GSM9815457_AdjNormal_M131N_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

@@ -96,7 +96,7 @@ def write_registries(
                 "donor_id": entry["donor_id"],
                 "donor_uid_DonorSchema_join": entry["donor_id"],
                 "block_id": entry.get("block_id"),
-                "tissue": spec["tissue"],
+                "tissue": entry.get("tissue") or spec["tissue"],  # one series can span sites
                 "disease_state": entry["disease_state"],
                 "disease": entry.get("disease"),
                 "preservation": spec["preservation"],
@@ -167,11 +167,16 @@ def write_dataset_registry(spec: dict, geometry: list[dict], staging: str) -> No
                 "download_url": spec["download_url"].format(sample=g["sample"]),
                 "panel_name": spec["panel"].get("panel_name") or g.get("panel_name"),
                 "dataset_description": (
-                    f"{spec['tissue']} section, {spec['preservation'].upper()}. "
+                    f"{spec['samples'][g['sample']].get('tissue') or spec['tissue']} section, {spec['preservation'].upper()}. "
                     f"{g['n_cells']} cells, {g['n_genes_panel']} panel genes of "
-                    f"{g['n_features']} feature-axis entries. Xenium Onboard Analysis "
-                    f"{g['analysis_sw_version']}, run {g['run_name']} started "
-                    f"{g['run_start_time']}, {g['pixel_size_um']} um per pixel, median "
+                    f"{g['n_features']} feature-axis entries. "
+                    + (
+                        f"Xenium Onboard Analysis {g['analysis_sw_version']}, run {g['run_name']} "
+                        f"started {g['run_start_time']}, "
+                        if g.get("analysis_sw_version")
+                        else "Deposited without experiment.xenium (run metadata not available), "
+                    )
+                    + f"{g['pixel_size_um']} um per pixel, median "
                     f"{g['median_transcripts_per_cell']} transcripts per cell."
                 ),
             }

@@ -1,0 +1,128 @@
+{
+  "dataset_key": "xenium2026_xenium",
+  "study": "GSE342289",
+  "study_name": "Human amygdala from neurotypical donors, Xenium (2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "amygdala",
+  "preservation": "unknown",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE342289",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 113404908084,
+    "n_samples": 4
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE342289_Br9206": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Neurotypical brain donor Br9206 (GEO GSE342289); age and sex not in the record."
+    },
+    "GSE342289_Br9017": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Neurotypical brain donor Br9017 (GEO GSE342289); age and sex not in the record."
+    },
+    "GSE342289_Br9192": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Neurotypical brain donor Br9192 (GEO GSE342289); age and sex not in the record."
+    },
+    "GSE342289_Br9280": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Neurotypical brain donor Br9280 (GEO GSE342289); age and sex not in the record."
+    }
+  },
+  "samples": {
+    "GSM9927390": {
+      "section_id": "GSE342289_Br9206",
+      "donor_id": "GSE342289_Br9206",
+      "sample_name": "Br9206",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927390/suppl/GSM9927390_Br9206-cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927390/suppl/GSM9927390_Br9206-cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927390/suppl/GSM9927390_Br9206-morphology.ome.tif.gz"
+      }
+    },
+    "GSM9927391": {
+      "section_id": "GSE342289_Br9017",
+      "donor_id": "GSE342289_Br9017",
+      "sample_name": "Br9017",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927391/suppl/GSM9927391_Br9017-cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927391/suppl/GSM9927391_Br9017-cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927391/suppl/GSM9927391_Br9017-morphology.ome.tif.gz"
+      }
+    },
+    "GSM9927392": {
+      "section_id": "GSE342289_Br9192",
+      "donor_id": "GSE342289_Br9192",
+      "sample_name": "Br9192",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927392/suppl/GSM9927392_Br9192-cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927392/suppl/GSM9927392_Br9192-cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927392/suppl/GSM9927392_Br9192-morphology.ome.tif.gz"
+      }
+    },
+    "GSM9927393": {
+      "section_id": "GSE342289_Br9280",
+      "donor_id": "GSE342289_Br9280",
+      "sample_name": "Br9280",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927393/suppl/GSM9927393_Br9280-cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927393/suppl/GSM9927393_Br9280-cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9927nnn/GSM9927393/suppl/GSM9927393_Br9280-morphology.ome.tif.gz"
+      }
+    }
+  }
+}

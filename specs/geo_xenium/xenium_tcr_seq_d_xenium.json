@@ -1,0 +1,391 @@
+{
+  "dataset_key": "xenium_tcr_seq_d_xenium",
+  "study": "GSE300147",
+  "study_name": "Head and neck squamous cell carcinoma with TCR CDR3 probes, Xenium V1 (2025)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "oropharynx",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE300147",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 47285967833,
+    "n_samples": 18
+  },
+  "panel": {
+    "panel_name": "Xenium Human Multi-Tissue and Cancer Panel plus 100 custom genes (TCR CDR3, HPV)",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "GSE300147_Patient1": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 1 (GEO GSE300147): p16 Positive, recurrent tumor, 50 pack years."
+    },
+    "GSE300147_Patient9": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 9 (GEO GSE300147): p16 Positive, primary tumor, 10 pack years."
+    },
+    "GSE300147_Patient12": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 12 (GEO GSE300147): p16 Positive, primary tumor, 44 pack years."
+    },
+    "GSE300147_Patient13": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 13 (GEO GSE300147): p16 Positive, recurrent tumor, 0 pack years."
+    },
+    "GSE300147_Patient15": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 15 (GEO GSE300147): p16 N/A, primary tumor, 0 pack years."
+    },
+    "GSE300147_Patient17": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 17 (GEO GSE300147): p16 N/A, primary tumor, 40 pack years."
+    },
+    "GSE300147_Patient19": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 19 (GEO GSE300147): p16 N/A, primary tumor, 80 pack years."
+    },
+    "GSE300147_Patient20": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 20 (GEO GSE300147): p16 Negative, primary tumor, 42 pack years."
+    },
+    "GSE300147_Patient23": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 23 (GEO GSE300147): p16 N/A, primary tumor, 45 pack years."
+    },
+    "GSE300147_Patient28": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "head and neck squamous cell carcinoma",
+      "description": "Patient 28 (GEO GSE300147): p16 Positive, recurrent tumor, 0 pack years."
+    },
+    "GSE300147_Patient10": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "ameloblastoma",
+      "description": "Patient 10 (GEO GSE300147): p16 N/A, primary tumor, NA pack years."
+    }
+  },
+  "samples": {
+    "GSM9054471": {
+      "section_id": "GSE300147_Nov_21_24_230322",
+      "donor_id": "GSE300147_Patient1",
+      "sample_name": "Patient 1, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054471/suppl/GSM9054471_Nov_21_24_230322_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054471/suppl/GSM9054471_Nov_21_24_230322_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054471/suppl/GSM9054471_Nov_21_24_230322_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054472": {
+      "section_id": "GSE300147_Apr_13_24_230913",
+      "donor_id": "GSE300147_Patient9",
+      "sample_name": "Patient 9, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054472/suppl/GSM9054472_Apr_13_24_230913_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054472/suppl/GSM9054472_Apr_13_24_230913_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054472/suppl/GSM9054472_Apr_13_24_230913_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054473": {
+      "section_id": "GSE300147_May_6_24_2309132",
+      "donor_id": "GSE300147_Patient9",
+      "sample_name": "Patient 9, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054473/suppl/GSM9054473_May_6_24_2309132_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054473/suppl/GSM9054473_May_6_24_2309132_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054473/suppl/GSM9054473_May_6_24_2309132_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054474": {
+      "section_id": "GSE300147_Sept_11_24_231004B2",
+      "donor_id": "GSE300147_Patient12",
+      "sample_name": "Patient 12, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054474/suppl/GSM9054474_Sept_11_24_231004B2_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054474/suppl/GSM9054474_Sept_11_24_231004B2_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054474/suppl/GSM9054474_Sept_11_24_231004B2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054475": {
+      "section_id": "GSE300147_Nov_21_24_231004B",
+      "donor_id": "GSE300147_Patient12",
+      "sample_name": "Patient 12, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054475/suppl/GSM9054475_Nov_21_24_231004B_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054475/suppl/GSM9054475_Nov_21_24_231004B_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054475/suppl/GSM9054475_Nov_21_24_231004B_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054476": {
+      "section_id": "GSE300147_Apr_13_24_231101",
+      "donor_id": "GSE300147_Patient13",
+      "sample_name": "Patient 13, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054476/suppl/GSM9054476_Apr_13_24_231101_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054476/suppl/GSM9054476_Apr_13_24_231101_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054476/suppl/GSM9054476_Apr_13_24_231101_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054477": {
+      "section_id": "GSE300147_May_6_24_231101",
+      "donor_id": "GSE300147_Patient13",
+      "sample_name": "Patient 13, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054477/suppl/GSM9054477_May_6_24_231101_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054477/suppl/GSM9054477_May_6_24_231101_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054477/suppl/GSM9054477_May_6_24_231101_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054478": {
+      "section_id": "GSE300147_Sept_11_24_231110",
+      "donor_id": "GSE300147_Patient15",
+      "sample_name": "Patient 15, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oral cavity",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054478/suppl/GSM9054478_Sept_11_24_231110_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054478/suppl/GSM9054478_Sept_11_24_231110_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054478/suppl/GSM9054478_Sept_11_24_231110_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054479": {
+      "section_id": "GSE300147_Apr_13_24_231120",
+      "donor_id": "GSE300147_Patient17",
+      "sample_name": "Patient 17, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oral cavity",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054479/suppl/GSM9054479_Apr_13_24_231120_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054479/suppl/GSM9054479_Apr_13_24_231120_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054479/suppl/GSM9054479_Apr_13_24_231120_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054480": {
+      "section_id": "GSE300147_May_6_24_231120",
+      "donor_id": "GSE300147_Patient17",
+      "sample_name": "Patient 17, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oral cavity",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054480/suppl/GSM9054480_May_6_24_231120_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054480/suppl/GSM9054480_May_6_24_231120_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054480/suppl/GSM9054480_May_6_24_231120_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054481": {
+      "section_id": "GSE300147_Sept_11_24_240103",
+      "donor_id": "GSE300147_Patient19",
+      "sample_name": "Patient 19, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "larynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054481/suppl/GSM9054481_Sept_11_24_240103_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054481/suppl/GSM9054481_Sept_11_24_240103_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054481/suppl/GSM9054481_Sept_11_24_240103_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054482": {
+      "section_id": "GSE300147_Nov_21_24_240103",
+      "donor_id": "GSE300147_Patient19",
+      "sample_name": "Patient 19, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "larynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054482/suppl/GSM9054482_Nov_21_24_240103_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054482/suppl/GSM9054482_Nov_21_24_240103_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054482/suppl/GSM9054482_Nov_21_24_240103_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054483": {
+      "section_id": "GSE300147_Sept_11_24_240109",
+      "donor_id": "GSE300147_Patient20",
+      "sample_name": "Patient 20, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "hypopharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054483/suppl/GSM9054483_Sept_11_24_240109_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054483/suppl/GSM9054483_Sept_11_24_240109_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054483/suppl/GSM9054483_Sept_11_24_240109_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054484": {
+      "section_id": "GSE300147_Nov_21_24_240109",
+      "donor_id": "GSE300147_Patient20",
+      "sample_name": "Patient 20, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "hypopharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054484/suppl/GSM9054484_Nov_21_24_240109_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054484/suppl/GSM9054484_Nov_21_24_240109_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054484/suppl/GSM9054484_Nov_21_24_240109_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054485": {
+      "section_id": "GSE300147_Nov_21_24_240228",
+      "donor_id": "GSE300147_Patient23",
+      "sample_name": "Patient 23, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oral cavity",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054485/suppl/GSM9054485_Nov_21_24_240228_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054485/suppl/GSM9054485_Nov_21_24_240228_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054485/suppl/GSM9054485_Nov_21_24_240228_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054486": {
+      "section_id": "GSE300147_Sept_11_24_240501",
+      "donor_id": "GSE300147_Patient28",
+      "sample_name": "Patient 28, run 1",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054486/suppl/GSM9054486_Sept_11_24_240501_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054486/suppl/GSM9054486_Sept_11_24_240501_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054486/suppl/GSM9054486_Sept_11_24_240501_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054487": {
+      "section_id": "GSE300147_Nov_21_24_240501",
+      "donor_id": "GSE300147_Patient28",
+      "sample_name": "Patient 28, run 2",
+      "disease_state": "diseased",
+      "disease": "head and neck squamous cell carcinoma",
+      "tissue": "oropharynx",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054487/suppl/GSM9054487_Nov_21_24_240501_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054487/suppl/GSM9054487_Nov_21_24_240501_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054487/suppl/GSM9054487_Nov_21_24_240501_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9054488": {
+      "section_id": "GSE300147_Sept_11_24_230925",
+      "donor_id": "GSE300147_Patient10",
+      "sample_name": "Patient 10, run 1",
+      "disease_state": "diseased",
+      "disease": "ameloblastoma",
+      "tissue": "oral cavity",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054488/suppl/GSM9054488_Sept_11_24_230925_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054488/suppl/GSM9054488_Sept_11_24_230925_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9054nnn/GSM9054488/suppl/GSM9054488_Sept_11_24_230925_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

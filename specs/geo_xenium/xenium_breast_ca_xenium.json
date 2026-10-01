@@ -1,0 +1,77 @@
+{
+  "dataset_key": "xenium_breast_ca_xenium",
+  "study": "GSE286964",
+  "study_name": "Non-cancerous human skin, melanocyte subpopulations, Xenium (2025)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "skin of body",
+  "preservation": "unknown",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE286964",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 55391187906,
+    "n_samples": 2
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE286964_donor": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": 63.0,
+      "age_unit": "year",
+      "life_stage": "late_adult",
+      "human_development_stage": "63-year-old stage",
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "63-year-old male skin donor (GEO GSE286964, both blocks)."
+    }
+  },
+  "samples": {
+    "GSM8734926": {
+      "section_id": "GSE286964_0036448",
+      "donor_id": "GSE286964_donor",
+      "sample_name": "Block_23-51283D1_001",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734926/suppl/GSM8734926_0036448_morphology.ome.tif.gz"
+      }
+    },
+    "GSM8734927": {
+      "section_id": "GSE286964_0036996",
+      "donor_id": "GSE286964_donor",
+      "sample_name": "Block_23-51283D1_002",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8734nnn/GSM8734927/suppl/GSM8734927_0036996_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

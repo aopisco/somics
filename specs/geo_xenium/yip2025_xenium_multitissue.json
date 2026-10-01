@@ -1,0 +1,60 @@
+{
+  "dataset_key": "yip2025_xenium_multitissue",
+  "study": "GSE299193",
+  "study_name": "Human bone marrow trephine, Xenium multi-tissue panel (Yip et al. 2025)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "nucleus_expansion",
+  "organism": "Homo sapiens",
+  "tissue": "bone marrow",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE299193",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 1510780494,
+    "n_samples": 1
+  },
+  "panel": {
+    "panel_name": "Xenium Human Multi-Tissue and Cancer Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE299193_RM": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor RM (GEO GSE299193), condition RM."
+    }
+  },
+  "samples": {
+    "GSM9035044": {
+      "section_id": "GSE299193_RM",
+      "donor_id": "GSE299193_RM",
+      "sample_name": "Human bone marrow trephine of relapse myeloma sample - Rep 1",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035044/suppl/GSM9035044_RM_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035044/suppl/GSM9035044_RM_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035044/suppl/GSM9035044_RM_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035044/suppl/GSM9035044_RM_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

@@ -102,6 +102,15 @@ FILE_DESTS = {
     "metrics": "metrics_summary.csv",
     "zstack": "morphology.ome.tiff",
     "focus": "morphology_focus.ome.tif",
+    # GEO deposits: per-sample files, mostly gzipped, sometimes the older
+    # cells.csv.gz + Matrix Market layout, sometimes the whole outs directory as
+    # one tarball. materialize_deposit() turns all of them into the layout above.
+    "cells_csv": "cells.csv.gz",
+    "matrix_mtx": "cell_feature_matrix/matrix.mtx.gz",
+    "barcodes": "cell_feature_matrix/barcodes.tsv.gz",
+    "features": "cell_feature_matrix/features.tsv.gz",
+    "outs_tar": "outs.tar.gz",
+    **{f"focus_{i}": f"morphology_focus/morphology_focus_{i:04d}.ome.tif" for i in range(8)},
 }
 
 
@@ -110,13 +119,135 @@ def sources_for(spec: dict, sample: str) -> list[tuple[str, str]]:
 
     A 10x bundle is one outs zip (the runner extracts the members). A HuBMAP
     submission lists the bundle's files individually under ``files`` -- S3 URIs
-    the runner copies straight to the names in ``FILE_DESTS``.
+    the runner copies straight to the names in ``FILE_DESTS``. A GEO deposit
+    does the same with https URLs; a gzipped source keeps its ``.gz`` on disk
+    and is decompressed by the builder, so the runner stays a plain fetcher.
     """
     files = spec["samples"][sample].get("files")
     if files:
-        return [(uri, FILE_DESTS[k]) for k, uri in files.items() if k in FILE_DESTS]
+        pairs = []
+        for k, uri in files.items():
+            if k not in FILE_DESTS:
+                continue
+            dest = FILE_DESTS[k]
+            if uri.endswith(".gz") and not dest.endswith(".gz"):
+                dest += ".gz"
+            pairs.append((uri, dest))
+        return pairs
     url = spec["download_url"].format(sample=sample)
     return [(url, f"{sample}_outs.zip")]
+
+
+# What a deposit's outs tarball is opened for: the members the builder reads,
+# in any of the layouts Onboard Analysis has written (1.x wrote cells.csv.gz
+# and a Matrix Market directory; transcripts and boundaries are never needed).
+TAR_MEMBERS = re.compile(
+    r"(?:^|/)(cells\.parquet|cells\.csv\.gz|cell_feature_matrix\.h5|experiment\.xenium|"
+    r"metrics_summary\.csv|gene_panel\.json|morphology_focus\.ome\.tif|morphology_mip\.ome\.tif|"
+    r"morphology\.ome\.tif|morphology_focus/[^/]+\.ome\.tif|"
+    r"cell_feature_matrix/(?:matrix\.mtx|barcodes\.tsv|features\.tsv)\.gz)$"
+)
+
+
+def _gunzip(path: str) -> str:
+    import gzip
+
+    out = path[: -len(".gz")]
+    if not os.path.exists(out):
+        with gzip.open(path, "rb") as fin, open(out + ".part", "wb") as fout:
+            shutil.copyfileobj(fin, fout, length=1 << 24)
+        os.replace(out + ".part", out)
+    os.remove(path)
+    return out
+
+
+def materialize_deposit(src: str) -> None:
+    """Bring a GEO-style deposit into the outs layout the builder reads.
+
+    Idempotent: each step runs only when its product is absent. Decompressed
+    sources are deleted as they go, since a z-stack can be 30 GB compressed.
+    """
+    import tarfile
+
+    tar = os.path.join(src, "outs.tar.gz")
+    if os.path.exists(tar):
+        # Streamed: a gzipped tar cannot seek, and one pass is all it needs.
+        with tarfile.open(tar, "r|gz") as archive:
+            for member in archive:
+                m = TAR_MEMBERS.search(member.name)
+                if not member.isfile() or not m:
+                    continue
+                dest = os.path.join(src, m.group(1))
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                with archive.extractfile(member) as fin, open(dest, "wb") as fout:
+                    shutil.copyfileobj(fin, fout, length=1 << 24)
+        os.remove(tar)
+
+    # Plain gzip wrappers GEO puts around files the builder reads uncompressed.
+    for root, _dirs, names in os.walk(src):
+        for name in names:
+            if name.endswith(".gz") and name not in (
+                "cells.csv.gz", "matrix.mtx.gz", "barcodes.tsv.gz", "features.tsv.gz"
+            ):
+                _gunzip(os.path.join(root, name))
+
+    cells_csv = os.path.join(src, "cells.csv.gz")
+    cells_parquet = os.path.join(src, "cells.parquet")
+    if os.path.exists(cells_csv) and not os.path.exists(cells_parquet):
+        cells = pd.read_csv(cells_csv, dtype={"cell_id": str})
+        cells.to_parquet(cells_parquet, index=False)
+
+    mtx_dir = os.path.join(src, "cell_feature_matrix")
+    h5_path = os.path.join(src, "cell_feature_matrix.h5")
+    if os.path.exists(os.path.join(mtx_dir, "matrix.mtx.gz")) and not os.path.exists(h5_path):
+        write_h5_from_mtx(mtx_dir, h5_path)
+
+
+def write_h5_from_mtx(mtx_dir: str, h5_path: str) -> None:
+    """A 10x Matrix Market directory as the HDF5 layout ``read_h5_features`` reads.
+
+    Matrix Market from 10x is features x cells; stored CSC, that is exactly the
+    10x h5's data/indices/indptr (indices are feature rows, indptr walks cells),
+    so the barcode order -- which the builder checks against cells.parquet --
+    is the file's own and nothing is reordered.
+    """
+    import scipy.io
+    import scipy.sparse as sp
+
+    matrix = sp.csc_matrix(scipy.io.mmread(os.path.join(mtx_dir, "matrix.mtx.gz"), spmatrix=False))
+    barcodes = pd.read_csv(os.path.join(mtx_dir, "barcodes.tsv.gz"), sep="\t", header=None, dtype=str)[0]
+    features = pd.read_csv(os.path.join(mtx_dir, "features.tsv.gz"), sep="\t", header=None, dtype=str)
+    if matrix.shape != (len(features), len(barcodes)):
+        raise ValueError(
+            f"{mtx_dir}: matrix is {matrix.shape}, features x barcodes is "
+            f"({len(features)}, {len(barcodes)})"
+        )
+    feature_type = features[2] if features.shape[1] > 2 else pd.Series(["Gene Expression"] * len(features))
+    with h5py.File(h5_path + ".part", "w") as handle:
+        group = handle.create_group("matrix")
+        group.create_dataset("barcodes", data=barcodes.to_numpy().astype("S"))
+        group.create_dataset("data", data=matrix.data.astype(np.int32))
+        group.create_dataset("indices", data=matrix.indices.astype(np.int64))
+        group.create_dataset("indptr", data=matrix.indptr.astype(np.int64))
+        group.create_dataset("shape", data=np.array(matrix.shape, dtype=np.int32))
+        feats = group.create_group("features")
+        feats.create_dataset("id", data=features[0].to_numpy().astype("S"))
+        feats.create_dataset("name", data=features[1].to_numpy().astype("S"))
+        feats.create_dataset("feature_type", data=feature_type.to_numpy().astype("S"))
+        feats.create_dataset("genome", data=np.array([b"Unknown"] * len(features)))
+        feats.create_dataset("_all_tag_keys", data=np.array([b"genome"]))
+    os.replace(h5_path + ".part", h5_path)
+
+
+def ome_pixel_size(path: str) -> float | None:
+    """PhysicalSizeX (um) from an image's OME-XML, when it states one in microns."""
+    with tifffile.TiffFile(path) as tif:
+        xml = tif.ome_metadata or ""
+    m = re.search(r'PhysicalSizeX="([0-9.eE+-]+)"', xml)
+    unit = re.search(r'PhysicalSizeXUnit="([^"]+)"', xml)
+    if not m or (unit and unit.group(1) not in ("µm", "um", "micron", "µm")):
+        return None
+    return float(m.group(1))
 
 
 def find_json_key(obj, key: str):
@@ -378,10 +509,8 @@ def stream_max_projection(path: str, out: str) -> None:
         dtype = tif.pages[0].dtype
     views = [zarr.open(tifffile.imread(path, key=z, aszarr=True), mode="r") for z in range(n_pages)]
     print(
-        print(
-            f"  max-projecting {n_pages} z planes ({height}, {width}) {dtype} "
-            "-> morphology_focus.ome.tif"
-        )
+        f"  max-projecting {n_pages} z planes ({height}, {width}) {dtype} "
+        "-> morphology_focus.ome.tif"
     )
 
     def tiles():
@@ -468,7 +597,7 @@ def focus_image(src: str, out_dir: str) -> tuple[str, list[str] | None]:
 
 
 # Informational members a submission may leave out without the package suffering.
-OPTIONAL_PASSTHROUGH = {"metrics_summary.csv"}
+OPTIONAL_PASSTHROUGH = {"metrics_summary.csv", "experiment.xenium"}  # GEO deposits often omit both
 
 # The feature axis is one panel plus its controls; only these are real genes.
 GENE_FEATURE_TYPE = "Gene Expression"
@@ -516,10 +645,16 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     print(f"{sample}:")
     os.makedirs(out_dir, exist_ok=True)
 
+    materialize_deposit(src)
     materialize_zarr_bundle(src)
-    with open(os.path.join(src, "experiment.xenium")) as handle:
-        experiment = json.load(handle)
-    pixel_size = float(experiment["pixel_size"])
+    # GEO deposits rarely include experiment.xenium. Its one load-bearing value
+    # is the pixel size, which the morphology image's OME-XML also states (or
+    # the spec does); the run fields it would add are recorded as not deposited.
+    experiment_path = os.path.join(src, "experiment.xenium")
+    experiment = {}
+    if os.path.exists(experiment_path):
+        with open(experiment_path) as handle:
+            experiment = json.load(handle)
 
     cells = pq.read_table(os.path.join(src, "cells.parquet")).to_pandas()
     cells["cell_id"] = cells["cell_id"].astype(str)
@@ -551,6 +686,21 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
     with tifffile.TiffFile(image) as tif:
         level = tif.series[0].levels[0]
         height, width = (int(d) for d in level.shape[:2])
+    if "pixel_size" in experiment:
+        pixel_size = float(experiment["pixel_size"])
+    elif spec.get("pixel_size_um"):
+        pixel_size = float(spec["pixel_size_um"])
+    else:
+        # The projection written above carries no OME-XML; the source does.
+        candidates = [os.path.join(src, n) for n in ("morphology_focus.ome.tif", "morphology_mip.ome.tif",
+                                                      "morphology.ome.tif", "morphology.ome.tiff")]
+        folder = os.path.join(src, "morphology_focus")
+        if os.path.isdir(folder):
+            candidates += sorted(os.path.join(folder, f) for f in os.listdir(folder))
+        pixel_size = next((p for p in (ome_pixel_size(c) for c in candidates if os.path.exists(c)) if p), None)
+        if pixel_size is None:
+            raise ValueError(f"{sample}: no experiment.xenium, no pixel_size_um in the spec, no OME PhysicalSizeX")
+        print(f"  pixel size {pixel_size} um from the morphology image's OME-XML (no experiment.xenium)")
 
     # gene_panel.json describes one panel design: payload.panel.identity.name,
     # with type.descriptor 'predesigned' or 'add_on'. On an add-on run it is the
@@ -570,7 +720,9 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         name = identity.get("name") if isinstance(identity, dict) else None
         if name:
             bundle_panel_name = f"{name} ({descriptor})" if descriptor else name
-    panel = panel or bundle_panel_name
+    # Many GEO deposits name no panel at all (no gene_panel.json, nothing in the
+    # record): a study-scoped name with the gene count is honest and still joins.
+    panel = panel or bundle_panel_name or f"Xenium panel of {int(is_gene.sum())} genes ({study})"
 
     x_px = cells.x_centroid.to_numpy() / pixel_size
     y_px = cells.y_centroid.to_numpy() / pixel_size
@@ -692,11 +844,13 @@ def build_sample(sample: str, spec: dict, study: str, panel: str, src: str, out_
         "height_px": height,
         "width_px": width,
         "median_transcripts_per_cell": int(np.median(cells.transcript_counts)),
-        "run_name": experiment["run_name"],
-        "run_start_time": experiment["run_start_time"],
-        "analysis_sw_version": experiment["analysis_sw_version"],
-        "panel_num_targets_predesigned": experiment["panel_num_targets_predesigned"],
-        "panel_num_targets_custom": experiment["panel_num_targets_custom"],
+        "run_name": experiment.get("run_name"),
+        "run_start_time": experiment.get("run_start_time"),
+        "analysis_sw_version": experiment.get("analysis_sw_version"),
+        # Without experiment.xenium the predesigned / custom split is unknown;
+        # the gene axis itself is the panel's size.
+        "panel_num_targets_predesigned": experiment.get("panel_num_targets_predesigned", int(is_gene.sum())),
+        "panel_num_targets_custom": experiment.get("panel_num_targets_custom", 0),
         "disease_state": spec["disease_state"],
         "disease": spec["disease"],
     }

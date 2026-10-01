@@ -1,0 +1,62 @@
+{
+  "dataset_key": "human_kidney_iga2024_xenium",
+  "study": "GSE264334",
+  "study_name": "Human IgA nephropathy renal biopsy, Xenium (TopACT, Benjamin et al. 2024)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "kidney",
+  "preservation": "unknown",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE264334",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 1344976195,
+    "n_samples": 1
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE264334_IgAN": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "IgA nephropathy",
+      "description": "IgA nephropathy renal biopsy donor (GEO GSE264334); no age or sex recorded."
+    }
+  },
+  "samples": {
+    "GSM8216268": {
+      "section_id": "GSE264334_IgAN_Xenium",
+      "donor_id": "GSE264334_IgAN",
+      "sample_name": "IgAN, Xenium",
+      "disease_state": "diseased",
+      "disease": "IgA nephropathy",
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM8216nnn/GSM8216268/suppl/GSM8216268_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

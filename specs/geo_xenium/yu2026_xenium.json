@@ -1,0 +1,151 @@
+{
+  "dataset_key": "yu2026_xenium",
+  "study": "GSE326226",
+  "study_name": "Muscle-invasive bladder cancer, Xenium 5K (Yu et al. 2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "urinary bladder",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE326226",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 6544406025,
+    "n_samples": 5
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Human Pan Tissue and Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE326226_A1R2": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "muscle-invasive bladder carcinoma",
+      "description": "Source of MIBC region A1R2 (GEO GSE326226). GEO does not say which patient each region came from, so donor is per region."
+    },
+    "GSE326226_A1R4": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "muscle-invasive bladder carcinoma",
+      "description": "Source of MIBC region A1R4 (GEO GSE326226). GEO does not say which patient each region came from, so donor is per region."
+    },
+    "GSE326226_A1R5": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "muscle-invasive bladder carcinoma",
+      "description": "Source of MIBC region A1R5 (GEO GSE326226). GEO does not say which patient each region came from, so donor is per region."
+    },
+    "GSE326226_A1R6": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "muscle-invasive bladder carcinoma",
+      "description": "Source of MIBC region A1R6 (GEO GSE326226). GEO does not say which patient each region came from, so donor is per region."
+    },
+    "GSE326226_A2R2": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "muscle-invasive bladder carcinoma",
+      "description": "Source of MIBC region A2R2 (GEO GSE326226). GEO does not say which patient each region came from, so donor is per region."
+    }
+  },
+  "samples": {
+    "GSM9625559": {
+      "section_id": "GSE326226_A1R2",
+      "donor_id": "GSE326226_A1R2",
+      "sample_name": "A1R2",
+      "disease_state": "diseased",
+      "disease": "bladder carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625559/suppl/GSM9625559_A1R2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625559/suppl/GSM9625559_A1R2_cells.csv.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625559/suppl/GSM9625559_A1R2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9625560": {
+      "section_id": "GSE326226_A1R4",
+      "donor_id": "GSE326226_A1R4",
+      "sample_name": "A1R4",
+      "disease_state": "diseased",
+      "disease": "bladder carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625560/suppl/GSM9625560_A1R4_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625560/suppl/GSM9625560_A1R4_cells.csv.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625560/suppl/GSM9625560_A1R4_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9625561": {
+      "section_id": "GSE326226_A1R5",
+      "donor_id": "GSE326226_A1R5",
+      "sample_name": "A1R5",
+      "disease_state": "diseased",
+      "disease": "bladder carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625561/suppl/GSM9625561_A1R5_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625561/suppl/GSM9625561_A1R5_cells.csv.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625561/suppl/GSM9625561_A1R5_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9625562": {
+      "section_id": "GSE326226_A1R6",
+      "donor_id": "GSE326226_A1R6",
+      "sample_name": "A1R6",
+      "disease_state": "diseased",
+      "disease": "bladder carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625562/suppl/GSM9625562_A1R6_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625562/suppl/GSM9625562_A1R6_cells.csv.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625562/suppl/GSM9625562_A1R6_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9625563": {
+      "section_id": "GSE326226_A2R2",
+      "donor_id": "GSE326226_A2R2",
+      "sample_name": "A2R2",
+      "disease_state": "diseased",
+      "disease": "bladder carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625563/suppl/GSM9625563_A2R2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625563/suppl/GSM9625563_A2R2_cells.csv.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9625nnn/GSM9625563/suppl/GSM9625563_A2R2_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

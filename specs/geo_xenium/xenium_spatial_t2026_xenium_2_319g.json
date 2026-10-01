@@ -1,0 +1,59 @@
+{
+  "dataset_key": "xenium_spatial_t2026_xenium_2_319g",
+  "study": "GSE335552",
+  "study_name": "Colorectal liver metastasis, Xenium before IMC, 319-gene panel (2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "liver",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE335552",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 6271860970,
+    "n_samples": 1
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE335552_M397": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "colorectal cancer liver metastasis",
+      "description": "CRLM patient M397 (GEO GSE335552)."
+    }
+  },
+  "samples": {
+    "GSM9815456": {
+      "section_id": "GSE335552_tumor3_M397T",
+      "donor_id": "GSE335552_M397",
+      "sample_name": "tumor3_M397T",
+      "disease_state": "diseased",
+      "disease": "colorectal carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815456/suppl/GSM9815456_tumor3_M397T_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815456/suppl/GSM9815456_tumor3_M397T_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9815nnn/GSM9815456/suppl/GSM9815456_tumor3_M397T_morphology.ome.tif.gz"
+      }
+    }
+  }
+}
