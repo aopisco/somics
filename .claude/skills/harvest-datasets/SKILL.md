@@ -190,7 +190,9 @@ python3 scripts/trace_originals.py --trace trace_0.txt --trace trace_1.txt \
 
 The script dedupes claims by (original publication × platform family), resolves cited
 originals to DOIs via Crossref (title-match verified; misses are flagged in `notes`,
-never guessed), matches new datasets into existing rows by DOI, and appends the rest to
+never guessed), matches new datasets into existing rows by DOI and then by GSE or a
+specific access link (platform families must agree; ambiguous matches are not folded but
+get a `possible duplicate of ...` note), and appends the rest to
 `data/datasets.csv` + `data/model_dataset_usage.csv`. Existing rows are never modified.
 
 ### 8. Resolve direct download URLs and verify links
