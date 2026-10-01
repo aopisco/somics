@@ -6,7 +6,11 @@ Consumes one or more Paperclip map exports produced by the trace prompt in
 ORIGINAL publication expanded from its reference list), dedupes claims into
 canonical datasets, resolves cited originals to DOIs via Crossref, and merges
 the result into data/datasets.csv and data/model_dataset_usage.csv. Existing
-rows are kept; new datasets are matched into them by original-publication DOI.
+rows are kept; new datasets are matched into them by original-publication DOI,
+then by GEO Series (GSE) or a specific access link. A Crossref miss or a vendor
+page has no DOI to match on, so without the second pass the same dataset lands
+twice. Link/GSE matches must agree on platform family (see `match_by_access`);
+ambiguous ones are not folded but noted on the new row for curation.
 
 Inputs:
   --trace FILE     map export (repeatable; `paperclip results m_X --save FILE`)
@@ -29,6 +33,7 @@ import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
+from urllib.parse import urlsplit
 
 UA = {"User-Agent": "somics/0.1 (mailto:aoliveirapisco@chanzuckerberg.com)"}
 
@@ -76,34 +81,89 @@ def slug(s, n=28):
     return re.sub(r"[^a-z0-9]+", "_", (s or "").lower()).strip("_")[:n]
 
 
+PLAT_FAMILIES = [
+    "visium hd",
+    "visium",
+    "xenium",
+    "merfish",
+    "cosmx",
+    "seqfish",
+    "starmap",
+    "stereo",
+    "slide seq",
+    "slideseq",
+    "osmfish",
+    "geomx",
+    "dbit",
+    "hdst",
+    "codex",
+    "imc",
+    "mibi",
+    "cycif",
+    "tomo",
+    "iss",
+    "st",
+]
+# plat_family() values that name a vendor or nothing rather than an assay.
+# Anything else, including families outside PLAT_FAMILIES (maldi_msi, a
+# sequencer), counts as a real platform when deciding whether two rows match.
+VAGUE_FAMILIES = {"unknown", "10x_genomics", "10x", "nanostring", "vizgen", "akoya", "bruker"}
+
+
 def plat_family(p):
     p = norm(p)
-    for a in [
-        "visium hd",
-        "visium",
-        "xenium",
-        "merfish",
-        "cosmx",
-        "seqfish",
-        "starmap",
-        "stereo",
-        "slide seq",
-        "slideseq",
-        "osmfish",
-        "geomx",
-        "dbit",
-        "hdst",
-        "codex",
-        "imc",
-        "mibi",
-        "cycif",
-        "tomo",
-        "iss",
-        "st",
-    ]:
+    for a in PLAT_FAMILIES:
         if a.replace(" ", "") in p.replace(" ", ""):
             return a.replace(" ", "")
     return slug(p, 12) or "unknown"
+
+
+GSE = re.compile(r"\bGSE\d{3,}\b", re.I)
+# Fields on an existing row that name where its data lives. `notes` is left out
+# on purpose: it often cites someone else's accession ("GSE176078 is the Wu et
+# al. 2021 deposit, not Stereo-seq").
+ACCESS_FIELDS = ("data_access_link", "download_url", "candidate_accessions")
+
+
+def access_keys(texts):
+    """GSE ids and specific URLs in some free-text link fields.
+
+    A URL counts only with a query string or at least two path segments: site
+    roots and catalogue pages (portal.hubmapconsortium.org, 10xgenomics.com/
+    datasets) are shared by unrelated datasets. The query is kept because it is
+    often the identifier (acc.cgi?acc=GSE..., forum?id=...).
+    """
+    keys = set()
+    for t in texts:
+        keys |= {("gse", g.upper()) for g in GSE.findall(t or "")}
+        for tok in re.split(r"[;,\s]+", t or ""):
+            if not re.match(r"https?://", tok, re.I):
+                continue
+            u = urlsplit(tok.lower().rstrip(".)"))
+            path = u.path.rstrip("/")
+            if u.query or len([x for x in path.split("/") if x]) >= 2:
+                query = f"?{u.query}" if u.query else ""
+                keys.add(("url", u.netloc.removeprefix("www.") + path + query))
+    return keys
+
+
+def _compatible(a, b):
+    # A vague platform ("10x Genomics", blank) is compatible with anything; two
+    # named platforms must agree, so the Xenium or MALDI-MSI row of a
+    # multi-platform GSE is not folded into its Visium sibling.
+    return a == b or a in VAGUE_FAMILIES or b in VAGUE_FAMILIES
+
+
+def match_by_access(keys, family, index, family_of):
+    """Return (dataset_id, []) on a unique match, else (None, possible_dups)."""
+    cands = set().union(*(index.get(k, ()) for k in keys)) if keys else set()
+    compat = sorted(i for i in cands if _compatible(family, family_of[i]))
+    exact = [i for i in compat if family_of[i] == family]
+    if len(exact) == 1:
+        return exact[0], []
+    if not exact and len(compat) == 1:
+        return compat[0], []
+    return None, compat
 
 
 def parse_trace(paths):
@@ -251,21 +311,33 @@ def main():
                     c["original_publication_year"] = hit["year"]
     cache_path.write_text(json.dumps(cache))
 
-    # merge into existing tables (dedupe by original-publication DOI)
+    # merge into existing tables (dedupe by original-publication DOI, then by
+    # GSE / specific access link)
     existing = list(csv.DictReader(open(args.datasets)))
     existing_use = list(csv.DictReader(open(args.usage)))
-    by_doi, ids = {}, set()
+    by_doi, ids, by_access, family_of = {}, set(), {}, {}
     for r in existing:
         ids.add(r["dataset_id"])
         m = re.search(r"10\.\S+", r["original_publication_link"] or "")
         if m:
             by_doi[m.group(0).lower().rstrip("/")] = r["dataset_id"]
+        family_of[r["dataset_id"]] = plat_family(r.get("platform"))
+        for k in access_keys(r.get(f) for f in ACCESS_FIELDS):
+            by_access.setdefault(k, set()).add(r["dataset_id"])
 
     new_ds, key_to_id = [], {}
+    matched = {"doi": 0, "access": 0}
     for key, c in canon.items():
         m = re.search(r"10\.\S+", c["original_publication_link"] or "")
         if m and m.group(0).lower().rstrip("/") in by_doi:
             key_to_id[key] = by_doi[m.group(0).lower().rstrip("/")]
+            matched["doi"] += 1
+            continue
+        fam, keys = plat_family(c["platform"]), access_keys(c["links"])
+        hit, possible = match_by_access(keys, fam, by_access, family_of)
+        if hit:
+            key_to_id[key] = hit
+            matched["access"] += 1
             continue
         author = c["okey"][0] if c["okey"][0] != "SELF" else slug(c["dataset_name"], 16)
         year = c["original_publication_year"] or ""
@@ -275,6 +347,10 @@ def main():
             did, k = f"{base}_{k}", k + 1
         ids.add(did)
         key_to_id[key] = did
+        # Index the new row too, so a second claim for it in this batch folds.
+        family_of[did] = fam
+        for k in keys:
+            by_access.setdefault(k, set()).add(did)
         p = c["platform"] or ""
         links = sorted(c["links"])
         resolved = c["original_publication_link"] or c["first_published_by_model_paper"] == "yes"
@@ -309,6 +385,11 @@ def main():
                                 []
                                 if resolved
                                 else ["original publication link unresolved (Crossref miss)"]
+                            )
+                            + (
+                                [f"possible duplicate of {', '.join(possible)} (shared GSE/link)"]
+                                if possible
+                                else []
                             )
                         ),
                     ],
@@ -353,7 +434,8 @@ def main():
     _write_csv(args.datasets, DS_COLS, existing, new_ds)
     _write_csv(args.usage, USE_COLS, existing_use, new_use)
     print(
-        f"added {len(new_ds)} datasets ({len(canon) - len(new_ds)} matched existing), "
+        f"added {len(new_ds)} datasets ({matched['doi']} matched existing by DOI, "
+        f"{matched['access']} by GSE/access link), "
         f"{len(new_use)} usage rows"
     )
 

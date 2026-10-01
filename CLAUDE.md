@@ -9,7 +9,7 @@ cold. **Start at "RESUME HERE" under "Where to pick up"** (current as of
 
 Three things, in increasing order of how finished they are:
 
-1. **A dataset registry** — `data/datasets.csv`, 5,964 rows, one per dataset,
+1. **A dataset registry** — `data/datasets.csv`, 6,163 rows (2026-09-30), one per dataset,
    keyed to the publication that **first released** the data. Built from a
    paperclip literature sweep plus the HuBMAP portal export.
 2. **A raw corpus in S3** — `s3://somics-dev`, ~4 TB and growing, the actual
@@ -27,10 +27,11 @@ has been ported to it yet** — see its issue #1 for the plan.
 
 | file | grain | rows |
 |---|---|---|
-| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 2,711 |
-| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 5,964 |
-| `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 4,263 |
-| `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 182 |
+| `data/literature_datasets.csv` | claim-level: one row per (dataset × source paper) | 3,238 (2026-09-30) |
+| `data/datasets.csv` | curated: one row per dataset, keyed to its original publication | 6,163 (2026-09-30) |
+| `data/model_dataset_usage.csv` | many-to-many: which paper/model uses which dataset | 4,666 (2026-09-30) |
+| `data/geo_spatial_releases_2026-09.csv` | spatial GEO Series made public 2026-08-30..09-30 (NCBI E-utilities `[PDAT]`, SOFT-checked); **not** registry rows | 72 |
+| `data/dissociated_reference_datasets.csv` | rows removed from the registry as non-spatial | 194 (2026-09-30) |
 | `data/st_corpus.csv` | TERRA supplementary table, maintained by hand, **not** produced by this pipeline | 455 |
 | `data/tenx_visium_files.csv` | per 10x Visium/HD row: the CDN files a builder needs, HEAD-verified, or a `skip_reason` | 111 |
 | `data/tenx_rereleased_rows.csv` | registry rows folded away as Space Ranger re-releases of a sample another row carries (`folded_into`) | 18 |
@@ -567,6 +568,35 @@ are mostly plain text** -- sniff gzip by magic. Same EC2 script, family
 switch `SOMICS_FAMILY=stereoseq` with the MERFISH runner and
 `SOMICS_BUILD_SCRIPT`. Not fetchable: STOmicsDB/CNGB project pages (account),
 GITomicsDB fish, GSA-Human.
+
+### Literature harvest 2026-09-30 (recent-window sweep, PR `lit-harvest-2026-09-30`)
+
+20 queries, `search -s pmc,biorxiv,arxiv --since 61d -n 200` each (merged
+`s_b1f79d82`, 578 papers, 576 new); one combined extraction+trace map
+(`m_03c9f888`, `m_74bbf6f2`, `m_1bdef300`) -> 527 claims from 210 papers ->
+226 registry rows, 403 usage rows. paperclip 0.7.92 quirks: `searches`
+ignores `-s`/`--since` (returned bioRxiv-only, all years) -- run one `search`
+per query and `merge`; `--since` is rejected for medRxiv/abstracts, so name
+sources; `filter` is not an LLM pass (1 s for 578 papers) and dropped most
+relevant PMC/arXiv hits -- do not gate on it; `map -j` is tester-only; arXiv
+`meta.json` has `document_id` without the `arx_` prefix and no DOI (use
+`10.48550/arXiv.<id>`). The **GEO index ends 2026-04-25**: for recent GEO
+counts use NCBI E-utilities (`db=gds`, `gse[ETYP]`, `[PDAT]`) directly.
+`trace_originals.py` deduped only by DOI at the time, so a Crossref miss or a vendor page
+created a duplicate row (it now also matches by GSE / specific access link) -- this run folded 43 such rows into existing ones by
+title/link/GSE before committing, and 3 more in review (`10x2020_visium_8` ->
+`xu2024_10x_genomics`, `10x_10x_genomics` ->
+`tenx_mouse_brain_serial_section_2_sagittal_anteri`, `li2024_visium` ->
+`liu2025_unknown`, all same access link/GSE). Review also moved the 23
+`is_spatial: no` rows out of the registry: 12 appended to
+`dissociated_reference_datasets.csv`, 11 were already there (stale registry
+copies, dropped). `yao2021_scrnaseq` and `davis2018_rnaseq` collide by id
+with different papers in the dissociated file -- unresolved. `metabact_msi2026_st`
+(METASPACE MSI) set to `yes` / spatial metabolomics. The classifier called
+timsTOF-only platform strings non-spatial (`mass spec` in DISSOCIATED); fixed by adding `\bmsi\b` and `timstof ?flex` to SPATIAL, which also moved 4 MSI rows unknown -> yes. `schaum2018_singlecell_r` (Tabula Muris
+scRNA-seq, already in the dissociated file) dropped from the registry. Net: registry 5,964 -> 6,163
+(223 new rows), `is_spatial` yes 5,609 / unknown 552 / no 2 (the two `no` rows are Stereo-seq
+studies whose public accession is non-spatial; hand-set, kept).
 
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
