@@ -48,6 +48,10 @@ SPATIAL = re.compile(
     r"|geomx|starmap|osmfish|smfish|dbit|hdst|tomo-?seq|in situ sequencing|\biss\b"
     r"|codex|phenocycler|imc|imaging mass cytometry|mibi|cycif|\b4i\b|cell ?dive|ibex"
     r"|maldi|desi|\bsims\b|mass spectrometry imaging|rnascope|spatial|curio|perturb-?fish"
+    # MSI rows often name only the instrument. timsTOF fleX is Bruker's
+    # MALDI-equipped timsTOF (LC-only work uses Pro/HT/SCP); without these the
+    # DISSOCIATED "mass spec" rule claims them.
+    r"|\bmsi\b|timstof ?flex"
     r"|perturb-?map|misar|baristaseq|expansion|split-?fish|sci-?space|histology"
     r"|auto-?fluorescence|pas microscopy|multiplexed imaging",
     re.I,

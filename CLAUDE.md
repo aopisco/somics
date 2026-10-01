@@ -592,9 +592,9 @@ title/link/GSE before committing, and 3 more in review (`10x2020_visium_8` ->
 `dissociated_reference_datasets.csv`, 11 were already there (stale registry
 copies, dropped). `yao2021_scrnaseq` and `davis2018_rnaseq` collide by id
 with different papers in the dissociated file -- unresolved. `metabact_msi2026_st`
-(METASPACE MSI) set to `yes` / spatial metabolomics; the classifier calls
-timsTOF-only platform strings non-spatial. Net: registry 5,964 -> 6,164
-(223 new rows), `is_spatial` yes 5,605 / unknown 557 / no 2.
+(METASPACE MSI) set to `yes` / spatial metabolomics. The classifier called
+timsTOF-only platform strings non-spatial (`mass spec` in DISSOCIATED); fixed by adding `\bmsi\b` and `timstof ?flex` to SPATIAL, which also moved 4 MSI rows unknown -> yes. Net: registry 5,964 -> 6,164
+(223 new rows), `is_spatial` yes 5,609 / unknown 553 / no 2.
 
 ### Literature harvest in progress (2026-09-07, `harvest-datasets` skill)
 
