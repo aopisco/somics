@@ -36,7 +36,9 @@
       "age_value": null,
       "age_unit": null,
       "life_stage": "unknown",
+      "human_development_stage": null,
       "mouse_development_stage": null,
+      "ethnicity": null,
       "clinical_diagnosis": null,
       "description": "Mouse S157 (GEO GSE342202); strain and age not recorded."
     },
@@ -46,7 +48,9 @@
       "age_value": null,
       "age_unit": null,
       "life_stage": "unknown",
+      "human_development_stage": null,
       "mouse_development_stage": null,
+      "ethnicity": null,
       "clinical_diagnosis": null,
       "description": "Mouse S159 (GEO GSE342202); strain and age not recorded."
     },
@@ -56,7 +60,9 @@
       "age_value": null,
       "age_unit": null,
       "life_stage": "unknown",
+      "human_development_stage": null,
       "mouse_development_stage": null,
+      "ethnicity": null,
       "clinical_diagnosis": null,
       "description": "Mouse S175 (GEO GSE342202); strain and age not recorded."
     },
@@ -66,7 +72,9 @@
       "age_value": null,
       "age_unit": null,
       "life_stage": "unknown",
+      "human_development_stage": null,
       "mouse_development_stage": null,
+      "ethnicity": null,
       "clinical_diagnosis": null,
       "description": "Mouse S176 (GEO GSE342202); strain and age not recorded."
     }

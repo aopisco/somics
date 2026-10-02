@@ -151,7 +151,10 @@ def mouse_donor(desc: str, sex: str = "unknown") -> dict:
         "age_value": None,
         "age_unit": None,
         "life_stage": "unknown",
+        # the assembler reads every DonorSchema column, human ones included
+        "human_development_stage": None,
         "mouse_development_stage": None,
+        "ethnicity": None,
         "clinical_diagnosis": None,
         "description": desc,
     }
