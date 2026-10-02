@@ -82,3 +82,27 @@ export SOMICS_SPEC_DIRS="specs/geo_xenium" SOMICS_RAW_INCLUDE="*"
 
 Raw staging keeps the fetched GEO files under `raw/<dataset_key>/` with a
 manifest. The atlas is 1.1 TiB, so launch with a 3 TB volume.
+
+## The production run, and the repair fix (2026-10-02)
+
+The first production run (`ingest/geo_xenium/atlas/2026-10-01T20-35-26Z`)
+ingested 16 of 18 specs, then failed its end-of-run repair: the whole-table
+rewrite in `repair_atlas.py` left obs failing filtered reads at 112.8M rows, as
+it had for the Stereo-seq follow-up (the smoke run's 3M-row atlas repaired
+fine). Reproduced on a local copy of that obs table: 6 of 108 fragments fail
+(five `he_crop`, one `morphology_crop`; Lance 10.0.0, file format 2.1). The
+same rows written fragment by fragment read fine, so the defect comes from the
+one-shot write of the whole table, not the data.
+
+Fix: `rewrite_streaming` rewrites obs from an unfiltered scan, one batch at a
+time, each rebuilt into contiguous buffers (Arrow IPC round trip). On the copy:
+112.8M rows in 30 s, 0 failing fragments, 40 random sections clean, and every
+column equal row by row to the source version (enum columns compared decoded;
+their dictionaries are re-encoded). The check now reads every fragment plus 60
+sampled sections (7 min) instead of every section twice (~10 h of the 10.7 h
+the failed repair took); `--full-section-check` keeps the old pass.
+
+The two failures in that run are fixed too: a 30 GB Zenodo zip unzip could not
+read (zipfile fallback) and mouse donors missing `human_development_stage`.
+The follow-up builds on the failed prefix with `SOMICS_REPAIR_BASE=1` (repair
+the base first, then ingest what is missing, then repair).

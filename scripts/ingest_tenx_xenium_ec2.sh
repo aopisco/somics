@@ -101,6 +101,18 @@ aws s3 sync $BASE_ATLAS/ $ATLAS --exclude "_*" --region $REGION --only-show-erro
 [ "$(du -sm $ATLAS | cut -f1)" -gt 20000 ] || fail
 echo "base atlas: $BASE_ATLAS" > $D/provenance.txt
 
+# Optional: repair the base before ingesting into it. Needed when the base is a
+# run that ingested everything but failed its end-of-run repair (the rows are
+# there; obs fails filtered reads), so a follow-up can build on it instead of
+# re-ingesting. repair_atlas.py rewrites obs batch by batch and re-checks.
+if [ -n "${SOMICS_REPAIR_BASE:-}" ]; then
+  cd $D/repo
+  PYTHONPATH=$D/repo/src uv run python scripts/repair_atlas.py --atlas $ATLAS --schema $SOMICS_SCHEMA > $D/repair_base.txt 2>&1 \
+    || { cat $D/repair_base.txt; aws s3 cp $D/repair_base.txt $ATLAS_DEST/_repair_base.txt --region $REGION; fail; }
+  tail -3 $D/repair_base.txt; aws s3 cp $D/repair_base.txt $ATLAS_DEST/_repair_base.txt --region $REGION
+  echo "base repaired before ingest (see _repair_base.txt)" >> $D/provenance.txt
+fi
+
 # ---- run order: smallest first, a healthy human Visium as the smoke test ---
 cd $D/repo
 # Specs whose sections the base atlas already holds are skipped here, before
