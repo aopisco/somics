@@ -1,0 +1,140 @@
+{
+  "dataset_key": "zhang2026_xenium",
+  "study": "GSE313006",
+  "study_name": "COPD lung tissue microarrays, custom 480-gene Xenium panel (Zhang et al. 2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "lung",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE313006",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 68352593036,
+    "n_samples": 4
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE313006_TMA1": {
+      "organism": "Homo sapiens",
+      "sex": "mixed",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "COPD",
+      "description": "Cores of Human lung COPD TMA1 (GEO GSE313006): FFPE lung from several of 38 participants across the COPD spectrum; cores are not split per participant."
+    },
+    "GSE313006_TMA2": {
+      "organism": "Homo sapiens",
+      "sex": "mixed",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "COPD",
+      "description": "Cores of Human lung COPD TMA2 (GEO GSE313006): FFPE lung from several of 38 participants across the COPD spectrum; cores are not split per participant."
+    },
+    "GSE313006_TMA3": {
+      "organism": "Homo sapiens",
+      "sex": "mixed",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "COPD",
+      "description": "Cores of Human lung COPD TMA3 (GEO GSE313006): FFPE lung from several of 38 participants across the COPD spectrum; cores are not split per participant."
+    },
+    "GSE313006_TMA4": {
+      "organism": "Homo sapiens",
+      "sex": "mixed",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "COPD",
+      "description": "Cores of Human lung COPD TMA4 (GEO GSE313006): FFPE lung from several of 38 participants across the COPD spectrum; cores are not split per participant."
+    }
+  },
+  "samples": {
+    "GSM9358871": {
+      "section_id": "GSE313006_COPD_TMA1",
+      "donor_id": "GSE313006_TMA1",
+      "sample_name": "Human lung COPD TMA1",
+      "disease_state": "diseased",
+      "disease": "chronic obstructive pulmonary disease",
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358871/suppl/GSM9358871_COPD_TMA1_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9358872": {
+      "section_id": "GSE313006_COPD_TMA2",
+      "donor_id": "GSE313006_TMA2",
+      "sample_name": "Human lung COPD TMA2",
+      "disease_state": "diseased",
+      "disease": "chronic obstructive pulmonary disease",
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358872/suppl/GSM9358872_COPD_TMA2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9358873": {
+      "section_id": "GSE313006_COPD_TMA3",
+      "donor_id": "GSE313006_TMA3",
+      "sample_name": "Human lung COPD TMA3",
+      "disease_state": "diseased",
+      "disease": "chronic obstructive pulmonary disease",
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358873/suppl/GSM9358873_COPD_TMA3_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9358874": {
+      "section_id": "GSE313006_COPD_TMA4",
+      "donor_id": "GSE313006_TMA4",
+      "sample_name": "Human lung COPD TMA4",
+      "disease_state": "diseased",
+      "disease": "chronic obstructive pulmonary disease",
+      "files": {
+        "barcodes": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_barcodes.tsv.gz",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_cells.csv.gz",
+        "features": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_features.tsv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_gene_panel.json.gz",
+        "matrix_mtx": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_matrix.mtx.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9358nnn/GSM9358874/suppl/GSM9358874_COPD_TMA4_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "dataset_key": "in_house_xenium_2026_xenium",
+  "study": "GSE342202",
+  "study_name": "Mouse brain, fresh frozen, Xenium (nf_xpatial pipeline paper, 2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Mus musculus",
+  "tissue": "brain",
+  "preservation": "fresh_frozen",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE342202",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 15096458677,
+    "n_samples": 4
+  },
+  "panel": {
+    "panel_name": "Xenium mouse brain panel with custom add-on (345 genes, nf_xpatial)",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Mus musculus",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "GSE342202_S157": {
+      "organism": "Mus musculus",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "mouse_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Mouse S157 (GEO GSE342202); strain and age not recorded."
+    },
+    "GSE342202_S159": {
+      "organism": "Mus musculus",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "mouse_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Mouse S159 (GEO GSE342202); strain and age not recorded."
+    },
+    "GSE342202_S175": {
+      "organism": "Mus musculus",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "mouse_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Mouse S175 (GEO GSE342202); strain and age not recorded."
+    },
+    "GSE342202_S176": {
+      "organism": "Mus musculus",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "mouse_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Mouse S176 (GEO GSE342202); strain and age not recorded."
+    }
+  },
+  "samples": {
+    "GSM9924903": {
+      "section_id": "GSE342202_S157",
+      "donor_id": "GSE342202_S157",
+      "sample_name": "S157",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924903/suppl/GSM9924903_S157_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924903/suppl/GSM9924903_S157_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924903/suppl/GSM9924903_S157_morpohology.ome.tif.gz"
+      }
+    },
+    "GSM9924904": {
+      "section_id": "GSE342202_S159",
+      "donor_id": "GSE342202_S159",
+      "sample_name": "S159",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924904/suppl/GSM9924904_S159_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924904/suppl/GSM9924904_S159_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924904/suppl/GSM9924904_S159_morpohology.ome.tif.gz"
+      }
+    },
+    "GSM9924905": {
+      "section_id": "GSE342202_S175",
+      "donor_id": "GSE342202_S175",
+      "sample_name": "S175",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924905/suppl/GSM9924905_S175_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924905/suppl/GSM9924905_S175_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924905/suppl/GSM9924905_S175_morpohology.ome.tif.gz"
+      }
+    },
+    "GSM9924906": {
+      "section_id": "GSE342202_S176",
+      "donor_id": "GSE342202_S176",
+      "sample_name": "S176",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924906/suppl/GSM9924906_S176_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924906/suppl/GSM9924906_S176_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9924nnn/GSM9924906/suppl/GSM9924906_S176_morpohology.ome.tif.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "dataset_key": "bilous2026_xenium_io_custom",
+  "study": "GSE311609",
+  "study_name": "Archival human lung tumor FFPE fragments, custom immuno-oncology Xenium panel (Bilous et al. 2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "lung",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE311609",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "focus"
+    ],
+    "bytes": 3347715875,
+    "n_samples": 5
+  },
+  "panel": {
+    "panel_name": "Xenium custom immuno-oncology panel (340 genes, CHUV)",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "GSE311609_L1": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "non-small cell lung carcinoma",
+      "description": "CHUV NSCLC patient L1 (GEO GSE311609). GEO records no age or sex."
+    },
+    "GSE311609_L2": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "non-small cell lung carcinoma",
+      "description": "CHUV NSCLC patient L2 (GEO GSE311609). GEO records no age or sex."
+    },
+    "GSE311609_L3": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "non-small cell lung carcinoma",
+      "description": "CHUV NSCLC patient L3 (GEO GSE311609). GEO records no age or sex."
+    },
+    "GSE311609_L4": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "non-small cell lung carcinoma",
+      "description": "CHUV NSCLC patient L4 (GEO GSE311609). GEO records no age or sex."
+    }
+  },
+  "samples": {
+    "GSM9509140": {
+      "section_id": "GSE311609_NSCLC_chuvio_L1_L1_1",
+      "donor_id": "GSE311609_L1",
+      "sample_name": "FFPE NSCLC patient (L1) sample (1) profiled with the custom immunooncology gene panel; ICD-O-3: Adenocarcinoma with mixed subtypes",
+      "disease_state": "diseased",
+      "disease": "non-small cell lung carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509140/suppl/GSM9509140_NSCLC_chuvio_L1_L1_1_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509140/suppl/GSM9509140_NSCLC_chuvio_L1_L1_1_cells.parquet.gz",
+        "focus": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509140/suppl/GSM9509140_NSCLC_chuvio_L1_L1_1_morphology_focus.ome.tif.gz"
+      }
+    },
+    "GSM9509141": {
+      "section_id": "GSE311609_NSCLC_chuvio_L1_L1_2",
+      "donor_id": "GSE311609_L1",
+      "sample_name": "FFPE NSCLC patient (L1) sample (2) profiled with the custom immunooncology gene panel; ICD-O-3: Adenocarcinoma with mixed subtypes",
+      "disease_state": "diseased",
+      "disease": "non-small cell lung carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509141/suppl/GSM9509141_NSCLC_chuvio_L1_L1_2_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509141/suppl/GSM9509141_NSCLC_chuvio_L1_L1_2_cells.parquet.gz",
+        "focus": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509141/suppl/GSM9509141_NSCLC_chuvio_L1_L1_2_morphology_focus.ome.tif.gz"
+      }
+    },
+    "GSM9509142": {
+      "section_id": "GSE311609_NSCLC_chuvio_L2_L2",
+      "donor_id": "GSE311609_L2",
+      "sample_name": "FFPE NSCLC patient (L2) sample profiled with the custom immunooncology gene panel; ICD-O-3: Adenocarcinoma with mixed subtypes",
+      "disease_state": "diseased",
+      "disease": "non-small cell lung carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509142/suppl/GSM9509142_NSCLC_chuvio_L2_L2_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509142/suppl/GSM9509142_NSCLC_chuvio_L2_L2_cells.parquet.gz",
+        "focus": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509142/suppl/GSM9509142_NSCLC_chuvio_L2_L2_morphology_focus.ome.tif.gz"
+      }
+    },
+    "GSM9509143": {
+      "section_id": "GSE311609_NSCLC_chuvio_L3_L3",
+      "donor_id": "GSE311609_L3",
+      "sample_name": "FFPE NSCLC patient (L3) sample profiled with the custom immunooncology gene panel; ICD-O-3: Adenocarcinoma, NOS",
+      "disease_state": "diseased",
+      "disease": "non-small cell lung carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509143/suppl/GSM9509143_NSCLC_chuvio_L3_L3_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509143/suppl/GSM9509143_NSCLC_chuvio_L3_L3_cells.parquet.gz",
+        "focus": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509143/suppl/GSM9509143_NSCLC_chuvio_L3_L3_morphology_focus.ome.tif.gz"
+      }
+    },
+    "GSM9509144": {
+      "section_id": "GSE311609_NSCLC_chuvio_L4_L4",
+      "donor_id": "GSE311609_L4",
+      "sample_name": "FFPE NSCLC patient (L4) sample profiled with the custom immunooncology gene panel; ICD-O-3: Sq. cell carcinoma, keratinizing, NOS",
+      "disease_state": "diseased",
+      "disease": "non-small cell lung carcinoma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509144/suppl/GSM9509144_NSCLC_chuvio_L4_L4_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509144/suppl/GSM9509144_NSCLC_chuvio_L4_L4_cells.parquet.gz",
+        "focus": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9509nnn/GSM9509144/suppl/GSM9509144_NSCLC_chuvio_L4_L4_morphology_focus.ome.tif.gz"
+      }
+    }
+  }
+}

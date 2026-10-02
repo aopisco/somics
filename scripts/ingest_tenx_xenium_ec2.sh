@@ -207,6 +207,27 @@ for SPEC in $ORDER; do
       [ -z "$MFDIR" ] && { unzip -o -q "$ZIP" "morphology_focus/*" -d "$TMP/mf" 2>/dev/null || true; MFDIR=$(find "$TMP/mf" -type d -name morphology_focus | head -1); }
       if [ -n "$MFDIR" ] && [ -n "$(ls -A "$MFDIR")" ]; then rm -rf "$SDIR/morphology_focus" && mv "$MFDIR" "$SDIR/morphology_focus"; fi
     fi
+    # Some depositors' large zips (a Zenodo outs zip, 30 GB) have a zip64
+    # layout Info-ZIP unzip refuses while extracting nothing, silently under -q;
+    # Python's zipfile reads them. Same members, flattened, only when missing.
+    if [ ! -f "$SDIR/cells.parquet" ] && [ ! -f "$SDIR/cells.zarr.zip" ]; then
+      uv run python - "$ZIP" "$SDIR" <<'PY' || true
+import os, re, shutil, sys, zipfile
+want = re.compile(r"(?:^|/)(cells\.parquet|cell_feature_matrix\.h5|cells\.zarr\.zip|cell_feature_matrix\.zarr\.zip|"
+                  r"experiment\.xenium|metrics_summary\.csv|gene_panel\.json|morphology_focus\.ome\.tif|"
+                  r"morphology_mip\.ome\.tif|morphology_focus/[^/]+\.ome\.tif)$")
+with zipfile.ZipFile(sys.argv[1]) as z:
+    for info in z.infolist():
+        m = want.search(info.filename)
+        if not m or info.is_dir():
+            continue
+        dest = os.path.join(sys.argv[2], m.group(1))
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with z.open(info) as fin, open(dest, "wb") as fout:
+            shutil.copyfileobj(fin, fout, length=1 << 24)
+        print("  zipfile extracted", m.group(1))
+PY
+    fi
     { [ -f "$SDIR/morphology_focus.ome.tif" ] || [ -f "$SDIR/morphology_mip.ome.tif" ] || [ -n "$(ls -A "$SDIR/morphology_focus" 2>/dev/null)" ]; } || EXTRACT_OK=0
     [ -f "$SDIR/experiment.xenium" ] || EXTRACT_OK=0
     { [ -f "$SDIR/cells.parquet" ] && [ -f "$SDIR/cell_feature_matrix.h5" ]; } \

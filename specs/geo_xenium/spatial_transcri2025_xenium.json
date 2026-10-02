@@ -1,0 +1,171 @@
+{
+  "dataset_key": "spatial_transcri2025_xenium",
+  "study": "GSE297945",
+  "study_name": "Human infant lungs across development and acute lung injury, Xenium (2025)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "lung",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE297945",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "tarball"
+    ],
+    "bytes": 16298045489,
+    "n_samples": 8
+  },
+  "panel": {
+    "panel_name": null,
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE297945_PDL006": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Infant PDL006 (GEO GSE297945): born at 24 weeks, lived 0 weeks, cause of death Prematurity, lung injury score 0."
+    },
+    "GSE297945_PDL005": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Infant PDL005 (GEO GSE297945): born at 24 weeks, lived 0 weeks, cause of death Prematurity, lung injury score 3."
+    },
+    "GSE297945_PDL009": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Infant PDL009 (GEO GSE297945): born at 28 weeks, lived 3 weeks, cause of death E. coli sepsis & congenital heart disease, lung injury score 2."
+    },
+    "GSE297945_PDL015": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Infant PDL015 (GEO GSE297945): born at 33 weeks, lived 0 weeks, cause of death Pulmonary hypoplasia, lung injury score NA."
+    },
+    "GSE297945_PDL017": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Infant PDL017 (GEO GSE297945): born at 28 weeks, lived 30 years, cause of death BPD (explant of adult with BPD), lung injury score NA."
+    }
+  },
+  "samples": {
+    "GSM9002273": {
+      "section_id": "GSE297945_PDL006_slide1",
+      "donor_id": "GSE297945_PDL006",
+      "sample_name": "PDL006_slide1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002273/suppl/GSM9002273_PDL006_slide1_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002274": {
+      "section_id": "GSE297945_PDL005_slide1",
+      "donor_id": "GSE297945_PDL005",
+      "sample_name": "PDL005_slide1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002274/suppl/GSM9002274_PDL005_slide1_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002277": {
+      "section_id": "GSE297945_PDL009_slide1",
+      "donor_id": "GSE297945_PDL009",
+      "sample_name": "PDL009_slide1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002277/suppl/GSM9002277_PDL009_slide1_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002282": {
+      "section_id": "GSE297945_PDL015_slide1",
+      "donor_id": "GSE297945_PDL015",
+      "sample_name": "PDL015_slide1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002282/suppl/GSM9002282_PDL015_slide1_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002285": {
+      "section_id": "GSE297945_PDL017_slide1",
+      "donor_id": "GSE297945_PDL017",
+      "sample_name": "PDL017_slide1",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002285/suppl/GSM9002285_PDL017_slide1_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002290": {
+      "section_id": "GSE297945_PDL006_slide2",
+      "donor_id": "GSE297945_PDL006",
+      "sample_name": "PDL006_slide2",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002290/suppl/GSM9002290_PDL006_slide2_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002294": {
+      "section_id": "GSE297945_PDL009_slide2",
+      "donor_id": "GSE297945_PDL009",
+      "sample_name": "PDL009_slide2",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002294/suppl/GSM9002294_PDL009_slide2_xenium_output.tar.gz"
+      }
+    },
+    "GSM9002299": {
+      "section_id": "GSE297945_PDL015_slide2",
+      "donor_id": "GSE297945_PDL015",
+      "sample_name": "PDL015_slide2",
+      "disease_state": "unknown",
+      "disease": null,
+      "files": {
+        "outs_tar": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9002nnn/GSM9002299/suppl/GSM9002299_PDL015_slide2_xenium_output.tar.gz"
+      }
+    }
+  }
+}

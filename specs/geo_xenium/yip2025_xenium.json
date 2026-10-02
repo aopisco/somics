@@ -1,0 +1,540 @@
+{
+  "dataset_key": "yip2025_xenium",
+  "study": "GSE299193",
+  "study_name": "Human bone marrow trephines across MGUS, smouldering and multiple myeloma, Xenium 5K (Yip et al. 2025)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "cell_boundary_stain",
+  "organism": "Homo sapiens",
+  "tissue": "bone marrow",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE299193",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 68979308014,
+    "n_samples": 21
+  },
+  "panel": {
+    "panel_name": "Xenium Human 5K Pan Tissue & Pathways Panel",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": false,
+    "description": null
+  },
+  "donors": {
+    "GSE299193_Ctrl_1": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Bone marrow trephine donor Ctrl_1 (GEO GSE299193), condition Ctrl."
+    },
+    "GSE299193_Ctrl_2": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Bone marrow trephine donor Ctrl_2 (GEO GSE299193), condition Ctrl."
+    },
+    "GSE299193_Ctrl_3": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Bone marrow trephine donor Ctrl_3 (GEO GSE299193), condition Ctrl."
+    },
+    "GSE299193_Ctrl_4": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Bone marrow trephine donor Ctrl_4 (GEO GSE299193), condition Ctrl."
+    },
+    "GSE299193_MGUS_1": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "monoclonal gammopathy of undetermined significance",
+      "description": "Bone marrow trephine donor MGUS_1 (GEO GSE299193), condition MGUS."
+    },
+    "GSE299193_MGUS_2": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "monoclonal gammopathy of undetermined significance",
+      "description": "Bone marrow trephine donor MGUS_2 (GEO GSE299193), condition MGUS."
+    },
+    "GSE299193_MM_1": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_1 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_2": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_2 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_3": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_3 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_4": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_4 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_5": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_5 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_6": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_6 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_7": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_7 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_8": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_8 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_9": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_9 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_MM_10": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "multiple myeloma",
+      "description": "Bone marrow trephine donor MM_10 (GEO GSE299193), condition MM."
+    },
+    "GSE299193_SM_1": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "smoldering multiple myeloma",
+      "description": "Bone marrow trephine donor SM_1 (GEO GSE299193), condition SM."
+    },
+    "GSE299193_SM_2": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "smoldering multiple myeloma",
+      "description": "Bone marrow trephine donor SM_2 (GEO GSE299193), condition SM."
+    },
+    "GSE299193_SM_3": {
+      "organism": "Homo sapiens",
+      "sex": "female",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "smoldering multiple myeloma",
+      "description": "Bone marrow trephine donor SM_3 (GEO GSE299193), condition SM."
+    },
+    "GSE299193_SM_4": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "smoldering multiple myeloma",
+      "description": "Bone marrow trephine donor SM_4 (GEO GSE299193), condition SM."
+    },
+    "GSE299193_SM_5": {
+      "organism": "Homo sapiens",
+      "sex": "male",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": "smoldering multiple myeloma",
+      "description": "Bone marrow trephine donor SM_5 (GEO GSE299193), condition SM."
+    }
+  },
+  "samples": {
+    "GSM9035023": {
+      "section_id": "GSE299193_Ctrl_1",
+      "donor_id": "GSE299193_Ctrl_1",
+      "sample_name": "Human bone marrow trephine of control sample - Rep 1",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035023/suppl/GSM9035023_Ctrl-1_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035023/suppl/GSM9035023_Ctrl-1_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035023/suppl/GSM9035023_Ctrl-1_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035023/suppl/GSM9035023_Ctrl-1_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035024": {
+      "section_id": "GSE299193_Ctrl_2",
+      "donor_id": "GSE299193_Ctrl_2",
+      "sample_name": "Human bone marrow trephine of control sample - Rep 2",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035024/suppl/GSM9035024_Ctrl-2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035024/suppl/GSM9035024_Ctrl-2_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035024/suppl/GSM9035024_Ctrl-2_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035024/suppl/GSM9035024_Ctrl-2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035025": {
+      "section_id": "GSE299193_Ctrl_3",
+      "donor_id": "GSE299193_Ctrl_3",
+      "sample_name": "Human bone marrow trephine of control sample - Rep 3",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035025/suppl/GSM9035025_Ctrl-3_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035025/suppl/GSM9035025_Ctrl-3_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035025/suppl/GSM9035025_Ctrl-3_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035025/suppl/GSM9035025_Ctrl-3_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035026": {
+      "section_id": "GSE299193_Ctrl_4",
+      "donor_id": "GSE299193_Ctrl_4",
+      "sample_name": "Human bone marrow trephine of control sample - Rep 4",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035026/suppl/GSM9035026_Ctrl-4_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035026/suppl/GSM9035026_Ctrl-4_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035026/suppl/GSM9035026_Ctrl-4_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035026/suppl/GSM9035026_Ctrl-4_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035027": {
+      "section_id": "GSE299193_MGUS_1",
+      "donor_id": "GSE299193_MGUS_1",
+      "sample_name": "Human bone marrow trephine of MGUS sample - Rep 1",
+      "disease_state": "diseased",
+      "disease": "monoclonal gammopathy of undetermined significance",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035027/suppl/GSM9035027_MGUS-1_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035027/suppl/GSM9035027_MGUS-1_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035027/suppl/GSM9035027_MGUS-1_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035027/suppl/GSM9035027_MGUS-1_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035028": {
+      "section_id": "GSE299193_MGUS_2",
+      "donor_id": "GSE299193_MGUS_2",
+      "sample_name": "Human bone marrow trephine of MGUS sample - Rep 2",
+      "disease_state": "diseased",
+      "disease": "monoclonal gammopathy of undetermined significance",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035028/suppl/GSM9035028_MGUS-2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035028/suppl/GSM9035028_MGUS-2_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035028/suppl/GSM9035028_MGUS-2_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035028/suppl/GSM9035028_MGUS-2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035029": {
+      "section_id": "GSE299193_MM_1",
+      "donor_id": "GSE299193_MM_1",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 1",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035029/suppl/GSM9035029_MM-1_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035029/suppl/GSM9035029_MM-1_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035029/suppl/GSM9035029_MM-1_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035029/suppl/GSM9035029_MM-1_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035030": {
+      "section_id": "GSE299193_MM_2",
+      "donor_id": "GSE299193_MM_2",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 2",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035030/suppl/GSM9035030_MM-2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035030/suppl/GSM9035030_MM-2_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035030/suppl/GSM9035030_MM-2_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035030/suppl/GSM9035030_MM-2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035031": {
+      "section_id": "GSE299193_MM_3",
+      "donor_id": "GSE299193_MM_3",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 3",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035031/suppl/GSM9035031_MM-3_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035031/suppl/GSM9035031_MM-3_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035031/suppl/GSM9035031_MM-3_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035031/suppl/GSM9035031_MM-3_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035032": {
+      "section_id": "GSE299193_MM_4",
+      "donor_id": "GSE299193_MM_4",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 4",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035032/suppl/GSM9035032_MM-4_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035032/suppl/GSM9035032_MM-4_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035032/suppl/GSM9035032_MM-4_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035032/suppl/GSM9035032_MM-4_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035033": {
+      "section_id": "GSE299193_MM_5",
+      "donor_id": "GSE299193_MM_5",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 5",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035033/suppl/GSM9035033_MM-5_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035033/suppl/GSM9035033_MM-5_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035033/suppl/GSM9035033_MM-5_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035033/suppl/GSM9035033_MM-5_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035034": {
+      "section_id": "GSE299193_MM_6",
+      "donor_id": "GSE299193_MM_6",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 6",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035034/suppl/GSM9035034_MM-6_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035034/suppl/GSM9035034_MM-6_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035034/suppl/GSM9035034_MM-6_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035034/suppl/GSM9035034_MM-6_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035035": {
+      "section_id": "GSE299193_MM_7",
+      "donor_id": "GSE299193_MM_7",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 7",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035035/suppl/GSM9035035_MM-7_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035035/suppl/GSM9035035_MM-7_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035035/suppl/GSM9035035_MM-7_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035035/suppl/GSM9035035_MM-7_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035036": {
+      "section_id": "GSE299193_MM_8",
+      "donor_id": "GSE299193_MM_8",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 8",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035036/suppl/GSM9035036_MM-8_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035036/suppl/GSM9035036_MM-8_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035036/suppl/GSM9035036_MM-8_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035036/suppl/GSM9035036_MM-8_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035037": {
+      "section_id": "GSE299193_MM_9",
+      "donor_id": "GSE299193_MM_9",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 9",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035037/suppl/GSM9035037_MM-9_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035037/suppl/GSM9035037_MM-9_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035037/suppl/GSM9035037_MM-9_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035037/suppl/GSM9035037_MM-9_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035038": {
+      "section_id": "GSE299193_MM_10",
+      "donor_id": "GSE299193_MM_10",
+      "sample_name": "Human bone marrow trephine of multiple myeloma sample - Rep 10",
+      "disease_state": "diseased",
+      "disease": "multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035038/suppl/GSM9035038_MM-10_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035038/suppl/GSM9035038_MM-10_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035038/suppl/GSM9035038_MM-10_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035038/suppl/GSM9035038_MM-10_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035039": {
+      "section_id": "GSE299193_SM_1",
+      "donor_id": "GSE299193_SM_1",
+      "sample_name": "Human bone marrow trephine of smouldering myeloma  sample - Rep 1",
+      "disease_state": "diseased",
+      "disease": "smoldering multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035039/suppl/GSM9035039_SM-1_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035039/suppl/GSM9035039_SM-1_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035039/suppl/GSM9035039_SM-1_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035039/suppl/GSM9035039_SM-1_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035040": {
+      "section_id": "GSE299193_SM_2",
+      "donor_id": "GSE299193_SM_2",
+      "sample_name": "Human bone marrow trephine of smouldering myeloma  sample - Rep 2",
+      "disease_state": "diseased",
+      "disease": "smoldering multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035040/suppl/GSM9035040_SM-2_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035040/suppl/GSM9035040_SM-2_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035040/suppl/GSM9035040_SM-2_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035040/suppl/GSM9035040_SM-2_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035041": {
+      "section_id": "GSE299193_SM_3",
+      "donor_id": "GSE299193_SM_3",
+      "sample_name": "Human bone marrow trephine of smouldering myeloma  sample - Rep 3",
+      "disease_state": "diseased",
+      "disease": "smoldering multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035041/suppl/GSM9035041_SM-3_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035041/suppl/GSM9035041_SM-3_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035041/suppl/GSM9035041_SM-3_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035041/suppl/GSM9035041_SM-3_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035042": {
+      "section_id": "GSE299193_SM_4",
+      "donor_id": "GSE299193_SM_4",
+      "sample_name": "Human bone marrow trephine of smouldering myeloma  sample - Rep 4",
+      "disease_state": "diseased",
+      "disease": "smoldering multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035042/suppl/GSM9035042_SM-4_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035042/suppl/GSM9035042_SM-4_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035042/suppl/GSM9035042_SM-4_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035042/suppl/GSM9035042_SM-4_morphology.ome.tif.gz"
+      }
+    },
+    "GSM9035043": {
+      "section_id": "GSE299193_SM_5",
+      "donor_id": "GSE299193_SM_5",
+      "sample_name": "Human bone marrow trephine of smouldering myeloma  sample - Rep 5",
+      "disease_state": "diseased",
+      "disease": "smoldering multiple myeloma",
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035043/suppl/GSM9035043_SM-5_cell_feature_matrix.h5",
+        "cells_csv": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035043/suppl/GSM9035043_SM-5_cells.csv.gz",
+        "gene_panel": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035043/suppl/GSM9035043_SM-5_gene_panel.json.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9035nnn/GSM9035043/suppl/GSM9035043_SM-5_morphology.ome.tif.gz"
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "dataset_key": "normal_bone_marr2026_xenium",
+  "study": "GSE322974",
+  "study_name": "Normal human bone marrow clot biopsy, Xenium 5K (BinarySPA, 2026)",
+  "assay": "10x Xenium",
+  "technology": "xenium",
+  "spatial_unit": "cell",
+  "segmentation_method": "unknown",
+  "organism": "Homo sapiens",
+  "tissue": "bone marrow",
+  "preservation": "ffpe",
+  "image_modality": "dapi",
+  "accession_database": "GEO",
+  "data_access_link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE322974",
+  "download_url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={sample}",
+  "source": {
+    "layout": [
+      "zstack"
+    ],
+    "bytes": 4047996720,
+    "n_samples": 1
+  },
+  "panel": {
+    "panel_name": "Xenium Prime 5K Human Pan Tissue and Pathways Panel with custom add-on",
+    "vendor": "10x Genomics",
+    "technology": "xenium",
+    "organism": "Homo sapiens",
+    "n_targets": null,
+    "has_custom_addon": true,
+    "description": null
+  },
+  "donors": {
+    "GSE322974_normal_clot": {
+      "organism": "Homo sapiens",
+      "sex": "unknown",
+      "age_value": null,
+      "age_unit": null,
+      "life_stage": "unknown",
+      "human_development_stage": null,
+      "ethnicity": null,
+      "clinical_diagnosis": null,
+      "description": "Donor of a normal bone marrow clot biopsy (GEO GSE322974); no age or sex recorded."
+    }
+  },
+  "samples": {
+    "GSM9561833": {
+      "section_id": "GSE322974_Xenium_normal",
+      "donor_id": "GSE322974_normal_clot",
+      "sample_name": "Xenium_normal",
+      "disease_state": "healthy",
+      "disease": null,
+      "files": {
+        "matrix": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9561nnn/GSM9561833/suppl/GSM9561833_cell_feature_matrix.h5",
+        "cells": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9561nnn/GSM9561833/suppl/GSM9561833_cells.parquet.gz",
+        "zstack": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9561nnn/GSM9561833/suppl/GSM9561833_morphology.ome.tif.gz"
+      }
+    }
+  }
+}
